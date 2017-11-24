@@ -63,6 +63,7 @@
 		ADD80A0E1FC7AA28005908C4 = {
 			isa = PBXGroup;
 			children = (
+				ADD80A3E1FC7ACFD005908C4 /* EasyShowView */,
 				ADD80A191FC7AA28005908C4 /* EasyShowViewDemo */,
 				ADD80A321FC7AA28005908C4 /* EasyShowViewDemoUITests */,
 				ADD80A181FC7AA28005908C4 /* Products */,
@@ -101,6 +102,13 @@
 				ADD80A351FC7AA29005908C4 /* Info.plist */,
 			);
 			path = EasyShowViewDemoUITests;
+			sourceTree = "<group>";
+		};
+		ADD80A3E1FC7ACFD005908C4 /* EasyShowView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = EasyShowView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
