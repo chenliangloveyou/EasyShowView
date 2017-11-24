@@ -47,7 +47,29 @@
 
 - (void)selectAtIndex:(NSIndexPath *)indexPath
 {
-    [EasyShowView showText:@"今天天气真是好"];
+    switch (indexPath.section) {
+        case 0:
+            switch (indexPath.row) {
+                case 0:
+                    [EasyShowView showText:@"今天"];
+                    break;
+                case 1:
+                    [EasyShowView showSuccessText:@"恭喜您通过所有关卡"];
+                    break ;
+                case 2:
+                    [EasyShowView showErrorText:@"加载失败！"];
+                    break ;
+                case 3:
+                    [EasyShowView showInfoText:@"请完善基本信息!"];
+                    break ;
+                default:
+                    break;
+            }
+            break;
+            
+        default:
+            break;
+    }
 
 }
 

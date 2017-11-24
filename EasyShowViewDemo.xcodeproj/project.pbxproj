@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		680817081FC86C1200A47111 /* EasyShowOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 680817071FC86C1200A47111 /* EasyShowOptions.m */; };
 		ADD80A1C1FC7AA28005908C4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A1B1FC7AA28005908C4 /* AppDelegate.m */; };
 		ADD80A1F1FC7AA28005908C4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A1E1FC7AA28005908C4 /* ViewController.m */; };
 		ADD80A221FC7AA28005908C4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADD80A201FC7AA28005908C4 /* Main.storyboard */; };
@@ -30,6 +31,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		680817061FC86C1200A47111 /* EasyShowOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowOptions.h; sourceTree = "<group>"; };
+		680817071FC86C1200A47111 /* EasyShowOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowOptions.m; sourceTree = "<group>"; };
 		ADD80A171FC7AA28005908C4 /* EasyShowViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyShowViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADD80A1A1FC7AA28005908C4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		ADD80A1B1FC7AA28005908C4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -118,6 +121,8 @@
 			children = (
 				ADD80A3F1FC7AD5F005908C4 /* EasyShowView.h */,
 				ADD80A401FC7AD5F005908C4 /* EasyShowView.m */,
+				680817061FC86C1200A47111 /* EasyShowOptions.h */,
+				680817071FC86C1200A47111 /* EasyShowOptions.m */,
 				ADD80A421FC7EF36005908C4 /* EasyUtils.h */,
 				ADD80A431FC7EF36005908C4 /* EasyUtils.m */,
 				ADD80A451FC7F934005908C4 /* UIView+EasyShowExt.h */,
@@ -229,6 +234,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADD80A1F1FC7AA28005908C4 /* ViewController.m in Sources */,
+				680817081FC86C1200A47111 /* EasyShowOptions.m in Sources */,
 				ADD80A2A1FC7AA28005908C4 /* main.m in Sources */,
 				ADD80A441FC7EF36005908C4 /* EasyUtils.m in Sources */,
 				ADD80A1C1FC7AA28005908C4 /* AppDelegate.m in Sources */,

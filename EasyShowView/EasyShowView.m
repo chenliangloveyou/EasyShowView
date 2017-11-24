@@ -12,8 +12,13 @@
 
 #import "UIView+EasyShowExt.h"
 
+#import "EasyShowOptions.h"
+
 #define AUTOLAYTOU(a) ((a)*(SCREEN_WIDTH/320))
 #define WARN_WIDTH (self.frame.size.width-AUTOLAYTOU(120))
+
+#define kDrawImageWH 40
+#define KImageEdgeH 15
 
 @interface EasyShowView()<CAAnimationDelegate>
 {
@@ -21,12 +26,13 @@
 }
 
 @property ShowStatus showStatus ;
+@property (nonatomic,strong)EasyShowOptions *options ;
 
 @property (nonatomic,strong)UIView *backGrouldView ;
 @property (nonatomic,strong)UILabel *textLabel ;
 
 @property (nonatomic,strong)NSTimer *removeTimer ;
-@property (nonatomic,assign)NSUInteger showTime ;
+@property (nonatomic,assign)CGFloat showTime ;
 
 @end
 
@@ -35,68 +41,39 @@
 {
     
 }
-- (NSTimer *)removeTimer
+
+- (void)addAnimationImage
 {
-    if (nil == _removeTimer) {
-        _removeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
-    }
-    return _removeTimer ;
-}
-- (void)timerAction
-{
-    static int actionTime = 0 ;
-    if (actionTime == _showTime ) {
-        [self removeFromSuperview];
-        [_backGrouldView removeFromSuperview];
-        _backGrouldView = nil ;
-        
-        actionTime = 0 ;
-        [_removeTimer invalidate];
-        _removeTimer = nil ;
-    }
-    actionTime++ ;
-}
-- (UIView *)backGrouldView
-{
-    if (nil == _backGrouldView) {
-        _backGrouldView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-        _backGrouldView.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.5];
-    }
-    return _backGrouldView ;
-}
-- (void)drawRect:(CGRect)rect
-{
-    [super drawRect:rect];
-    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake((self.frame.size.width-WARN_WIDTH)/2, 8, WARN_WIDTH, WARN_WIDTH) cornerRadius:WARN_WIDTH/2];
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake((self.width-kDrawImageWH)/2, KImageEdgeH, kDrawImageWH, kDrawImageWH) cornerRadius:kDrawImageWH/2];
     UIColor *drawColor = nil ;
     switch (_showStatus) {
         case ShowStatusText:
             return ;
         case ShowStatusSuccess:
         {
-            [path moveToPoint:CGPointMake((self.frame.size.width-WARN_WIDTH)/2+10, WARN_WIDTH/2)];
-            [path addLineToPoint:CGPointMake(self.frame.size.width/2.0-10, WARN_WIDTH-20)];
-            [path addLineToPoint:CGPointMake(self.frame.size.width/2.0 + WARN_WIDTH/2-15, AUTOLAYTOU(35))];
+            [path moveToPoint:CGPointMake((self.width-kDrawImageWH)/2+kDrawImageWH/4, KImageEdgeH +3 + kDrawImageWH/2)];
+            [path addLineToPoint:CGPointMake(self.width/2, KImageEdgeH + kDrawImageWH*3/4)];
+            [path addLineToPoint:CGPointMake(self.width/2 + kDrawImageWH*1/3, KImageEdgeH + kDrawImageWH*1/3)];
             
             drawColor = [UIColor greenColor] ;
         } break;
         case ShowStatusError:
         {
-            [path moveToPoint:CGPointMake((self.frame.size.width-WARN_WIDTH)/2+AUTOLAYTOU(20), AUTOLAYTOU(25))];
-            [path addLineToPoint:CGPointMake(self.frame.size.width/2.0 + WARN_WIDTH/2-AUTOLAYTOU(20), WARN_WIDTH-AUTOLAYTOU(15)+AUTOLAYTOU(3))];
+            [path moveToPoint:CGPointMake(self.width/2-kDrawImageWH/4, KImageEdgeH+kDrawImageWH/4)];
+            [path addLineToPoint:CGPointMake(self.width/2+kDrawImageWH/4, KImageEdgeH+kDrawImageWH*3/4)];
             
-            [path moveToPoint:CGPointMake(self.frame.size.width/2.0 + WARN_WIDTH/2-AUTOLAYTOU(20), AUTOLAYTOU(25))];
-            [path addLineToPoint:CGPointMake((self.frame.size.width-WARN_WIDTH)/2+AUTOLAYTOU(20), WARN_WIDTH-AUTOLAYTOU(15)+AUTOLAYTOU(3))];
+            [path moveToPoint:CGPointMake(self.width/2+kDrawImageWH/4, KImageEdgeH+kDrawImageWH/4)];
+            [path addLineToPoint:CGPointMake(self.width/2-kDrawImageWH/4, KImageEdgeH+kDrawImageWH*3/4)];
             
             drawColor = [UIColor redColor] ;
         }break ;
         case ShowStatusInfo:
         {
-            [path moveToPoint:CGPointMake(self.frame.size.width/2.0, AUTOLAYTOU(15))];
-            [path addLineToPoint:CGPointMake(self.frame.size.width/2.0, WARN_WIDTH-AUTOLAYTOU(20))];
+            [path moveToPoint:CGPointMake(self.width/2, KImageEdgeH + kDrawImageWH/4 )];
+            [path addLineToPoint:CGPointMake(self.width/2,KImageEdgeH + kDrawImageWH*3/4)];
             
-            [path moveToPoint:CGPointMake(self.frame.size.width/2.0, WARN_WIDTH-AUTOLAYTOU(15))];
-            [path addLineToPoint:CGPointMake(self.frame.size.width/2.0, WARN_WIDTH-AUTOLAYTOU(8))];
+            [path moveToPoint:CGPointMake(self.width/2,KImageEdgeH + kDrawImageWH*3/4 + 2)];
+            [path addLineToPoint:CGPointMake(self.width/2,KImageEdgeH + kDrawImageWH*3/4 + 4 )];
             
             drawColor = [UIColor lightGrayColor] ;
         }break ;
@@ -110,7 +87,7 @@
     lineLayer. fillColor = [ UIColor clearColor ]. CGColor ;
     lineLayer. path = path. CGPath ;
     lineLayer. strokeColor = drawColor.CGColor ;
-    lineLayer.lineWidth = 5;
+    lineLayer.lineWidth = 2;
     lineLayer.cornerRadius = 50;
     
     CABasicAnimation *ani = [ CABasicAnimation animationWithKeyPath: @"strokeEnd"];
@@ -121,6 +98,29 @@
     
     [self.layer addSublayer :lineLayer];
 }
+
+- (NSTimer *)removeTimer
+{
+    if (nil == _removeTimer) {
+        _removeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+    }
+    return _removeTimer ;
+}
+- (void)timerAction
+{
+    static int actionTime = 0 ;
+    if (actionTime >= _showTime ) {
+        [self removeFromSuperview];
+        [_backGrouldView removeFromSuperview];
+        _backGrouldView = nil ;
+        
+        actionTime = 0 ;
+        [_removeTimer invalidate];
+        _removeTimer = nil ;
+    }
+    actionTime++ ;
+}
+
 - (UILabel *)textLabel
 {
     if (nil == _textLabel) {
@@ -130,46 +130,63 @@
     }
     return _textLabel ;
 }
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame text:(NSString *)text status:(ShowStatus)status
 {
     if (self = [super initWithFrame:frame]) {
         
+        
+        self.backgroundColor = [UIColor blackColor];
+
+        _text = text ;
+        _showStatus = status ;
         _showTime = 1 + _text.length*0.1 ;
        
-        
-        
-        //label 宽度 130 - 230 高度 40 - 100
-        //image 宽高 40 40
-        //背景   宽度 label+40 高度 label+image+40
-        CGRect rect = [_text boundingRectWithSize:CGSizeMake(230, 100)
+        CGSize textSize = [_text boundingRectWithSize:CGSizeMake(SCREEN_WIDTH*self.options.maxWidthScale, SCREEN_HEIGHT)
                                          options:NSStringDrawingUsesLineFragmentOrigin
-                                      attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17]}
-                                         context:nil];
+                                      attributes:@{NSFontAttributeName:self.options.textFount}
+                                         context:nil].size;
         
-        UIView *showView =[[UIView alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-rect.size.width-40)/2, 200, rect.size.width+40, rect.size.height+30)];
-        showView.backgroundColor = [UIColor blackColor];
+        if (textSize.width < 60) {
+            textSize.width = 60 ;
+        }
         
-        [showView setRoundedCorners];
+ 
+       
+        //50 = imageH:40 + 上下边距:10
+
+        CGFloat imageH = _showStatus==ShowStatusText ?0:60 ;
+        CGFloat backGroundH = textSize.height + 30 + imageH ;
         
+        CGFloat backGroundW = textSize.width + 40 ;
         
-        self.backGrouldView.frame = CGRectZero ;
+        self.frame = CGRectMake(0, 0, backGroundW, backGroundH);
         
+        _backGrouldView = [[UIView alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-backGroundW)/2, (SCREEN_HEIGHT-backGroundH)/2, backGroundW, backGroundH)];
+        _backGrouldView.backgroundColor = [UIColor greenColor];
+        [_backGrouldView setRoundedCorners:UIRectCornerAllCorners borderWidth:2 borderColor:[UIColor yellowColor] cornerSize:CGSizeMake(10, 10)];
+
         
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20, 15,rect.size.width, rect.size.height)];
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20, imageH + 15,textSize.width, textSize.height)];
         label.text = _text ;
         label.textAlignment = NSTextAlignmentCenter ;
         label.textColor = [UIColor whiteColor];
         label.backgroundColor = [UIColor clearColor];
-        label.font = [UIFont systemFontOfSize:17];
+        label.font = self.options.textFount ;
         label.numberOfLines = 0 ;
         [self addSubview:label];
         
+        [self.removeTimer fire];
     }
     return self ;
 }
 
 - (void)showViewWithSuperView:(UIView *)superView
 {
+   
+    [superView addSubview:self.backGrouldView];
+    [self.backGrouldView addSubview:self];
+
+    
     CAKeyframeAnimation *popAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
     popAnimation.duration = 0.4;
     popAnimation.values = @[[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.01f, 0.01f, 1.0f)],
@@ -180,15 +197,19 @@
     popAnimation.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-    [self.layer addAnimation:popAnimation forKey:nil];
+    [self.backGrouldView.layer addAnimation:popAnimation forKey:nil];
     
-    [superView addSubview:self.backGrouldView];
-    [self.backGrouldView addSubview:self];
-    self.center = self.backGrouldView.center;
+    [self addAnimationImage];
 }
 
 
-
+- (EasyShowOptions *)options
+{
+    if (nil == _options) {
+        _options = [[EasyShowOptions alloc]init];
+    }
+    return _options ;
+}
 + (void)showText:(NSString *)text
 {
     UIView *showView = [UIApplication sharedApplication].keyWindow ;
@@ -202,40 +223,51 @@
         return ;
     }
     
-    EasyShowView  *showView = [[EasyShowView alloc]initWithFrame:CGRectZero];
-    showView->_text = text ;
-    showView->_showStatus = ShowStatusText ;
+    [EasyShowView showText:text inView:view stauts:ShowStatusText];
+}
+
++ (void)showText:(NSString *)text inView:(UIView *)view stauts:(ShowStatus)status
+{
+    if (ISEMPTY(text)) {
+        NSAssert(NO, @"you should set a text for showView !");
+        return ;
+    }
+    if (nil == view) {
+        NSAssert(NO, @"there shoud have a superview");
+        return ;
+    }
+    EasyShowView  *showView = [[EasyShowView alloc]initWithFrame:CGRectZero text:text status:status];
     [showView showViewWithSuperView:view];
 }
 
-
-
 + (void)showSuccessText:(NSString *)text
 {
-    
+    UIView *showView = [UIApplication sharedApplication].keyWindow ;
+    [EasyShowView showSuccessText:text inView:showView];
 }
 + (void)showSuccessText:(NSString *)text inView:(UIView *)superView
 {
-    
+    [EasyShowView showText:text inView:superView stauts:ShowStatusSuccess];
 }
 
 + (void)showErrorText:(NSString *)text
 {
-    
+    UIView *showView = [UIApplication sharedApplication].keyWindow ;
+    [EasyShowView showErrorText:text inView:showView];
 }
 + (void)showErrorText:(NSString *)text inView:(UIView *)superView
 {
-    
+    [EasyShowView showText:text inView:superView stauts:ShowStatusError];
 }
 
 + (void)showInfoText:(NSString *)text
 {
-    
+    UIView *showView = [UIApplication sharedApplication].keyWindow ;
+    [EasyShowView showInfoText:text inView:showView];
 }
 + (void)showInfoText:(NSString *)text inView:(UIView *)superView
 {
-    
-    
+    [EasyShowView showText:text inView:superView stauts:ShowStatusInfo];
 }
 @end
 
