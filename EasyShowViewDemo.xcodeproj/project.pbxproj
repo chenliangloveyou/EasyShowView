@@ -14,6 +14,7 @@
 		ADD80A271FC7AA28005908C4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADD80A251FC7AA28005908C4 /* LaunchScreen.storyboard */; };
 		ADD80A2A1FC7AA28005908C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A291FC7AA28005908C4 /* main.m */; };
 		ADD80A341FC7AA28005908C4 /* EasyShowViewDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A331FC7AA28005908C4 /* EasyShowViewDemoUITests.m */; };
+		ADD80A411FC7AD5F005908C4 /* EasyShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A401FC7AD5F005908C4 /* EasyShowView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,8 @@
 		ADD80A2F1FC7AA28005908C4 /* EasyShowViewDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyShowViewDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADD80A331FC7AA28005908C4 /* EasyShowViewDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowViewDemoUITests.m; sourceTree = "<group>"; };
 		ADD80A351FC7AA29005908C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ADD80A3F1FC7AD5F005908C4 /* EasyShowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowView.h; sourceTree = "<group>"; };
+		ADD80A401FC7AD5F005908C4 /* EasyShowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +110,8 @@
 		ADD80A3E1FC7ACFD005908C4 /* EasyShowView */ = {
 			isa = PBXGroup;
 			children = (
+				ADD80A3F1FC7AD5F005908C4 /* EasyShowView.h */,
+				ADD80A401FC7AD5F005908C4 /* EasyShowView.m */,
 			);
 			path = EasyShowView;
 			sourceTree = "<group>";
@@ -216,6 +221,7 @@
 				ADD80A1F1FC7AA28005908C4 /* ViewController.m in Sources */,
 				ADD80A2A1FC7AA28005908C4 /* main.m in Sources */,
 				ADD80A1C1FC7AA28005908C4 /* AppDelegate.m in Sources */,
+				ADD80A411FC7AD5F005908C4 /* EasyShowView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
