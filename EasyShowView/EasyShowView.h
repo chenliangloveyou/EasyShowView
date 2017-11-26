@@ -19,9 +19,13 @@ typedef NS_ENUM(NSInteger, ShowStatus) {
     ShowStatusInfo,    /** 提示 */
     ShowStatusScore,   /** 积分 */
     ShowStatusImage,   /** 自定义图片 */
+    ShwoStatusLoding,  /** 正在加载 */
 };
 
 @interface EasyShowView : UIView
+
++ (void)showLodingText:(NSString *)text ;
++ (void)showLodingText:(NSString *)text inView:(UIView *)superView ;
 
 + (void)showText:(NSString *)text ;
 + (void)showText:(NSString *)text inView:(UIView *)view ;

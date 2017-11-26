@@ -28,18 +28,18 @@
 @property ShowStatus showStatus ;
 @property (nonatomic,strong)EasyShowOptions *options ;
 
-@property (nonatomic,strong)UIView *backGrouldView ;
 @property (nonatomic,strong)UILabel *textLabel ;
 
 @property (nonatomic,strong)NSTimer *removeTimer ;
 @property (nonatomic,assign)CGFloat showTime ;
+@property CGFloat timerShowTime ;//定时器走动的时间
 
 @end
 
 @implementation EasyShowView
 - (void)dealloc
 {
-    
+//    NSLog(@"%p cealloc",self );
 }
 
 - (void)addAnimationImage
@@ -70,10 +70,10 @@
         case ShowStatusInfo:
         {
             [path moveToPoint:CGPointMake(self.width/2, KImageEdgeH + kDrawImageWH/4 )];
-            [path addLineToPoint:CGPointMake(self.width/2,KImageEdgeH + kDrawImageWH*3/4)];
+            [path addLineToPoint:CGPointMake(self.width/2,KImageEdgeH + kDrawImageWH/4 + 3)];
             
-            [path moveToPoint:CGPointMake(self.width/2,KImageEdgeH + kDrawImageWH*3/4 + 2)];
-            [path addLineToPoint:CGPointMake(self.width/2,KImageEdgeH + kDrawImageWH*3/4 + 4 )];
+            [path moveToPoint:CGPointMake(self.width/2,KImageEdgeH + kDrawImageWH/4 + 6)];
+            [path addLineToPoint:CGPointMake(self.width/2,KImageEdgeH + kDrawImageWH*3/4 )];
             
             drawColor = [UIColor lightGrayColor] ;
         }break ;
@@ -82,18 +82,17 @@
     }
    
     CAShapeLayer *lineLayer = [ CAShapeLayer layer];
-    
-    lineLayer. frame = CGRectZero;
-    lineLayer. fillColor = [ UIColor clearColor ]. CGColor ;
-    lineLayer. path = path. CGPath ;
-    lineLayer. strokeColor = drawColor.CGColor ;
+    lineLayer.frame = CGRectZero;
+    lineLayer.fillColor = [ UIColor clearColor ].CGColor ;
+    lineLayer.path = path. CGPath ;
+    lineLayer.strokeColor = [UIColor whiteColor].CGColor ;
     lineLayer.lineWidth = 2;
     lineLayer.cornerRadius = 50;
     
     CABasicAnimation *ani = [ CABasicAnimation animationWithKeyPath: @"strokeEnd"];
-    ani. fromValue = @0 ;
-    ani. toValue = @1 ;
-    ani. duration = 0.5 ;
+    ani.fromValue = @0 ;
+    ani.toValue = @1 ;
+    ani.duration = 0.5 ;
     [lineLayer addAnimation :ani forKey :@"strokeEnd"];
     
     [self.layer addSublayer :lineLayer];
@@ -108,17 +107,22 @@
 }
 - (void)timerAction
 {
-    static int actionTime = 0 ;
-    if (actionTime >= _showTime ) {
-        [self removeFromSuperview];
-        [_backGrouldView removeFromSuperview];
-        _backGrouldView = nil ;
+    if (_timerShowTime >= _showTime ) {
+        NSLog(@"%p timerAction",self );
+
         
-        actionTime = 0 ;
+        _timerShowTime = 0 ;
         [_removeTimer invalidate];
         _removeTimer = nil ;
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            self.alpha = 0.02 ;
+        }completion:^(BOOL finished) {
+            
+            [self removeFromSuperview];
+        }] ;
     }
-    actionTime++ ;
+    _timerShowTime++ ;
 }
 
 - (UILabel *)textLabel
@@ -140,7 +144,12 @@
         _text = text ;
         _showStatus = status ;
         _showTime = 1 + _text.length*0.1 ;
-       
+        if (_showTime > 6) {
+            _showTime = 6 ;
+        }
+
+        _timerShowTime = 0 ;
+
         CGSize textSize = [_text boundingRectWithSize:CGSizeMake(SCREEN_WIDTH*self.options.maxWidthScale, SCREEN_HEIGHT)
                                          options:NSStringDrawingUsesLineFragmentOrigin
                                       attributes:@{NSFontAttributeName:self.options.textFount}
@@ -161,10 +170,6 @@
         
         self.frame = CGRectMake(0, 0, backGroundW, backGroundH);
         
-        _backGrouldView = [[UIView alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-backGroundW)/2, (SCREEN_HEIGHT-backGroundH)/2, backGroundW, backGroundH)];
-        _backGrouldView.backgroundColor = [UIColor greenColor];
-        [_backGrouldView setRoundedCorners:UIRectCornerAllCorners borderWidth:2 borderColor:[UIColor yellowColor] cornerSize:CGSizeMake(10, 10)];
-
         
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(20, imageH + 15,textSize.width, textSize.height)];
         label.text = _text ;
@@ -176,6 +181,7 @@
         [self addSubview:label];
         
         [self.removeTimer fire];
+        
     }
     return self ;
 }
@@ -183,8 +189,9 @@
 - (void)showViewWithSuperView:(UIView *)superView
 {
    
-    [superView addSubview:self.backGrouldView];
-    [self.backGrouldView addSubview:self];
+    [superView addSubview:self];
+    self.center = superView.center ;
+    [self setRoundedCorners:UIRectCornerAllCorners borderWidth:2 borderColor:[UIColor blueColor] cornerSize:CGSizeMake(5, 5)];
 
     
     CAKeyframeAnimation *popAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
@@ -197,7 +204,7 @@
     popAnimation.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-    [self.backGrouldView.layer addAnimation:popAnimation forKey:nil];
+    [self.layer addAnimation:popAnimation forKey:nil];
     
     [self addAnimationImage];
 }
@@ -236,8 +243,20 @@
         NSAssert(NO, @"there shoud have a superview");
         return ;
     }
+    
+    //隐藏之前还在显示的视图
+    NSEnumerator *subviewsEnum = [view.subviews reverseObjectEnumerator];
+    for (UIView *subview in subviewsEnum) {
+        if ([subview isKindOfClass:self]) {
+            EasyShowView *showView = (EasyShowView *)subview ;
+            showView.timerShowTime = 10 ;
+            [showView timerAction];
+        }
+    }
+    
     EasyShowView  *showView = [[EasyShowView alloc]initWithFrame:CGRectZero text:text status:status];
     [showView showViewWithSuperView:view];
+    NSLog(@"%p create", showView);
 }
 
 + (void)showSuccessText:(NSString *)text

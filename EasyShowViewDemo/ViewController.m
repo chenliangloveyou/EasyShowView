@@ -51,7 +51,7 @@
         case 0:
             switch (indexPath.row) {
                 case 0:
-                    [EasyShowView showText:@"今天"];
+                    [EasyShowView showText:@"今天发的拉伸；但是角放松的雷锋精神打了款；就的上来看积分的上来看解放东路看；绝地逢生来看；等级来看；的 度来看解放东路解放东路来看电视剧啊分类考试大家了"];
                     break;
                 case 1:
                     [EasyShowView showSuccessText:@"恭喜您通过所有关卡"];
