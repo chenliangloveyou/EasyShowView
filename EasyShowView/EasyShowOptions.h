@@ -12,6 +12,7 @@
 
 @property (nonatomic,strong)UIFont *textFount ;
 @property (nonatomic,assign)CGFloat maxWidthScale ;
+@property (nonatomic,assign)BOOL superViewReceiveEvent ;//在显示的期间，superview是否能接接收事件
 
 + (instancetype)shareInstance ;
 @end

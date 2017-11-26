@@ -10,6 +10,7 @@
 		680817081FC86C1200A47111 /* EasyShowOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 680817071FC86C1200A47111 /* EasyShowOptions.m */; };
 		6808170A1FCB6CA700A47111 /* hud_loading@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 680817091FCB6CA700A47111 /* hud_loading@2x.png */; };
 		6808170C1FCB6D6900A47111 /* HUD_NF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6808170B1FCB6D6900A47111 /* HUD_NF@2x.png */; };
+		6808170F1FCB756700A47111 /* EasyShowBgView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6808170E1FCB756700A47111 /* EasyShowBgView.m */; };
 		ADD80A1C1FC7AA28005908C4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A1B1FC7AA28005908C4 /* AppDelegate.m */; };
 		ADD80A1F1FC7AA28005908C4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A1E1FC7AA28005908C4 /* ViewController.m */; };
 		ADD80A221FC7AA28005908C4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADD80A201FC7AA28005908C4 /* Main.storyboard */; };
@@ -37,6 +38,8 @@
 		680817071FC86C1200A47111 /* EasyShowOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowOptions.m; sourceTree = "<group>"; };
 		680817091FCB6CA700A47111 /* hud_loading@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hud_loading@2x.png"; sourceTree = "<group>"; };
 		6808170B1FCB6D6900A47111 /* HUD_NF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HUD_NF@2x.png"; sourceTree = "<group>"; };
+		6808170D1FCB756700A47111 /* EasyShowBgView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowBgView.h; sourceTree = "<group>"; };
+		6808170E1FCB756700A47111 /* EasyShowBgView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowBgView.m; sourceTree = "<group>"; };
 		ADD80A171FC7AA28005908C4 /* EasyShowViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyShowViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADD80A1A1FC7AA28005908C4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		ADD80A1B1FC7AA28005908C4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -126,6 +129,8 @@
 			children = (
 				ADD80A3F1FC7AD5F005908C4 /* EasyShowView.h */,
 				ADD80A401FC7AD5F005908C4 /* EasyShowView.m */,
+				6808170D1FCB756700A47111 /* EasyShowBgView.h */,
+				6808170E1FCB756700A47111 /* EasyShowBgView.m */,
 				680817061FC86C1200A47111 /* EasyShowOptions.h */,
 				680817071FC86C1200A47111 /* EasyShowOptions.m */,
 				ADD80A421FC7EF36005908C4 /* EasyUtils.h */,
@@ -243,6 +248,7 @@
 			files = (
 				ADD80A1F1FC7AA28005908C4 /* ViewController.m in Sources */,
 				680817081FC86C1200A47111 /* EasyShowOptions.m in Sources */,
+				6808170F1FCB756700A47111 /* EasyShowBgView.m in Sources */,
 				ADD80A2A1FC7AA28005908C4 /* main.m in Sources */,
 				ADD80A441FC7EF36005908C4 /* EasyUtils.m in Sources */,
 				ADD80A1C1FC7AA28005908C4 /* AppDelegate.m in Sources */,

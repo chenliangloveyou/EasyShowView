@@ -15,6 +15,7 @@
     if (self = [super init]) {
         _textFount = [UIFont systemFontOfSize:17];
         _maxWidthScale = 0.8 ;
+        _superViewReceiveEvent = NO ;
     }
     return self ;
 }

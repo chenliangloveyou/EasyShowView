@@ -10,17 +10,7 @@
 #import <UIKit/UIKit.h>
 
 #import "EasyUtils.h"
-
-typedef NS_ENUM(NSInteger, ShowStatus) {
-    
-    ShowStatusText ,    /** 纯文字 */
-    ShowStatusSuccess, /** 成功 */
-    ShowStatusError,   /** 失败 */
-    ShowStatusInfo,    /** 提示 */
-    ShowStatusScore,   /** 积分 */
-    ShowStatusImage,   /** 自定义图片 */
-    ShwoStatusLoding,  /** 正在加载 */
-};
+#import "EasyShowBgView.h"
 
 @interface EasyShowView : UIView
 
