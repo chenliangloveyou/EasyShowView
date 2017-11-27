@@ -15,26 +15,23 @@
     if (self = [super init]) {
         _textFount = [UIFont systemFontOfSize:17];
         _maxWidthScale = 0.8 ;
-        _superViewReceiveEvent = NO ;
-        _textStatusType = ShowStatusTextTypeBottom ;
+        _superViewReceiveEvent = YES ;
+        _textStatusType = 0.4 ;
         _showStartAnimation = YES ;
         _showEndAnimation = YES ;
         _showAnimationDuration = 0.4 ;
     }
     return self ;
 }
-- (void)setTextStatusType:(ShowStatusTextType)textStatusType
-{
-    _textStatusType = textStatusType ;
-}
-- (ShowStatusTextType)textStatusType
-{
-    return _textStatusType ;
-}
-- (CGFloat)showAnimationDuration
-{
-    return _showAnimationDuration ;
-}
+//- (void)setTextStatusType:(ShowStatusTextType)textStatusType
+//{
+//    textStatusType = textStatusType ;
+//}
+//- (ShowStatusTextType)textStatusType
+//{
+//    return _textStatusType ;
+//}
+
 + (instancetype)shareInstance
 {
     return [[self alloc]init];

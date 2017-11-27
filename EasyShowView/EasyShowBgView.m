@@ -44,7 +44,7 @@
         self.backgroundColor = [UIColor blackColor];
         [self setRoundedCorners:UIRectCornerAllCorners
                     borderWidth:2
-                    borderColor:[UIColor blueColor]
+                    borderColor:[UIColor clearColor]
                      cornerSize:CGSizeMake(5, 5)];
 
        

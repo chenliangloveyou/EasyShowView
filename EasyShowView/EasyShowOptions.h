@@ -25,6 +25,10 @@ typedef NS_ENUM(NSUInteger , ShowStatusTextType) {
 @property (nonatomic,assign)BOOL showStartAnimation ;//是否弹出加载时的动画
 @property (nonatomic,assign)BOOL showEndAnimation ;//是否弹出移除掉的动画
 @property (nonatomic,assign)CGFloat showAnimationDuration;//展示动画的时间
-@property (nonatomic,assign)int textStatusType ;
+
+@property (nonatomic,assign)BOOL showShadow ;//是否显示阴影
+@property (nonatomic,strong)UIColor *shadowColor ;//阴影颜色
+
+@property (nonatomic,assign)ShowStatusTextType textStatusType ;
 + (instancetype)shareInstance ;
 @end
