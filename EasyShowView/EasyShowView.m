@@ -14,20 +14,18 @@
 
 #import "EasyShowOptions.h"
 
-#define AUTOLAYTOU(a) ((a)*(SCREEN_WIDTH/320))
-#define WARN_WIDTH (self.frame.size.width-AUTOLAYTOU(120))
-
-
 
 @interface EasyShowView()<CAAnimationDelegate>
 
 @property (nonatomic,strong)EasyShowOptions *options ;
 
+@property (nonatomic,strong)NSString *showText ;//展示的文字
+@property (nonatomic,strong)UIImage *showImage ;//展示的图片
+@property (nonatomic,assign)ShowStatus showStatus ;//展示的类型
 @property (nonatomic,strong)NSTimer *removeTimer ;
 @property (nonatomic,assign)CGFloat showTime ;
 @property CGFloat timerShowTime ;//定时器走动的时间
 
-@property (nonatomic,weak)UIView *superView ;
 
 @property (nonatomic,strong)EasyShowBgView *showBgView ;//用于放图片和文字的背景
 
@@ -36,7 +34,7 @@
 @implementation EasyShowView
 - (void)dealloc
 {
-//    NSLog(@"%p cealloc",self );
+//    NSLog(@"%p dealloc",self );
 }
 
 
@@ -51,9 +49,7 @@
 - (void)timerAction
 {
     if (_timerShowTime >= _showTime ) {
-        NSLog(@"%p timerAction",self );
 
-        
         _timerShowTime = 0 ;
         [_removeTimer invalidate];
         _removeTimer = nil ;
@@ -67,68 +63,62 @@
     _timerShowTime++ ;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame text:(NSString *)text status:(ShowStatus)status
+- (instancetype)initWithFrame:(CGRect)frame text:(NSString *)text status:(ShowStatus)status image:(UIImage *)image
 {
     if (self = [super initWithFrame:frame]) {
         
-        self.backgroundColor = [UIColor blackColor];
+        self.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.02];
 
+        _showText = text ;
+        _showImage = image ;
+        _showStatus = status ;
         _showTime = 1 + text.length*0.1 ;
         if (_showTime > 6)  _showTime = 6 ;
     
         _timerShowTime = 0 ;
-
-        CGSize textSize = [text boundingRectWithSize:CGSizeMake(SCREEN_WIDTH*self.options.maxWidthScale, SCREEN_HEIGHT)
-                                         options:NSStringDrawingUsesLineFragmentOrigin
-                                      attributes:@{NSFontAttributeName:self.options.textFount}
-                                         context:nil].size;
-        
-        if (textSize.width < 60)  textSize.width = 60 ;
-        
-        //50 = imageH:40 + 上下边距:10
-        CGFloat imageH = status==ShowStatusText ?0:60 ;
-        CGFloat backGroundH = textSize.height + 30 + imageH ;
-        
-        CGFloat backGroundW = textSize.width + 40 ;
-        
-        CGRect showFrame = CGRectMake(0, 0, backGroundW, backGroundH);
-        
-        if (!self.options.superViewReceiveEvent) {
-//            self.frame =
-            showFrame = CGRectMake((self.width-backGroundW)/2, (self.height-backGroundH)/2, backGroundW, backGroundH); ;
-        }
-        else{
-            showFrame = CGRectMake(0, 0, backGroundW, backGroundH);
-            self.frame =  CGRectMake(0, 0, backGroundW, backGroundH);
-        }
-        self.showBgView = [[EasyShowBgView alloc]initWithFrame:showFrame status:status text:text];
-        [self addSubview:self.showBgView];
-        
-        [self.removeTimer fire];
-        
     }
     return self ;
 }
 
 - (void)showViewWithSuperView:(UIView *)superView
 {
-   
     [superView addSubview:self];
+    
+    CGSize textSize = [EasyUtils textWidthWithStirng:self.showText
+                                                font:self.options.textFount
+                                            maxWidth:self.options.maxWidthScale*SCREEN_WIDTH];
+    
+    //50 = imageH:40 + 上下边距:10
+    CGFloat imageH = self.showStatus==ShowStatusText ?0:60 ;
+    CGFloat backGroundH = textSize.height + 30 + imageH ;
+    CGFloat backGroundW = textSize.width + 40 ;
+    
+    CGRect showFrame = CGRectMake(0, 0, backGroundW, backGroundH);
+    
     if (!self.options.superViewReceiveEvent) {
+        
         self.bounds = superView.bounds ;
-        self.alpha = 0.02 ;
-    }else{
+        showFrame = CGRectMake((self.width-backGroundW)/2, (self.height-backGroundH)/2, backGroundW, backGroundH); ;
         
     }
-    self.center = superView.center ;
-    [self setRoundedCorners:UIRectCornerAllCorners borderWidth:2 borderColor:[UIColor blueColor] cornerSize:CGSizeMake(5, 5)];
-
+    else{
+        self.frame =  CGRectMake(0, 0, backGroundW, backGroundH);
+        showFrame = self.frame ;
+        [self setRoundedCorners:UIRectCornerAllCorners borderWidth:2 borderColor:[UIColor blueColor] cornerSize:CGSizeMake(5, 5)];
+    }
     
+    self.showBgView = [[EasyShowBgView alloc]initWithFrame:showFrame status:self.showStatus text:self.showText image:self.showImage];
+    [self addSubview:self.showBgView];
+
+    [self.removeTimer fire];
+
+    self.center = superView.center ;
+  
     CAKeyframeAnimation *popAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
     popAnimation.duration = 0.4;
     popAnimation.values = @[[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.01f, 0.01f, 1.0f)],
-                            [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.1f, 1.1f, 1.0f)],
-                            [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.9f, 0.9f, 1.0f)],
+                            [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.05f, 1.05f, 1.0f)],
+                            [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.95f, 0.95f, 1.0f)],
                             [NSValue valueWithCATransform3D:CATransform3DIdentity]];
     popAnimation.keyTimes = @[@0.2f, @0.5f, @0.75f, @1.0f];
     popAnimation.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
@@ -148,7 +138,7 @@
 }
 
 
-+ (void)showText:(NSString *)text inView:(UIView *)view stauts:(ShowStatus)status
++ (void)showText:(NSString *)text inView:(UIView *)view image:(UIImage *)image stauts:(ShowStatus)status
 {
     if (ISEMPTY(text)) {
         NSAssert(NO, @"you should set a text for showView !");
@@ -169,9 +159,8 @@
         }
     }
     
-    EasyShowView  *showView = [[EasyShowView alloc]initWithFrame:CGRectZero text:text status:status];
+    EasyShowView  *showView = [[EasyShowView alloc]initWithFrame:CGRectZero text:text status:status image:image];
     [showView showViewWithSuperView:view];
-    NSLog(@"%p create", showView);
 }
 
 
@@ -184,7 +173,7 @@
 
 + (void)showText:(NSString *)text inView:(UIView *)view
 {
-    [EasyShowView showText:text inView:view stauts:ShowStatusText];
+    [EasyShowView showText:text inView:view image:nil stauts:ShowStatusText];
 }
 
 + (void)showSuccessText:(NSString *)text
@@ -194,7 +183,7 @@
 }
 + (void)showSuccessText:(NSString *)text inView:(UIView *)superView
 {
-    [EasyShowView showText:text inView:superView stauts:ShowStatusSuccess];
+    [EasyShowView showText:text inView:superView image:nil stauts:ShowStatusSuccess];
 }
 
 + (void)showErrorText:(NSString *)text
@@ -204,7 +193,7 @@
 }
 + (void)showErrorText:(NSString *)text inView:(UIView *)superView
 {
-    [EasyShowView showText:text inView:superView stauts:ShowStatusError];
+    [EasyShowView showText:text inView:superView image:nil stauts:ShowStatusError];
 }
 
 + (void)showInfoText:(NSString *)text
@@ -214,7 +203,17 @@
 }
 + (void)showInfoText:(NSString *)text inView:(UIView *)superView
 {
-    [EasyShowView showText:text inView:superView stauts:ShowStatusInfo];
+    [EasyShowView showText:text inView:superView image:nil stauts:ShowStatusInfo];
+}
+
++ (void)showImageText:(NSString *)text image:(UIImage *)image
+{
+    UIView *showView = [UIApplication sharedApplication].keyWindow ;
+    [EasyShowView showImageText:text image:image inView:showView] ;
+}
++ (void)showImageText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView
+{
+    [EasyShowView showText:text inView:superView image:image stauts:ShowStatusImage] ;
 }
 @end
 

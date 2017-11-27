@@ -10,6 +10,7 @@
 
 #import "UIView+EasyShowExt.h"
 #import "EasyUtils.h"
+#import "EasyShowOptions.h"
 
 #define kDrawImageWH 40
 #define KImageEdgeH 15
@@ -18,62 +19,44 @@
 
 @property ShowStatus showStatus ;
 @property (nonatomic,strong)UILabel *textLabel ;
+@property (nonatomic,strong)UIImageView *imageView ;
 
 @end
 
 @implementation EasyShowBgView
 
-- (instancetype)initWithFrame:(CGRect)frame status:(ShowStatus)status text:(NSString *)text
+- (instancetype)initWithFrame:(CGRect)frame status:(ShowStatus)status text:(NSString *)text image:(UIImage *)image
 {
     if ([super initWithFrame:frame]) {
         _showStatus = status ;
         
-        CGSize textSize = [text boundingRectWithSize:CGSizeMake(SCREEN_WIDTH*0.8, SCREEN_HEIGHT)
-                                              options:NSStringDrawingUsesLineFragmentOrigin
-                                           attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17]}
-                                              context:nil].size;
+        CGSize textSize = [EasyUtils textWidthWithStirng:text
+                                                    font:[EasyShowOptions shareInstance].textFount
+                                                maxWidth:[EasyShowOptions shareInstance].maxWidthScale*SCREEN_WIDTH];
         
-        if (textSize.width < 60) {
-            textSize.width = 60 ;
+        self.textLabel.text = text ;
+        self.textLabel.frame = CGRectMake(20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
+        
+        if (status == ShowStatusImage) {
+            self.imageView.image = image ;
         }
         
-        
-        
-        //50 = imageH:40 + 上下边距:10
-        
-        CGFloat imageH = _showStatus==ShowStatusText ?0:60 ;
-        CGFloat backGroundH = textSize.height + 30 + imageH ;
-        
-        CGFloat backGroundW = textSize.width + 40 ;
-        
-        
-        self.textLabel.frame = CGRectMake(20, imageH + 15,textSize.width, textSize.height) ;
-        self.textLabel.text = text ;
-        
-        [self addAnimationImage];
+        self.backgroundColor = [UIColor blackColor];
+        [self setRoundedCorners:UIRectCornerAllCorners
+                    borderWidth:2
+                    borderColor:[UIColor blueColor]
+                     cornerSize:CGSizeMake(5, 5)];
 
+       
     }
     return self ;
 }
 
-- (UILabel *)textLabel
-{
-    if (nil == _textLabel) {
-        _textLabel = [[UILabel alloc]init];
-        _textLabel.textColor = [UIColor whiteColor];
-        _textLabel.backgroundColor = [UIColor clearColor];
-        _textLabel.textAlignment = NSTextAlignmentCenter ;
-        _textLabel.font = [UIFont systemFontOfSize:17] ;
-        _textLabel.numberOfLines = 0 ;
-        [self addSubview:_textLabel];
 
-    }
-    return _textLabel ;
-}
-
-- (void)addAnimationImage
+- (void)drawRect:(CGRect)rect
 {
-    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake((self.width-kDrawImageWH)/2, KImageEdgeH, kDrawImageWH, kDrawImageWH) cornerRadius:kDrawImageWH/2];
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake((self.width-kDrawImageWH)/2, KImageEdgeH, kDrawImageWH, kDrawImageWH)
+                                                    cornerRadius:kDrawImageWH/2];
     UIColor *drawColor = nil ;
     switch (_showStatus) {
         case ShowStatusText:
@@ -121,12 +104,34 @@
     CABasicAnimation *ani = [ CABasicAnimation animationWithKeyPath: @"strokeEnd"];
     ani.fromValue = @0 ;
     ani.toValue = @1 ;
-    ani.duration = 0.5 ;
+    ani.duration = 0.4 ;
     [lineLayer addAnimation :ani forKey :@"strokeEnd"];
     
     [self.layer addSublayer :lineLayer];
 }
 
+- (UIImageView *)imageView
+{
+    if (nil == _imageView) {
+        _imageView = [[UIImageView alloc]initWithFrame:CGRectMake((self.width-kDrawImageWH)/2, KImageEdgeH, kDrawImageWH, kDrawImageWH)];
+        [self addSubview:_imageView] ;
+    }
+    return _imageView ;
+}
+- (UILabel *)textLabel
+{
+    if (nil == _textLabel) {
+        _textLabel = [[UILabel alloc]init];
+        _textLabel.textColor = [UIColor whiteColor];
+        _textLabel.backgroundColor = [UIColor clearColor];
+        _textLabel.textAlignment = NSTextAlignmentCenter ;
+        _textLabel.font = [EasyShowOptions shareInstance].textFount ;
+        _textLabel.numberOfLines = 0 ;
+        [self addSubview:_textLabel];
+        
+    }
+    return _textLabel ;
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

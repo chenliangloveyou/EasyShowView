@@ -62,6 +62,9 @@
                 case 3:
                     [EasyShowView showInfoText:@"请完善基本信息!"];
                     break ;
+                case 4:
+                    [EasyShowView showImageText:@"自定义图片" image:[UIImage imageNamed:@"HUD_NF.png"] inView:self.view];
+                    break ;
                 default:
                     break;
             }
@@ -96,7 +99,7 @@
 {
     if (nil == _dataArray) {
         _dataArray = @[
-                       @[@"纯文字",@"显示成功",@"显示失败",@"显示提示"]
+                       @[@"纯文字",@"显示成功",@"显示失败",@"显示提示",@"显示图片",@"显示加载框"]
                       ];
     }
     return _dataArray ;

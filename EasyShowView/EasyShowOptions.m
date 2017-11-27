@@ -15,8 +15,32 @@
     if (self = [super init]) {
         _textFount = [UIFont systemFontOfSize:17];
         _maxWidthScale = 0.8 ;
-        _superViewReceiveEvent = NO ;
+        _superViewReceiveEvent = YES ;
     }
     return self ;
 }
+
++ (instancetype)shareInstance
+{
+    return [[self alloc]init];
+}
+static EasyShowOptions *_shareEasyOptions = nil ;
++ (instancetype)allocWithZone:(struct _NSZone *)zone
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken,^{
+        _shareEasyOptions = [super allocWithZone:zone];
+    });
+    return _shareEasyOptions;
+}
+- (id)copyWithZone:(NSZone *)zone
+{
+    return _shareEasyOptions;
+}
+
+- (id)mutableCopyWithZone:(NSZone *)zone
+{
+    return _shareEasyOptions;
+}
+
 @end

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <UIKit/UIKit.h>
 
 // 是否为空
 #define ISEMPTY(_v) (_v == nil || _v.length == 0)
@@ -46,6 +46,8 @@
 
 
 @interface EasyUtils : NSObject
+
++ (CGSize)textWidthWithStirng:(NSString *)string font:(UIFont *)font maxWidth:(CGFloat)maxWidth ;
 
 @end
 

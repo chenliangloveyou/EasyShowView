@@ -14,9 +14,6 @@
 
 @interface EasyShowView : UIView
 
-+ (void)showLodingText:(NSString *)text ;
-+ (void)showLodingText:(NSString *)text inView:(UIView *)superView ;
-
 + (void)showText:(NSString *)text ;
 + (void)showText:(NSString *)text inView:(UIView *)view ;
 
@@ -28,4 +25,17 @@
 
 + (void)showInfoText:(NSString *)text ;
 + (void)showInfoText:(NSString *)text inView:(UIView *)superView ;
+
++ (void)showImageText:(NSString *)text image:(UIImage *)image ;
++ (void)showImageText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView ;
+
+
++ (void)showLoding ;
++ (void)showLodingText:(NSString *)text ;
++ (void)showLodingText:(NSString *)text inView:(UIView *)superView ;
+
++ (void)hidenLoding ;
++ (void)hidenLoingInView:(UIView *)superView ;
++ (void)hidenAllLoding ;
+
 @end

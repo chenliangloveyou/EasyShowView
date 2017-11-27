@@ -21,6 +21,6 @@ typedef NS_ENUM(NSInteger, ShowStatus) {
 
 @interface EasyShowBgView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame status:(ShowStatus)status text:(NSString *)text ;
+- (instancetype)initWithFrame:(CGRect)frame status:(ShowStatus)status text:(NSString *)text image:(UIImage *)image ;
 
 @end
