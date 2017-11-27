@@ -110,7 +110,7 @@
 
         CGFloat showFrameY = (self.height-backGroundH)/2  ;
         if (self.showStatus == ShowStatusText) {
-            switch (self.showStatus ) {
+            switch (self.options.textStatusType ) {
                 case ShowStatusTextTypeTop:
                     showFrameY = [UIApplication sharedApplication].statusBarFrame.size.height + 50 ;
                     break;

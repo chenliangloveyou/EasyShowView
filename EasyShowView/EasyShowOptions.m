@@ -10,41 +10,50 @@
 
 @implementation EasyShowOptions
 
-- (instancetype)init
-{
-    if (self = [super init]) {
-        _textFount = [UIFont systemFontOfSize:17];
-        _maxWidthScale = 0.8 ;
-        _superViewReceiveEvent = YES ;
-        _textStatusType = 0.4 ;
-        _showStartAnimation = YES ;
-        _showEndAnimation = YES ;
-        _showAnimationDuration = 0.4 ;
-    }
-    return self ;
-}
+@synthesize textStatusType = _textStatusType ;
+
+
+
+
 //- (void)setTextStatusType:(ShowStatusTextType)textStatusType
 //{
-//    textStatusType = textStatusType ;
+//    NSLog(@"%p ",self);
+//    _textStatusType = textStatusType ;
 //}
 //- (ShowStatusTextType)textStatusType
 //{
+//    NSLog(@"%p ",self);
 //    return _textStatusType ;
 //}
 
+
+static EasyShowOptions *_shareEasyOptions = nil ;
+
 + (instancetype)shareInstance
 {
-    return [[self alloc]init];
-}
-static EasyShowOptions *_shareEasyOptions = nil ;
-+ (instancetype)allocWithZone:(struct _NSZone *)zone
-{
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken,^{
-        _shareEasyOptions = [super allocWithZone:zone];
+    dispatch_once(&onceToken, ^{
+        _shareEasyOptions = [[[self class] alloc] init];
+        _shareEasyOptions.textFount = [UIFont systemFontOfSize:17];
+        _shareEasyOptions.maxWidthScale = 0.8 ;
+        _shareEasyOptions.superViewReceiveEvent = NO ;
+    _shareEasyOptions.textStatusType = ShowStatusTextTypeBottom  ;
+        _shareEasyOptions.showStartAnimation = YES ;
+        _shareEasyOptions.showEndAnimation = YES ;
+        _shareEasyOptions.showAnimationDuration = 0.4 ;
     });
     return _shareEasyOptions;
 }
++ (instancetype)allocWithZone:(struct _NSZone *)zone
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _shareEasyOptions = [super allocWithZone:zone];
+    });
+    return _shareEasyOptions;
+    
+}
+
 - (id)copyWithZone:(NSZone *)zone
 {
     return _shareEasyOptions;

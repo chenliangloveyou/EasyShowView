@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import "EasyShowOptions.h"
 @interface AppDelegate ()
 
 @end
@@ -16,6 +16,9 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    EasyShowOptions *options = [EasyShowOptions shareInstance];
+    options.superViewReceiveEvent = YES ;
     // Override point for customization after application launch.
     return YES;
 }

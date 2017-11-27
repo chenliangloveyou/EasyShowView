@@ -60,6 +60,7 @@
             switch (indexPath.row) {
                 case 0:{
                     [EasyShowOptions shareInstance].textStatusType = ShowStatusTextTypeTop ;
+                    NSLog(@"%lu",(unsigned long)[EasyShowOptions shareInstance].textStatusType);
                     [EasyShowView showText:@"今天发的拉伸；试大家了"];
                 } break;
                 case 1:
