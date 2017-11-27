@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "EasyShowView.h"
+#import "EasyShowOptions.h"
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong)UITableView *tableView ;
@@ -56,14 +57,22 @@
     switch (indexPath.section) {
         case 0:
             switch (indexPath.row) {
-                case 0:
-                    [EasyShowView showText:@"今天发的拉伸；但是角放松的雷锋精神打了款；就的上来看积分的上来看解放东路看；绝地逢生来看；等级来看；的 度来看解放东路解放东路来看电视剧啊分类考试大家了"];
-                    break;
+                case 0:{
+                    [EasyShowOptions shareInstance].textStatusType = ShowStatusTextTypeTop ;
+                    [EasyShowView showText:@"今天发的拉伸；试大家了"];
+                } break;
                 case 1:
-                    [EasyShowView showSuccessText:@"恭喜您通过所有关卡"];
+                { [EasyShowOptions shareInstance].textStatusType = ShowStatusTextTypeBottom ;
+
+                    [EasyShowView showText:@"今天发的拉伸；试大家了"];
+                }
+//                    [EasyShowView showSuccessText:@"恭喜您通过所有关卡"];
                     break ;
                 case 2:
-                    [EasyShowView showErrorText:@"加载失败！"];
+                {  [EasyShowOptions shareInstance].textStatusType = ShowStatusTextTypeMidden ;
+                    [EasyShowView showText:@"今天发的拉伸；试大家了"];
+                }
+//                    [EasyShowView showErrorText:@"加载失败！"];
                     break ;
                 case 3:
                     [EasyShowView showInfoText:@"请完善基本信息!"];
