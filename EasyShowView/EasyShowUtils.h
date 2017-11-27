@@ -1,5 +1,5 @@
 //
-//  EasyUtils.h
+//  EasyShowUtils.h
 //  EasyShowViewDemo
 //
 //  Created by nf on 2017/11/24.
@@ -45,7 +45,7 @@
 #define STATUSBAR_ORGINAL_HEIGHT  ([UIApplication sharedApplication].statusBarFrame.size.height)
 
 
-@interface EasyUtils : NSObject
+@interface EasyShowUtils : NSObject
 
 + (CGSize)textWidthWithStirng:(NSString *)string font:(UIFont *)font maxWidth:(CGFloat)maxWidth ;
 

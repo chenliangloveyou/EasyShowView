@@ -19,7 +19,7 @@
 		ADD80A2A1FC7AA28005908C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A291FC7AA28005908C4 /* main.m */; };
 		ADD80A341FC7AA28005908C4 /* EasyShowViewDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A331FC7AA28005908C4 /* EasyShowViewDemoUITests.m */; };
 		ADD80A411FC7AD5F005908C4 /* EasyShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A401FC7AD5F005908C4 /* EasyShowView.m */; };
-		ADD80A441FC7EF36005908C4 /* EasyUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A431FC7EF36005908C4 /* EasyUtils.m */; };
+		ADD80A441FC7EF36005908C4 /* EasyShowUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A431FC7EF36005908C4 /* EasyShowUtils.m */; };
 		ADD80A471FC7F934005908C4 /* UIView+EasyShowExt.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A461FC7F934005908C4 /* UIView+EasyShowExt.m */; };
 /* End PBXBuildFile section */
 
@@ -55,8 +55,8 @@
 		ADD80A351FC7AA29005908C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ADD80A3F1FC7AD5F005908C4 /* EasyShowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowView.h; sourceTree = "<group>"; };
 		ADD80A401FC7AD5F005908C4 /* EasyShowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowView.m; sourceTree = "<group>"; };
-		ADD80A421FC7EF36005908C4 /* EasyUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyUtils.h; sourceTree = "<group>"; };
-		ADD80A431FC7EF36005908C4 /* EasyUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyUtils.m; sourceTree = "<group>"; };
+		ADD80A421FC7EF36005908C4 /* EasyShowUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowUtils.h; sourceTree = "<group>"; };
+		ADD80A431FC7EF36005908C4 /* EasyShowUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowUtils.m; sourceTree = "<group>"; };
 		ADD80A451FC7F934005908C4 /* UIView+EasyShowExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+EasyShowExt.h"; sourceTree = "<group>"; };
 		ADD80A461FC7F934005908C4 /* UIView+EasyShowExt.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+EasyShowExt.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -133,8 +133,8 @@
 				6808170E1FCB756700A47111 /* EasyShowBgView.m */,
 				680817061FC86C1200A47111 /* EasyShowOptions.h */,
 				680817071FC86C1200A47111 /* EasyShowOptions.m */,
-				ADD80A421FC7EF36005908C4 /* EasyUtils.h */,
-				ADD80A431FC7EF36005908C4 /* EasyUtils.m */,
+				ADD80A421FC7EF36005908C4 /* EasyShowUtils.h */,
+				ADD80A431FC7EF36005908C4 /* EasyShowUtils.m */,
 				ADD80A451FC7F934005908C4 /* UIView+EasyShowExt.h */,
 				ADD80A461FC7F934005908C4 /* UIView+EasyShowExt.m */,
 				680817091FCB6CA700A47111 /* hud_loading@2x.png */,
@@ -250,7 +250,7 @@
 				680817081FC86C1200A47111 /* EasyShowOptions.m in Sources */,
 				6808170F1FCB756700A47111 /* EasyShowBgView.m in Sources */,
 				ADD80A2A1FC7AA28005908C4 /* main.m in Sources */,
-				ADD80A441FC7EF36005908C4 /* EasyUtils.m in Sources */,
+				ADD80A441FC7EF36005908C4 /* EasyShowUtils.m in Sources */,
 				ADD80A1C1FC7AA28005908C4 /* AppDelegate.m in Sources */,
 				ADD80A411FC7AD5F005908C4 /* EasyShowView.m in Sources */,
 				ADD80A471FC7F934005908C4 /* UIView+EasyShowExt.m in Sources */,

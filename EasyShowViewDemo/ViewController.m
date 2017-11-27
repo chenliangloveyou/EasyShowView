@@ -22,6 +22,7 @@
     [self.view addSubview:self.tableView];
 }
 
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return self.dataArray.count ;
@@ -43,6 +44,11 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     [self selectAtIndex:indexPath];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 10 ;
 }
 
 - (void)selectAtIndex:(NSIndexPath *)indexPath
@@ -69,7 +75,18 @@
                     break;
             }
             break;
-            
+        case 1:
+            switch (indexPath.row) {
+                case 0:
+                    [EasyShowView showLodingText:@"加载中..."];
+                    break;
+                case 1:
+                    [EasyShowView hidenLoding];
+                    break ;
+                    
+                default:
+                    break;
+            }
         default:
             break;
     }
@@ -81,7 +98,7 @@
 - (UITableView *)tableView
 {
     if (nil == _tableView) {
-        _tableView = [[UITableView alloc]initWithFrame:self.view.bounds];
+        _tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
         _tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cellID"];
@@ -99,7 +116,8 @@
 {
     if (nil == _dataArray) {
         _dataArray = @[
-                       @[@"纯文字",@"显示成功",@"显示失败",@"显示提示",@"显示图片",@"显示加载框"]
+                       @[@"纯文字",@"显示成功",@"显示失败",@"显示提示",@"显示图片"],
+                       @[@"显示加载框",@"隐藏加载框"]
                       ];
     }
     return _dataArray ;

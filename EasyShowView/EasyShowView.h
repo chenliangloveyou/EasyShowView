@@ -9,7 +9,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "EasyUtils.h"
+#import "EasyShowUtils.h"
 #import "EasyShowBgView.h"
 
 @interface EasyShowView : UIView
@@ -33,6 +33,9 @@
 + (void)showLoding ;
 + (void)showLodingText:(NSString *)text ;
 + (void)showLodingText:(NSString *)text inView:(UIView *)superView ;
++ (void)showLodingText:(NSString *)text image:(UIImage *)image ;
++ (void)showLodingText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView ;
+
 
 + (void)hidenLoding ;
 + (void)hidenLoingInView:(UIView *)superView ;

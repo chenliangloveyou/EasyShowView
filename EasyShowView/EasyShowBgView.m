@@ -1,15 +1,15 @@
 //
 //  EasyShowBgView.m
-//  EasyShowViewDemo
+//  EFHealth
 //
-//  Created by Mr_Chen on 2017/11/27.
-//  Copyright © 2017年 chenliangloveyou. All rights reserved.
+//  Created by nf on 16/7/20.
+//  Copyright © 2016年 ef. All rights reserved.
 //
 
 #import "EasyShowBgView.h"
 
 #import "UIView+EasyShowExt.h"
-#import "EasyUtils.h"
+#import "EasyShowUtils.h"
 #import "EasyShowOptions.h"
 
 #define kDrawImageWH 40
@@ -30,7 +30,7 @@
     if ([super initWithFrame:frame]) {
         _showStatus = status ;
         
-        CGSize textSize = [EasyUtils textWidthWithStirng:text
+        CGSize textSize = [EasyShowUtils textWidthWithStirng:text
                                                     font:[EasyShowOptions shareInstance].textFount
                                                 maxWidth:[EasyShowOptions shareInstance].maxWidthScale*SCREEN_WIDTH];
         
@@ -51,8 +51,38 @@
     }
     return self ;
 }
+- (void)showEndAnimationWithDuration:(CGFloat)duration
+{
+    CABasicAnimation *bacAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    bacAnimation.duration = duration ;
+    bacAnimation.beginTime = .0;
+    bacAnimation.timingFunction = [CAMediaTimingFunction functionWithControlPoints:0.4f :0.3f :0.5f :-0.5f];
+    bacAnimation.fromValue = [NSNumber numberWithFloat:1.0f];
+    bacAnimation.toValue = [NSNumber numberWithFloat:0.0f];
+    
+    CAAnimationGroup *animationGroup = [CAAnimationGroup animation];
+    animationGroup.animations = @[bacAnimation];
+    animationGroup.duration =  bacAnimation.duration;
+    animationGroup.removedOnCompletion = NO;
+    animationGroup.fillMode = kCAFillModeForwards;
+    
+    [self.layer addAnimation:animationGroup forKey:nil];
+}
 
-
+- (void)showStartAnimationWithDuration:(CGFloat)duration
+{
+    CAKeyframeAnimation *popAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+    popAnimation.duration = duration;
+    popAnimation.values = @[[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.01f, 0.01f, 1.0f)],
+                            [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.05f, 1.05f, 1.0f)],
+                            [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.95f, 0.95f, 1.0f)],
+                            [NSValue valueWithCATransform3D:CATransform3DIdentity]];
+    popAnimation.keyTimes = @[@0.2f, @0.5f, @0.75f, @1.0f];
+    popAnimation.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
+                                     [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
+                                     [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    [self.layer addAnimation:popAnimation forKey:nil];
+}
 - (void)drawRect:(CGRect)rect
 {
     UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake((self.width-kDrawImageWH)/2, KImageEdgeH, kDrawImageWH, kDrawImageWH)

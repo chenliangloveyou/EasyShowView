@@ -49,18 +49,27 @@
 - (void)timerAction
 {
     if (_timerShowTime >= _showTime ) {
-
+        
         _timerShowTime = 0 ;
         [_removeTimer invalidate];
         _removeTimer = nil ;
         
-        [UIView animateWithDuration:0.3 animations:^{
-            self.alpha = 0.02 ;
-        }completion:^(BOOL finished) {
-            [self removeFromSuperview];
-        }] ;
+        if (self.options.showEndAnimation) {
+            [self.showBgView showEndAnimationWithDuration:self.options.showAnimationDuration];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.options.showAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self removeFromSuperview];
+            });
+        }
+        else{
+            [UIView animateWithDuration:0.3 animations:^{
+                self.alpha = 0.1 ;
+            }completion:^(BOOL finished) {
+                [self removeFromSuperview];
+            }] ;
+        }
     }
     _timerShowTime++ ;
+
 }
 
 - (instancetype)initWithFrame:(CGRect)frame text:(NSString *)text status:(ShowStatus)status image:(UIImage *)image
@@ -82,9 +91,8 @@
 
 - (void)showViewWithSuperView:(UIView *)superView
 {
-    [superView addSubview:self];
     
-    CGSize textSize = [EasyUtils textWidthWithStirng:self.showText
+    CGSize textSize = [EasyShowUtils textWidthWithStirng:self.showText
                                                 font:self.options.textFount
                                             maxWidth:self.options.maxWidthScale*SCREEN_WIDTH];
     
@@ -98,34 +106,56 @@
     if (!self.options.superViewReceiveEvent) {
         
         self.bounds = superView.bounds ;
-        showFrame = CGRectMake((self.width-backGroundW)/2, (self.height-backGroundH)/2, backGroundW, backGroundH); ;
-        
+        self.center = superView.center ;
+
+        CGFloat showFrameY = (self.height-backGroundH)/2  ;
+        if (self.showStatus == ShowStatusText) {
+            switch (self.options.showStatusTextTpye) {
+                case ShowStatusTextTypeTop:
+                    showFrameY = [UIApplication sharedApplication].statusBarFrame.size.height + 50 ;
+                    break;
+                case ShowStatusTextTypeBottom:
+                    showFrameY = self.height - backGroundH - 50 ;
+                    break ;
+                default:
+                    break;
+            }
+        }
+        showFrame = CGRectMake((self.width-backGroundW)/2, showFrameY, backGroundW, backGroundH);
+
     }
     else{
+        
+        CGFloat showFrameY = 0 ;
+
         self.frame =  CGRectMake(0, 0, backGroundW, backGroundH);
         showFrame = self.frame ;
-        [self setRoundedCorners:UIRectCornerAllCorners borderWidth:2 borderColor:[UIColor blueColor] cornerSize:CGSizeMake(5, 5)];
+        [self setRoundedCorners:UIRectCornerAllCorners borderWidth:1 borderColor:[UIColor clearColor] cornerSize:CGSizeMake(5, 5)];
+        self.center = superView.center ;
+
     }
     
     self.showBgView = [[EasyShowBgView alloc]initWithFrame:showFrame status:self.showStatus text:self.showText image:self.showImage];
     [self addSubview:self.showBgView];
 
-    [self.removeTimer fire];
+    if (self.showStatus != ShowStatusLoding) {
+        [self.removeTimer fire];
+    }
 
-    self.center = superView.center ;
   
-    CAKeyframeAnimation *popAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
-    popAnimation.duration = 0.4;
-    popAnimation.values = @[[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.01f, 0.01f, 1.0f)],
-                            [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.05f, 1.05f, 1.0f)],
-                            [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.95f, 0.95f, 1.0f)],
-                            [NSValue valueWithCATransform3D:CATransform3DIdentity]];
-    popAnimation.keyTimes = @[@0.2f, @0.5f, @0.75f, @1.0f];
-    popAnimation.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
-                                     [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
-                                     [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-    [self.layer addAnimation:popAnimation forKey:nil];
-    
+    if (self.options.showStartAnimation) {
+        [self.showBgView showStartAnimationWithDuration:self.options.showAnimationDuration];
+        [superView addSubview:self];
+    }
+    else{
+        self.alpha = 0.1 ;
+        [UIView animateWithDuration:self.options.showAnimationDuration animations:^{
+            self.alpha = 1.0 ;
+        } completion:^(BOOL finished) {
+            [superView addSubview:self];
+        }];
+    }
+   
 }
 
 
@@ -149,6 +179,8 @@
         return ;
     }
     
+    NSAssert([NSThread isMainThread], @"needs to be accessed on the main thread.");
+    
     //隐藏之前还在显示的视图
     NSEnumerator *subviewsEnum = [view.subviews reverseObjectEnumerator];
     for (UIView *subview in subviewsEnum) {
@@ -159,12 +191,48 @@
         }
     }
     
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+        });
+    }
+    
     EasyShowView  *showView = [[EasyShowView alloc]initWithFrame:CGRectZero text:text status:status image:image];
     [showView showViewWithSuperView:view];
 }
 
-
-
++ (void)showLoding
+{
+    [EasyShowView showLodingText:@"加载中..."];
+}
++ (void)showLodingText:(NSString *)text
+{
+    UIView *showView = [UIApplication sharedApplication].keyWindow ;
+    [EasyShowView showLodingText:text inView:showView];
+}
++ (void)showLodingText:(NSString *)text inView:(UIView *)superView
+{
+    [EasyShowView showText:text inView:superView image:nil stauts:ShowStatusLoding];
+}
++ (void)hidenLoding
+{
+    UIView *showView = [UIApplication sharedApplication].keyWindow ;
+    [EasyShowView hidenLoingInView:showView];
+}
++ (void)hidenAllLoding
+{
+    
+}
++ (void)hidenLoingInView:(UIView *)superView
+{
+    NSEnumerator *subviewsEnum = [superView.subviews reverseObjectEnumerator];
+    for (UIView *subview in subviewsEnum) {
+        if ([subview isKindOfClass:self]) {
+            EasyShowView *showView = (EasyShowView *)subview ;
+            showView.timerShowTime = 10 ;
+            [showView timerAction];
+        }
+    }
+}
 + (void)showText:(NSString *)text
 {
     UIView *showView = [UIApplication sharedApplication].keyWindow ;

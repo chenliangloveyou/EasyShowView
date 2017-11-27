@@ -1,19 +1,19 @@
 //
-//  EasyUtils.m
+//  EasyShowUtils.m
 //  EasyShowViewDemo
 //
 //  Created by nf on 2017/11/24.
 //  Copyright © 2017年 chenliangloveyou. All rights reserved.
 //
 
-#import "EasyUtils.h"
+#import "EasyShowUtils.h"
 
-@implementation EasyUtils
+@implementation EasyShowUtils
 
 + (CGSize)textWidthWithStirng:(NSString *)string font:(UIFont *)font maxWidth:(CGFloat)maxWidth
 {
     CGSize size = [string boundingRectWithSize:CGSizeMake(maxWidth, SCREEN_HEIGHT)
-                                       options:NSStringDrawingUsesLineFragmentOrigin
+                                       options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine
                                     attributes:@{NSFontAttributeName:font}
                                        context:nil].size;
     

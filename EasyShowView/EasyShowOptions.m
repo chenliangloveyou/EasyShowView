@@ -16,6 +16,11 @@
         _textFount = [UIFont systemFontOfSize:17];
         _maxWidthScale = 0.8 ;
         _superViewReceiveEvent = YES ;
+        _showStatusTextTpye = ShowStatusTextTypeBottom ;
+  
+        _showStartAnimation = YES ;
+        _showEndAnimation = YES ;
+        _showAnimationDuration = 0.4 ;
     }
     return self ;
 }
