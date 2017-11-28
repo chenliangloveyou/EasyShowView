@@ -18,7 +18,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     EasyShowOptions *options = [EasyShowOptions shareInstance];
-    options.superViewReceiveEvent = YES ;
+    options.superViewReceiveEvent = NO ;
     // Override point for customization after application launch.
     return YES;
 }

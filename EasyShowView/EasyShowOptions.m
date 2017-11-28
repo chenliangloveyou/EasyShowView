@@ -29,18 +29,25 @@
 
 static EasyShowOptions *_shareEasyOptions = nil ;
 
+- (instancetype)init
+{
+    if (self = [super init]) {
+        _textFount = [UIFont systemFontOfSize:17];
+        _maxWidthScale = 0.8 ;
+        _superViewReceiveEvent = NO ;
+        _textStatusType = ShowStatusTextTypeBottom  ;
+        _showStartAnimation = YES ;
+        _showEndAnimation = YES ;
+        _showAnimationDuration = 0.4 ;
+        
+    }
+    return self ;
+}
 + (instancetype)shareInstance
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _shareEasyOptions = [[[self class] alloc] init];
-        _shareEasyOptions.textFount = [UIFont systemFontOfSize:17];
-        _shareEasyOptions.maxWidthScale = 0.8 ;
-        _shareEasyOptions.superViewReceiveEvent = NO ;
-    _shareEasyOptions.textStatusType = ShowStatusTextTypeBottom  ;
-        _shareEasyOptions.showStartAnimation = YES ;
-        _shareEasyOptions.showEndAnimation = YES ;
-        _shareEasyOptions.showAnimationDuration = 0.4 ;
+        _shareEasyOptions = [[EasyShowOptions alloc] init];
     });
     return _shareEasyOptions;
 }

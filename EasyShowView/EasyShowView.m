@@ -162,7 +162,7 @@
 - (EasyShowOptions *)options
 {
     if (nil == _options) {
-        _options = [[EasyShowOptions alloc]init];
+        _options = [EasyShowOptions shareInstance];
     }
     return _options ;
 }
@@ -212,6 +212,14 @@
 + (void)showLodingText:(NSString *)text inView:(UIView *)superView
 {
     [EasyShowView showText:text inView:superView image:nil stauts:ShowStatusLoding];
+}
++ (void)showLodingText:(NSString *)text image:(UIImage *)image
+{
+    
+}
++ (void)showLodingText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView
+{
+    
 }
 + (void)hidenLoding
 {

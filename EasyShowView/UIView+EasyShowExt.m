@@ -106,6 +106,36 @@
 }
 
 
+- (UIViewController *)currentViewController
+{
+    for (UIView* next = [self superview]; next; next = next.superview) {
+        UIResponder *nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController class]]) {
+            return (UIViewController *)nextResponder;
+        }
+    }
+    return [self topViewController];
+}
+
+- (UIViewController *)topViewController {
+    UIViewController *resultVC;
+    resultVC = [self _topViewController:[[UIApplication sharedApplication].keyWindow rootViewController]];
+    while (resultVC.presentedViewController) {
+        resultVC = [self _topViewController:resultVC.presentedViewController];
+    }
+    return resultVC;
+}
+- (UIViewController *)_topViewController:(UIViewController *)vc {
+    if ([vc isKindOfClass:[UINavigationController class]]) {
+        return [self _topViewController:[(UINavigationController *)vc topViewController]];
+    } else if ([vc isKindOfClass:[UITabBarController class]]) {
+        return [self _topViewController:[(UITabBarController *)vc selectedViewController]];
+    } else {
+        return vc;
+    }
+    return nil;
+}
+
 - (void)setRoundedCorners
 {
     

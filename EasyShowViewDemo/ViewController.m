@@ -64,8 +64,8 @@
                     [EasyShowView showText:@"今天发的拉伸；试大家了"];
                 } break;
                 case 1:
-                { [EasyShowOptions shareInstance].textStatusType = ShowStatusTextTypeBottom ;
-
+                {
+                    [EasyShowOptions shareInstance].textStatusType = ShowStatusTextTypeBottom ;
                     [EasyShowView showText:@"今天发的拉伸；试大家了"];
                 }
 //                    [EasyShowView showSuccessText:@"恭喜您通过所有关卡"];
