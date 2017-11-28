@@ -31,7 +31,7 @@ singleton_implementation(EasyShowOptions)
         _superViewReceiveEvent = NO ;
         _textStatusType = ShowStatusTextTypeBottom  ;
         _showStartAnimation = YES ;
-        _showEndAnimation = YES ;
+        _showEndAnimation = NO ;
         _showAnimationDuration = 0.4 ;
     }
     return self ;

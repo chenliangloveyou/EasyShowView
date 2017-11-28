@@ -56,7 +56,7 @@
         
         if (self.options.showShadow) {
             for (CALayer *subLayer in self.layer.sublayers) {
-                if ([subLayer.name isEqualToString:@"addsublayer"]) {
+                if ([subLayer.name isEqualToString:@"addSubLayer"]) {
                     [subLayer removeFromSuperlayer];
                     break ;
                 }
@@ -70,7 +70,7 @@
             });
         }
         else{
-            [UIView animateWithDuration:0.3 animations:^{
+            [UIView animateWithDuration:self.options.showAnimationDuration animations:^{
                 self.alpha = 0.1 ;
             }completion:^(BOOL finished) {
                 [self removeFromSuperview];
@@ -148,7 +148,7 @@
         }
         self.frame =  CGRectMake((SCREEN_WIDTH-backGroundW)/2, showFrameY, backGroundW, backGroundH);
         showFrame = CGRectMake(0, 0, backGroundW, backGroundH) ;
-        [self setRoundedCorners:UIRectCornerAllCorners borderWidth:1 borderColor:[UIColor clearColor] cornerSize:CGSizeMake(5, 5)];
+//        [self setRoundedCorners:UIRectCornerAllCorners borderWidth:1 borderColor:[UIColor clearColor] cornerSize:CGSizeMake(5, 5)];
 
     }
     
@@ -175,20 +175,20 @@
     
     if (self.options.showShadow) {
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.options.showAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        CGFloat afterStart = self.options.showStartAnimation ? self.options.showAnimationDuration :0;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(afterStart * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
-            CALayer *subLayer=[CALayer layer];
-            CGRect fixframe = self.showBgView.frame;
-            subLayer.frame= fixframe;
-            subLayer.cornerRadius=8;
-            subLayer.backgroundColor=self.options.shadowColor.CGColor;
-            subLayer.masksToBounds=NO;
-            subLayer.name = @"addsublayer";
-            subLayer.shadowColor = self.options.shadowColor.CGColor;
-            subLayer.shadowOffset = CGSizeMake(3,2);
-            subLayer.shadowOpacity = 0.8;
-            subLayer.shadowRadius = 4;
-            [self.layer insertSublayer:subLayer below:self.showBgView.layer];
+            CALayer *addSubLayer=[CALayer layer];
+            addSubLayer.frame= self.showBgView.frame;
+            addSubLayer.cornerRadius=8;
+            addSubLayer.backgroundColor=self.options.shadowColor.CGColor;
+            addSubLayer.masksToBounds=NO;
+            addSubLayer.name = @"addSubLayer";
+            addSubLayer.shadowColor = self.options.shadowColor.CGColor;
+            addSubLayer.shadowOffset = CGSizeMake(3,2);
+            addSubLayer.shadowOpacity = 0.8;
+            addSubLayer.shadowRadius = 4;
+            [self.layer insertSublayer:addSubLayer below:self.showBgView.layer];
             
         });
     }

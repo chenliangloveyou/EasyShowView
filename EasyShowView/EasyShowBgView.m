@@ -44,11 +44,11 @@
         }
         
         self.backgroundColor = self.options.backGroundColor ;
-//        [self setRoundedCorners:UIRectCornerAllCorners
-//                    borderWidth:2
-//                    borderColor:[UIColor clearColor]
-//                     cornerSize:CGSizeMake(5, 5)];
-        
+        [self setRoundedCorners];
+//        UIRectCornerAllCorners
+//    borderWidth:15
+//    borderColor:[UIColor clearColor]
+//    cornerSize:CGSizeMake(5, 5)
     }
     return self ;
 }

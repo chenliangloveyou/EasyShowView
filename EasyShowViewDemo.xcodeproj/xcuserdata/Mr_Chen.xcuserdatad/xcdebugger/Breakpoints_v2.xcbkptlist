@@ -10,21 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EasyShowView/EasyShowOptions.m"
-            timestampString = "533577252.309549"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "EasyShowView/EasyShowOptions.m"
-            timestampString = "533577252.309654"
+            timestampString = "533578387.122474"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "42"
