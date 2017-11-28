@@ -54,6 +54,15 @@
         [_removeTimer invalidate];
         _removeTimer = nil ;
         
+        if (self.options.showShadow) {
+            for (CALayer *subLayer in self.layer.sublayers) {
+                if ([subLayer.name isEqualToString:@"addsublayer"]) {
+                    [subLayer removeFromSuperlayer];
+                    break ;
+                }
+            }
+        }
+        
         if (self.options.showEndAnimation) {
             [self.showBgView showEndAnimationWithDuration:self.options.showAnimationDuration];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.options.showAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -163,7 +172,26 @@
             [superView addSubview:self];
         }];
     }
-   
+    
+    if (self.options.showShadow) {
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.options.showAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            CALayer *subLayer=[CALayer layer];
+            CGRect fixframe = self.showBgView.frame;
+            subLayer.frame= fixframe;
+            subLayer.cornerRadius=8;
+            subLayer.backgroundColor=self.options.shadowColor.CGColor;
+            subLayer.masksToBounds=NO;
+            subLayer.name = @"addsublayer";
+            subLayer.shadowColor = self.options.shadowColor.CGColor;
+            subLayer.shadowOffset = CGSizeMake(3,2);
+            subLayer.shadowOpacity = 0.8;
+            subLayer.shadowRadius = 4;
+            [self.layer insertSublayer:subLayer below:self.showBgView.layer];
+            
+        });
+    }
 }
 
 

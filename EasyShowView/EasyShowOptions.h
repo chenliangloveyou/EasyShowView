@@ -18,7 +18,11 @@ typedef NS_ENUM(NSUInteger , ShowStatusTextType) {
 
 @interface EasyShowOptions : NSObject
 
-@property (nonatomic,strong)UIFont *textFount ;
+
+@property (nonatomic,strong)UIFont *textFount ;         //文字大小
+@property (nonatomic,strong)UIColor *textColor ;        //文字颜色
+@property (nonatomic,strong)UIColor *backGroundColor ;  //背景颜色
+
 @property (nonatomic,assign)CGFloat maxWidthScale ;
 @property (nonatomic,assign)BOOL superViewReceiveEvent ;//在显示的期间，superview是否能接接收事件
 @property (nonatomic,assign)BOOL showStartAnimation ;//是否弹出加载时的动画
@@ -28,6 +32,8 @@ typedef NS_ENUM(NSUInteger , ShowStatusTextType) {
 @property (nonatomic,strong)UIColor *shadowColor ;//阴影颜色
 
 @property (nonatomic,assign)ShowStatusTextType textStatusType ;//显示文字的时候，显示在哪个地方
+
+
 
 singleton_interface(EasyShowOptions)
 

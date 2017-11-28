@@ -21,6 +21,8 @@
 @property (nonatomic,strong)UILabel *textLabel ;
 @property (nonatomic,strong)UIImageView *imageView ;
 
+@property (nonatomic,strong)EasyShowOptions *options ;
+
 @end
 
 @implementation EasyShowBgView
@@ -31,8 +33,8 @@
         _showStatus = status ;
         
         CGSize textSize = [EasyShowUtils textWidthWithStirng:text
-                                                    font:[EasyShowOptions sharedEasyShowOptions].textFount
-                                                maxWidth:[EasyShowOptions sharedEasyShowOptions].maxWidthScale*SCREEN_WIDTH];
+                                                    font:self.options.textFount
+                                                maxWidth:self.options.maxWidthScale*SCREEN_WIDTH];
         
         self.textLabel.text = text ;
         self.textLabel.frame = CGRectMake(20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
@@ -41,13 +43,12 @@
             self.imageView.image = image ;
         }
         
-        self.backgroundColor = [UIColor blackColor];
-        [self setRoundedCorners:UIRectCornerAllCorners
-                    borderWidth:2
-                    borderColor:[UIColor clearColor]
-                     cornerSize:CGSizeMake(5, 5)];
-
-       
+        self.backgroundColor = self.options.backGroundColor ;
+//        [self setRoundedCorners:UIRectCornerAllCorners
+//                    borderWidth:2
+//                    borderColor:[UIColor clearColor]
+//                     cornerSize:CGSizeMake(5, 5)];
+        
     }
     return self ;
 }
@@ -127,7 +128,7 @@
     lineLayer.frame = CGRectZero;
     lineLayer.fillColor = [ UIColor clearColor ].CGColor ;
     lineLayer.path = path. CGPath ;
-    lineLayer.strokeColor = [UIColor whiteColor].CGColor ;
+    lineLayer.strokeColor = self.options.textColor.CGColor ;
     lineLayer.lineWidth = 2;
     lineLayer.cornerRadius = 50;
     
@@ -152,15 +153,22 @@
 {
     if (nil == _textLabel) {
         _textLabel = [[UILabel alloc]init];
-        _textLabel.textColor = [UIColor whiteColor];
+        _textLabel.textColor = self.options.textColor;
+        _textLabel.font = self.options.textFount ;
         _textLabel.backgroundColor = [UIColor clearColor];
         _textLabel.textAlignment = NSTextAlignmentCenter ;
-        _textLabel.font = [EasyShowOptions sharedEasyShowOptions].textFount ;
         _textLabel.numberOfLines = 0 ;
         [self addSubview:_textLabel];
         
     }
     return _textLabel ;
+}
+- (EasyShowOptions *)options
+{
+    if (nil == _options) {
+        _options = [EasyShowOptions sharedEasyShowOptions];
+    }
+    return _options ;
 }
 /*
 // Only override drawRect: if you perform custom drawing.
