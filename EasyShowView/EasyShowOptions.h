@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "EasyShowUtils.h"
 
 typedef NS_ENUM(NSUInteger , ShowStatusTextType) {
     ShowStatusTextTypeTop = 0 ,
@@ -28,7 +29,7 @@ typedef NS_ENUM(NSUInteger , ShowStatusTextType) {
 
 @property (nonatomic,assign)ShowStatusTextType textStatusType ;//显示文字的时候，显示在哪个地方
 
-+ (instancetype)shareInstance ;
+singleton_interface(EasyShowOptions)
 
 @end
 

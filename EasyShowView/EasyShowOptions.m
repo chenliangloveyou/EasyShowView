@@ -8,26 +8,14 @@
 
 #import "EasyShowOptions.h"
 
+
+
+@interface EasyShowOptions()
+@end
+
 @implementation EasyShowOptions
 
-@synthesize textStatusType = _textStatusType ;
-
-
-
-
-//- (void)setTextStatusType:(ShowStatusTextType)textStatusType
-//{
-//    NSLog(@"%p ",self);
-//    _textStatusType = textStatusType ;
-//}
-//- (ShowStatusTextType)textStatusType
-//{
-//    NSLog(@"%p ",self);
-//    return _textStatusType ;
-//}
-
-
-static EasyShowOptions *_shareEasyOptions = nil ;
+singleton_implementation(EasyShowOptions)
 
 - (instancetype)init
 {
@@ -39,36 +27,9 @@ static EasyShowOptions *_shareEasyOptions = nil ;
         _showStartAnimation = YES ;
         _showEndAnimation = YES ;
         _showAnimationDuration = 0.4 ;
-        
     }
     return self ;
 }
-+ (instancetype)shareInstance
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _shareEasyOptions = [[EasyShowOptions alloc] init];
-    });
-    return _shareEasyOptions;
-}
-+ (instancetype)allocWithZone:(struct _NSZone *)zone
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _shareEasyOptions = [super allocWithZone:zone];
-    });
-    return _shareEasyOptions;
-    
-}
 
-- (id)copyWithZone:(NSZone *)zone
-{
-    return _shareEasyOptions;
-}
-
-- (id)mutableCopyWithZone:(NSZone *)zone
-{
-    return _shareEasyOptions;
-}
 
 @end

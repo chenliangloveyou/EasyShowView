@@ -59,19 +59,19 @@
         case 0:
             switch (indexPath.row) {
                 case 0:{
-                    [EasyShowOptions shareInstance].textStatusType = ShowStatusTextTypeTop ;
-                    NSLog(@"%lu",(unsigned long)[EasyShowOptions shareInstance].textStatusType);
+                    [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowStatusTextTypeTop ;
+                    NSLog(@"%lu",(unsigned long)[EasyShowOptions sharedEasyShowOptions].textStatusType);
                     [EasyShowView showText:@"今天发的拉伸；试大家了"];
                 } break;
                 case 1:
                 {
-                    [EasyShowOptions shareInstance].textStatusType = ShowStatusTextTypeBottom ;
+                    [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowStatusTextTypeBottom ;
                     [EasyShowView showText:@"今天发的拉伸；试大家了"];
                 }
 //                    [EasyShowView showSuccessText:@"恭喜您通过所有关卡"];
                     break ;
                 case 2:
-                {  [EasyShowOptions shareInstance].textStatusType = ShowStatusTextTypeMidden ;
+                {  [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowStatusTextTypeMidden ;
                     [EasyShowView showText:@"今天发的拉伸；试大家了"];
                 }
 //                    [EasyShowView showErrorText:@"加载失败！"];

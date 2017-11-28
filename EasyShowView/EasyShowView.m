@@ -103,7 +103,7 @@
     
     CGRect showFrame = CGRectMake(0, 0, backGroundW, backGroundH);
     
-    if (!self.options.superViewReceiveEvent) {
+    if (!self.options.superViewReceiveEvent) {//父视图不能接受事件
         
         self.bounds = superView.bounds ;
         self.center = superView.center ;
@@ -117,21 +117,29 @@
                 case ShowStatusTextTypeBottom:
                     showFrameY = self.height - backGroundH - 50 ;
                     break ;
-                default:
-                    break;
+                default: break;
             }
         }
         showFrame = CGRectMake((self.width-backGroundW)/2, showFrameY, backGroundW, backGroundH);
 
     }
-    else{
+    else{//父视图接受事件   self的大小为显示的区域
         
-        CGFloat showFrameY = 0 ;
-
-        self.frame =  CGRectMake(0, 0, backGroundW, backGroundH);
-        showFrame = self.frame ;
+        CGFloat showFrameY = (SCREEN_HEIGHT-self.height)/2 ;
+        if (self.showStatus == ShowStatusText) {
+            switch (self.options.textStatusType ) {
+                case ShowStatusTextTypeTop:
+                    showFrameY = [UIApplication sharedApplication].statusBarFrame.size.height + 50 ;
+                    break;
+                case ShowStatusTextTypeBottom:
+                    showFrameY = SCREEN_HEIGHT - backGroundH - 50 ;
+                    break ;
+                default: break;
+            }
+        }
+        self.frame =  CGRectMake((SCREEN_WIDTH-backGroundW)/2, showFrameY, backGroundW, backGroundH);
+        showFrame = CGRectMake(0, 0, backGroundW, backGroundH) ;
         [self setRoundedCorners:UIRectCornerAllCorners borderWidth:1 borderColor:[UIColor clearColor] cornerSize:CGSizeMake(5, 5)];
-        self.center = superView.center ;
 
     }
     
@@ -162,7 +170,7 @@
 - (EasyShowOptions *)options
 {
     if (nil == _options) {
-        _options = [EasyShowOptions shareInstance];
+        _options = [EasyShowOptions sharedEasyShowOptions];
     }
     return _options ;
 }

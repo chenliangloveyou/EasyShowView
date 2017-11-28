@@ -31,8 +31,8 @@
         _showStatus = status ;
         
         CGSize textSize = [EasyShowUtils textWidthWithStirng:text
-                                                    font:[EasyShowOptions shareInstance].textFount
-                                                maxWidth:[EasyShowOptions shareInstance].maxWidthScale*SCREEN_WIDTH];
+                                                    font:[EasyShowOptions sharedEasyShowOptions].textFount
+                                                maxWidth:[EasyShowOptions sharedEasyShowOptions].maxWidthScale*SCREEN_WIDTH];
         
         self.textLabel.text = text ;
         self.textLabel.frame = CGRectMake(20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
@@ -155,7 +155,7 @@
         _textLabel.textColor = [UIColor whiteColor];
         _textLabel.backgroundColor = [UIColor clearColor];
         _textLabel.textAlignment = NSTextAlignmentCenter ;
-        _textLabel.font = [EasyShowOptions shareInstance].textFount ;
+        _textLabel.font = [EasyShowOptions sharedEasyShowOptions].textFount ;
         _textLabel.numberOfLines = 0 ;
         [self addSubview:_textLabel];
         

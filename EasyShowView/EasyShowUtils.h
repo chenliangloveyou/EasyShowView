@@ -45,6 +45,35 @@
 #define STATUSBAR_ORGINAL_HEIGHT  ([UIApplication sharedApplication].statusBarFrame.size.height)
 
 
+#define singleton_interface(name) +(instancetype)shared##name;
+
+#define singleton_implementation(name)         \
+static name *_instance;           \
++ (id)allocWithZone:(struct _NSZone *)zone { \
+static dispatch_once_t onceToken;           \
+dispatch_once(&onceToken, ^{            \
+_instance = [super allocWithZone:zone]; \
+});             \
+return _instance;       \
+}               \
++ (instancetype)shared##name{           \
+if (_instance == nil) {             \
+static dispatch_once_t onceToken;       \
+dispatch_once(&onceToken, ^{        \
+_instance = [[[self class] alloc] init];      \
+});         \
+}               \
+return _instance;       \
+}           \
+- (id)copyWithZone:(NSZone *)zone{      \
+return _instance;       \
+}       \
+- (id)mutableCopyWithZone:(NSZone *)zone        \
+{               \
+return _instance;       \
+}       \
+
+
 @interface EasyShowUtils : NSObject
 
 + (CGSize)textWidthWithStirng:(NSString *)string font:(UIFont *)font maxWidth:(CGFloat)maxWidth ;
