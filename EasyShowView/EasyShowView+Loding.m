@@ -15,7 +15,7 @@
 
 + (void)showLoding
 {
-    [EasyShowView showLodingText:@""];
+    [EasyShowView showLodingText:@"加载中..."];
 }
 + (void)showLodingText:(NSString *)text
 {

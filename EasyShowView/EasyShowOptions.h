@@ -44,7 +44,7 @@ typedef NS_ENUM(NSUInteger , ShowLodingType) {
 };
 
 #define kDrawImageWH 40     //显示图片的宽高
-#define KDrawImageEdgeH 15      //显示图片的边距
+#define KDrawImageEdgeH 20      //显示图片的边距
 #define kTextShowEdgeDistance 50 //显示纯文字时，当设置top和bottom的时候，距离屏幕上下的距离
 
 #define kShowViewMinWidth 60 //视图最小的宽度

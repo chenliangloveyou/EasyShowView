@@ -34,6 +34,8 @@ singleton_implementation(EasyShowOptions)
         _showStartAnimation = YES ;
         _showEndAnimation = NO ;
         _showAnimationDuration = 0.4 ;
+        
+        _showLodingType = ShowLodingTypeImage ;
     }
     return self ;
 }

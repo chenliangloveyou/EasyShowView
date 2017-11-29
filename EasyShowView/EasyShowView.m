@@ -96,9 +96,11 @@
     }
 
     //50 = imageH:40 + 上下边距:10
+    //无文字。 W:60 H: 60 有文字。W:文字宽度+40,>=100 H:文字高+30+图片高,
+    
     CGFloat imageH = self.showStatus==ShowStatusText ?:(kDrawImageWH + KDrawImageEdgeH) ;
     CGFloat backGroundH = (textSize.height?(textSize.height+30):0) + imageH ;
-    CGFloat backGroundW = (textSize.width?(textSize.width+40):0)  ;
+    CGFloat backGroundW = textSize.width?(textSize.width+40):0  ;
     if (backGroundW < kShowViewMinWidth) {
         backGroundW = kShowViewMinWidth  ;
     }

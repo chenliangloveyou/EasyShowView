@@ -67,21 +67,26 @@
                 } break;
                 case 1:
                 {
-                    [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowStatusTextTypeBottom ;
-                    [EasyShowView showText:@"今天发的拉伸；试大家了"];
+//                    [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowStatusTextTypeBottom ;
+//                    [EasyShowView showText:@"今天发的拉伸；试大家了"];
                 }
-//                    [EasyShowView showSuccessText:@"恭喜您通过所有关卡!"];
+                    [EasyShowView showSuccessText:@"恭喜您通过所有关卡!"];
                     break ;
                 case 2:
-                {  [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowStatusTextTypeMidden ;
-                    [EasyShowView showText:@"今天发的拉伸；试大家了"];
-                }
+//                {  [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowStatusTextTypeMidden ;
+//                    [EasyShowView showText:@"今天发的拉伸；试大家了"];
+//                }
+                    [EasyShowOptions sharedEasyShowOptions].showLodingType = ShowLodingTypeDefault ;
+                    [EasyShowView showLodingText:@"正在加载中..."];
 //                    [EasyShowView showErrorText:@"加载失败！"];
                     break ;
                 case 3:
-                    [EasyShowView showInfoText:@"请完善基本信息!"];
+                    [EasyShowOptions sharedEasyShowOptions].showLodingType = ShowLodingTypeIndicator ;
+                    [EasyShowView showLodingText:@"加载中..."];
+//                    [EasyShowView showInfoText:@"请完善基本信息!"];
                     break ;
                 case 4:
+                    [EasyShowOptions sharedEasyShowOptions].showLodingType = ShowLodingTypeImage ;
                     [EasyShowView showImageText:@"自定义图片" image:[UIImage imageNamed:@"HUD_NF.png"] inView:self.view];
                     break ;
                 default:
