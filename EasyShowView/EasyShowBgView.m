@@ -56,8 +56,14 @@
             if (status != ShowStatusText) {//只要不是纯文字，其他的都需要显示图片
                 self.imageView.top  = KDrawImageEdgeH ;
             }
+            
+            if (self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
+                self.textLabel.frame = CGRectMake(kDrawImageWH + 20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
+            }
         }
-       
+        if (self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
+            self.imageView.frame = CGRectMake(KDrawImageEdgeH/2, KDrawImageEdgeH/2, kDrawImageWH, kDrawImageWH);
+        }
         if (image) {
             self.imageView.image = image ;
         }
@@ -66,13 +72,16 @@
             
             switch (self.options.showLodingType) {
                 case ShowLodingTypeDefault:
+                case ShowLodingTypeLeftDefault:
                     [self drawAnimationImageViewLoding];
                     break;
                 case ShowLodingTypeIndicator:
+                case ShowLodingTypeLeftIndicator:
                     [self.imageViewIndeicator startAnimating];
                     break ;
                 case ShowLodingTypeImage:
-                    
+                case ShowLodingTypeLeftImage:
+                    [self drawAnimiationImageView:YES];
                     break ;
                 default:
                     break;
@@ -99,23 +108,25 @@
     centerLayer.lineCap=kCALineCapRound;//线框类型
     
     [self.imageView.layer addSublayer:centerLayer];
-    [self radiusLayerStarAnimationWithLayer:self.imageView.layer];
-    
+
+    [self drawAnimiationImageView:NO];
 }
 
 // 转圈动画
-- (void)radiusLayerStarAnimationWithLayer:(CALayer *)layer
+- (void)drawAnimiationImageView:(BOOL)isImageView
 {
-    CABasicAnimation *animation=[CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    NSString *keyPath = isImageView ? @"transform.rotation.y" : @"transform.rotation.z" ;
+    CABasicAnimation *animation=[CABasicAnimation animationWithKeyPath:keyPath];
     animation.fromValue=@(0);
     animation.toValue=@(M_PI*2);
-    animation.duration=.8;
+    animation.duration=isImageView ? 1.3 : .8;
     animation.repeatCount=HUGE;
     animation.fillMode=kCAFillModeForwards;
     animation.removedOnCompletion=NO;
     animation.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    [layer addAnimation:animation forKey:@"animation"];
+    [self.imageView.layer addAnimation:animation forKey:@"animation"];
 }
+
 - (void)drawAnimationImageView
 {
     UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, kDrawImageWH, kDrawImageWH)

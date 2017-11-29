@@ -34,7 +34,7 @@
 @implementation EasyShowView
 - (void)dealloc
 {
-//    NSLog(@"%p dealloc",self );
+    NSLog(@"%p dealloc",self );
 }
 
 
@@ -108,7 +108,11 @@
     //计算出showView的大小
     if (self.showStatus == ShowStatusLoding) {//特殊处理
         if (self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
-           
+            backGroundH = textSize.height + 30 ;
+            if (backGroundH < kShowViewMinWidth) {
+                backGroundH = kShowViewMinWidth ;
+            }
+            backGroundW  = (textSize.width?(textSize.width+40):0) + imageH ;
         }
         else{   //上下的形式
 

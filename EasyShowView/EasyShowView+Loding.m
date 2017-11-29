@@ -15,7 +15,7 @@
 
 + (void)showLoding
 {
-    [EasyShowView showLodingText:@"加载中..."];
+    [EasyShowView showLodingText:@""];
 }
 + (void)showLodingText:(NSString *)text
 {
@@ -24,16 +24,19 @@
 }
 + (void)showLodingText:(NSString *)text inView:(UIView *)superView
 {
-    [EasyShowView showText:text inView:superView image:nil stauts:ShowStatusLoding];
+    [EasyShowView showLodingText:text image:nil inView:superView];
 }
 + (void)showLodingText:(NSString *)text image:(UIImage *)image
 {
-    
+    UIView *showView = [UIApplication sharedApplication].keyWindow ;
+    [EasyShowView showLodingText:text image:image inView:showView];
 }
 + (void)showLodingText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView
 {
-    
+    [EasyShowView showText:text inView:superView image:image stauts:ShowStatusLoding];
 }
+
+
 + (void)hidenLoding
 {
     UIView *showView = [UIApplication sharedApplication].keyWindow ;

@@ -62,32 +62,19 @@
             switch (indexPath.row) {
                 case 0:{
                     [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowStatusTextTypeTop ;
-                    NSLog(@"%lu",(unsigned long)[EasyShowOptions sharedEasyShowOptions].textStatusType);
-                    [EasyShowView showText:@"今天发的拉伸；试大家了"];
+                    [EasyShowView showText:@"今天发的拉伸发送；了解来看四大皆空了试大家了"];
                 } break;
                 case 1:
-                {
-//                    [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowStatusTextTypeBottom ;
-//                    [EasyShowView showText:@"今天发的拉伸；试大家了"];
-                }
                     [EasyShowView showSuccessText:@"恭喜您通过所有关卡!"];
                     break ;
                 case 2:
-//                {  [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowStatusTextTypeMidden ;
-//                    [EasyShowView showText:@"今天发的拉伸；试大家了"];
-//                }
-                    [EasyShowOptions sharedEasyShowOptions].showLodingType = ShowLodingTypeDefault ;
-                    [EasyShowView showLodingText:@"正在加载中..."];
-//                    [EasyShowView showErrorText:@"加载失败！"];
+                    [EasyShowView showErrorText:@"加载失败！"];
                     break ;
                 case 3:
-                    [EasyShowOptions sharedEasyShowOptions].showLodingType = ShowLodingTypeIndicator ;
-                    [EasyShowView showLodingText:@"加载中..."];
-//                    [EasyShowView showInfoText:@"请完善基本信息!"];
+                    [EasyShowView showInfoText:@"请完善信息！"];
                     break ;
                 case 4:
-                    [EasyShowOptions sharedEasyShowOptions].showLodingType = ShowLodingTypeImage ;
-                    [EasyShowView showImageText:@"自定义图片" image:[UIImage imageNamed:@"HUD_NF.png"] inView:self.view];
+                   [EasyShowView showImageText:@"自定义图片" image:[UIImage imageNamed:@"HUD_NF.png"] inView:self.view];
                     break ;
                 default:
                     break;
@@ -96,12 +83,22 @@
         case 1:
             switch (indexPath.row) {
                 case 0:
-                    [EasyShowView showLoding];
+                    [EasyShowOptions sharedEasyShowOptions].showLodingType = ShowLodingTypeLeftDefault ;
+//                    [EasyShowView showLoding];
+                    [EasyShowView showLodingText:@"加载均发生了；发送卡了见识到了看积分的数量看积分的数量看见饭店考虑中..."];
+
                     break;
                 case 1:
+                    [EasyShowOptions sharedEasyShowOptions].showLodingType = ShowLodingTypeLeftIndicator;
+                    [EasyShowView showLodingText:@"加载中..."];
+                    break ;
+                case 2:
+                    [EasyShowOptions sharedEasyShowOptions].showLodingType = ShowLodingTypeLeftImage ;
+                    [EasyShowView showLodingText:@"正在加载中,请稍后..." image:[UIImage imageNamed:@"HUD_NF.png"]];
+                    break ;
+                case 3:
                     [EasyShowView hidenLoding];
                     break ;
-                    
                 default:
                     break;
             }
@@ -135,7 +132,7 @@
     if (nil == _dataArray) {
         _dataArray = @[
                        @[@"纯文字",@"显示成功",@"显示失败",@"显示提示",@"显示图片"],
-                       @[@"显示加载框",@"隐藏加载框"]
+                       @[@"默认加载框",@"菊花加载框",@"图片加载框",@"隐藏加载框"]
                       ];
     }
     return _dataArray ;

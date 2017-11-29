@@ -17,7 +17,7 @@
 + (void)showLodingText:(NSString *)text image:(UIImage *)image ;
 + (void)showLodingText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView ;
 
-+ (void)showLodingText:(NSString *)text type:(ShowLodingType)lodingType ;
+//+ (void)showLodingText:(NSString *)text type:(ShowLodingType)lodingType ;
 
 
 + (void)hidenLoding ;
