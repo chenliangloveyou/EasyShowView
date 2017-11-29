@@ -14,31 +14,11 @@
 
 @interface EasyShowView : UIView
 
-+ (void)showText:(NSString *)text ;
-+ (void)showText:(NSString *)text inView:(UIView *)view ;
 
-+ (void)showSuccessText:(NSString *)text ;
-+ (void)showSuccessText:(NSString *)text inView:(UIView *)superView ;
+#pragma mark - pravite
 
-+ (void)showErrorText:(NSString *)text ;
-+ (void)showErrorText:(NSString *)text inView:(UIView *)superView ;
++ (void)showText:(NSString *)text inView:(UIView *)view image:(UIImage *)image stauts:(ShowStatus)status ;
 
-+ (void)showInfoText:(NSString *)text ;
-+ (void)showInfoText:(NSString *)text inView:(UIView *)superView ;
-
-+ (void)showImageText:(NSString *)text image:(UIImage *)image ;
-+ (void)showImageText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView ;
-
-
-+ (void)showLoding ;
-+ (void)showLodingText:(NSString *)text ;
-+ (void)showLodingText:(NSString *)text inView:(UIView *)superView ;
-+ (void)showLodingText:(NSString *)text image:(UIImage *)image ;
-+ (void)showLodingText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView ;
-
-
-+ (void)hidenLoding ;
-+ (void)hidenLoingInView:(UIView *)superView ;
-+ (void)hidenAllLoding ;
+- (void)clearCurrentShow ;
 
 @end

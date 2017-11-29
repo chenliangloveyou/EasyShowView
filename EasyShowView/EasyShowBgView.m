@@ -10,10 +10,6 @@
 
 #import "UIView+EasyShowExt.h"
 #import "EasyShowUtils.h"
-#import "EasyShowOptions.h"
-
-#define kDrawImageWH 40
-#define KImageEdgeH 15
 
 @interface EasyShowBgView()
 
@@ -30,25 +26,25 @@
 - (instancetype)initWithFrame:(CGRect)frame status:(ShowStatus)status text:(NSString *)text image:(UIImage *)image
 {
     if ([super initWithFrame:frame]) {
+       
         _showStatus = status ;
         
-        CGSize textSize = [EasyShowUtils textWidthWithStirng:text
-                                                    font:self.options.textFount
-                                                maxWidth:self.options.maxWidthScale*SCREEN_WIDTH];
-        
-        self.textLabel.text = text ;
-        self.textLabel.frame = CGRectMake(20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
-        
+        if (!ISEMPTY(text)) {
+            CGSize textSize = [EasyShowUtils textWidthWithStirng:text
+                                                            font:self.options.textFount
+                                                        maxWidth:self.options.maxWidthScale*SCREEN_WIDTH];
+            
+            self.textLabel.text = text ;
+            self.textLabel.frame = CGRectMake(20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
+            
+        }
+       
         if (status == ShowStatusImage) {
             self.imageView.image = image ;
         }
         
         self.backgroundColor = self.options.backGroundColor ;
         [self setRoundedCorners];
-//        UIRectCornerAllCorners
-//    borderWidth:15
-//    borderColor:[UIColor clearColor]
-//    cornerSize:CGSizeMake(5, 5)
     }
     return self ;
 }
@@ -86,7 +82,7 @@
 }
 - (void)drawRect:(CGRect)rect
 {
-    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake((self.width-kDrawImageWH)/2, KImageEdgeH, kDrawImageWH, kDrawImageWH)
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake((self.width-kDrawImageWH)/2, KDrawImageEdgeH, kDrawImageWH, kDrawImageWH)
                                                     cornerRadius:kDrawImageWH/2];
     UIColor *drawColor = nil ;
     switch (_showStatus) {
@@ -94,29 +90,29 @@
             return ;
         case ShowStatusSuccess:
         {
-            [path moveToPoint:CGPointMake((self.width-kDrawImageWH)/2+kDrawImageWH/4, KImageEdgeH +3 + kDrawImageWH/2)];
-            [path addLineToPoint:CGPointMake(self.width/2, KImageEdgeH + kDrawImageWH*3/4)];
-            [path addLineToPoint:CGPointMake(self.width/2 + kDrawImageWH*1/3, KImageEdgeH + kDrawImageWH*1/3)];
+            [path moveToPoint:CGPointMake((self.width-kDrawImageWH)/2+kDrawImageWH/4, KDrawImageEdgeH +3 + kDrawImageWH/2)];
+            [path addLineToPoint:CGPointMake(self.width/2, KDrawImageEdgeH + kDrawImageWH*3/4)];
+            [path addLineToPoint:CGPointMake(self.width/2 + kDrawImageWH*1/3, KDrawImageEdgeH + kDrawImageWH*1/3)];
             
             drawColor = [UIColor greenColor] ;
         } break;
         case ShowStatusError:
         {
-            [path moveToPoint:CGPointMake(self.width/2-kDrawImageWH/4, KImageEdgeH+kDrawImageWH/4)];
-            [path addLineToPoint:CGPointMake(self.width/2+kDrawImageWH/4, KImageEdgeH+kDrawImageWH*3/4)];
+            [path moveToPoint:CGPointMake(self.width/2-kDrawImageWH/4, KDrawImageEdgeH+kDrawImageWH/4)];
+            [path addLineToPoint:CGPointMake(self.width/2+kDrawImageWH/4, KDrawImageEdgeH+kDrawImageWH*3/4)];
             
-            [path moveToPoint:CGPointMake(self.width/2+kDrawImageWH/4, KImageEdgeH+kDrawImageWH/4)];
-            [path addLineToPoint:CGPointMake(self.width/2-kDrawImageWH/4, KImageEdgeH+kDrawImageWH*3/4)];
+            [path moveToPoint:CGPointMake(self.width/2+kDrawImageWH/4, KDrawImageEdgeH+kDrawImageWH/4)];
+            [path addLineToPoint:CGPointMake(self.width/2-kDrawImageWH/4, KDrawImageEdgeH+kDrawImageWH*3/4)];
             
             drawColor = [UIColor redColor] ;
         }break ;
         case ShowStatusInfo:
         {
-            [path moveToPoint:CGPointMake(self.width/2, KImageEdgeH + kDrawImageWH/4 )];
-            [path addLineToPoint:CGPointMake(self.width/2,KImageEdgeH + kDrawImageWH/4 + 3)];
+            [path moveToPoint:CGPointMake(self.width/2, KDrawImageEdgeH + kDrawImageWH/4 )];
+            [path addLineToPoint:CGPointMake(self.width/2,KDrawImageEdgeH + kDrawImageWH/4 + 3)];
             
-            [path moveToPoint:CGPointMake(self.width/2,KImageEdgeH + kDrawImageWH/4 + 6)];
-            [path addLineToPoint:CGPointMake(self.width/2,KImageEdgeH + kDrawImageWH*3/4 )];
+            [path moveToPoint:CGPointMake(self.width/2,KDrawImageEdgeH + kDrawImageWH/4 + 6)];
+            [path addLineToPoint:CGPointMake(self.width/2,KDrawImageEdgeH + kDrawImageWH*3/4 )];
             
             drawColor = [UIColor lightGrayColor] ;
         }break ;
@@ -144,7 +140,7 @@
 - (UIImageView *)imageView
 {
     if (nil == _imageView) {
-        _imageView = [[UIImageView alloc]initWithFrame:CGRectMake((self.width-kDrawImageWH)/2, KImageEdgeH, kDrawImageWH, kDrawImageWH)];
+        _imageView = [[UIImageView alloc]initWithFrame:CGRectMake((self.width-kDrawImageWH)/2, KDrawImageEdgeH, kDrawImageWH, kDrawImageWH)];
         [self addSubview:_imageView] ;
     }
     return _imageView ;

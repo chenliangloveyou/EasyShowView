@@ -21,13 +21,14 @@ singleton_implementation(EasyShowOptions)
 {
     if (self = [super init]) {
         _textFount = [UIFont systemFontOfSize:17];
-        _textColor = [UIColor blackColor];
-        _backGroundColor = [UIColor whiteColor];
+        _backGroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.9];
+        _textColor = [UIColor whiteColor];
         
         _showShadow = YES ;
         _shadowColor = [UIColor blueColor];
         
         _maxWidthScale = 0.8 ;
+        _maxShowTime = 6.0f ;
         _superViewReceiveEvent = NO ;
         _textStatusType = ShowStatusTextTypeBottom  ;
         _showStartAnimation = YES ;

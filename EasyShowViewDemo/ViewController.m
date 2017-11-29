@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 #import "EasyShowView.h"
+#import "EasyShowView+Loding.h"
+#import "EasyShowView+Text.h"
 #import "EasyShowOptions.h"
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -68,7 +70,7 @@
                     [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowStatusTextTypeBottom ;
                     [EasyShowView showText:@"今天发的拉伸；试大家了"];
                 }
-//                    [EasyShowView showSuccessText:@"恭喜您通过所有关卡"];
+//                    [EasyShowView showSuccessText:@"恭喜您通过所有关卡!"];
                     break ;
                 case 2:
                 {  [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowStatusTextTypeMidden ;
@@ -89,7 +91,7 @@
         case 1:
             switch (indexPath.row) {
                 case 0:
-                    [EasyShowView showLodingText:@"加载中..."];
+                    [EasyShowView showLoding];
                     break;
                 case 1:
                     [EasyShowView hidenLoding];

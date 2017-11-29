@@ -38,29 +38,153 @@
 }
 
 
-
-- (NSTimer *)removeTimer
++ (void)showText:(NSString *)text inView:(UIView *)view image:(UIImage *)image stauts:(ShowStatus)status
 {
-    if (nil == _removeTimer) {
-        _removeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+    if (ISEMPTY(text) && status!=ShowStatusLoding) {
+        NSAssert(NO, @"you should set a text for showView !");
+        return ;
     }
-    return _removeTimer ;
+    if (nil == view) {
+        NSAssert(NO, @"there shoud have a superview");
+        return ;
+    }
+    
+    NSAssert([NSThread isMainThread], @"needs to be accessed on the main thread.");
+    
+    //隐藏之前还在显示的视图
+    NSEnumerator *subviewsEnum = [view.subviews reverseObjectEnumerator];
+    for (UIView *subview in subviewsEnum) {
+        if ([subview isKindOfClass:self]) {
+            EasyShowView *showView = (EasyShowView *)subview ;
+            [showView clearCurrentShow];
+        }
+    }
+    
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+        });
+    }
+    
+    EasyShowView  *showView = [[EasyShowView alloc]initWithFrame:CGRectZero text:text status:status image:image];
+    [showView showViewWithSuperView:view];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame text:(NSString *)text status:(ShowStatus)status image:(UIImage *)image
+{
+    if (self = [super initWithFrame:frame]) {
+        
+        self.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.02];
+        
+        _showText = text ;
+        _showImage = image ;
+        _showStatus = status ;
+        _showTime = 1 + text.length*0.1 ;
+        if (_showTime > self.options.maxShowTime)  _showTime = self.options.maxShowTime ;
+        
+        _timerShowTime = 0 ;
+    }
+    return self ;
+}
+
+- (void)showViewWithSuperView:(UIView *)superView
+{
+    CGSize textSize = CGSizeZero ;
+    if (!ISEMPTY(self.showText)) {
+        textSize = [EasyShowUtils textWidthWithStirng:self.showText
+                                                 font:self.options.textFount
+                                             maxWidth:self.options.maxWidthScale*SCREEN_WIDTH];
+    }
+
+    //50 = imageH:40 + 上下边距:10
+    CGFloat imageH = self.showStatus==ShowStatusText ?:(kDrawImageWH + KDrawImageEdgeH) ;
+    CGFloat backGroundH = (textSize.height?(textSize.height+30):0) + imageH ;
+    CGFloat backGroundW = (textSize.width?(textSize.width+40):0)  ;
+    if (backGroundW < kShowViewMinWidth) {
+        backGroundW = kShowViewMinWidth  ;
+    }
+    
+    //计算出showView的大小
+    if (self.showStatus == ShowStatusLoding) {//特殊处理
+        if (self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
+           
+        }
+        else{   //上下的形式
+
+        }
+    }
+    
+    CGFloat showFrameY = (SCREEN_HEIGHT-backGroundH)/2  ;
+    if (self.showStatus == ShowStatusText) {
+        switch (self.options.textStatusType ) {
+            case ShowStatusTextTypeTop:
+                showFrameY = STATUSBAR_ORGINAL_HEIGHT + kTextShowEdgeDistance ;
+                break;
+            case ShowStatusTextTypeBottom:
+                showFrameY = SCREEN_HEIGHT - backGroundH - kTextShowEdgeDistance ;
+                break ;
+            default: break;
+        }
+    }
+    
+    CGRect showFrame = CGRectMake(0, 0, backGroundW, backGroundH);
+    if (self.options.superViewReceiveEvent) {//父视图不能接受事件
+       
+        self.frame =  CGRectMake((SCREEN_WIDTH-backGroundW)/2, showFrameY, backGroundW, backGroundH);
+    }
+    else{//父视图接受事件   self的大小为显示的区域
+      
+        self.frame = CGRectMake(0, 0, superView.width, superView.height) ;
+        showFrame.origin = CGPointMake((self.width-backGroundW)/2, showFrameY) ;
+    }
+    
+    self.showBgView = [[EasyShowBgView alloc]initWithFrame:showFrame
+                                                    status:self.showStatus
+                                                      text:self.showText
+                                                     image:self.showImage];
+    [self addSubview:self.showBgView];
+    
+    if (self.showStatus != ShowStatusLoding) {
+        [self.removeTimer fire];
+    }
+    
+    if (self.options.showStartAnimation) {
+        [self.showBgView showStartAnimationWithDuration:self.options.showAnimationDuration];
+        [superView addSubview:self];
+    }
+    else{
+        self.alpha = 0.1 ;
+        [UIView animateWithDuration:self.options.showAnimationDuration animations:^{
+            self.alpha = 1.0 ;
+        } completion:^(BOOL finished) {
+            [superView addSubview:self];
+        }];
+    }
+    
+    if (self.options.showShadow) {
+        CGFloat afterStart = self.options.showStartAnimation ? self.options.showAnimationDuration :0;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(afterStart * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self showBackgrouldsubLayer];
+        });
+    }
+}
+
+- (void)clearCurrentShow
+{
+    _timerShowTime = [EasyShowOptions sharedEasyShowOptions].maxShowTime + 1 ;
+    [self timerAction];
 }
 - (void)timerAction
 {
     if (_timerShowTime >= _showTime ) {
         
         _timerShowTime = 0 ;
-        [_removeTimer invalidate];
-        _removeTimer = nil ;
-        
+        if (_removeTimer) {
+            [_removeTimer invalidate];
+            _removeTimer = nil ;
+        }
+       
         if (self.options.showShadow) {
-            for (CALayer *subLayer in self.layer.sublayers) {
-                if ([subLayer.name isEqualToString:@"addSubLayer"]) {
-                    [subLayer removeFromSuperlayer];
-                    break ;
-                }
-            }
+            [self hiddenBackgrouldsubLayer];
         }
         
         if (self.options.showEndAnimation) {
@@ -78,122 +202,33 @@
         }
     }
     _timerShowTime++ ;
-
+    
 }
 
-- (instancetype)initWithFrame:(CGRect)frame text:(NSString *)text status:(ShowStatus)status image:(UIImage *)image
+- (void)showBackgrouldsubLayer
 {
-    if (self = [super initWithFrame:frame]) {
-        
-        self.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.02];
-
-        _showText = text ;
-        _showImage = image ;
-        _showStatus = status ;
-        _showTime = 1 + text.length*0.1 ;
-        if (_showTime > 6)  _showTime = 6 ;
+    CALayer *addSubLayer=[CALayer layer];
+    addSubLayer.frame= self.showBgView.frame;
+    addSubLayer.cornerRadius=8;
+    addSubLayer.backgroundColor=self.options.backGroundColor.CGColor;
+    addSubLayer.masksToBounds=NO;
+    addSubLayer.name = @"backgrouldsubLayer";
+    addSubLayer.shadowColor = self.options.shadowColor.CGColor;
+    addSubLayer.shadowOffset = CGSizeMake(0.5, 2);
+    addSubLayer.shadowOpacity = 0.6;
+    addSubLayer.shadowRadius = 4;
+    [self.layer insertSublayer:addSubLayer below:self.showBgView.layer];
     
-        _timerShowTime = 0 ;
-    }
-    return self ;
 }
-
-- (void)showViewWithSuperView:(UIView *)superView
+- (void)hiddenBackgrouldsubLayer
 {
-    
-    CGSize textSize = [EasyShowUtils textWidthWithStirng:self.showText
-                                                font:self.options.textFount
-                                            maxWidth:self.options.maxWidthScale*SCREEN_WIDTH];
-    
-    //50 = imageH:40 + 上下边距:10
-    CGFloat imageH = self.showStatus==ShowStatusText ?0:60 ;
-    CGFloat backGroundH = textSize.height + 30 + imageH ;
-    CGFloat backGroundW = textSize.width + 40 ;
-    
-    CGRect showFrame = CGRectMake(0, 0, backGroundW, backGroundH);
-    
-    if (!self.options.superViewReceiveEvent) {//父视图不能接受事件
-        
-        self.bounds = superView.bounds ;
-        self.center = superView.center ;
-
-        CGFloat showFrameY = (self.height-backGroundH)/2  ;
-        if (self.showStatus == ShowStatusText) {
-            switch (self.options.textStatusType ) {
-                case ShowStatusTextTypeTop:
-                    showFrameY = [UIApplication sharedApplication].statusBarFrame.size.height + 50 ;
-                    break;
-                case ShowStatusTextTypeBottom:
-                    showFrameY = self.height - backGroundH - 50 ;
-                    break ;
-                default: break;
-            }
+    for (CALayer *subLayer in self.layer.sublayers) {
+        if ([subLayer.name isEqualToString:@"backgrouldsubLayer"]) {
+            [subLayer removeFromSuperlayer];
+            break ;
         }
-        showFrame = CGRectMake((self.width-backGroundW)/2, showFrameY, backGroundW, backGroundH);
-
-    }
-    else{//父视图接受事件   self的大小为显示的区域
-        
-        CGFloat showFrameY = (SCREEN_HEIGHT-self.height)/2 ;
-        if (self.showStatus == ShowStatusText) {
-            switch (self.options.textStatusType ) {
-                case ShowStatusTextTypeTop:
-                    showFrameY = [UIApplication sharedApplication].statusBarFrame.size.height + 50 ;
-                    break;
-                case ShowStatusTextTypeBottom:
-                    showFrameY = SCREEN_HEIGHT - backGroundH - 50 ;
-                    break ;
-                default: break;
-            }
-        }
-        self.frame =  CGRectMake((SCREEN_WIDTH-backGroundW)/2, showFrameY, backGroundW, backGroundH);
-        showFrame = CGRectMake(0, 0, backGroundW, backGroundH) ;
-//        [self setRoundedCorners:UIRectCornerAllCorners borderWidth:1 borderColor:[UIColor clearColor] cornerSize:CGSizeMake(5, 5)];
-
-    }
-    
-    self.showBgView = [[EasyShowBgView alloc]initWithFrame:showFrame status:self.showStatus text:self.showText image:self.showImage];
-    [self addSubview:self.showBgView];
-
-    if (self.showStatus != ShowStatusLoding) {
-        [self.removeTimer fire];
-    }
-
-  
-    if (self.options.showStartAnimation) {
-        [self.showBgView showStartAnimationWithDuration:self.options.showAnimationDuration];
-        [superView addSubview:self];
-    }
-    else{
-        self.alpha = 0.1 ;
-        [UIView animateWithDuration:self.options.showAnimationDuration animations:^{
-            self.alpha = 1.0 ;
-        } completion:^(BOOL finished) {
-            [superView addSubview:self];
-        }];
-    }
-    
-    if (self.options.showShadow) {
-        
-        CGFloat afterStart = self.options.showStartAnimation ? self.options.showAnimationDuration :0;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(afterStart * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            CALayer *addSubLayer=[CALayer layer];
-            addSubLayer.frame= self.showBgView.frame;
-            addSubLayer.cornerRadius=8;
-            addSubLayer.backgroundColor=self.options.shadowColor.CGColor;
-            addSubLayer.masksToBounds=NO;
-            addSubLayer.name = @"addSubLayer";
-            addSubLayer.shadowColor = self.options.shadowColor.CGColor;
-            addSubLayer.shadowOffset = CGSizeMake(3,2);
-            addSubLayer.shadowOpacity = 0.8;
-            addSubLayer.shadowRadius = 4;
-            [self.layer insertSublayer:addSubLayer below:self.showBgView.layer];
-            
-        });
     }
 }
-
 
 - (EasyShowOptions *)options
 {
@@ -203,130 +238,14 @@
     return _options ;
 }
 
-
-+ (void)showText:(NSString *)text inView:(UIView *)view image:(UIImage *)image stauts:(ShowStatus)status
+- (NSTimer *)removeTimer
 {
-    if (ISEMPTY(text)) {
-        NSAssert(NO, @"you should set a text for showView !");
-        return ;
+    if (nil == _removeTimer) {
+        _removeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
     }
-    if (nil == view) {
-        NSAssert(NO, @"there shoud have a superview");
-        return ;
-    }
-    
-    NSAssert([NSThread isMainThread], @"needs to be accessed on the main thread.");
-    
-    //隐藏之前还在显示的视图
-    NSEnumerator *subviewsEnum = [view.subviews reverseObjectEnumerator];
-    for (UIView *subview in subviewsEnum) {
-        if ([subview isKindOfClass:self]) {
-            EasyShowView *showView = (EasyShowView *)subview ;
-            showView.timerShowTime = 10 ;
-            [showView timerAction];
-        }
-    }
-    
-    if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-        });
-    }
-    
-    EasyShowView  *showView = [[EasyShowView alloc]initWithFrame:CGRectZero text:text status:status image:image];
-    [showView showViewWithSuperView:view];
+    return _removeTimer ;
 }
 
-+ (void)showLoding
-{
-    [EasyShowView showLodingText:@"加载中..."];
-}
-+ (void)showLodingText:(NSString *)text
-{
-    UIView *showView = [UIApplication sharedApplication].keyWindow ;
-    [EasyShowView showLodingText:text inView:showView];
-}
-+ (void)showLodingText:(NSString *)text inView:(UIView *)superView
-{
-    [EasyShowView showText:text inView:superView image:nil stauts:ShowStatusLoding];
-}
-+ (void)showLodingText:(NSString *)text image:(UIImage *)image
-{
-    
-}
-+ (void)showLodingText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView
-{
-    
-}
-+ (void)hidenLoding
-{
-    UIView *showView = [UIApplication sharedApplication].keyWindow ;
-    [EasyShowView hidenLoingInView:showView];
-}
-+ (void)hidenAllLoding
-{
-    
-}
-+ (void)hidenLoingInView:(UIView *)superView
-{
-    NSEnumerator *subviewsEnum = [superView.subviews reverseObjectEnumerator];
-    for (UIView *subview in subviewsEnum) {
-        if ([subview isKindOfClass:self]) {
-            EasyShowView *showView = (EasyShowView *)subview ;
-            showView.timerShowTime = 10 ;
-            [showView timerAction];
-        }
-    }
-}
-+ (void)showText:(NSString *)text
-{
-    UIView *showView = [UIApplication sharedApplication].keyWindow ;
-    [EasyShowView showText:text inView:showView];
-}
-
-+ (void)showText:(NSString *)text inView:(UIView *)view
-{
-    [EasyShowView showText:text inView:view image:nil stauts:ShowStatusText];
-}
-
-+ (void)showSuccessText:(NSString *)text
-{
-    UIView *showView = [UIApplication sharedApplication].keyWindow ;
-    [EasyShowView showSuccessText:text inView:showView];
-}
-+ (void)showSuccessText:(NSString *)text inView:(UIView *)superView
-{
-    [EasyShowView showText:text inView:superView image:nil stauts:ShowStatusSuccess];
-}
-
-+ (void)showErrorText:(NSString *)text
-{
-    UIView *showView = [UIApplication sharedApplication].keyWindow ;
-    [EasyShowView showErrorText:text inView:showView];
-}
-+ (void)showErrorText:(NSString *)text inView:(UIView *)superView
-{
-    [EasyShowView showText:text inView:superView image:nil stauts:ShowStatusError];
-}
-
-+ (void)showInfoText:(NSString *)text
-{
-    UIView *showView = [UIApplication sharedApplication].keyWindow ;
-    [EasyShowView showInfoText:text inView:showView];
-}
-+ (void)showInfoText:(NSString *)text inView:(UIView *)superView
-{
-    [EasyShowView showText:text inView:superView image:nil stauts:ShowStatusInfo];
-}
-
-+ (void)showImageText:(NSString *)text image:(UIImage *)image
-{
-    UIView *showView = [UIApplication sharedApplication].keyWindow ;
-    [EasyShowView showImageText:text image:image inView:showView] ;
-}
-+ (void)showImageText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView
-{
-    [EasyShowView showText:text inView:superView image:image stauts:ShowStatusImage] ;
-}
 @end
 
 
