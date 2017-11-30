@@ -44,6 +44,9 @@
 //statusbar默认高度 orginal
 #define STATUSBAR_ORGINAL_HEIGHT  ([UIApplication sharedApplication].statusBarFrame.size.height)
 
+//最上面的控制器
+#define kTopViewController [EasyShowUtils topViewController]
+
 
 #define singleton_interface(name) +(instancetype)shared##name;
 
@@ -77,6 +80,8 @@ return _instance;       \
 @interface EasyShowUtils : NSObject
 
 + (CGSize)textWidthWithStirng:(NSString *)string font:(UIFont *)font maxWidth:(CGFloat)maxWidth ;
+
++ (UIViewController *)topViewController ;
 
 @end
 

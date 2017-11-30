@@ -19,7 +19,7 @@
 }
 + (void)showLodingText:(NSString *)text
 {
-    UIView *showView = [UIApplication sharedApplication].keyWindow ;
+    UIView *showView = kTopViewController.view ;
     [EasyShowView showLodingText:text inView:showView];
 }
 + (void)showLodingText:(NSString *)text inView:(UIView *)superView
@@ -28,7 +28,7 @@
 }
 + (void)showLodingText:(NSString *)text image:(UIImage *)image
 {
-    UIView *showView = [UIApplication sharedApplication].keyWindow ;
+    UIView *showView = kTopViewController.view ;
     [EasyShowView showLodingText:text image:image inView:showView];
 }
 + (void)showLodingText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView
@@ -39,7 +39,7 @@
 
 + (void)hidenLoding
 {
-    UIView *showView = [UIApplication sharedApplication].keyWindow ;
+    UIView *showView = kTopViewController.view ;
     [EasyShowView hidenLoingInView:showView];
 }
 + (void)hidenAllLoding

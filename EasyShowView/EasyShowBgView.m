@@ -57,11 +57,11 @@
                 self.imageView.top  = KDrawImageEdgeH ;
             }
             
-            if (self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
+            if (self.showStatus==ShowStatusLoding && self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
                 self.textLabel.frame = CGRectMake(kDrawImageWH + 20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
             }
         }
-        if (self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
+        if (self.showStatus==ShowStatusLoding && self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
             self.imageView.frame = CGRectMake(KDrawImageEdgeH/2, KDrawImageEdgeH/2, kDrawImageWH, kDrawImageWH);
         }
         if (image) {

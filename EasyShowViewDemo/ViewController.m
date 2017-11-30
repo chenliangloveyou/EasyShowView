@@ -81,19 +81,21 @@
             }
             break;
         case 1:
+        {
+            static int b_0 = 0 ;
             switch (indexPath.row) {
                 case 0:
-                    [EasyShowOptions sharedEasyShowOptions].showLodingType = ShowLodingTypeLeftDefault ;
-//                    [EasyShowView showLoding];
-                    [EasyShowView showLodingText:@"加载均发生了；发送卡了见识到了看积分的数量看积分的数量看见饭店考虑中..."];
+                {
+                    [EasyShowOptions sharedEasyShowOptions].showLodingType = ++b_0%2 ? ShowLodingTypeLeftDefault : ShowLodingTypeDefault ;
+                    [EasyShowView showLodingText:@"默认加载中..."];
 
-                    break;
+                } break;
                 case 1:
-                    [EasyShowOptions sharedEasyShowOptions].showLodingType = ShowLodingTypeLeftIndicator;
-                    [EasyShowView showLodingText:@"加载中..."];
+                    [EasyShowOptions sharedEasyShowOptions].showLodingType = ++b_0%2 ? ShowLodingTypeLeftIndicator : ShowLodingTypeIndicator ;
+                    [EasyShowView showLodingText:@"菊花加载中..."];
                     break ;
                 case 2:
-                    [EasyShowOptions sharedEasyShowOptions].showLodingType = ShowLodingTypeLeftImage ;
+                    [EasyShowOptions sharedEasyShowOptions].showLodingType = ++b_0%2 ? ShowLodingTypeLeftImage : ShowLodingTypeImage ;
                     [EasyShowView showLodingText:@"正在加载中,请稍后..." image:[UIImage imageNamed:@"HUD_NF.png"]];
                     break ;
                 case 3:
@@ -102,6 +104,7 @@
                 default:
                     break;
             }
+        }
         default:
             break;
     }
