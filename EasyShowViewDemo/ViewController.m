@@ -10,6 +10,7 @@
 #import "EasyShowView.h"
 #import "EasyShowView+Loding.h"
 #import "EasyShowView+Text.h"
+#import "EasyShowView+Alert.h"
 #import "EasyShowOptions.h"
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -61,7 +62,7 @@
         case 0:
             switch (indexPath.row) {
                 case 0:{
-                    [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowStatusTextTypeTop ;
+                    [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowStatusTextTypeStatusBar ;
                     [EasyShowView showText:@"今天发的拉伸发送；了解来看四大皆空了试大家了"];
                 } break;
                 case 1:
@@ -85,11 +86,9 @@
             static int b_0 = 0 ;
             switch (indexPath.row) {
                 case 0:
-                {
                     [EasyShowOptions sharedEasyShowOptions].showLodingType = ++b_0%2 ? ShowLodingTypeLeftDefault : ShowLodingTypeDefault ;
                     [EasyShowView showLodingText:@"默认加载中..."];
-
-                } break;
+                    break;
                 case 1:
                     [EasyShowOptions sharedEasyShowOptions].showLodingType = ++b_0%2 ? ShowLodingTypeLeftIndicator : ShowLodingTypeIndicator ;
                     [EasyShowView showLodingText:@"菊花加载中..."];
@@ -101,6 +100,23 @@
                 case 3:
                     [EasyShowView hidenLoding];
                     break ;
+                default:
+                    break;
+            }
+        }break ;
+        case 2:
+        {
+            switch (indexPath.row) {
+                case 0:
+                    [EasyShowView showAlertWithTitle:@"提示" desc:@"发送开机发送开机" buttonArray:@[@"取消",@"确定",@"您好",@"确定",@"您好"] callBack:nil];
+                    break;
+                case 1:
+                {
+                    __block NSArray *titleArray = @[@"确定",@"取消",@"点击迪桑阿牛"] ;
+                    [EasyShowView showAlertSystemWithTitle:@"提示" desc:@"这是提示先的副标题(可以为空)" buttonArray:titleArray callBack:^(NSUInteger index) {
+                        NSLog(@"%zd----  %@",index ,titleArray[index]);
+                    }];
+                }break;
                 default:
                     break;
             }
@@ -135,7 +151,8 @@
     if (nil == _dataArray) {
         _dataArray = @[
                        @[@"纯文字",@"显示成功",@"显示失败",@"显示提示",@"显示图片"],
-                       @[@"默认加载框",@"菊花加载框",@"图片加载框",@"隐藏加载框"]
+                       @[@"默认加载框",@"菊花加载框",@"图片加载框",@"隐藏加载框"] ,
+                       @[@"展示alertView",@"展示系统alertView"]
                       ];
     }
     return _dataArray ;

@@ -28,6 +28,7 @@ typedef NS_ENUM(NSUInteger , ShowStatusTextType) {
     ShowStatusTextTypeTop = 0 ,
     ShowStatusTextTypeMidden ,
     ShowStatusTextTypeBottom,
+    ShowStatusTextTypeStatusBar ,//在statusbar上显示
 };
 
 /**
@@ -40,7 +41,7 @@ typedef NS_ENUM(NSUInteger , ShowLodingType) {
     ShowLodingTypeLeftDefault ,//默认在左边转圈样式
     ShowLodingTypeLeftIndicator , //菊花在左边的样式
     ShowLodingTypeLeftImage,//自动以图片左边转圈样式
-    
+//    ShowLodingTypeCustomImages ,//以一个图片数组轮流播放
 };
 
 #define kDrawImageWH 40     //显示图片的宽高

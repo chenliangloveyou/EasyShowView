@@ -8,6 +8,16 @@
 
 #import "EasyShowView.h"
 
+typedef void (^showAlertCallback)(NSUInteger index);
 @interface EasyShowView (Alert)
 
++ (void)showAlertWithTitle:(NSString *)title
+                      desc:(NSString *)desc
+               buttonArray:(NSArray *)buttonArray
+                  callBack:(showAlertCallback)callback ;
+
++ (void)showAlertSystemWithTitle:(NSString *)title
+                            desc:(NSString *)desc
+                     buttonArray:(NSArray *)buttonArray
+                        callBack:(showAlertCallback)callback ;
 @end

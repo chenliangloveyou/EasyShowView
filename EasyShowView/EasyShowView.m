@@ -14,6 +14,7 @@
 
 #import "EasyShowOptions.h"
 
+//static UIWindow *_showTextWindow;
 
 @interface EasyShowView()<CAAnimationDelegate>
 
@@ -26,15 +27,18 @@
 @property (nonatomic,assign)CGFloat showTime ;
 @property CGFloat timerShowTime ;//定时器走动的时间
 
+@property (nonatomic,strong)UIWindow *showTextWindow ;
 
 @property (nonatomic,strong)EasyShowBgView *showBgView ;//用于放图片和文字的背景
 
 @end
 
 @implementation EasyShowView
+
 - (void)dealloc
 {
-//    NSLog(@"%p dealloc",self );
+    _showTextWindow = nil ;
+    NSLog(@"%p dealloc",self );
 }
 
 
@@ -86,6 +90,19 @@
     return self ;
 }
 
+
+- (UIWindow *)showTextWindow
+{
+    if (nil == _showTextWindow) {
+        _showTextWindow = [[UIWindow alloc]initWithFrame:CGRectMake(0, -STATUSBAR_ORGINAL_HEIGHT , SCREEN_WIDTH, STATUSBAR_ORGINAL_HEIGHT+ 20 )];
+        _showTextWindow.backgroundColor = self.options.backGroundColor ;
+        _showTextWindow.windowLevel = UIWindowLevelAlert;
+        _showTextWindow.hidden = NO ;
+//        [_showTextWindow becomeKeyWindow] ;
+        _showTextWindow.alpha = 1;
+    }
+    return _showTextWindow ;
+}
 - (void)showViewWithSuperView:(UIView *)superView
 {
     CGSize textSize = CGSizeZero ;
@@ -95,6 +112,22 @@
                                              maxWidth:self.options.maxWidthScale*SCREEN_WIDTH];
     }
 
+    
+    //这是显示在statusbar上的情况
+    if (self.showStatus==ShowStatusText && self.options.textStatusType==ShowStatusTextTypeStatusBar) {
+
+        [superView addSubview:self];
+        
+//        [self.removeTimer fire];
+
+        [UIView animateWithDuration:self.options.showAnimationDuration animations:^{
+            CGRect frame = self.showTextWindow.frame;
+            frame.origin.y = 0;
+            self.showTextWindow.frame = frame;
+        }];
+        return ;
+    }
+    
     //50 = imageH:40 + 上下边距:10
     //无文字。 W:60 H: 60 有文字。W:文字宽度+40,>=100 H:文字高+30+图片高,
     
