@@ -131,19 +131,19 @@
     //50 = imageH:40 + 上下边距:10
     //无文字。 W:60 H: 60 有文字。W:文字宽度+40,>=100 H:文字高+30+图片高,
     
-    CGFloat imageH = self.showStatus==ShowStatusText ?:(kDrawImageWH + KDrawImageEdgeH) ;
+    CGFloat imageH = self.showStatus==ShowStatusText ?:(EasyDrawImageWH + KDrawImageEdgeH) ;
     CGFloat backGroundH = (textSize.height?(textSize.height+30):0) + imageH ;
     CGFloat backGroundW = textSize.width?(textSize.width+40):0  ;
-    if (backGroundW < kShowViewMinWidth) {
-        backGroundW = kShowViewMinWidth  ;
+    if (backGroundW < EasyShowViewMinWidth) {
+        backGroundW = EasyShowViewMinWidth  ;
     }
     
     //计算出showView的大小
     if (self.showStatus == ShowStatusLoding) {//特殊处理
         if (self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
             backGroundH = textSize.height + 30 ;
-            if (backGroundH < kShowViewMinWidth) {
-                backGroundH = kShowViewMinWidth ;
+            if (backGroundH < EasyShowViewMinWidth) {
+                backGroundH = EasyShowViewMinWidth ;
             }
             backGroundW  = (textSize.width?(textSize.width+40):0) + imageH ;
         }
@@ -281,6 +281,8 @@
 {
     if (nil == _removeTimer) {
         _removeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_removeTimer forMode:NSRunLoopCommonModes];
+
     }
     return _removeTimer ;
 }

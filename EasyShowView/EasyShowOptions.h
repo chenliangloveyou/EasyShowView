@@ -44,11 +44,11 @@ typedef NS_ENUM(NSUInteger , ShowLodingType) {
 //    ShowLodingTypeCustomImages ,//以一个图片数组轮流播放
 };
 
-#define kDrawImageWH 40     //显示图片的宽高
-#define KDrawImageEdgeH 20      //显示图片的边距
-#define kTextShowEdgeDistance 50 //显示纯文字时，当设置top和bottom的时候，距离屏幕上下的距离
+UIKIT_EXTERN const CGFloat EasyDrawImageWH ;
+UIKIT_EXTERN const CGFloat EasyDrawImageEdge ;
+UIKIT_EXTERN const CGFloat EasyTextShowEdge ;
+UIKIT_EXTERN const CGFloat EasyShowViewMinWidth ;
 
-#define kShowViewMinWidth 60 //视图最小的宽度
 
 @interface EasyShowOptions : NSObject
 
