@@ -34,7 +34,7 @@
 @implementation EasyShowView
 - (void)dealloc
 {
-    NSLog(@"%p dealloc",self );
+//    NSLog(@"%p dealloc",self );
 }
 
 
