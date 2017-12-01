@@ -108,17 +108,28 @@
         {
             switch (indexPath.row) {
                 case 0:
-                    [EasyShowView showAlertWithTitle:@"提示" desc:@"发送开机发送开机" buttonArray:@[@"取消",@"确定",@"您好",@"确定",@"您好"] callBack:nil];
+//                    [EasyShowView showAlertWithTitle:@"提示" desc:@"发送开机发送开机" buttonArray:@[@"取消",@"确定",@"您好",@"确定",@"您好"] callBack:nil];
                     break;
                 case 1:
                 {
-                    __block NSArray *titleArray = @[@"确定",@"取消",@"点击迪桑阿牛"] ;
-                    [EasyShowView showAlertSystemWithTitle:@"提示" desc:@"这是提示先的副标题(可以为空)" buttonArray:titleArray callBack:^(NSUInteger index) {
-                        NSLog(@"%zd----  %@",index ,titleArray[index]);
-                    }];
+//                    __block NSArray *titleArray = @[@"确定",@"取消",@"点击迪桑阿牛"] ;
+//                    [EasyShowView showAlertSystemWithTitle:@"提示" desc:@"这是提示先的副标题(可以为空)" buttonArray:titleArray callBack:^(NSUInteger index) {
+//                        NSLog(@"%zd----  %@",index ,titleArray[index]);
+//                    }];
                 }break;
                 default:
-                    break;
+                {
+                    EasyShowView *showAlet = [EasyShowView showActionSheetWithTitle:@"提示" message:@"这是提示的副标题"] ;
+                    [showAlet addItemWithTitle:@"确定" image:[UIImage imageNamed:@"HUD_NF.png"] itemType:9 callback:^(EasyShowView *showView, NSUInteger index) {
+                        NSLog(@"dddd");
+                    }];
+                    [showAlet addItemWithTitle:@"" image:nil itemType:ShowAlertItemTypeRed callback:^(EasyShowView *showView, NSUInteger index) {
+                        NSLog(@"read") ;
+                    }];
+                    
+                    [showAlet show];
+                }break ;
+                    
             }
         }
         default:

@@ -10,6 +10,19 @@
 #import <UIKit/UIKit.h>
 #import "EasyShowUtils.h"
 
+/**
+ * 添加一个item的样式，只有color和blod可选
+ */
+typedef NS_ENUM(NSInteger, ShowAlertItemType) {
+    ShowAlertItemTypeBlack = 0,  // 黑色字体
+    ShowAlertItemTypeBlodBlack , // 黑色加粗字体
+    ShowAlertItemTypeBlue,       // 蓝色字体
+    ShowAlertItemTypeBlodBlue,   // 蓝色加粗字体
+    ShowAlertItemTypeRed   ,     // 红色字体
+    ShowAlertItemTypeBlodRed ,   // 红色加粗字体
+    ShowStatusTextTypeCustom     //自定义的一种自己，需要在EasyShowOptions中配置，如果不配置将会是第一种(黑色字体)
+};
+
 
 typedef NS_ENUM(NSInteger, ShowStatus) {
     
@@ -29,6 +42,7 @@ typedef NS_ENUM(NSUInteger , ShowStatusTextType) {
     ShowStatusTextTypeMidden ,
     ShowStatusTextTypeBottom,
     ShowStatusTextTypeStatusBar ,//在statusbar上显示
+    ShowStatusTextTypeNavigation ,//在navigation上显示
 };
 
 /**

@@ -11,6 +11,8 @@
 
 #import "EasyShowUtils.h"
 
+#import "EasyShowAlertBgView.h"
+
 @interface EasyShowView()
 
 @property (nonatomic,strong)showAlertCallback showAlertCallback ;
@@ -30,13 +32,40 @@
     [self didChangeValueForKey:@"showAlertCallback"];
 }
 
-+ (void)showAlertWithTitle:(NSString *)title
-                      desc:(NSString *)desc
-               buttonArray:(NSArray *)buttonArray
-                  callBack:(showAlertCallback)callback
+
+- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message
+{
+    if (self = [super init]) {
+        
+    }
+    return self ;
+}
++ (instancetype)showActionSheetWithTitle:(NSString *)title message:(NSString *)message
+{
+    return [[self alloc] initWithTitle:title message:message];
+
+}
+
+- (void)addItemWithTitle:(NSString *)title image:(UIImage *)image itemType:(ShowAlertItemType)itemType callback:(showAlertCallback)callback
 {
     
 }
+- (void)show
+{
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
 + (void)showAlertSystemWithTitle:(NSString *)title
                             desc:(NSString *)desc
                      buttonArray:(NSArray *)buttonArray
@@ -61,7 +90,6 @@
             UIAlertAction *action = [UIAlertAction actionWithTitle:tempTitle style:showStyle handler:^(UIAlertAction *action){
                 dispatch_after(0.2, dispatch_get_main_queue(), ^{
 //                    if (sure) sure() ;
-                    callback(idx);
                     [alertController dismissViewControllerAnimated:YES completion:nil];
                 });
             }];

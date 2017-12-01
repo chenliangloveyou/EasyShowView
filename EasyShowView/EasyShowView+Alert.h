@@ -8,8 +8,24 @@
 
 #import "EasyShowView.h"
 
-typedef void (^showAlertCallback)(NSUInteger index);
+#import "EasyShowOptions.h"
+
+
+typedef void (^showAlertCallback)(EasyShowView *showView , NSUInteger index);
+
+
 @interface EasyShowView (Alert)
+
++ (instancetype)showActionSheetWithTitle:(NSString *)title
+                                 message:(NSString *)message ;
+
+- (void)addItemWithTitle:(NSString *)title
+                   image:(UIImage *)image
+                itemType:(ShowAlertItemType)itemType
+                callback:(showAlertCallback)callback;
+
+- (void)show ;
+
 
 + (void)showAlertWithTitle:(NSString *)title
                       desc:(NSString *)desc

@@ -131,7 +131,7 @@
     //50 = imageH:40 + 上下边距:10
     //无文字。 W:60 H: 60 有文字。W:文字宽度+40,>=100 H:文字高+30+图片高,
     
-    CGFloat imageH = self.showStatus==ShowStatusText ?:(EasyDrawImageWH + KDrawImageEdgeH) ;
+    CGFloat imageH = self.showStatus==ShowStatusText ?:(EasyDrawImageWH + EasyDrawImageEdge) ;
     CGFloat backGroundH = (textSize.height?(textSize.height+30):0) + imageH ;
     CGFloat backGroundW = textSize.width?(textSize.width+40):0  ;
     if (backGroundW < EasyShowViewMinWidth) {
@@ -156,10 +156,10 @@
     if (self.showStatus == ShowStatusText) {
         switch (self.options.textStatusType ) {
             case ShowStatusTextTypeTop:
-                showFrameY = STATUSBAR_ORGINAL_HEIGHT + kTextShowEdgeDistance ;
+                showFrameY = STATUSBAR_ORGINAL_HEIGHT + EasyTextShowEdge ;
                 break;
             case ShowStatusTextTypeBottom:
-                showFrameY = SCREEN_HEIGHT - backGroundH - kTextShowEdgeDistance ;
+                showFrameY = SCREEN_HEIGHT - backGroundH - EasyTextShowEdge ;
                 break ;
             default: break;
         }
