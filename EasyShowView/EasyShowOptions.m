@@ -29,7 +29,7 @@ singleton_implementation(EasyShowOptions)
         _textColor = [UIColor whiteColor];
         
         _showShadow = YES ;
-        _shadowColor = [UIColor blueColor];
+        _shadowColor = [UIColor redColor];
         
         _maxWidthScale = 0.8 ;
         _maxShowTime = 6.0f ;
