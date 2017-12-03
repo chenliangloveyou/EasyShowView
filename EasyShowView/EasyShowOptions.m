@@ -13,6 +13,8 @@ const CGFloat EasyDrawImageEdge = 20 ;  //显示图片的边距
 const CGFloat EasyTextShowEdge = 50 ;   //显示纯文字时，当设置top和bottom的时候，距离屏幕上下的距离
 const CGFloat EasyShowViewMinWidth = 60 ;//视图最小的宽度
 
+NSString *const EasyShowViewDidlDismissNotification = @"EasyShowViewDidlDismissNotification" ; //当EasyShowView消失的时候会发送此通知。
+
 
 @interface EasyShowOptions()
 @end

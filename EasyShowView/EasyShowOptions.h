@@ -63,6 +63,8 @@ UIKIT_EXTERN const CGFloat EasyDrawImageEdge ;
 UIKIT_EXTERN const CGFloat EasyTextShowEdge ;
 UIKIT_EXTERN const CGFloat EasyShowViewMinWidth ;
 
+UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
+
 
 @interface EasyShowOptions : NSObject
 
