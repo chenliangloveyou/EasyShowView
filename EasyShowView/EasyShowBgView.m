@@ -31,18 +31,18 @@
 - (void)dealloc
 {
     _showTextWindow = nil ;
-//    NSLog(@"%p dealloc",self );
+    NSLog(@"%p dealloc",self );
 }
 
 - (instancetype)initWithFrame:(CGRect)frame status:(ShowTextStatus)status text:(NSString *)text image:(UIImage *)image
 {
     if ([super initWithFrame:frame]) {
        
-        self.backgroundColor =  self.options.backGroundColor ; //[UIColor redColor]; //
+        self.backgroundColor = self.options.backGroundColor ; //[UIColor redColor]; //
         
         _showTextStatus = status ;
 
-        if (self.options.textStatusType == ShowTextStatusTypeStatusBar) {
+        if (self.isShowedStatusBar || self.isShowedNavigation) {
             [UIView animateWithDuration:self.options.showAnimationTime animations:^{
                 self.showTextWindow.y = 0 ;
             }];
@@ -62,13 +62,16 @@
        
             self.textLabel.text = text ;
 
-            
-            if (self.options.textStatusType == ShowTextStatusTypeStatusBar) {
+            if (self.isShowedStatusBar || self.isShowedNavigation) {
                 
-                [self.textLabel sizeToFit];
-                self.textLabel.left = 30 ;
+                CGFloat addX = self.isShowedStatusBar ? 7 : 10 ;
+                CGFloat addH = self.isShowedStatusBar ?: 5;
+                self.textLabel.frame = CGRectMake(self.imageView.right + addX , self.imageView.top - addH, self.width - self.imageView.right - 5, self.imageView.height +addH*2 ) ;
+//                self.textLabel.backgroundColor = [UIColor yellowColor];
+                self.textLabel.textAlignment = NSTextAlignmentLeft ;
             }
             else{
+                self.textLabel.textAlignment = NSTextAlignmentCenter ;
                 self.textLabel.frame = CGRectMake(20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
             }
             
@@ -113,16 +116,22 @@
 - (UIWindow *)showTextWindow
 {
     if (nil == _showTextWindow) {
-        _showTextWindow = [[UIWindow alloc]initWithFrame:CGRectMake(0, -STATUSBAR_HEIGHT , SCREEN_WIDTH, STATUSBAR_HEIGHT )];
+        CGFloat showHeight = self.isShowedStatusBar ? STATUSBAR_HEIGHT : NAVIGATION_HEIGHT ;
+        _showTextWindow = [[UIWindow alloc]initWithFrame:CGRectMake(0, -showHeight , SCREEN_WIDTH, showHeight )];
         _showTextWindow.backgroundColor = self.options.backGroundColor ; // [UIColor yellowColor]; //
         _showTextWindow.windowLevel = UIWindowLevelAlert;
+        UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(gestureTap)];
+        [_showTextWindow addGestureRecognizer:gesture];
         _showTextWindow.hidden = NO ;
-        [_showTextWindow makeKeyAndVisible];
+//        [_showTextWindow makeKeyAndVisible];
         _showTextWindow.alpha = 1;
     }
     return _showTextWindow ;
 }
-
+- (void)gestureTap
+{
+    [self removeFromSuperview];
+}
 //加载loding的动画
 - (void)drawAnimationImageViewLoding
 {
@@ -204,7 +213,7 @@
     lineLayer.fillColor = [ UIColor clearColor ].CGColor ;
     lineLayer.path = path. CGPath ;
     lineLayer.strokeColor = self.options.textColor.CGColor ;
-    lineLayer.lineWidth = self.options.textStatusType==ShowTextStatusTypeStatusBar ? 1 : 2;
+    lineLayer.lineWidth = self.isShowedStatusBar ? 1 : 2;
     lineLayer.cornerRadius = 50;
     
     CABasicAnimation *ani = [ CABasicAnimation animationWithKeyPath: @"strokeEnd"];
@@ -251,6 +260,25 @@
 
 #pragma mark - getter
 
+
+//是否显示在statusbar上
+- (BOOL)isShowedStatusBar
+{
+    return self.options.textStatusType==ShowTextStatusTypeStatusBar ;
+}
+//是否正在显示在navigation上
+- (BOOL)isShowedNavigation
+{
+    return self.options.textStatusType==ShowTextStatusTypeNavigation ;
+}
+- (EasyShowOptions *)options
+{
+    if (nil == _options) {
+        _options = [EasyShowOptions sharedEasyShowOptions];
+    }
+    return _options ;
+}
+
 - (UIImageView *)imageView
 {
     if (nil == _imageView) {
@@ -261,11 +289,14 @@
             imageWH = 15 ;
             imageX = 10 ;
             imageY = self.height - imageWH - 2.5 ;
+        }else if (self.isShowedNavigation){
+            imageX = 10 ;
+            imageY = (self.height - imageWH)/2 + (ISIPHONE_X ? 20 : 3 );
         }
         
         _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(imageX,imageY , imageWH, imageWH)];
         //        _imageView.backgroundColor = [UIColor redColor];
-        if (self.options.textStatusType == ShowTextStatusTypeStatusBar) {
+        if (self.isShowedStatusBar || self.isShowedNavigation) {
             [self.showTextWindow addSubview:_imageView];
         }
         else{
@@ -283,7 +314,7 @@
         _textLabel.backgroundColor = [UIColor clearColor];
         _textLabel.textAlignment = NSTextAlignmentCenter ;
         _textLabel.numberOfLines = 0 ;
-        if (self.options.textStatusType == ShowTextStatusTypeStatusBar) {
+        if (self.options.textStatusType == ShowTextStatusTypeStatusBar || self.isShowedNavigation) {
             [self.showTextWindow addSubview:_textLabel];
         }
         else{
@@ -291,13 +322,6 @@
         }
     }
     return _textLabel ;
-}
-- (EasyShowOptions *)options
-{
-    if (nil == _options) {
-        _options = [EasyShowOptions sharedEasyShowOptions];
-    }
-    return _options ;
 }
 
 - (UIActivityIndicatorView *)imageViewIndeicator

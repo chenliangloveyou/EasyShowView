@@ -121,6 +121,16 @@
 }
 - (void)showAlertWithRow:(long)row
 {
+    static int aa = 0 ;
+    [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowTextStatusTypeNavigation ; // (aa++)%5 ;//
+    switch (row) {
+        case 0: [EasyShowView showText:@"这是一条纯文发发烧了；放到就离开家烧了；福建省多了扣积分读书节独立思考建档立卡 范德萨了；就字消息"];  break;
+        case 1: [EasyShowView showSuccessText:@"恭喜您通过所有关卡!"];  break;
+        case 2: [EasyShowView showErrorText:@"加载失败！"];  break ;
+        case 3: [EasyShowView showInfoText:@"请完善信息！"];  break ;
+        case 4: [EasyShowView showImageText:@"自定义图片" image:[UIImage imageNamed:@"HUD_NF.png"]];  break ;
+    }
+    return ;
     switch (row) {
         case 0:
             //                    [EasyShowView showAlertWithTitle:@"提示" desc:@"发送开机发送开机" buttonArray:@[@"取消",@"确定",@"您好",@"确定",@"您好"] callBack:nil];
@@ -173,7 +183,7 @@
         _dataArray = @[
                        @[@"纯文字消息",@"成功消息",@"失败消息",@"提示消息",@"自定义图片"],
                        @[@"默认加载框",@"菊花加载框",@"图片加载框",@"隐藏加载框"] ,
-                       @[@"展示alertView",@"展示系统alertView"]
+                       @[@"展示alertView",@"展示系统alertView",@"ddd",@"adfd",@"dd"]
                        ];
     }
     return _dataArray ;

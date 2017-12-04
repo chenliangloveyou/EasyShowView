@@ -81,7 +81,7 @@
     showView.showImage = image ;
     showView.showType = showType ;
     
-    showView.showTime = 1 + text.length*0.1 ;
+    showView.showTime = 1 + text.length*1 ;
     if (showView.showTime > [EasyShowOptions sharedEasyShowOptions].maxShowTime) {
         showView.showTime = [EasyShowOptions sharedEasyShowOptions].maxShowTime ;
     }
@@ -129,7 +129,7 @@
         
     }
     else{
-        if (self.options.textStatusType == ShowTextStatusTypeStatusBar) {
+        if (self.options.textStatusType==ShowTextStatusTypeStatusBar || self.options.textStatusType==ShowTextStatusTypeNavigation) {
             self.y = 0 ;
         }
         else{
