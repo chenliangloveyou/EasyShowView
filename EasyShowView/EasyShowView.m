@@ -116,7 +116,7 @@
     
     if (self.options.showStartAnimation) {
         
-        if (self.options.textStatusType == ShowTextStatusTypeStatusBar) {
+        if (self.options.textStatusType==ShowTextStatusTypeStatusBar || self.options.textStatusType==ShowTextStatusTypeNavigation) {
             [UIView animateWithDuration:self.options.showAnimationTime animations:^{
                 self.y = 0 ;
             }] ;
@@ -162,10 +162,10 @@
     CGFloat backGroundW = SCREEN_WIDTH ;
     switch (self.options.textStatusType) {
         case ShowTextStatusTypeStatusBar://如果是在statusbar上，则高固定，不需要计算
-            backGroundH = STATUSBAR_ORGINAL_HEIGHT ;
+            backGroundH = STATUSBAR_HEIGHT ;
             break;
         case ShowTextStatusTypeNavigation:
-            backGroundH = STATUSBAR_ORGINAL_HEIGHT ;
+            backGroundH = NAVIGATION_HEIGHT ;
             break ;
         default:{
             CGSize textSize = CGSizeZero ;
@@ -187,11 +187,12 @@
     CGFloat showFrameY = (SCREEN_HEIGHT-backGroundH)/2  ;//默认显示在中间
 //    if (self.showTextStatus != ShowStatusLoding) {
         switch (self.options.textStatusType ) {
+            case ShowTextStatusTypeNavigation:
             case ShowTextStatusTypeStatusBar:
                 showFrameY = 0 ;
                 break ;
             case ShowTextStatusTypeTop:
-                showFrameY = STATUSBAR_ORGINAL_HEIGHT + EasyTextShowEdge ;
+                showFrameY = NAVIGATION_HEIGHT + EasyTextShowEdge ;
                 break;
             case ShowTextStatusTypeBottom:
                 showFrameY = SCREEN_HEIGHT - backGroundH - EasyTextShowEdge ;

@@ -42,7 +42,19 @@
 
 
 //statusbar默认高度 orginal
-#define STATUSBAR_ORGINAL_HEIGHT  ([UIApplication sharedApplication].statusBarFrame.size.height)
+#define STATUSBAR_HEIGHT  (ISIPHONE_X ? (50) : 20 )
+
+//导航栏原始高度
+#define kNavNormalHeight 44.0f
+
+//大标题增加出来的高度
+#define kNavBigTitleHeight 55.0f
+
+//状态栏高度
+#define NAVIGATION_HEIGHT (STATUSBAR_HEIGHT + kNavNormalHeight)
+//#define STATUSBAR_HEIGHT (ISHORIZONTALSCREEM ? (ISIPHONE_X ? 0 : STATUSBAR_HEIGHT) : STATUSBAR_HEIGHT )
+
+
 
 //最上面的控制器
 #define kTopViewController [EasyShowUtils topViewController]

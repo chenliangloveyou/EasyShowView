@@ -113,7 +113,7 @@
 - (UIWindow *)showTextWindow
 {
     if (nil == _showTextWindow) {
-        _showTextWindow = [[UIWindow alloc]initWithFrame:CGRectMake(0, -STATUSBAR_ORGINAL_HEIGHT , SCREEN_WIDTH, STATUSBAR_ORGINAL_HEIGHT )];
+        _showTextWindow = [[UIWindow alloc]initWithFrame:CGRectMake(0, -STATUSBAR_HEIGHT , SCREEN_WIDTH, STATUSBAR_HEIGHT )];
         _showTextWindow.backgroundColor = self.options.backGroundColor ; // [UIColor yellowColor]; //
         _showTextWindow.windowLevel = UIWindowLevelAlert;
         _showTextWindow.hidden = NO ;
@@ -260,7 +260,7 @@
         if (self.options.textStatusType == ShowTextStatusTypeStatusBar) {
             imageWH = 15 ;
             imageX = 10 ;
-            imageY = (self.height - imageWH)/2 -0.5 ;
+            imageY = self.height - imageWH - 2.5 ;
         }
         
         _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(imageX,imageY , imageWH, imageWH)];
