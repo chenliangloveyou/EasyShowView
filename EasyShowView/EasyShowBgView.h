@@ -12,7 +12,7 @@
 
 @interface EasyShowBgView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame status:(ShowStatus)status text:(NSString *)text image:(UIImage *)image ;
+- (instancetype)initWithFrame:(CGRect)frame status:(ShowTextStatus)status text:(NSString *)text image:(UIImage *)image ;
 
 - (void)showStartAnimationWithDuration:(CGFloat)duration ;
 - (void)showEndAnimationWithDuration:(CGFloat)duration  ;

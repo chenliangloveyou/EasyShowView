@@ -24,25 +24,31 @@ typedef NS_ENUM(NSInteger, ShowAlertItemType) {
 };
 
 
-typedef NS_ENUM(NSInteger, ShowStatus) {
+//显示类型
+typedef NS_ENUM(NSUInteger , ShowType) {
+    ShowTypeText ,//显示文字
+    ShowTypeLoding,//显示加载
+};
+
+
+typedef NS_ENUM(NSInteger, ShowTextStatus) {
     
-    ShowStatusText ,    /** 纯文字 */
-    ShowStatusSuccess, /** 成功 */
-    ShowStatusError,   /** 失败 */
-    ShowStatusInfo,    /** 提示 */
-    ShowStatusImage,   /** 自定义图片 */
-    ShowStatusLoding,  /** 正在加载 */
+    ShowTextStatusPureText ,/** 纯文字 */
+    ShowTextStatusSuccess,  /** 成功 */
+    ShowTextStatusError,    /** 失败 */
+    ShowTextStatusInfo,     /** 提示 */
+    ShowTextStatusImage,    /** 自定义图片 */
 };
 
 /**
- * 纯显示文字，设置文字的位置
+ * 设置文字的位置
  */
-typedef NS_ENUM(NSUInteger , ShowStatusTextType) {
-    ShowStatusTextTypeTop = 0 ,
-    ShowStatusTextTypeMidden ,
-    ShowStatusTextTypeBottom,
-    ShowStatusTextTypeStatusBar ,//在statusbar上显示
-    ShowStatusTextTypeNavigation ,//在navigation上显示
+typedef NS_ENUM(NSUInteger , ShowTextStatusType) {
+    ShowTextStatusTypeTop = 0 ,
+    ShowTextStatusTypeMidden ,
+    ShowTextStatusTypeBottom,
+    ShowTextStatusTypeStatusBar ,//在statusbar上显示
+    ShowTextStatusTypeNavigation ,//在navigation上显示
 };
 
 /**
@@ -82,9 +88,9 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
 
 @property BOOL showStartAnimation ;//是否弹出加载时的动画
 @property BOOL showEndAnimation ;//是否弹出移除掉的动画
-@property CGFloat showAnimationDuration;//展示动画的时间
+@property CGFloat showAnimationTime;//展示动画的时间
 
-@property ShowStatusTextType textStatusType ;//显示文字的时候，显示在哪个地方
+@property ShowTextStatusType textStatusType ; //显示文字的时候，显示在哪个地方
 
 @property ShowLodingType showLodingType ;//加载框的显示样式
 

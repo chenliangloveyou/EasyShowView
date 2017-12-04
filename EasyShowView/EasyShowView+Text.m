@@ -19,7 +19,7 @@
 
 + (void)showText:(NSString *)text inView:(UIView *)view
 {
-    [EasyShowView showText:text inView:view image:nil stauts:ShowStatusText];
+    [EasyShowView showToastWithText:text inView:view image:nil stauts:ShowTextStatusPureText];
 }
 
 + (void)showSuccessText:(NSString *)text
@@ -29,7 +29,7 @@
 }
 + (void)showSuccessText:(NSString *)text inView:(UIView *)superView
 {
-    [EasyShowView showText:text inView:superView image:nil stauts:ShowStatusSuccess];
+    [EasyShowView showToastWithText:text inView:superView image:nil stauts:ShowTextStatusSuccess];
 }
 
 + (void)showErrorText:(NSString *)text
@@ -39,7 +39,7 @@
 }
 + (void)showErrorText:(NSString *)text inView:(UIView *)superView
 {
-    [EasyShowView showText:text inView:superView image:nil stauts:ShowStatusError];
+    [EasyShowView showToastWithText:text inView:superView image:nil stauts:ShowTextStatusError];
 }
 
 + (void)showInfoText:(NSString *)text
@@ -49,7 +49,7 @@
 }
 + (void)showInfoText:(NSString *)text inView:(UIView *)superView
 {
-    [EasyShowView showText:text inView:superView image:nil stauts:ShowStatusInfo];
+    [EasyShowView showToastWithText:text inView:superView image:nil stauts:ShowTextStatusInfo];
 }
 
 + (void)showImageText:(NSString *)text image:(UIImage *)image
@@ -59,7 +59,7 @@
 }
 + (void)showImageText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView
 {
-    [EasyShowView showText:text inView:superView image:image stauts:ShowStatusImage] ;
+    [EasyShowView showToastWithText:text inView:superView image:image stauts:ShowTextStatusImage] ;
 }
 
 

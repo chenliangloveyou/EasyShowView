@@ -8,10 +8,10 @@
 
 #import "EasyShowOptions.h"
 
-const CGFloat EasyDrawImageWH  = 40 ;   //显示图片的宽高
-const CGFloat EasyDrawImageEdge = 20 ;  //显示图片的边距
-const CGFloat EasyTextShowEdge = 50 ;   //显示纯文字时，当设置top和bottom的时候，距离屏幕上下的距离
-const CGFloat EasyShowViewMinWidth = 60 ;//视图最小的宽度
+const CGFloat EasyDrawImageWH  = 30 ;   //显示图片的宽高
+const CGFloat EasyDrawImageEdge = 15 ;  //显示图片的边距
+const CGFloat EasyTextShowEdge = 40 ;   //显示纯文字时，当设置top和bottom的时候，距离屏幕上下的距离
+const CGFloat EasyShowViewMinWidth = 50 ;//视图最小的宽度
 
 NSString *const EasyShowViewDidlDismissNotification = @"EasyShowViewDidlDismissNotification" ; //当EasyShowView消失的时候会发送此通知。
 
@@ -27,7 +27,7 @@ singleton_implementation(EasyShowOptions)
 {
     if (self = [super init]) {
         _textFount = [UIFont systemFontOfSize:13];
-        _backGroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.9];
+        _backGroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.8];
         _textColor = [UIColor whiteColor];
         
         _showShadow = YES ;
@@ -36,10 +36,12 @@ singleton_implementation(EasyShowOptions)
         _maxWidthScale = 0.8 ;
         _maxShowTime = 6.0f ;
         _superViewReceiveEvent = NO ;
-        _textStatusType = ShowStatusTextTypeBottom  ;
+        
+        _textStatusType = ShowTextStatusTypeMidden  ;
+        
         _showStartAnimation = YES ;
         _showEndAnimation = NO ;
-        _showAnimationDuration = 0.4 ;
+        _showAnimationTime = 0.4 ;
         
         _showLodingType = ShowLodingTypeImage ;
     }

@@ -13,7 +13,8 @@
 
 @interface EasyShowBgView()
 
-@property ShowStatus showStatus ;
+@property ShowTextStatus showTextStatus ;
+
 @property (nonatomic,strong)UILabel *textLabel ;
 @property (nonatomic,strong)UIImageView *imageView ;
 
@@ -33,91 +34,81 @@
 //    NSLog(@"%p dealloc",self );
 }
 
-- (UIActivityIndicatorView *)imageViewIndeicator
-{
-    if (nil == _imageViewIndeicator) {
-        _imageViewIndeicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        _imageViewIndeicator.tintColor = self.options.textColor ;
-        _imageViewIndeicator.color = self.options.textColor ;
-//        _imageViewIndeicator.backgroundColor = [UIColor yellowColor];
-        _imageViewIndeicator.frame = self.imageView.bounds ;
-        [self.imageView addSubview:_imageViewIndeicator];
-    }
-    return _imageViewIndeicator ;
-}
-- (instancetype)initWithFrame:(CGRect)frame status:(ShowStatus)status text:(NSString *)text image:(UIImage *)image
+- (instancetype)initWithFrame:(CGRect)frame status:(ShowTextStatus)status text:(NSString *)text image:(UIImage *)image
 {
     if ([super initWithFrame:frame]) {
        
-        self.backgroundColor = [UIColor redColor]; // self.options.backGroundColor ;
+        self.backgroundColor =  self.options.backGroundColor ; //[UIColor redColor]; //
         
-        _showStatus = status ;
+        _showTextStatus = status ;
 
-        if (self.options.textStatusType == ShowStatusTextTypeStatusBar) {
-            [self.showTextWindow addSubview:self.textLabel];
-            self.textLabel.text = text ;
-            [self.textLabel sizeToFit];
-            [UIView animateWithDuration:self.options.showAnimationDuration animations:^{
+        if (self.options.textStatusType == ShowTextStatusTypeStatusBar) {
+            [UIView animateWithDuration:self.options.showAnimationTime animations:^{
                 self.showTextWindow.y = 0 ;
             }];
-            return self ;
+        }
+        else{
+            [self setRoundedCorners];
+            
+            if (_showTextStatus != ShowTextStatusPureText) {//只要不是纯文字，其他的都需要显示图片
+                self.imageView.top  = EasyDrawImageEdge ;
+            }
         }
         
-        [self setRoundedCorners];
-
-
         if (!ISEMPTY(text)) {
             CGSize textSize = [EasyShowUtils textWidthWithStirng:text
                                                             font:self.options.textFount
                                                         maxWidth:self.options.maxWidthScale*SCREEN_WIDTH];
        
-            [self addSubview:_textLabel];
             self.textLabel.text = text ;
-            self.textLabel.frame = CGRectMake(20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
 
-            if (status != ShowStatusText) {//只要不是纯文字，其他的都需要显示图片
-                self.imageView.top  = EasyDrawImageEdge ;
+            
+            if (self.options.textStatusType == ShowTextStatusTypeStatusBar) {
+                
+                [self.textLabel sizeToFit];
+                self.textLabel.left = 30 ;
             }
-
-            if (self.showStatus==ShowStatusLoding && self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
-                self.textLabel.frame = CGRectMake(EasyDrawImageWH + 20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
+            else{
+                self.textLabel.frame = CGRectMake(20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
             }
+            
+//            if (self.showStatus==ShowStatusLoding && self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
+//                self.textLabel.frame = CGRectMake(EasyDrawImageWH + 20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
+//            }
         }
-        if (self.showStatus==ShowStatusLoding && self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
-            self.imageView.frame = CGRectMake(EasyDrawImageEdge/2, EasyDrawImageEdge/2, EasyDrawImageWH, EasyDrawImageWH);
-        }
+//        if (self.showStatus==ShowStatusLoding && self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
+//            self.imageView.frame = CGRectMake(EasyDrawImageEdge/2, EasyDrawImageEdge/2, EasyDrawImageWH, EasyDrawImageWH);
+//        }
         if (image) {
             self.imageView.image = image ;
         }
 
-        if (status == ShowStatusLoding){
-
-            switch (self.options.showLodingType) {
-                case ShowLodingTypeDefault:
-                case ShowLodingTypeLeftDefault:
-                    [self drawAnimationImageViewLoding];
-                    break;
-                case ShowLodingTypeIndicator:
-                case ShowLodingTypeLeftIndicator:
-                    [self.imageViewIndeicator startAnimating];
-                    break ;
-                case ShowLodingTypeImage:
-                case ShowLodingTypeLeftImage:
-                    [self drawAnimiationImageView:YES];
-                    break ;
-                default:
-                    break;
-            }
-
-        }
-        else{
+//        if (status == ShowStatusLoding){
+//
+//            switch (self.options.showLodingType) {
+//                case ShowLodingTypeDefault:
+//                case ShowLodingTypeLeftDefault:
+//                    [self drawAnimationImageViewLoding];
+//                    break;
+//                case ShowLodingTypeIndicator:
+//                case ShowLodingTypeLeftIndicator:
+//                    [self.imageViewIndeicator startAnimating];
+//                    break ;
+//                case ShowLodingTypeImage:
+//                case ShowLodingTypeLeftImage:
+//                    [self drawAnimiationImageView:YES];
+//                    break ;
+//                default:
+//                    break;
+//            }
+//
+//        }
+//        else{
             [self drawAnimationImageView];
-        }
+//        }
     }
     return self ;
 }
-
-
 
 - (UIWindow *)showTextWindow
 {
@@ -127,8 +118,6 @@
         _showTextWindow.windowLevel = UIWindowLevelAlert;
         _showTextWindow.hidden = NO ;
         [_showTextWindow makeKeyAndVisible];
-        
-        //        [_showTextWindow becomeKeyWindow] ;
         _showTextWindow.alpha = 1;
     }
     return _showTextWindow ;
@@ -137,7 +126,6 @@
 //加载loding的动画
 - (void)drawAnimationImageViewLoding
 {
-
     CGPoint centerPoint= CGPointMake(self.imageView.width/2.0f, self.imageView.height/2.0f) ;
     UIBezierPath *beizPath=[UIBezierPath bezierPathWithArcCenter:centerPoint radius:centerPoint.x startAngle:-M_PI_2 endAngle:M_PI_2 clockwise:YES];
     CAShapeLayer *centerLayer=[CAShapeLayer layer];
@@ -169,37 +157,41 @@
 
 - (void)drawAnimationImageView
 {
-    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, EasyDrawImageWH, EasyDrawImageWH)
-                                                    cornerRadius:EasyDrawImageWH/2];
+    CGFloat imageWH = self.imageView.width ;
+    
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, imageWH, imageWH)
+                                                    cornerRadius:imageWH/2];
     UIColor *drawColor = nil ;
-    switch (_showStatus) {
-        case ShowStatusText:
+    switch (_showTextStatus) {
+        case ShowTextStatusPureText:
             return ;
-        case ShowStatusSuccess:
+        case ShowTextStatusSuccess:
         {
-            [path moveToPoint:CGPointMake((self.imageView.width-EasyDrawImageWH)/2+EasyDrawImageWH/4,  3 + EasyDrawImageWH/2)];
-            [path addLineToPoint:CGPointMake(self.imageView.width/2, EasyDrawImageWH*3/4)];
-            [path addLineToPoint:CGPointMake(self.imageView.width/2 + EasyDrawImageWH*1/3, EasyDrawImageWH*1/3)];
+            CGFloat addHeight = self.options.textStatusType == ShowTextStatusTypeStatusBar ? 1 : 3 ;
+            [path moveToPoint:CGPointMake((imageWH-imageWH)/2+imageWH/4,  addHeight + imageWH/2)];
+            [path addLineToPoint:CGPointMake(imageWH/2, imageWH*3/4)];
+            [path addLineToPoint:CGPointMake(imageWH/2 + imageWH*1/3, imageWH*1/3)];
             
             drawColor = [UIColor greenColor] ;
         } break;
-        case ShowStatusError:
+        case ShowTextStatusError:
         {
-            [path moveToPoint:CGPointMake(self.imageView.width/2-EasyDrawImageWH/4, EasyDrawImageWH/4)];
-            [path addLineToPoint:CGPointMake(self.imageView.width/2+EasyDrawImageWH/4, EasyDrawImageWH*3/4)];
+            [path moveToPoint:CGPointMake(imageWH/2-imageWH/4, imageWH/4)];
+            [path addLineToPoint:CGPointMake(imageWH/2+imageWH/4, imageWH*3/4)];
             
-            [path moveToPoint:CGPointMake(self.imageView.width/2+EasyDrawImageWH/4, EasyDrawImageWH/4)];
-            [path addLineToPoint:CGPointMake(self.imageView.width/2-EasyDrawImageWH/4, EasyDrawImageWH*3/4)];
+            [path moveToPoint:CGPointMake(imageWH/2+imageWH/4, imageWH/4)];
+            [path addLineToPoint:CGPointMake(imageWH/2-imageWH/4, imageWH*3/4)];
             
             drawColor = [UIColor redColor] ;
         }break ;
-        case ShowStatusInfo:
+        case ShowTextStatusInfo:
         {
-            [path moveToPoint:CGPointMake(self.imageView.width/2,  EasyDrawImageWH/4 )];
-            [path addLineToPoint:CGPointMake(self.imageView.width/2,EasyDrawImageWH/4 + 3)];
+            CGFloat addHeight = self.options.textStatusType == ShowTextStatusTypeStatusBar ? 5 : 3 ;
+            [path moveToPoint:CGPointMake(imageWH/2,  imageWH/4 )];
+            [path addLineToPoint:CGPointMake(imageWH/2,imageWH/4 + addHeight)];
             
-            [path moveToPoint:CGPointMake(self.imageView.width/2,EasyDrawImageWH/4 + 6)];
-            [path addLineToPoint:CGPointMake(self.imageView.width/2, EasyDrawImageWH*3/4 )];
+            [path moveToPoint:CGPointMake(imageWH/2,imageWH/4 + 6)];
+            [path addLineToPoint:CGPointMake(imageWH/2, imageWH*3/4 )];
             
             drawColor = [UIColor lightGrayColor] ;
         }break ;
@@ -212,7 +204,7 @@
     lineLayer.fillColor = [ UIColor clearColor ].CGColor ;
     lineLayer.path = path. CGPath ;
     lineLayer.strokeColor = self.options.textColor.CGColor ;
-    lineLayer.lineWidth = 2;
+    lineLayer.lineWidth = self.options.textStatusType==ShowTextStatusTypeStatusBar ? 1 : 2;
     lineLayer.cornerRadius = 50;
     
     CABasicAnimation *ani = [ CABasicAnimation animationWithKeyPath: @"strokeEnd"];
@@ -222,35 +214,6 @@
     [lineLayer addAnimation :ani forKey :@"strokeEnd"];
     
     [self.imageView.layer addSublayer :lineLayer];
-}
-
-- (UIImageView *)imageView
-{
-    if (nil == _imageView) {
-        _imageView = [[UIImageView alloc]initWithFrame:CGRectMake((self.width-EasyDrawImageWH)/2, EasyDrawImageEdge/2, EasyDrawImageWH, EasyDrawImageWH)];
-//        _imageView.backgroundColor = [UIColor redColor];
-        [self addSubview:_imageView] ;
-    }
-    return _imageView ;
-}
-- (UILabel *)textLabel
-{
-    if (nil == _textLabel) {
-        _textLabel = [[UILabel alloc]init];
-        _textLabel.textColor = self.options.textColor;
-        _textLabel.font = self.options.textFount ;
-        _textLabel.backgroundColor = [UIColor clearColor];
-        _textLabel.textAlignment = NSTextAlignmentCenter ;
-        _textLabel.numberOfLines = 0 ;
-    }
-    return _textLabel ;
-}
-- (EasyShowOptions *)options
-{
-    if (nil == _options) {
-        _options = [EasyShowOptions sharedEasyShowOptions];
-    }
-    return _options ;
 }
 
 - (void)showEndAnimationWithDuration:(CGFloat)duration
@@ -284,6 +247,70 @@
                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
     [self.layer addAnimation:popAnimation forKey:nil];
+}
+
+#pragma mark - getter
+
+- (UIImageView *)imageView
+{
+    if (nil == _imageView) {
+        CGFloat imageWH = EasyDrawImageWH ;
+        CGFloat imageX = (self.width-EasyDrawImageWH)/2 ;
+        CGFloat imageY = EasyDrawImageEdge/2 ;
+        if (self.options.textStatusType == ShowTextStatusTypeStatusBar) {
+            imageWH = 15 ;
+            imageX = 10 ;
+            imageY = (self.height - imageWH)/2 -0.5 ;
+        }
+        
+        _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(imageX,imageY , imageWH, imageWH)];
+        //        _imageView.backgroundColor = [UIColor redColor];
+        if (self.options.textStatusType == ShowTextStatusTypeStatusBar) {
+            [self.showTextWindow addSubview:_imageView];
+        }
+        else{
+            [self addSubview:_imageView];
+        }
+    }
+    return _imageView ;
+}
+- (UILabel *)textLabel
+{
+    if (nil == _textLabel) {
+        _textLabel = [[UILabel alloc]init];
+        _textLabel.textColor = self.options.textColor;
+        _textLabel.font = self.options.textFount ;
+        _textLabel.backgroundColor = [UIColor clearColor];
+        _textLabel.textAlignment = NSTextAlignmentCenter ;
+        _textLabel.numberOfLines = 0 ;
+        if (self.options.textStatusType == ShowTextStatusTypeStatusBar) {
+            [self.showTextWindow addSubview:_textLabel];
+        }
+        else{
+            [self addSubview:_textLabel];
+        }
+    }
+    return _textLabel ;
+}
+- (EasyShowOptions *)options
+{
+    if (nil == _options) {
+        _options = [EasyShowOptions sharedEasyShowOptions];
+    }
+    return _options ;
+}
+
+- (UIActivityIndicatorView *)imageViewIndeicator
+{
+    if (nil == _imageViewIndeicator) {
+        _imageViewIndeicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        _imageViewIndeicator.tintColor = self.options.textColor ;
+        _imageViewIndeicator.color = self.options.textColor ;
+        //        _imageViewIndeicator.backgroundColor = [UIColor yellowColor];
+        _imageViewIndeicator.frame = self.imageView.bounds ;
+        [self.imageView addSubview:_imageViewIndeicator];
+    }
+    return _imageViewIndeicator ;
 }
 /*
 // Only override drawRect: if you perform custom drawing.

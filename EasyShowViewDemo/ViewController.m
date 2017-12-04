@@ -76,34 +76,28 @@
 
 - (void)showTextWithRow:(long)row
 {
+    static int aa = 0 ;
+    [EasyShowOptions sharedEasyShowOptions].textStatusType = (aa++)%5 ;//ShowTextStatusTypeStatusBar ; //
     switch (row) {
-        case 0:{
-            static int aa = 0 ;
-            [EasyShowOptions sharedEasyShowOptions].textStatusType = (++aa)%3 ;
-            [EasyShowView showText:@"今天发的拉伸发送；了解来看四大皆空了试大家了"];
-        } break;
-        case 1:{
-            [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowStatusTextTypeStatusBar ;
-            [EasyShowView showText:@"今天发的拉伸发大家了"];
-        } break ;
-        case 2:
-        {
-            
-        }break ;
-        case 3:{
-            static int bb = 0 ;
-            switch (bb++%4) {
-                case 0:  [EasyShowView showSuccessText:@"恭喜您通过所有关卡!"];  break;
-                case 1:  [EasyShowView showErrorText:@"加载失败！"];  break ;
-                case 2:  [EasyShowView showInfoText:@"请完善信息！"];  break ;
-                case 3:  [EasyShowView showImageText:@"自定义图片" image:[UIImage imageNamed:@"HUD_NF.png"]];  break ;
-                default: break;
-            }
-        } break ;
+        case 0: [EasyShowView showText:@"这是一条纯文字消息"];  break;
+        case 1: [EasyShowView showSuccessText:@"恭喜您通过所有关卡!"];  break;
+        case 2: [EasyShowView showErrorText:@"加载失败！"];  break ;
+        case 3: [EasyShowView showInfoText:@"请完善信息！"];  break ;
+        case 4: [EasyShowView showImageText:@"自定义图片" image:[UIImage imageNamed:@"HUD_NF.png"]];  break ;
     }
 }
 - (void)showLodingWithRow:(long)row
 {
+    static int aa = 0 ;
+    [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowTextStatusTypeStatusBar ; // (aa++)%5 ;//
+    switch (row) {
+        case 0: [EasyShowView showText:@"这是一条纯文发烧了；福建省多了扣积分读书节独立思考建档立卡 范德萨了；就字消息"];  break;
+        case 1: [EasyShowView showSuccessText:@"恭喜您通过所有关卡!"];  break;
+        case 2: [EasyShowView showErrorText:@"加载失败！"];  break ;
+        case 3: [EasyShowView showInfoText:@"请完善信息！"];  break ;
+        case 4: [EasyShowView showImageText:@"自定义图片" image:[UIImage imageNamed:@"HUD_NF.png"]];  break ;
+    }
+    return ;
     static int b_0 = 0 ;
     switch (row) {
         case 0:
@@ -177,7 +171,7 @@
 {
     if (nil == _dataArray) {
         _dataArray = @[
-                       @[@"纯文字(上中下)",@"纯文字(statusbar上)",@"纯文字（navigation上）",@"显示成功/失败/提示/图片"],
+                       @[@"纯文字消息",@"成功消息",@"失败消息",@"提示消息",@"自定义图片"],
                        @[@"默认加载框",@"菊花加载框",@"图片加载框",@"隐藏加载框"] ,
                        @[@"展示alertView",@"展示系统alertView"]
                        ];
