@@ -130,7 +130,6 @@
 }
 - (void)gestureTap
 {
-    [self removeFromSuperview];
 }
 //加载loding的动画
 - (void)drawAnimationImageViewLoding
