@@ -9,7 +9,7 @@
 #import "EasyShowView.h"
 
 #import "EasyShowOptions.h"
-
+#import "EasyShowAlertItem.h"
 
 typedef void (^showAlertCallback)(EasyShowView *showView , NSUInteger index);
 
@@ -27,13 +27,13 @@ typedef void (^showAlertCallback)(EasyShowView *showView , NSUInteger index);
 - (void)show ;
 
 
-+ (void)showAlertWithTitle:(NSString *)title
-                      desc:(NSString *)desc
-               buttonArray:(NSArray *)buttonArray
-                  callBack:(showAlertCallback)callback ;
-
-+ (void)showAlertSystemWithTitle:(NSString *)title
-                            desc:(NSString *)desc
-                     buttonArray:(NSArray *)buttonArray
-                        callBack:(showAlertCallback)callback ;
+//+ (void)showAlertWithTitle:(NSString *)title
+//                      desc:(NSString *)desc
+//               buttonArray:(NSArray *)buttonArray
+//                  callBack:(showAlertCallback)callback ;
+//
+//+ (void)showAlertSystemWithTitle:(NSString *)title
+//                            desc:(NSString *)desc
+//                     buttonArray:(NSArray *)buttonArray
+//                        callBack:(showAlertCallback)callback ;
 @end

@@ -14,7 +14,6 @@
 
 #import "EasyShowOptions.h"
 
-//static UIWindow *_showTextWindow;
 
 @interface EasyShowView()<CAAnimationDelegate>
 
@@ -27,7 +26,6 @@
 @property (nonatomic,assign)CGFloat showTime ;
 @property CGFloat timerShowTime ;//定时器走动的时间
 
-@property (nonatomic,strong)UIWindow *showTextWindow ;
 
 @property (nonatomic,strong)EasyShowBgView *showBgView ;//用于放图片和文字的背景
 
@@ -37,10 +35,8 @@
 
 - (void)dealloc
 {
-    _showTextWindow = nil ;
-    NSLog(@"%p dealloc",self );
+    NSLog(@"%p EasyShowView dealloc",self );
 }
-
 
 + (void)showText:(NSString *)text inView:(UIView *)view image:(UIImage *)image stauts:(ShowStatus)status
 {
@@ -69,7 +65,10 @@
         });
     }
     
-    EasyShowView  *showView = [[EasyShowView alloc]initWithFrame:CGRectZero text:text status:status image:image];
+    EasyShowView  *showView = [[EasyShowView alloc] initWithFrame:CGRectZero
+                                                             text:text
+                                                           status:status
+                                                            image:image];
     [showView showViewWithSuperView:view];
 }
 
@@ -77,7 +76,7 @@
 {
     if (self = [super initWithFrame:frame]) {
         
-        self.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.02];
+        self.backgroundColor = [UIColor purpleColor] ;// [[UIColor lightGrayColor] colorWithAlphaComponent:0.02]; //
         
         _showText = text ;
         _showImage = image ;
@@ -90,91 +89,10 @@
     return self ;
 }
 
-
-- (UIWindow *)showTextWindow
-{
-    if (nil == _showTextWindow) {
-        _showTextWindow = [[UIWindow alloc]initWithFrame:CGRectMake(0, -STATUSBAR_ORGINAL_HEIGHT , SCREEN_WIDTH, STATUSBAR_ORGINAL_HEIGHT+ 20 )];
-        _showTextWindow.backgroundColor = self.options.backGroundColor ;
-        _showTextWindow.windowLevel = UIWindowLevelAlert;
-        _showTextWindow.hidden = NO ;
-//        [_showTextWindow becomeKeyWindow] ;
-        _showTextWindow.alpha = 1;
-    }
-    return _showTextWindow ;
-}
 - (void)showViewWithSuperView:(UIView *)superView
 {
-    CGSize textSize = CGSizeZero ;
-    if (!ISEMPTY(self.showText)) {
-        textSize = [EasyShowUtils textWidthWithStirng:self.showText
-                                                 font:self.options.textFount
-                                             maxWidth:self.options.maxWidthScale*SCREEN_WIDTH];
-    }
-
     
-    //这是显示在statusbar上的情况
-    if (self.showStatus==ShowStatusText && self.options.textStatusType==ShowStatusTextTypeStatusBar) {
-
-        [superView addSubview:self];
-        
-//        [self.removeTimer fire];
-
-        [UIView animateWithDuration:self.options.showAnimationDuration animations:^{
-            CGRect frame = self.showTextWindow.frame;
-            frame.origin.y = 0;
-            self.showTextWindow.frame = frame;
-        }];
-        return ;
-    }
-    
-    //50 = imageH:40 + 上下边距:10
-    //无文字。 W:60 H: 60 有文字。W:文字宽度+40,>=100 H:文字高+30+图片高,
-    
-    CGFloat imageH = self.showStatus==ShowStatusText ?:(EasyDrawImageWH + EasyDrawImageEdge) ;
-    CGFloat backGroundH = (textSize.height?(textSize.height+30):0) + imageH ;
-    CGFloat backGroundW = textSize.width?(textSize.width+40):0  ;
-    if (backGroundW < EasyShowViewMinWidth) {
-        backGroundW = EasyShowViewMinWidth  ;
-    }
-    
-    //计算出showView的大小
-    if (self.showStatus == ShowStatusLoding) {//特殊处理
-        if (self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
-            backGroundH = textSize.height + 30 ;
-            if (backGroundH < EasyShowViewMinWidth) {
-                backGroundH = EasyShowViewMinWidth ;
-            }
-            backGroundW  = (textSize.width?(textSize.width+40):0) + imageH ;
-        }
-        else{   //上下的形式
-
-        }
-    }
-    
-    CGFloat showFrameY = (SCREEN_HEIGHT-backGroundH)/2  ;
-    if (self.showStatus == ShowStatusText) {
-        switch (self.options.textStatusType ) {
-            case ShowStatusTextTypeTop:
-                showFrameY = STATUSBAR_ORGINAL_HEIGHT + EasyTextShowEdge ;
-                break;
-            case ShowStatusTextTypeBottom:
-                showFrameY = SCREEN_HEIGHT - backGroundH - EasyTextShowEdge ;
-                break ;
-            default: break;
-        }
-    }
-    
-    CGRect showFrame = CGRectMake(0, 0, backGroundW, backGroundH);
-    if (self.options.superViewReceiveEvent) {//父视图不能接受事件
-       
-        self.frame =  CGRectMake((SCREEN_WIDTH-backGroundW)/2, showFrameY, backGroundW, backGroundH);
-    }
-    else{//父视图接受事件   self的大小为显示的区域
-      
-        self.frame = CGRectMake(0, 0, superView.width, superView.height) ;
-        showFrame.origin = CGPointMake((self.width-backGroundW)/2, showFrameY) ;
-    }
+    CGRect showFrame = [self getShowRectWithSuperView:superView];
     
     self.showBgView = [[EasyShowBgView alloc]initWithFrame:showFrame
                                                     status:self.showStatus
@@ -187,16 +105,31 @@
     }
     
     if (self.options.showStartAnimation) {
-        [self.showBgView showStartAnimationWithDuration:self.options.showAnimationDuration];
+        
+        if (self.options.textStatusType == ShowStatusTextTypeStatusBar) {
+            [UIView animateWithDuration:self.options.showAnimationDuration animations:^{
+                self.y = 0 ;
+            }] ;
+        }
+        else{
+            [self.showBgView showStartAnimationWithDuration:self.options.showAnimationDuration];
+        }
         [superView addSubview:self];
+        
     }
     else{
-        self.alpha = 0.1 ;
-        [UIView animateWithDuration:self.options.showAnimationDuration animations:^{
-            self.alpha = 1.0 ;
-        } completion:^(BOOL finished) {
-            [superView addSubview:self];
-        }];
+        if (self.options.textStatusType == ShowStatusTextTypeStatusBar) {
+            self.y = 0 ;
+        }
+        else{
+            self.alpha = 0.1 ;
+            [UIView animateWithDuration:self.options.showAnimationDuration animations:^{
+                self.alpha = 1.0 ;
+            } completion:^(BOOL finished) {
+                [superView addSubview:self];
+            }];
+        }
+       
     }
     
     if (self.options.showShadow) {
@@ -205,6 +138,117 @@
             [self showBackgrouldsubLayer];
         });
     }
+}
+
+//获取需要展示框的大小
+- (CGRect)getShowRectWithSuperView:(UIView *)superView
+{
+    CGSize textSize = CGSizeZero ;
+    if (!ISEMPTY(self.showText)) {
+        textSize = [EasyShowUtils textWidthWithStirng:self.showText
+                                                 font:self.options.textFount
+                                             maxWidth:self.options.maxWidthScale*SCREEN_WIDTH];
+    }
+    
+    
+    //这是显示在statusbar上的情况
+//    if (self.showStatus==ShowStatusText && self.options.textStatusType==ShowStatusTextTypeStatusBar) {
+//
+//        [superView addSubview:self];
+//
+//        //        [self.removeTimer fire];
+//
+//        [UIView animateWithDuration:self.options.showAnimationDuration animations:^{
+//            CGRect frame = self.showTextWindow.frame;
+//            frame.origin.y = 0;
+//            self.showTextWindow.frame = frame;
+//        }completion:^(BOOL finished) {
+//            [self.showTextWindow removeFromSuperview];
+//            self.showTextWindow = nil;
+//            //            [self hd_removeAllSubviews];
+//            [self removeFromSuperview];
+//
+//            [[UIApplication sharedApplication].windows.firstObject makeKeyAndVisible];
+//        }];
+//        return ;
+//    }
+
+    //显示图片的高度。
+    CGFloat imageH = self.showStatus==ShowStatusText ?:(EasyDrawImageWH + EasyDrawImageEdge) ;
+
+    //50 = imageH:40 + 上下边距:10
+    //无文字。 W:60 H: 60 有文字。W:文字宽度+40,>=100 H:文字高+30+图片高,
+    
+    //显示区域的宽高
+    CGFloat backGroundH = 0 ;
+    CGFloat backGroundW = 0 ;
+    if (self.options.textStatusType == ShowStatusTextTypeStatusBar) {
+        backGroundH = STATUSBAR_ORGINAL_HEIGHT ;
+        backGroundW = SCREEN_WIDTH ;
+    }
+    else{
+        backGroundH = (textSize.height?(textSize.height+30):0) + imageH ;
+        backGroundW = textSize.width?(textSize.width+40):0  ;
+        
+        if (backGroundW < EasyShowViewMinWidth) {
+            backGroundW = EasyShowViewMinWidth  ;
+        }
+    }
+    
+    //计算出showView的大小
+    if (self.showStatus == ShowStatusLoding) {//特殊处理
+        if (self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
+            backGroundH = textSize.height + 30 ;
+            if (backGroundH < EasyShowViewMinWidth) {
+                backGroundH = EasyShowViewMinWidth ;
+            }
+            backGroundW  = (textSize.width?(textSize.width+40):0) + imageH ;
+        }
+        else{   //上下的形式
+            
+        }
+    }
+    
+    //显示区域的y值
+    CGFloat showFrameY = (SCREEN_HEIGHT-backGroundH)/2  ;//默认显示在中间
+    if (self.showStatus != ShowStatusLoding) {
+        switch (self.options.textStatusType ) {
+            case ShowStatusTextTypeStatusBar:
+                showFrameY = - STATUSBAR_ORGINAL_HEIGHT ;//开始先放到startbar上面，然后动画展示下来.
+                break ;
+            case ShowStatusTextTypeTop:
+                showFrameY = STATUSBAR_ORGINAL_HEIGHT + EasyTextShowEdge ;
+                break;
+            case ShowStatusTextTypeBottom:
+                showFrameY = SCREEN_HEIGHT - backGroundH - EasyTextShowEdge ;
+                break ;
+            default: break;
+        }
+    }
+    
+    
+    //显示区域的frame
+    CGRect showFrame = CGRectMake(0, 0, backGroundW, backGroundH);
+    
+    if (self.showStatus==ShowStatusText && self.options.textStatusType==ShowStatusTextTypeStatusBar) {
+        //控件显示在statusbar上面
+        showFrame.origin.y = showFrameY ;
+        self.frame = showFrame ;
+    }
+    else if (self.options.superViewReceiveEvent) {
+       
+        //父视图能接受事件--> self的大小为显示区域的大小
+        self.frame =  CGRectMake((SCREEN_WIDTH-backGroundW)/2, showFrameY, backGroundW, backGroundH);
+    }
+    else{
+        
+        //父视图不能接收-->self的大小应该为superview的大小。来遮盖
+        self.frame = CGRectMake(0, 0, superView.width, superView.height) ;
+        
+        showFrame.origin = CGPointMake((self.width-backGroundW)/2, showFrameY) ;
+    }
+    
+    return showFrame ;
 }
 
 - (void)clearCurrentShow

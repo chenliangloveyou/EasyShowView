@@ -26,7 +26,7 @@ singleton_implementation(EasyShowOptions)
 - (instancetype)init
 {
     if (self = [super init]) {
-        _textFount = [UIFont systemFontOfSize:17];
+        _textFount = [UIFont systemFontOfSize:13];
         _backGroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.9];
         _textColor = [UIColor whiteColor];
         

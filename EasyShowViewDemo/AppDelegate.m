@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "ViewController.h"
+
 #import "EasyShowOptions.h"
 @interface AppDelegate ()
 
@@ -17,8 +19,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+  
     EasyShowOptions *options = [EasyShowOptions sharedEasyShowOptions];
     options.superViewReceiveEvent = YES ;
+   
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:[ViewController new]];
+    self.window.rootViewController = nav ;
+    
     // Override point for customization after application launch.
     return YES;
 }

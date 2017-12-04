@@ -21,9 +21,18 @@
 
 @property (nonatomic,strong)EasyShowOptions *options ;
 
+@property (nonatomic,strong)UIWindow *showTextWindow ;
+
 @end
 
 @implementation EasyShowBgView
+
+- (void)dealloc
+{
+    _showTextWindow = nil ;
+//    NSLog(@"%p dealloc",self );
+}
+
 - (UIActivityIndicatorView *)imageViewIndeicator
 {
     if (nil == _imageViewIndeicator) {
@@ -40,23 +49,36 @@
 {
     if ([super initWithFrame:frame]) {
        
-        self.backgroundColor = self.options.backGroundColor ;
-        [self setRoundedCorners];
+        self.backgroundColor = [UIColor redColor]; // self.options.backGroundColor ;
         
         _showStatus = status ;
+
+        if (self.options.textStatusType == ShowStatusTextTypeStatusBar) {
+            [self.showTextWindow addSubview:self.textLabel];
+            self.textLabel.text = text ;
+            [self.textLabel sizeToFit];
+            [UIView animateWithDuration:self.options.showAnimationDuration animations:^{
+                self.showTextWindow.y = 0 ;
+            }];
+            return self ;
+        }
         
+        [self setRoundedCorners];
+
+
         if (!ISEMPTY(text)) {
             CGSize textSize = [EasyShowUtils textWidthWithStirng:text
                                                             font:self.options.textFount
                                                         maxWidth:self.options.maxWidthScale*SCREEN_WIDTH];
-            
+       
+            [self addSubview:_textLabel];
             self.textLabel.text = text ;
             self.textLabel.frame = CGRectMake(20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
-            
+
             if (status != ShowStatusText) {//只要不是纯文字，其他的都需要显示图片
                 self.imageView.top  = EasyDrawImageEdge ;
             }
-            
+
             if (self.showStatus==ShowStatusLoding && self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
                 self.textLabel.frame = CGRectMake(EasyDrawImageWH + 20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
             }
@@ -67,9 +89,9 @@
         if (image) {
             self.imageView.image = image ;
         }
-        
+
         if (status == ShowStatusLoding){
-            
+
             switch (self.options.showLodingType) {
                 case ShowLodingTypeDefault:
                 case ShowLodingTypeLeftDefault:
@@ -86,12 +108,30 @@
                 default:
                     break;
             }
-           
+
         }
-        else
-        [self drawAnimationImageView];
+        else{
+            [self drawAnimationImageView];
+        }
     }
     return self ;
+}
+
+
+
+- (UIWindow *)showTextWindow
+{
+    if (nil == _showTextWindow) {
+        _showTextWindow = [[UIWindow alloc]initWithFrame:CGRectMake(0, -STATUSBAR_ORGINAL_HEIGHT , SCREEN_WIDTH, STATUSBAR_ORGINAL_HEIGHT )];
+        _showTextWindow.backgroundColor = self.options.backGroundColor ; // [UIColor yellowColor]; //
+        _showTextWindow.windowLevel = UIWindowLevelAlert;
+        _showTextWindow.hidden = NO ;
+        [_showTextWindow makeKeyAndVisible];
+        
+        //        [_showTextWindow becomeKeyWindow] ;
+        _showTextWindow.alpha = 1;
+    }
+    return _showTextWindow ;
 }
 
 //加载loding的动画
@@ -202,8 +242,6 @@
         _textLabel.backgroundColor = [UIColor clearColor];
         _textLabel.textAlignment = NSTextAlignmentCenter ;
         _textLabel.numberOfLines = 0 ;
-        [self addSubview:_textLabel];
-        
     }
     return _textLabel ;
 }
