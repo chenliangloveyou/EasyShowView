@@ -34,6 +34,11 @@
     NSLog(@"%p dealloc",self );
 }
 
+
+- (void)showWindowYToPoint:(CGFloat)toPoint
+{
+    self.showTextWindow.y = toPoint ;
+}
 - (instancetype)initWithFrame:(CGRect)frame status:(ShowTextStatus)status text:(NSString *)text image:(UIImage *)image
 {
     if ([super initWithFrame:frame]) {
@@ -42,12 +47,8 @@
         
         _showTextStatus = status ;
 
-        if (self.isShowedStatusBar || self.isShowedNavigation) {
-            [UIView animateWithDuration:self.options.showAnimationTime animations:^{
-                self.showTextWindow.y = 0 ;
-            }];
-        }
-        else{
+        if (!(self.isShowedStatusBar || self.isShowedNavigation)) {
+     
             [self setRoundedCorners];
             
             if (_showTextStatus != ShowTextStatusPureText) {//只要不是纯文字，其他的都需要显示图片
@@ -71,8 +72,9 @@
                 self.textLabel.textAlignment = NSTextAlignmentLeft ;
             }
             else{
-                self.textLabel.textAlignment = NSTextAlignmentCenter ;
+                
                 self.textLabel.frame = CGRectMake(20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
+                self.textLabel.textAlignment = NSTextAlignmentCenter ;
             }
             
 //            if (self.showStatus==ShowStatusLoding && self.options.showLodingType > ShowLodingTypeImage) {//左右的形式

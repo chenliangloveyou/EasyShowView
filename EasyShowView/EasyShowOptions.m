@@ -40,7 +40,7 @@ singleton_implementation(EasyShowOptions)
         _textStatusType = ShowTextStatusTypeMidden  ;
         
         _showStartAnimation = YES ;
-        _showEndAnimation = NO ;
+        _showEndAnimation = YES ;
         _showAnimationTime = 0.4 ;
         
         _showLodingType = ShowLodingTypeImage ;

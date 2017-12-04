@@ -93,7 +93,7 @@
 {
     if (self = [super initWithFrame:frame]) {
         
-        self.backgroundColor =  [[UIColor lightGrayColor] colorWithAlphaComponent:0.02]; //[UIColor purpleColor] ;//
+        self.backgroundColor =  [[UIColor lightGrayColor] colorWithAlphaComponent:0.02]; // [UIColor greenColor] ;//
     }
     return self ;
 }
@@ -117,8 +117,10 @@
     if (self.options.showStartAnimation) {
         
         if (self.options.textStatusType==ShowTextStatusTypeStatusBar || self.options.textStatusType==ShowTextStatusTypeNavigation) {
+            self.y = - self.height ;
             [UIView animateWithDuration:self.options.showAnimationTime animations:^{
                 self.y = 0 ;
+                [self.showBgView showWindowYToPoint:0];
             }] ;
         }
         else{
@@ -244,10 +246,23 @@
         
         //移除自己
         if (self.options.showEndAnimation) {
-            [self.showBgView showEndAnimationWithDuration:self.options.showAnimationTime];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.options.showAnimationTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self removeFromSuperview];
-            });
+            
+            if (self.options.textStatusType==ShowTextStatusTypeStatusBar || self.options.textStatusType==ShowTextStatusTypeNavigation) {
+
+                [UIView animateWithDuration:self.options.showAnimationTime animations:^{
+                    self.y = -self.height ;
+                    [self.showBgView showWindowYToPoint:-self.height ];
+                    NSLog(@"========= %.2f",self.y);
+                }completion:^(BOOL finished) {
+                    [self removeFromSuperview];
+                }] ;
+            }
+            else{
+                [self.showBgView showEndAnimationWithDuration:self.options.showAnimationTime];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.options.showAnimationTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self removeFromSuperview];
+                });
+            }
         }
         else{
             [UIView animateWithDuration:self.options.showAnimationTime animations:^{

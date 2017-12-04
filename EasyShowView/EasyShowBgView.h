@@ -14,6 +14,8 @@
 
 - (instancetype)initWithFrame:(CGRect)frame status:(ShowTextStatus)status text:(NSString *)text image:(UIImage *)image ;
 
+- (void)showWindowYToPoint:(CGFloat)toPoint ;
+
 - (void)showStartAnimationWithDuration:(CGFloat)duration ;
 - (void)showEndAnimationWithDuration:(CGFloat)duration  ;
 
