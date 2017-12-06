@@ -101,7 +101,14 @@
 - (void)showViewWithSuperView:(UIView *)superView
 {
     //展示视图的frame
-    CGRect showFrame = [self getShowRectWithSuperView:superView];
+    CGRect showFrame = CGRectZero ;
+    if (self.showType == ShowTypeText) {
+        showFrame = [self showTextRectWithSuperView:superView];
+    }
+    else if(self.showType == ShowTypeLoding){
+        showFrame = [self showLodingRectWithSuperView:superView];
+    }
+    
     
     self.showBgView = [[EasyShowBgView alloc]initWithFrame:showFrame
                                                     status:self.showTextStatus
@@ -153,8 +160,46 @@
     }
 }
 
+- (CGRect)showLodingRectWithSuperView:(UIView *)superView
+{
+    
+//    ShowLodingTypeDefault , //默认转圈样式
+//    ShowLodingTypeIndicator ,   //菊花样式
+//    ShowLodingTypeImage ,//自定义图片转圈样式
+//    ShowLodingTypeLeftDefault ,//默认在左边转圈样式
+//    ShowLodingTypeLeftIndicator , //菊花在左边的样式
+//    ShowLodingTypeLeftImage,//自动以图片左边转圈样式
+    
+    //显示图片的高度。
+    CGFloat imageH = self.showTextStatus==ShowTextStatusPureText ?:(EasyDrawImageWH + EasyDrawImageEdge) ;
+    
+    //显示区域的宽高
+    CGFloat backGroundH = 0 ;
+    CGFloat backGroundW = SCREEN_WIDTH ;
+    
+    CGSize textSize = CGSizeZero ;
+    if (!ISEMPTY(self.showText)) {
+        textSize = [EasyShowUtils textWidthWithStirng:self.showText
+                                                 font:self.options.textFount
+                                             maxWidth:self.options.maxWidthScale*SCREEN_WIDTH];
+    }
+    textSize.height = (textSize.height?(textSize.height+30):0) ;
+    textSize.width = textSize.width?(textSize.width+40):0  ;
+    
+    if (backGroundW < EasyShowViewMinWidth) {
+        backGroundW = EasyShowViewMinWidth  ;
+    }
+    
+    if (self.options.showLodingType > ShowLodingTypeImage) {//左右形式
+        
+    }
+    else{//上下形式
+        
+    }
+    return CGRectZero ;
+}
 //获取需要展示框的大小
-- (CGRect)getShowRectWithSuperView:(UIView *)superView
+- (CGRect)showTextRectWithSuperView:(UIView *)superView
 {
     //显示图片的高度。
     CGFloat imageH = self.showTextStatus==ShowTextStatusPureText ?:(EasyDrawImageWH + EasyDrawImageEdge) ;
