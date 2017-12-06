@@ -88,16 +88,16 @@
 }
 - (void)showLodingWithRow:(long)row
 {
-    static int aa = 0 ;
-    [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowTextStatusTypeStatusBar ; // (aa++)%5 ;//
-    switch (row) {
-        case 0: [EasyShowView showText:@"这是一条纯文发烧了；福建省多了扣积分读书节独立思考建档立卡 范德萨了；就字消息"];  break;
-        case 1: [EasyShowView showSuccessText:@"恭喜您通过所有关卡!"];  break;
-        case 2: [EasyShowView showErrorText:@"加载失败！"];  break ;
-        case 3: [EasyShowView showInfoText:@"请完善信息！"];  break ;
-        case 4: [EasyShowView showImageText:@"自定义图片" image:[UIImage imageNamed:@"HUD_NF.png"]];  break ;
-    }
-    return ;
+//    static int aa = 0 ;
+//    [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowTextStatusTypeStatusBar ; // (aa++)%5 ;//
+//    switch (row) {
+//        case 0: [EasyShowView showText:@"这是一条纯文发烧了；福建省多了扣积分读书节独立思考建档立卡 范德萨了；就字消息"];  break;
+//        case 1: [EasyShowView showSuccessText:@"恭喜您通过所有关卡!"];  break;
+//        case 2: [EasyShowView showErrorText:@"加载失败！"];  break ;
+//        case 3: [EasyShowView showInfoText:@"请完善信息！"];  break ;
+//        case 4: [EasyShowView showImageText:@"自定义图片" image:[UIImage imageNamed:@"HUD_NF.png"]];  break ;
+//    }
+//    return ;
     static int b_0 = 0 ;
     switch (row) {
         case 0:

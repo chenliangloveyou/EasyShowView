@@ -81,7 +81,7 @@
     showView.showImage = image ;
     showView.showType = showType ;
     
-    showView.showTime = 1 + text.length*1 ;
+    showView.showTime = 1 + text.length*0.15 ;
     if (showView.showTime > [EasyShowOptions sharedEasyShowOptions].maxShowTime) {
         showView.showTime = [EasyShowOptions sharedEasyShowOptions].maxShowTime ;
     }
@@ -116,7 +116,7 @@
     
     if (self.options.showStartAnimation) {
         
-        if (self.options.textStatusType==ShowTextStatusTypeStatusBar || self.options.textStatusType==ShowTextStatusTypeNavigation) {
+        if (self.isShowedStatusBar || self.isShowedNavigation) {
             self.y = - self.height ;
             [UIView animateWithDuration:self.options.showAnimationTime animations:^{
                 self.y = 0 ;
@@ -131,7 +131,7 @@
         
     }
     else{
-        if (self.options.textStatusType==ShowTextStatusTypeStatusBar || self.options.textStatusType==ShowTextStatusTypeNavigation) {
+        if (self.isShowedStatusBar || self.isShowedNavigation) {
             self.y = 0 ;
         }
         else{
@@ -247,7 +247,7 @@
         //移除自己
         if (self.options.showEndAnimation) {
             
-            if (self.options.textStatusType==ShowTextStatusTypeStatusBar || self.options.textStatusType==ShowTextStatusTypeNavigation) {
+            if (self.isShowedStatusBar || self.isShowedNavigation) {
 
                 [UIView animateWithDuration:self.options.showAnimationTime animations:^{
                     self.y = -self.height ;
@@ -301,6 +301,17 @@
     }
 }
 
+#pragma mark - getter
+//是否显示在statusbar上
+- (BOOL)isShowedStatusBar
+{
+    return self.options.textStatusType==ShowTextStatusTypeStatusBar ;
+}
+//是否正在显示在navigation上
+- (BOOL)isShowedNavigation
+{
+    return self.options.textStatusType==ShowTextStatusTypeNavigation ;
+}
 - (EasyShowOptions *)options
 {
     if (nil == _options) {
