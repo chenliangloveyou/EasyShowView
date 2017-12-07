@@ -113,9 +113,10 @@
     self.showBgView = [[EasyShowBgView alloc]initWithFrame:showFrame
                                                     status:self.showTextStatus
                                                       text:self.showText
-                                                     image:self.showImage];
+                                                     image:self.showImage
+                                                  showtype:self.showType];
     [self addSubview:self.showBgView];
-    
+    self.showBgView.backgroundColor = [UIColor redColor];
     //只有展示文字的时候，才需要自动消失
     if (self.showType == ShowTypeText) {
         [self.removeTimer fire];
@@ -123,7 +124,7 @@
     
     if (self.options.showStartAnimation) {
         
-        if (self.isShowedStatusBar || self.isShowedNavigation) {
+        if (self.showType==ShowTypeText && (self.isShowedStatusBar || self.isShowedNavigation)) {
             self.y = - self.height ;
             [UIView animateWithDuration:self.options.showAnimationTime animations:^{
                 self.y = 0 ;
@@ -138,7 +139,7 @@
         
     }
     else{
-        if (self.isShowedStatusBar || self.isShowedNavigation) {
+        if (self.showType==ShowTypeText && (self.isShowedStatusBar || self.isShowedNavigation)) {
             self.y = 0 ;
         }
         else{
@@ -183,20 +184,35 @@
                                                  font:self.options.textFount
                                              maxWidth:self.options.maxWidthScale*SCREEN_WIDTH];
     }
-    textSize.height = (textSize.height?(textSize.height+30):0) ;
-    textSize.width = textSize.width?(textSize.width+40):0  ;
+    backGroundH = (textSize.height?(textSize.height+30):0) ;
+    backGroundW = textSize.width?(textSize.width+40):0  ;
     
     if (backGroundW < EasyShowViewMinWidth) {
         backGroundW = EasyShowViewMinWidth  ;
     }
     
     if (self.options.showLodingType > ShowLodingTypeImage) {//左右形式
-        
+        backGroundW = backGroundW + imageH ;
     }
     else{//上下形式
-        
+        backGroundH = backGroundH + imageH ;
     }
-    return CGRectZero ;
+    
+    CGFloat showFrameY = (SCREEN_HEIGHT-backGroundH)/2  ;//默认显示在中间
+    //显示区域的frame
+    CGRect showFrame = CGRectMake(0, 0, backGroundW, backGroundH);
+    if (self.options.superViewReceiveEvent) {
+        //父视图能接受事件--> self的大小为显示区域的大小
+        self.frame =  CGRectMake((SCREEN_WIDTH-backGroundW)/2, showFrameY, backGroundW, backGroundH);
+    }
+    else{
+        
+        //父视图不能接收-->self的大小应该为superview的大小。来遮盖
+        self.frame = CGRectMake(0, 0, superView.width, superView.height) ;
+        
+        showFrame.origin = CGPointMake((self.width-backGroundW)/2, showFrameY) ;
+    }
+    return showFrame ;
 }
 //获取需要展示框的大小
 - (CGRect)showTextRectWithSuperView:(UIView *)superView
@@ -292,7 +308,7 @@
         //移除自己
         if (self.options.showEndAnimation) {
             
-            if (self.isShowedStatusBar || self.isShowedNavigation) {
+            if (self.showType==ShowTypeText && (self.isShowedStatusBar || self.isShowedNavigation)) {
 
                 [UIView animateWithDuration:self.options.showAnimationTime animations:^{
                     self.y = -self.height ;

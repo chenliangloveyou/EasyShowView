@@ -12,7 +12,7 @@
 
 @interface EasyShowBgView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame status:(ShowTextStatus)status text:(NSString *)text image:(UIImage *)image ;
+- (instancetype)initWithFrame:(CGRect)frame status:(ShowTextStatus)status text:(NSString *)text image:(UIImage *)image showtype:(ShowType)showtype;
 
 - (void)showWindowYToPoint:(CGFloat)toPoint ;
 

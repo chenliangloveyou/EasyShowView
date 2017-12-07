@@ -24,6 +24,7 @@
 
 @property (nonatomic,strong)UIWindow *showTextWindow ;
 
+@property ShowType showtype ;
 @end
 
 @implementation EasyShowBgView
@@ -39,22 +40,31 @@
 {
     self.showTextWindow.y = toPoint ;
 }
-- (instancetype)initWithFrame:(CGRect)frame status:(ShowTextStatus)status text:(NSString *)text image:(UIImage *)image
+- (instancetype)initWithFrame:(CGRect)frame status:(ShowTextStatus)status text:(NSString *)text image:(UIImage *)image showtype:(ShowType)showtype
 {
     if ([super initWithFrame:frame]) {
        
         self.backgroundColor = self.options.backGroundColor ; //[UIColor redColor]; //
         
         _showTextStatus = status ;
-
-        if (!(self.isShowedStatusBar || self.isShowedNavigation)) {
-     
+        _showtype = showtype ;
+        
+        if (showtype==ShowTypeText && (!(self.isShowedStatusBar||self.isShowedNavigation))) {
+            
             [self setRoundedCorners];
             
             if (_showTextStatus != ShowTextStatusPureText) {//只要不是纯文字，其他的都需要显示图片
                 self.imageView.top  = EasyDrawImageEdge ;
             }
         }
+        
+        if (showtype==ShowTypeLoding && self.options.showLodingType>ShowLodingTypeImage) {//左右的形式
+            self.imageView.frame = CGRectMake(EasyDrawImageEdge/2, EasyDrawImageEdge/2, EasyDrawImageWH, EasyDrawImageWH);
+        }
+        if (image) {
+            self.imageView.image = image ;
+        }
+
         
         if (!ISEMPTY(text)) {
             CGSize textSize = [EasyShowUtils textWidthWithStirng:text
@@ -63,54 +73,57 @@
        
             self.textLabel.text = text ;
 
-            if (self.isShowedStatusBar || self.isShowedNavigation) {
+            if (showtype == ShowTypeText) {
                 
-                CGFloat addX = self.isShowedStatusBar ? 7 : 10 ;
-                CGFloat addH = self.isShowedStatusBar ?: 5;
-                self.textLabel.frame = CGRectMake(self.imageView.right + addX , self.imageView.top - addH, self.width - self.imageView.right - 5, self.imageView.height +addH*2 ) ;
-//                self.textLabel.backgroundColor = [UIColor yellowColor];
-                self.textLabel.textAlignment = NSTextAlignmentLeft ;
+                if (self.isShowedStatusBar||self.isShowedNavigation) {
+                    
+                    CGFloat addX = self.isShowedStatusBar ? 7 : 10 ;
+                    CGFloat addH = self.isShowedStatusBar ?: 5;
+                    self.textLabel.frame = CGRectMake(self.imageView.right + addX , self.imageView.top - addH, self.width - self.imageView.right - 5, self.imageView.height +addH*2 ) ;
+                    //                self.textLabel.backgroundColor = [UIColor yellowColor];
+                    self.textLabel.textAlignment = NSTextAlignmentLeft ;
+                }
+                else{
+                    
+                    self.textLabel.frame = CGRectMake(20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
+                    self.textLabel.textAlignment = NSTextAlignmentCenter ;
+                }
             }
             else{
-                
-                self.textLabel.frame = CGRectMake(20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
-                self.textLabel.textAlignment = NSTextAlignmentCenter ;
+                if (self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
+                    self.textLabel.frame = CGRectMake(EasyDrawImageWH + 20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
+                }
+                else{//上下形式
+                    self.textLabel.frame = CGRectMake( 20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
+                }
             }
             
-//            if (self.showStatus==ShowStatusLoding && self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
-//                self.textLabel.frame = CGRectMake(EasyDrawImageWH + 20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
-//            }
-        }
-//        if (self.showStatus==ShowStatusLoding && self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
-//            self.imageView.frame = CGRectMake(EasyDrawImageEdge/2, EasyDrawImageEdge/2, EasyDrawImageWH, EasyDrawImageWH);
-//        }
-        if (image) {
-            self.imageView.image = image ;
         }
 
-//        if (status == ShowStatusLoding){
-//
-//            switch (self.options.showLodingType) {
-//                case ShowLodingTypeDefault:
-//                case ShowLodingTypeLeftDefault:
-//                    [self drawAnimationImageViewLoding];
-//                    break;
-//                case ShowLodingTypeIndicator:
-//                case ShowLodingTypeLeftIndicator:
-//                    [self.imageViewIndeicator startAnimating];
-//                    break ;
-//                case ShowLodingTypeImage:
-//                case ShowLodingTypeLeftImage:
-//                    [self drawAnimiationImageView:YES];
-//                    break ;
-//                default:
-//                    break;
-//            }
-//
-//        }
-//        else{
+        
+        if (showtype == ShowTypeLoding){
+
+            switch (self.options.showLodingType) {
+                case ShowLodingTypeDefault:
+                case ShowLodingTypeLeftDefault:
+                    [self drawAnimationImageViewLoding];
+                    break;
+                case ShowLodingTypeIndicator:
+                case ShowLodingTypeLeftIndicator:
+                    [self.imageViewIndeicator startAnimating];
+                    break ;
+                case ShowLodingTypeImage:
+                case ShowLodingTypeLeftImage:
+                    [self drawAnimiationImageView:YES];
+                    break ;
+                default:
+                    break;
+            }
+
+        }
+        else{
             [self drawAnimationImageView];
-//        }
+        }
     }
     return self ;
 }
@@ -286,18 +299,18 @@
         CGFloat imageWH = EasyDrawImageWH ;
         CGFloat imageX = (self.width-EasyDrawImageWH)/2 ;
         CGFloat imageY = EasyDrawImageEdge/2 ;
-        if (self.options.textStatusType == ShowTextStatusTypeStatusBar) {
+        if (self.showtype==ShowTypeText && self.isShowedStatusBar) {
             imageWH = 15 ;
             imageX = 10 ;
             imageY = self.height - imageWH - 2.5 ;
-        }else if (self.isShowedNavigation){
+        }else if (self.showtype==ShowTypeText && self.isShowedNavigation){
             imageX = 10 ;
             imageY = (self.height - imageWH)/2 + (ISIPHONE_X ? 20 : 3 );
         }
         
         _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(imageX,imageY , imageWH, imageWH)];
         //        _imageView.backgroundColor = [UIColor redColor];
-        if (self.isShowedStatusBar || self.isShowedNavigation) {
+        if (self.showtype==ShowTypeText &&(self.isShowedStatusBar||self.isShowedNavigation)) {
             [self.showTextWindow addSubview:_imageView];
         }
         else{
@@ -315,7 +328,7 @@
         _textLabel.backgroundColor = [UIColor clearColor];
         _textLabel.textAlignment = NSTextAlignmentCenter ;
         _textLabel.numberOfLines = 0 ;
-        if (self.options.textStatusType == ShowTextStatusTypeStatusBar || self.isShowedNavigation) {
+        if (self.showtype==ShowTypeText &&(self.isShowedStatusBar||self.isShowedNavigation)) {
             [self.showTextWindow addSubview:_textLabel];
         }
         else{

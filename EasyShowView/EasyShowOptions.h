@@ -90,8 +90,7 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
 @property BOOL showEndAnimation ;//是否弹出移除掉的动画
 @property CGFloat showAnimationTime;//展示动画的时间
 
-@property ShowTextStatusType textStatusType ; //显示文字的时候，显示在哪个地方
-
+@property ShowTextStatusType textStatusType ; //文字的显示样式
 @property ShowLodingType showLodingType ;//加载框的显示样式
 
 singleton_interface(EasyShowOptions)
