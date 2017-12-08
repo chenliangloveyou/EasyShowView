@@ -53,7 +53,7 @@
             
             [self setRoundedCorners];
             
-            if (_showTextStatus != ShowTextStatusPureText) {//只要不是纯文字，其他的都需要显示图片
+            if (_showTextStatus != ShowTextStatusPureText && (!ISEMPTY(text))) {//只要不是纯文字，其他的都需要显示图片
                 self.imageView.top  = EasyDrawImageEdge ;
             }
         }
@@ -309,7 +309,7 @@
         }
         
         _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(imageX,imageY , imageWH, imageWH)];
-        //        _imageView.backgroundColor = [UIColor redColor];
+//                _imageView.backgroundColor = [UIColor yellowColor];
         if (self.showtype==ShowTypeText &&(self.isShowedStatusBar||self.isShowedNavigation)) {
             [self.showTextWindow addSubview:_imageView];
         }

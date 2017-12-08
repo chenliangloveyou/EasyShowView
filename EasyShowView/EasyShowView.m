@@ -32,6 +32,15 @@
 
 @property (nonatomic,strong)EasyShowBgView *showBgView ;//用于放图片和文字的背景
 
+
+@property (nonatomic,strong)UILabel *alertTitleLabel ;
+@property (nonatomic,strong)UILabel *alertMessageLabel ;
+@property (nonatomic,strong)NSMutableArray<EasyShowAlertItem *> *alertItemArray ;
+@property (nonatomic,strong)NSMutableArray *alertButtonArray ;
+
+@property (nonatomic,strong)UIWindow *alertWindow ;
+@property (nonatomic,strong)UIView *alertBgView ;
+
 @end
 
 @implementation EasyShowView
@@ -41,6 +50,176 @@
     NSLog(@"%p EasyShowView dealloc",self );
 }
 
++ (instancetype)showAlertWithTitle:(NSString *)title message:(NSString *)message
+{
+    EasyShowView *showView = [[EasyShowView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    showView.alertTitleLabel.text = title ;
+    showView.alertMessageLabel.text = message ;
+    showView.alertItemArray = [NSMutableArray arrayWithCapacity:3];
+    return showView ;
+}
+- (void)addAlertItem:(EasyShowAlertItem *)item
+{
+    [self.alertItemArray addObject:item];
+}
+- (void)layoutAlertSubViews
+{
+    CGFloat bgViewMaxWidth = 260 ;
+    CGFloat titleLabelMargin = 30 ;
+    CGFloat messageLabelMargin = 20 ;
+    CGFloat buttonHeight = 40 ;
+    
+    CGSize titleLabelSize = [self.alertTitleLabel sizeThatFits:CGSizeMake(bgViewMaxWidth-2*titleLabelMargin, MAXFLOAT)];
+    self.alertTitleLabel.frame = CGRectMake(titleLabelMargin, titleLabelMargin, bgViewMaxWidth-2*titleLabelMargin, titleLabelSize.height);
+    
+    CGSize messageLabelSize = [self.alertMessageLabel sizeThatFits:CGSizeMake(bgViewMaxWidth-2*messageLabelMargin, MAXFLOAT)];
+    self.alertMessageLabel.frame = CGRectMake(messageLabelMargin, self.alertTitleLabel.bottom+messageLabelMargin, bgViewMaxWidth-2*messageLabelMargin, messageLabelSize.height) ;
+    
+    CGFloat totalHeight = 0 ;
+    for (int i = 0; i < self.alertButtonArray.count; i++) {
+        UIButton *tempButton = self.alertButtonArray[i];
+        CGFloat tempButtonY = self.alertMessageLabel.bottom + messageLabelMargin + 0.5 + i*buttonHeight ;
+        [tempButton setFrame:CGRectMake(0, tempButtonY, bgViewMaxWidth, buttonHeight)];
+        totalHeight = tempButton.bottom ;
+    }
+    
+    self.alertBgView.bounds = CGRectMake(0, 0, bgViewMaxWidth, totalHeight);
+    self.alertBgView.center = self.center ;
+}
+
+- (void)showAlert
+{
+    [self.alertWindow addSubview:self];
+
+    [self addSubview:self.alertBgView];
+    
+    [self.alertBgView addSubview:self.alertTitleLabel];
+    [self.alertBgView addSubview:self.alertMessageLabel];
+    for (int i = 0; i < self.alertItemArray.count; i++) {
+        UIButton *button = [self alertButtonWithIndex:i ];
+        [self.alertBgView addSubview:button];
+    }
+    
+    [self layoutAlertSubViews];
+}
+- (void)buttonAction:(UIButton *)button
+{
+    
+}
+- (UIView *)alertBgView
+{
+    if (nil == _alertBgView) {
+        _alertBgView = [[UIView alloc]init];
+        _alertBgView.backgroundColor = [UIColor blackColor];
+    }
+    return _alertBgView ;
+}
+- (NSMutableArray *)alertButtonArray
+{
+    if (nil == _alertButtonArray) {
+        _alertButtonArray = [NSMutableArray arrayWithCapacity:3];
+    }
+    return _alertButtonArray ;
+}
+- (UILabel *)alertTitleLabel
+{
+    if (nil == _alertTitleLabel) {
+        _alertTitleLabel = [[UILabel alloc]init];
+        _alertTitleLabel.textAlignment = NSTextAlignmentCenter;
+        _alertTitleLabel.backgroundColor = [UIColor purpleColor];
+        _alertTitleLabel.font = [UIFont boldSystemFontOfSize:20];
+        _alertTitleLabel.textColor = [UIColor yellowColor];
+        _alertTitleLabel.numberOfLines = 0;
+    }
+    return _alertTitleLabel ;
+}
+- (UILabel *)alertMessageLabel
+{
+    if (nil == _alertMessageLabel) {
+        _alertMessageLabel = [[UILabel alloc] init];
+        _alertMessageLabel.textAlignment = NSTextAlignmentCenter;
+        _alertMessageLabel.backgroundColor = [UIColor orangeColor];
+        _alertMessageLabel.font = [UIFont systemFontOfSize:15];
+        _alertMessageLabel.textColor = [UIColor whiteColor];
+        _alertMessageLabel.numberOfLines = 0;
+    }
+    return _alertMessageLabel ;
+}
+- (UIButton *)alertButtonWithIndex:(long)index
+{
+    EasyShowAlertItem *item = self.alertItemArray[index];
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.tag = index;
+    button.adjustsImageWhenHighlighted = NO;
+    [button setTitle:item.title forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+
+    UIImage *bgImage = [EasyShowUtils imageWithColor:[UIColor blueColor]];
+    UIImage *bgHighImage = [EasyShowUtils imageWithColor:[[UIColor blueColor]colorWithAlphaComponent:0.7] ];
+    [button setBackgroundImage:bgImage forState:UIControlStateNormal];
+    [button setBackgroundImage:bgHighImage forState:UIControlStateHighlighted];
+    
+    UIFont *textFont = [UIFont systemFontOfSize:17] ;
+    UIColor *textColor = [UIColor blackColor] ;
+    switch (item.itemTpye) {
+        case ShowAlertItemTypeRed: {
+            textColor = [UIColor redColor];
+        }break ;
+        case ShowAlertItemTypeBlodRed:{
+            textColor = [UIColor redColor];
+            textFont  = [UIFont boldSystemFontOfSize:17] ;
+        }break ;
+        case ShowAlertItemTypeBlue:{
+            textColor = [UIColor blueColor];
+        }break ;
+        case ShowAlertItemTypeBlodBlue:{
+            textColor = [UIColor blueColor];
+            textFont = [UIFont boldSystemFontOfSize:17] ;
+        }break ;
+        case ShowAlertItemTypeBlack:{
+            
+        }break ;
+        case ShowAlertItemTypeBlodBlack:{
+            textFont = [UIFont boldSystemFontOfSize:17] ;
+        }break ;
+        case ShowStatusTextTypeCustom:{
+            
+        }break ;
+    }
+    [button setTitleColor:textColor forState:UIControlStateNormal];
+    [button setTitleColor:[textColor colorWithAlphaComponent:0.2] forState:UIControlStateHighlighted];
+    [button.titleLabel setFont:textFont] ;
+    
+    [self.alertButtonArray addObject:button];
+    
+    return button ;
+}
+- (UIWindow *)alertWindow {
+    if (nil == _alertWindow) {
+        
+        _alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(alertWindowTap)];
+        [_alertWindow addGestureRecognizer:tapGes];
+        _alertWindow.backgroundColor = [UIColor yellowColor];
+        _alertWindow.alpha = 0.1;
+        _alertWindow.hidden = NO ;
+    }
+    
+    return _alertWindow;
+}
+- (void)alertWindowTap
+{
+    [self.alertWindow removeFromSuperview];
+    self.alertWindow = nil;
+    [self removeFromSuperview];
+}
+
+
+
+
+
+
 + (void)showLodingWithText:(NSString *)text inView:(UIView *)superView image:(UIImage *)image
 {
     [EasyShowView showText:text inView:superView image:image textStatus:-1 showType:ShowTypeLoding];
@@ -49,6 +228,7 @@
 {
     [EasyShowView showText:text inView:view image:image textStatus:status showType:ShowTypeText];
 }
+
 + (void)showText:(NSString *)text inView:(UIView *)view image:(UIImage *)image textStatus:(ShowTextStatus)status showType:(ShowType)showType
 {
     if (status==ShowTextStatusPureText && ISEMPTY(text)) {//
@@ -85,6 +265,10 @@
     if (showView.showTime > [EasyShowOptions sharedEasyShowOptions].maxShowTime) {
         showView.showTime = [EasyShowOptions sharedEasyShowOptions].maxShowTime ;
     }
+    if (showView.showTime < 2) {
+        showView.showTime = 2 ;
+    }
+    
     showView.timerShowTime = 0 ;
     [showView showViewWithSuperView:view];
 }
@@ -116,7 +300,6 @@
                                                      image:self.showImage
                                                   showtype:self.showType];
     [self addSubview:self.showBgView];
-    self.showBgView.backgroundColor = [UIColor redColor];
     //只有展示文字的时候，才需要自动消失
     if (self.showType == ShowTypeText) {
         [self.removeTimer fire];
@@ -164,13 +347,6 @@
 - (CGRect)showLodingRectWithSuperView:(UIView *)superView
 {
     
-//    ShowLodingTypeDefault , //默认转圈样式
-//    ShowLodingTypeIndicator ,   //菊花样式
-//    ShowLodingTypeImage ,//自定义图片转圈样式
-//    ShowLodingTypeLeftDefault ,//默认在左边转圈样式
-//    ShowLodingTypeLeftIndicator , //菊花在左边的样式
-//    ShowLodingTypeLeftImage,//自动以图片左边转圈样式
-    
     //显示图片的高度。
     CGFloat imageH = self.showTextStatus==ShowTextStatusPureText ?:(EasyDrawImageWH + EasyDrawImageEdge) ;
     
@@ -186,11 +362,7 @@
     }
     backGroundH = (textSize.height?(textSize.height+30):0) ;
     backGroundW = textSize.width?(textSize.width+40):0  ;
-    
-    if (backGroundW < EasyShowViewMinWidth) {
-        backGroundW = EasyShowViewMinWidth  ;
-    }
-    
+   
     if (self.options.showLodingType > ShowLodingTypeImage) {//左右形式
         backGroundW = backGroundW + imageH ;
     }
@@ -198,6 +370,12 @@
         backGroundH = backGroundH + imageH ;
     }
     
+    if (backGroundW < EasyShowViewMinWidth) {
+        backGroundW = EasyShowViewMinWidth  ;
+    }
+    if (backGroundH < EasyShowViewMinWidth) {
+        backGroundH = EasyShowViewMinWidth  ;
+    }
     CGFloat showFrameY = (SCREEN_HEIGHT-backGroundH)/2  ;//默认显示在中间
     //显示区域的frame
     CGRect showFrame = CGRectMake(0, 0, backGroundW, backGroundH);

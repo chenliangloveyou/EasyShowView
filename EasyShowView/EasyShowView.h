@@ -11,6 +11,7 @@
 
 #import "EasyShowUtils.h"
 #import "EasyShowBgView.h"
+#import "EasyShowAlertItem.h"
 
 @interface EasyShowView : UIView
 
@@ -23,4 +24,7 @@
 
 - (void)clearCurrentShow ;
 
++ (instancetype)showAlertWithTitle:(NSString *)title message:(NSString *)message ;
+- (void)addAlertItem:(EasyShowAlertItem *)item ;
+- (void)showAlert ;
 @end

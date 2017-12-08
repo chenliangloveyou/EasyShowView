@@ -95,6 +95,7 @@ return _instance;       \
 
 + (UIViewController *)topViewController ;
 
++ (UIImage *)imageWithColor:(UIColor *)color ;
 @end
 
 

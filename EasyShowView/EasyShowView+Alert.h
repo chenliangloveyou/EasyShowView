@@ -11,7 +11,7 @@
 #import "EasyShowOptions.h"
 #import "EasyShowAlertItem.h"
 
-typedef void (^showAlertCallback)(EasyShowView *showView , NSUInteger index);
+//typedef void (^showAlertCallback)(EasyShowView *showView , NSUInteger index);
 
 
 @interface EasyShowView (Alert)
@@ -22,7 +22,7 @@ typedef void (^showAlertCallback)(EasyShowView *showView , NSUInteger index);
 - (void)addItemWithTitle:(NSString *)title
                    image:(UIImage *)image
                 itemType:(ShowAlertItemType)itemType
-                callback:(showAlertCallback)callback;
+                callback:(alertItemCallback)callback;
 
 - (void)show ;
 

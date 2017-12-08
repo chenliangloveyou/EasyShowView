@@ -80,10 +80,10 @@
     [EasyShowOptions sharedEasyShowOptions].textStatusType = (aa++)%5 ;//ShowTextStatusTypeStatusBar ; //
     switch (row) {
         case 0: [EasyShowView showText:@"这是一条纯文字消息"];  break;
-        case 1: [EasyShowView showSuccessText:@"恭喜您通过所有关卡!"];  break;
-        case 2: [EasyShowView showErrorText:@"加载失败！"];  break ;
-        case 3: [EasyShowView showInfoText:@"请完善信息！"];  break ;
-        case 4: [EasyShowView showImageText:@"自定义图片" image:[UIImage imageNamed:@"HUD_NF.png"]];  break ;
+        case 1: [EasyShowView showSuccessText:@""];  break;
+        case 2: [EasyShowView showErrorText:@""];  break ;
+        case 3: [EasyShowView showInfoText:@""];  break ;
+        case 4: [EasyShowView showImageText:@"" image:[UIImage imageNamed:@"HUD_NF.png"]];  break ;
     }
 }
 - (void)showLodingWithRow:(long)row
@@ -102,11 +102,11 @@
     switch (row) {
         case 0:
             [EasyShowOptions sharedEasyShowOptions].showLodingType = ++b_0%2 ? ShowLodingTypeLeftDefault : ShowLodingTypeDefault ;
-            [EasyShowView showLodingText:@"默认加载中..."];
+            [EasyShowView showLodingText:@""];
             break;
         case 1:
             [EasyShowOptions sharedEasyShowOptions].showLodingType = ++b_0%2 ? ShowLodingTypeLeftIndicator : ShowLodingTypeIndicator ;
-            [EasyShowView showLodingText:@"菊花加载中..."];
+            [EasyShowView showLodingText:@""];
             break ;
         case 2:
             [EasyShowOptions sharedEasyShowOptions].showLodingType = ++b_0%2 ? ShowLodingTypeLeftImage : ShowLodingTypeImage ;
@@ -121,38 +121,43 @@
 }
 - (void)showAlertWithRow:(long)row
 {
-    static int aa = 0 ;
-    [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowTextStatusTypeNavigation ; // (aa++)%5 ;//
-    switch (row) {
-        case 0: [EasyShowView showText:@"这是一条纯文发发烧了；放到就离开家烧了；福建省多了扣积分读书节独立思考建档立卡 范德萨了；就字消息"];  break;
-        case 1: [EasyShowView showSuccessText:@"恭喜您通过所有关卡!"];  break;
-        case 2: [EasyShowView showErrorText:@"加载失败！"];  break ;
-        case 3: [EasyShowView showInfoText:@"请完善信息！"];  break ;
-        case 4: [EasyShowView showImageText:@"自定义图片" image:[UIImage imageNamed:@"HUD_NF.png"]];  break ;
-    }
-    return ;
+//    static int aa = 0 ;
+//    [EasyShowOptions sharedEasyShowOptions].textStatusType = ShowTextStatusTypeNavigation ; // (aa++)%5 ;//
+//    switch (row) {
+//        case 0: [EasyShowView showText:@"这是一条纯文发发烧了；放到就离开家烧了；福建省多了扣积分读书节独立思考建档立卡 范德萨了；就字消息"];  break;
+//        case 1: [EasyShowView showSuccessText:@"恭喜您通过所有关卡!"];  break;
+//        case 2: [EasyShowView showErrorText:@"加载失败！"];  break ;
+//        case 3: [EasyShowView showInfoText:@"请完善信息！"];  break ;
+//        case 4: [EasyShowView showImageText:@"自定义图片" image:[UIImage imageNamed:@"HUD_NF.png"]];  break ;
+//    }
+//    return ;
     switch (row) {
         case 0:
-            //                    [EasyShowView showAlertWithTitle:@"提示" desc:@"发送开机发送开机" buttonArray:@[@"取消",@"确定",@"您好",@"确定",@"您好"] callBack:nil];
-            break;
+        {
+            EasyShowView *showView = [EasyShowView showAlertWithTitle:@"提示" message:@"确定删除发撒发逻辑是否快捷登录法拉第设计方老师大嫁风尚拉克的就分类考试大积分此数据吗？"];
+            [showView addItemWithTitle:@"确定吗打了款" image:nil itemType:ShowAlertItemTypeBlack callback:^(EasyShowView *showview) {
+                NSLog(@"yes");
+            }];
+            [showView addItemWithTitle:@"取消抄错" image:nil itemType:ShowAlertItemTypeBlodRed callback:^(EasyShowView *showview) {
+                NSLog(@"取消抄错");
+            }];
+            [showView show];
+        }break;
         case 1:
         {
-            //                    __block NSArray *titleArray = @[@"确定",@"取消",@"点击迪桑阿牛"] ;
-            //                    [EasyShowView showAlertSystemWithTitle:@"提示" desc:@"这是提示先的副标题(可以为空)" buttonArray:titleArray callBack:^(NSUInteger index) {
-            //                        NSLog(@"%zd----  %@",index ,titleArray[index]);
-            //                    }];
+        
         }break;
         default:
         {
-            EasyShowView *showAlet = [EasyShowView showActionSheetWithTitle:@"提示" message:@"这是提示的副标题"] ;
-            [showAlet addItemWithTitle:@"确定" image:[UIImage imageNamed:@"HUD_NF.png"] itemType:9 callback:^(EasyShowView *showView, NSUInteger index) {
-                NSLog(@"dddd");
-            }];
-            [showAlet addItemWithTitle:@"" image:nil itemType:ShowAlertItemTypeRed callback:^(EasyShowView *showView, NSUInteger index) {
-                NSLog(@"read") ;
-            }];
-            
-            [showAlet show];
+//            EasyShowView *showAlet = [EasyShowView showActionSheetWithTitle:@"提示" message:@"这是提示的副标题"] ;
+//            [showAlet addItemWithTitle:@"确定" image:[UIImage imageNamed:@"HUD_NF.png"] itemType:9 callback:^(EasyShowView *showView, NSUInteger index) {
+//                NSLog(@"dddd");
+//            }];
+//            [showAlet addItemWithTitle:@"" image:nil itemType:ShowAlertItemTypeRed callback:^(EasyShowView *showView, NSUInteger index) {
+//                NSLog(@"read") ;
+//            }];
+//
+//            [showAlet show];
         }break ;
             
     }
