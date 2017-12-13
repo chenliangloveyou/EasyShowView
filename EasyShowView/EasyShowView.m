@@ -14,6 +14,35 @@
 
 #import "EasyShowOptions.h"
 
+@interface EasyAlertLabel :UILabel
+@property (nonatomic) UIEdgeInsets contentInset;
+@end
+
+@implementation EasyAlertLabel
+- (void)setContentInset:(UIEdgeInsets)contentInset {
+    _contentInset = contentInset;
+    NSString *tempString = self.text;
+    self.text = @"";
+    self.text = tempString;
+}
+- (CGRect)textRectForBounds:(CGRect)bounds limitedToNumberOfLines:(NSInteger)numberOfLines {
+    UIEdgeInsets insets = self.contentInset;
+    CGRect rect = [super textRectForBounds:UIEdgeInsetsInsetRect(bounds, insets)
+                    limitedToNumberOfLines:numberOfLines];
+    
+    rect.origin.x    -= insets.left;
+    rect.origin.y    -= insets.top;
+    rect.size.width  += (insets.left + insets.right);
+    rect.size.height += (insets.top + insets.bottom);
+    
+    return rect;
+}
+
+-(void)drawTextInRect:(CGRect)rect {
+    [super drawTextInRect:UIEdgeInsetsInsetRect(rect, self.contentInset)];
+}
+@end
+
 
 @interface EasyShowView()<CAAnimationDelegate>
 
@@ -67,7 +96,7 @@
     CGFloat bgViewMaxWidth = 300 ;
     CGFloat titleLabelMargin = 30 ;
     CGFloat messageLabelMargin = 20 ;
-    CGFloat buttonHeight = 40 ;
+    CGFloat buttonHeight = 44 ;
     
     CGSize titleLabelSize = [self.alertTitleLabel sizeThatFits:CGSizeMake(bgViewMaxWidth-2*titleLabelMargin, MAXFLOAT)];
     self.alertTitleLabel.frame = CGRectMake(titleLabelMargin, titleLabelMargin, bgViewMaxWidth-2*titleLabelMargin, titleLabelSize.height);
@@ -78,7 +107,7 @@
     CGFloat totalHeight = 0 ;
     for (int i = 0; i < self.alertButtonArray.count; i++) {
         UIButton *tempButton = self.alertButtonArray[i];
-        CGFloat tempButtonY = self.alertMessageLabel.bottom + messageLabelMargin + 0.5 + i*buttonHeight ;
+        CGFloat tempButtonY = self.alertMessageLabel.bottom + messageLabelMargin  + i*(buttonHeight+ 1.5) ;
         [tempButton setFrame:CGRectMake(0, tempButtonY, bgViewMaxWidth, buttonHeight)];
         totalHeight = tempButton.bottom ;
     }
@@ -88,9 +117,9 @@
     
     UIColor *boderColor = [[UIColor lightGrayColor]colorWithAlphaComponent:0.3];
     [self.alertBgView setRoundedCorners:UIRectCornerAllCorners
-                            borderWidth:1.5
+                            borderWidth:1
                             borderColor:boderColor
-                             cornerSize:CGSizeMake(3,3)];//需要添加阴影
+                             cornerSize:CGSizeMake(15,15)];//需要添加阴影
 
 }
 
@@ -117,7 +146,7 @@
 {
     if (nil == _alertBgView) {
         _alertBgView = [[UIView alloc]init];
-        _alertBgView.backgroundColor = [UIColor whiteColor];
+        _alertBgView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 //        _alertBgView.clipsToBounds = YES ;
 //        _alertBgView.layer.cornerRadius = 10 ;
     }
@@ -135,8 +164,8 @@
     if (nil == _alertTitleLabel) {
         _alertTitleLabel = [[UILabel alloc]init];
         _alertTitleLabel.textAlignment = NSTextAlignmentCenter;
-        _alertTitleLabel.backgroundColor = [UIColor clearColor];
-        _alertTitleLabel.font = [UIFont boldSystemFontOfSize:18];
+        _alertTitleLabel.backgroundColor = [UIColor yellowColor];
+        _alertTitleLabel.font = [UIFont boldSystemFontOfSize:20];
 //        _alertTitleLabel.textColor = [UIColor yellowColor];
         _alertTitleLabel.numberOfLines = 0;
     }
@@ -148,8 +177,8 @@
         _alertMessageLabel = [[UILabel alloc] init];
         _alertMessageLabel.textAlignment = NSTextAlignmentCenter;
         _alertMessageLabel.backgroundColor = [UIColor clearColor];
-        _alertMessageLabel.font = [UIFont systemFontOfSize:15];
-        _alertMessageLabel.textColor = [UIColor lightGrayColor];
+        _alertMessageLabel.font = [UIFont systemFontOfSize:17];
+        _alertMessageLabel.textColor = [UIColor grayColor];
         _alertMessageLabel.numberOfLines = 0;
     }
     return _alertMessageLabel ;
@@ -210,7 +239,7 @@
         _alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(alertWindowTap)];
         [_alertWindow addGestureRecognizer:tapGes];
-        _alertWindow.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.3];
+        _alertWindow.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
         _alertWindow.hidden = NO ;
     }
     
