@@ -64,7 +64,7 @@
 }
 - (void)layoutAlertSubViews
 {
-    CGFloat bgViewMaxWidth = 260 ;
+    CGFloat bgViewMaxWidth = 300 ;
     CGFloat titleLabelMargin = 30 ;
     CGFloat messageLabelMargin = 20 ;
     CGFloat buttonHeight = 40 ;
@@ -85,6 +85,13 @@
     
     self.alertBgView.bounds = CGRectMake(0, 0, bgViewMaxWidth, totalHeight);
     self.alertBgView.center = self.center ;
+    
+    UIColor *boderColor = [[UIColor lightGrayColor]colorWithAlphaComponent:0.3];
+    [self.alertBgView setRoundedCorners:UIRectCornerAllCorners
+                            borderWidth:1.5
+                            borderColor:boderColor
+                             cornerSize:CGSizeMake(3,3)];//需要添加阴影
+
 }
 
 - (void)showAlert
@@ -110,7 +117,9 @@
 {
     if (nil == _alertBgView) {
         _alertBgView = [[UIView alloc]init];
-        _alertBgView.backgroundColor = [UIColor blackColor];
+        _alertBgView.backgroundColor = [UIColor whiteColor];
+//        _alertBgView.clipsToBounds = YES ;
+//        _alertBgView.layer.cornerRadius = 10 ;
     }
     return _alertBgView ;
 }
@@ -126,9 +135,9 @@
     if (nil == _alertTitleLabel) {
         _alertTitleLabel = [[UILabel alloc]init];
         _alertTitleLabel.textAlignment = NSTextAlignmentCenter;
-        _alertTitleLabel.backgroundColor = [UIColor purpleColor];
-        _alertTitleLabel.font = [UIFont boldSystemFontOfSize:20];
-        _alertTitleLabel.textColor = [UIColor yellowColor];
+        _alertTitleLabel.backgroundColor = [UIColor clearColor];
+        _alertTitleLabel.font = [UIFont boldSystemFontOfSize:18];
+//        _alertTitleLabel.textColor = [UIColor yellowColor];
         _alertTitleLabel.numberOfLines = 0;
     }
     return _alertTitleLabel ;
@@ -138,9 +147,9 @@
     if (nil == _alertMessageLabel) {
         _alertMessageLabel = [[UILabel alloc] init];
         _alertMessageLabel.textAlignment = NSTextAlignmentCenter;
-        _alertMessageLabel.backgroundColor = [UIColor orangeColor];
+        _alertMessageLabel.backgroundColor = [UIColor clearColor];
         _alertMessageLabel.font = [UIFont systemFontOfSize:15];
-        _alertMessageLabel.textColor = [UIColor whiteColor];
+        _alertMessageLabel.textColor = [UIColor lightGrayColor];
         _alertMessageLabel.numberOfLines = 0;
     }
     return _alertMessageLabel ;
@@ -155,8 +164,8 @@
     [button setTitle:item.title forState:UIControlStateNormal];
     [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
 
-    UIImage *bgImage = [EasyShowUtils imageWithColor:[UIColor blueColor]];
-    UIImage *bgHighImage = [EasyShowUtils imageWithColor:[[UIColor blueColor]colorWithAlphaComponent:0.7] ];
+    UIImage *bgImage = [EasyShowUtils imageWithColor:[UIColor whiteColor]];
+    UIImage *bgHighImage = [EasyShowUtils imageWithColor:[[UIColor whiteColor]colorWithAlphaComponent:0.7] ];
     [button setBackgroundImage:bgImage forState:UIControlStateNormal];
     [button setBackgroundImage:bgHighImage forState:UIControlStateHighlighted];
     
@@ -201,8 +210,7 @@
         _alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(alertWindowTap)];
         [_alertWindow addGestureRecognizer:tapGes];
-        _alertWindow.backgroundColor = [UIColor yellowColor];
-        _alertWindow.alpha = 0.1;
+        _alertWindow.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.3];
         _alertWindow.hidden = NO ;
     }
     
@@ -214,6 +222,10 @@
     self.alertWindow = nil;
     [self removeFromSuperview];
 }
+
+
+
+
 
 
 

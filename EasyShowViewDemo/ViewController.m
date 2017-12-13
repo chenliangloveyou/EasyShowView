@@ -141,6 +141,9 @@
             [showView addItemWithTitle:@"取消抄错" image:nil itemType:ShowAlertItemTypeBlodRed callback:^(EasyShowView *showview) {
                 NSLog(@"取消抄错");
             }];
+            [showView addItemWithTitle:@"确定" image:nil itemType:ShowAlertItemTypeBlodBlue callback:^(EasyShowView *showview) {
+                NSLog(@"确定");
+            }];
             [showView show];
         }break;
         case 1:
