@@ -10,6 +10,8 @@
 
 @interface EasyShowTextView : EasyShowView
 
+- (void)clearCurrentShow ;
+
 
 + (void)showText:(NSString *)text ;
 + (void)showText:(NSString *)text inView:(UIView *)view ;

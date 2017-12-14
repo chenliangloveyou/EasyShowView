@@ -36,7 +36,7 @@
 }
 + (void)showLodingText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView
 {
-    [EasyShowView showLodingWithText:text inView:superView image:image];
+//    [EasyShowView showLodingWithText:text inView:superView image:image];
 }
 
 

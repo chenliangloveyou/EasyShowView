@@ -19,9 +19,9 @@
 
 #pragma mark - pravite
 
-+ (void)showToastWithText:(NSString *)text inView:(UIView *)view image:(UIImage *)image stauts:(ShowTextStatus)status ;
-
-+ (void)showLodingWithText:(NSString *)text inView:(UIView *)superView image:(UIImage *)image ;
+//+ (void)showToastWithText:(NSString *)text inView:(UIView *)view image:(UIImage *)image stauts:(ShowTextStatus)status ;
+//
+//+ (void)showLodingWithText:(NSString *)text inView:(UIView *)superView image:(UIImage *)image ;
 
 - (void)clearCurrentShow ;
 
