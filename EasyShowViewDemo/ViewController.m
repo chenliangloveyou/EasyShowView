@@ -129,6 +129,9 @@
 //        case 4: [EasyShowView showImageText:@"自定义图片" image:[UIImage imageNamed:@"HUD_NF.png"]];  break ;
 //    }
 //    return ;
+    
+        static int aa = 0 ;
+        [EasyShowOptions sharedEasyShowOptions].alertAnimationType =  (aa++)%4 ;//
     switch (row) {
         case 0:
         {

@@ -64,6 +64,16 @@ typedef NS_ENUM(NSUInteger , ShowLodingType) {
 //    ShowLodingTypeCustomImages ,//以一个图片数组轮流播放
 };
 
+/**
+ * alertView的动画形式
+ */
+typedef NS_ENUM(NSUInteger , alertAnimationType) {
+    alertAnimationTypeNone ,//无动画
+    alertAnimationTypeFade,//alpha改变
+    alertAnimationTypeBounce ,//抖动
+    alertAnimationTypeZoom, //放大缩小
+};
+
 UIKIT_EXTERN const CGFloat EasyDrawImageWH ;
 UIKIT_EXTERN const CGFloat EasyDrawImageEdge ;
 UIKIT_EXTERN const CGFloat EasyTextShowEdge ;
@@ -96,6 +106,7 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
 #pragma mark - alert
 @property (nonatomic,strong)UIColor *alertBackgroundColor ;
 @property (nonatomic,assign)BOOL alertTowItemHorizontal ;//如果按钮只有两个就横着排
+@property (nonatomic,assign)alertAnimationType alertAnimationType ;//显示动画类型
 
 singleton_interface(EasyShowOptions)
 

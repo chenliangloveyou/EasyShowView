@@ -64,7 +64,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 };
 
 
-@interface EasyShowAlertView()
+@interface EasyShowAlertView()<CAAnimationDelegate>
 
 @property (nonatomic,assign)alertShowType alertShowType ;
 
@@ -128,8 +128,121 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
     }
     
     [self layoutAlertSubViews];
-}
+   
+    [self showStartAnimationWithType:self.options.alertAnimationType completion:nil];
 
+}
+- (void)showEndAnimationWithType:(alertAnimationType)type completion:(void(^)(void))completion
+{
+    switch (type) {
+        case alertAnimationTypeFade:
+        {
+            [UIView animateWithDuration:self.options.showAnimationTime
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseIn
+                             animations:^{
+                                 self.alpha = .0f;
+                                 self.transform = CGAffineTransformIdentity;
+                             } completion:^(BOOL finished) {
+                                 if (completion) {
+                                     completion() ;
+                                 }
+                             }];
+        }break;
+        case alertAnimationTypeZoom:
+        {
+            self.alpha = 0 ;
+            self.transform = CGAffineTransformConcat(CGAffineTransformIdentity, CGAffineTransformMakeScale(0.5f, 0.5f));
+
+            [UIView animateWithDuration:self.options.showAnimationTime
+                             animations:^{
+                                 self.alpha = 1.0f;
+                                 self.transform = CGAffineTransformIdentity;
+                             } completion:^(BOOL finished) {
+                                 if (completion) {
+                                     completion() ;
+                                 }
+                             }];
+        }break ;
+        case alertAnimationTypeBounce:
+        {
+            CABasicAnimation *bacAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+            bacAnimation.duration = self.options.showAnimationTime ;
+            bacAnimation.beginTime = .0;
+            bacAnimation.timingFunction = [CAMediaTimingFunction functionWithControlPoints:0.4f :0.3f :0.5f :-0.5f];
+            bacAnimation.fromValue = [NSNumber numberWithFloat:1.0f];
+            bacAnimation.toValue = [NSNumber numberWithFloat:0.0f];
+            
+            CAAnimationGroup *animationGroup = [CAAnimationGroup animation];
+            animationGroup.animations = @[bacAnimation];
+            animationGroup.duration =  bacAnimation.duration;
+            animationGroup.removedOnCompletion = NO;
+            animationGroup.fillMode = kCAFillModeForwards;
+            
+            animationGroup.delegate = self ;
+            [animationGroup setValue:completion forKey:@"handler"];
+
+            [self.alertBgView.layer addAnimation:animationGroup forKey:nil];
+        }break ;
+            
+        default:
+        {
+            if (completion) {
+                completion();
+            }
+        }
+            break;
+    }
+}
+#pragma mark - CAAnimation delegate
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    void(^completion)(void) = [anim valueForKey:@"handler"];
+    if (completion) {
+        completion();
+    }
+}
+- (void)showStartAnimationWithType:(alertAnimationType)type completion:(void(^)(void))completion
+{
+    switch (type) {
+        case alertAnimationTypeFade:
+        {
+            self.alertBgView.alpha = 0 ;
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:self.options.showAnimationTime];
+            self.alertBgView.alpha = 1.0f;
+            [UIView commitAnimations];
+        }break;
+        case alertAnimationTypeZoom:
+        {
+            self.alertBgView.alpha = 0 ;
+            self.alertBgView.transform = CGAffineTransformConcat(CGAffineTransformIdentity, CGAffineTransformMakeScale(3, 3));
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:self.options.showAnimationTime];
+            self.alertBgView.alpha = 1.0f;
+                self.alertBgView.transform = CGAffineTransformIdentity;
+            [UIView commitAnimations];
+        }break ;
+        case alertAnimationTypeBounce:
+        {
+            CAKeyframeAnimation *popAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+            popAnimation.duration = self.options.showAnimationTime;
+            popAnimation.values = @[[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.01f, 0.01f, 1.0f)],
+                                    [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.05f, 1.05f, 1.0f)],
+                                    [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.95f, 0.95f, 1.0f)],
+                                    [NSValue valueWithCATransform3D:CATransform3DIdentity]];
+            popAnimation.keyTimes = @[@0.2f, @0.5f, @0.75f, @1.0f];
+            popAnimation.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
+                                             [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
+                                             [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+            [self.alertBgView.layer addAnimation:popAnimation forKey:nil];
+        }break ;
+            
+        default:
+            break;
+    }
+}
 
 - (void)layoutAlertSubViews
 {
@@ -137,9 +250,15 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
     CGFloat buttonHeight = 50 ;
     
     CGSize titleLabelSize = [self.alertTitleLabel sizeThatFits:CGSizeMake(bgViewMaxWidth, MAXFLOAT)];
+    if (ISEMPTY(self.alertTitleLabel.text)) {
+        titleLabelSize.height = 10 ;
+    }
     self.alertTitleLabel.frame = CGRectMake(0, 0, bgViewMaxWidth, titleLabelSize.height);
     
     CGSize messageLabelSize = [self.alertMessageLabel sizeThatFits:CGSizeMake(bgViewMaxWidth, MAXFLOAT)];
+    if (ISEMPTY(self.alertMessageLabel.text)) {
+        messageLabelSize.height = 10 ;
+    }
     self.alertMessageLabel.frame = CGRectMake(0, self.alertTitleLabel.bottom, bgViewMaxWidth, messageLabelSize.height) ;
     
     CGFloat totalHeight = self.alertMessageLabel.bottom + 0.5 ;
@@ -185,8 +304,34 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
     
 }
 
+- (void)bgViewTap:(UIPanGestureRecognizer *)recognizer
+{
+    
+}
+- (void)bgViewPan:(UIPanGestureRecognizer *)recognizer
+{
+  
+    CGPoint location = [recognizer locationInView:self];
 
-- (void)buttonAction:(UIButton *)button
+    UIButton *tempButton = nil;
+    for (int i = 0; i < self.alertButtonArray.count; i++) {
+        UIButton *itemBtn = self.alertButtonArray[i];
+        CGRect btnFrame = [itemBtn convertRect:itemBtn.bounds toView:self];
+        if (CGRectContainsPoint(btnFrame, location)) {
+            itemBtn.highlighted = YES;
+            tempButton = itemBtn;
+        } else {
+            itemBtn.highlighted = NO;
+        }
+    }
+    
+    if (tempButton && recognizer.state == UIGestureRecognizerStateEnded) {
+        [self buttonClick:tempButton];
+    }
+    
+}
+
+- (void)buttonClick:(UIButton *)button
 {
     EasyShowAlertItem *item = self.alertItemArray[button.tag];
     if (item.callback) {
@@ -203,6 +348,11 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
         }else{
             _alertBgView.backgroundColor = [UIColor groupTableViewBackgroundColor];
         }
+        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(bgViewPan:)] ;
+        [_alertBgView addGestureRecognizer:panGesture];
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(bgViewTap:)] ;
+        [_alertBgView addGestureRecognizer:tapGesture];
+
         //        _alertBgView.clipsToBounds = YES ;
         //        _alertBgView.layer.cornerRadius = 10 ;
     }
@@ -257,7 +407,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
     button.tag = index;
     button.adjustsImageWhenHighlighted = NO;
     [button setTitle:item.title forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     
     UIImage *bgImage = [EasyShowUtils imageWithColor:[UIColor whiteColor]];
     UIImage *bgHighImage = [EasyShowUtils imageWithColor:[[UIColor whiteColor]colorWithAlphaComponent:0.7] ];
@@ -312,15 +462,22 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 }
 - (void)alertWindowTap
 {
-    [self.oldKeyWindow makeKeyWindow];
-    [self.alertWindow resignKeyWindow];
-    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    [self removeFromSuperview];
     
-    [self.alertWindow.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    self.alertWindow.hidden = YES ;
-    [self.alertWindow removeFromSuperview];
-    self.alertWindow = nil;
+    void (^completion)(void) = ^{
+        [self.oldKeyWindow makeKeyWindow];
+        [self.alertWindow resignKeyWindow];
+        [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        [self removeFromSuperview];
+        
+        [self.alertWindow.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        self.alertWindow.hidden = YES ;
+        [self.alertWindow removeFromSuperview];
+        self.alertWindow = nil;
+    };
+    
+    [self showEndAnimationWithType:self.options.alertAnimationType
+                        completion:completion];
+   
     
 }
 
