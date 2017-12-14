@@ -25,6 +25,7 @@
 @property (nonatomic,strong)UIWindow *showTextWindow ;
 
 @property ShowType showtype ;
+
 @end
 
 @implementation EasyShowBgView

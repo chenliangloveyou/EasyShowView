@@ -134,15 +134,42 @@
         {
             EasyShowAlertView *showView = [EasyShowAlertView showAlertWithTitle:@"提示" message:@"确定删除发撒发逻辑是否快捷登录法拉第设计方老师大嫁风尚拉克的就分类考试大积分此数据吗？"];
 
-//            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlack callback:^(EasyShowView *showview) {
-//                NSLog(@"好的=%@",showview) ;
-//            }];
-//            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlodBlack callback:^(EasyShowView *showview) {
-//                NSLog(@"好的=%@",showview) ;
-//            }];
+            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlack callback:^(EasyShowView *showview) {
+                NSLog(@"好的=%@",showview) ;
+            }];
+            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlodBlack callback:^(EasyShowView *showview) {
+                NSLog(@"好的=%@",showview) ;
+            }];
 //            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlue callback:^(EasyShowView *showview) {
 //                NSLog(@"好的=%@",showview) ;
 //            }];
+//            [showView addItemWithTitle:@"确定" itemType:ShowAlertItemTypeBlodBlue callback:^(EasyShowView *showview) {
+//                NSLog(@"好的=%@",showview) ;
+//            }];
+//            [showView addItemWithTitle:@"确定删除吗？" itemType:ShowAlertItemTypeRed callback:^(EasyShowView *showview) {
+//                NSLog(@"好的=%@",showview) ;
+//            }];
+//            [showView addItemWithTitle:@"点击取消当前操作！确定吗？" itemType:ShowAlertItemTypeBlodRed callback:^(EasyShowView *showview) {
+//                NSLog(@"好的=%@",showview) ;
+//            }];
+//            [showView addItemWithTitle:@"好的,我已了解" itemType:ShowStatusTextTypeCustom callback:^(EasyShowView *showview) {
+//                NSLog(@"好的=%@",showview) ;
+//            }];
+            [showView show];
+        }break;
+        case 1:
+        {
+            EasyShowAlertView *showView = [EasyShowAlertView showActionSheetWithTitle:@"提示" message:@"确定删除发撒发逻辑是否快捷登录法拉第设计方老师大嫁风尚拉克的就分类考试大积分此数据吗？"];
+            
+            //            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlack callback:^(EasyShowView *showview) {
+            //                NSLog(@"好的=%@",showview) ;
+            //            }];
+            //            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlodBlack callback:^(EasyShowView *showview) {
+            //                NSLog(@"好的=%@",showview) ;
+            //            }];
+            //            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlue callback:^(EasyShowView *showview) {
+            //                NSLog(@"好的=%@",showview) ;
+            //            }];
             [showView addItemWithTitle:@"确定" itemType:ShowAlertItemTypeBlodBlue callback:^(EasyShowView *showview) {
                 NSLog(@"好的=%@",showview) ;
             }];
@@ -152,15 +179,31 @@
             [showView addItemWithTitle:@"点击取消当前操作！确定吗？" itemType:ShowAlertItemTypeBlodRed callback:^(EasyShowView *showview) {
                 NSLog(@"好的=%@",showview) ;
             }];
-//            [showView addItemWithTitle:@"好的,我已了解" itemType:ShowStatusTextTypeCustom callback:^(EasyShowView *showview) {
-//                NSLog(@"好的=%@",showview) ;
-//            }];
+            //            [showView addItemWithTitle:@"好的,我已了解" itemType:ShowStatusTextTypeCustom callback:^(EasyShowView *showview) {
+            //                NSLog(@"好的=%@",showview) ;
+            //            }];
             [showView show];
         }break;
-        case 1:
+        case 2:
         {
-        
-        }break;
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet] ;
+            
+            [alert addAction:[UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+            }]] ;
+            
+            [alert addAction:[UIAlertAction actionWithTitle:@"从相册选择照片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+            }]] ;
+            
+//            [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//                
+//            }]] ;
+            
+            [self presentViewController:alert animated:YES completion:^{
+                
+            }] ;
+        }break ;
         default:
         {
 //            EasyShowView *showAlet = [EasyShowView showActionSheetWithTitle:@"提示" message:@"这是提示的副标题"] ;
@@ -172,6 +215,27 @@
 //            }];
 //
 //            [showAlet show];
+            
+            //创建AlertController对象 preferredStyle可以设置是AlertView样式或者ActionSheet样式
+            
+            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"修改" message:@"修改信息" preferredStyle:UIAlertControllerStyleActionSheet];
+
+            //创建取消按钮
+            UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                
+            }];
+            //创建确定按钮
+            UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            }];
+            //添加文本框
+//            [alertC addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+//            }];
+            //添加按钮
+            [alertC addAction:action1];
+            [alertC addAction:action2];
+            //显示
+            [self presentViewController:alertC animated:YES completion:nil];
+            
         }break ;
             
     }

@@ -10,19 +10,28 @@
 #import <UIKit/UIKit.h>
 
 #import "EasyShowUtils.h"
-#import "EasyShowBgView.h"
+#import "EasyShowOptions.h"
 
 @interface EasyShowView : UIView
 
+@property (nonatomic,strong)NSString *showText ;//展示的文字
+@property (nonatomic,strong)UIImage *showImage ;//展示的图片
+@property (nonatomic,assign)ShowType showType ;//展示的类型
+@property (nonatomic,assign)ShowTextStatus showTextStatus ;//展示的类型
+
+
 @property (nonatomic,strong)EasyShowOptions *options ;
+@property (nonatomic,assign)BOOL isShowedStatusBar ;
+@property (nonatomic,assign)BOOL isShowedNavigation ;
 
 
-#pragma mark - pravite
 
-//+ (void)showToastWithText:(NSString *)text inView:(UIView *)view image:(UIImage *)image stauts:(ShowTextStatus)status ;
-//
-//+ (void)showLodingWithText:(NSString *)text inView:(UIView *)superView image:(UIImage *)image ;
+- (void)showViewWithSuperView:(UIView *)superView ;
+- (void)removeSelfFromSuperView ;
 
-- (void)clearCurrentShow ;
+//获取显示区域的大小。
+- (CGRect)showRectWithSpuerView:(UIView *)superView ;
+
+
 
 @end

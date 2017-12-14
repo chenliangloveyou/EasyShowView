@@ -14,6 +14,9 @@ typedef void (^alertItemCallback)(EasyShowView *showview);
 @interface EasyShowAlertView : EasyShowView
 
 
++ (instancetype)showActionSheetWithTitle:(NSString *)title
+                                 message:(NSString *)message ;
+
 + (instancetype)showAlertWithTitle:(NSString *)title
                            message:(NSString *)message ;
 

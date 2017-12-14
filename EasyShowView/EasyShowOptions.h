@@ -93,8 +93,9 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
 @property ShowTextStatusType textStatusType ; //文字的显示样式
 @property ShowLodingType showLodingType ;//加载框的显示样式
 
-
+#pragma mark - alert
 @property (nonatomic,strong)UIColor *alertBackgroundColor ;
+@property (nonatomic,assign)BOOL alertTowItemHorizontal ;//如果按钮只有两个就横着排
 
 singleton_interface(EasyShowOptions)
 

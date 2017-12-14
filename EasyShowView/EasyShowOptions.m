@@ -46,6 +46,7 @@ singleton_implementation(EasyShowOptions)
         _showLodingType = ShowLodingTypeImage ;
         
 //        _alertBackgroundColor = [UIColor cyanColor];
+        _alertTowItemHorizontal = YES ;
     }
     return self ;
 }

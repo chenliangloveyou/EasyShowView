@@ -58,9 +58,15 @@
 @end
 
 
+typedef NS_ENUM(NSUInteger , alertShowType) {
+    alertShowTypeAlert ,
+    alertShowTypeActionSheet ,
+};
+
 
 @interface EasyShowAlertView()
 
+@property (nonatomic,assign)alertShowType alertShowType ;
 
 @property (nonatomic,strong)UILabel *alertTitleLabel ;
 @property (nonatomic,strong)UILabel *alertMessageLabel ;
@@ -76,80 +82,36 @@
 @implementation EasyShowAlertView
 
 
-- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message
-{
-    if (self = [super init]) {
-        
-    }
-    return self ;
-}
 + (instancetype)showActionSheetWithTitle:(NSString *)title message:(NSString *)message
+{
+    return [self showAlertWithType:alertShowTypeActionSheet title:title message:message];
+}
++ (instancetype)showAlertWithTitle:(NSString *)title message:(NSString *)message
+{
+    return [self showAlertWithType:alertShowTypeAlert title:title message:message];
+}
++ (instancetype)showAlertWithType:(alertShowType)type title:(NSString *)title message:(NSString *)message
 {
     if (ISEMPTY(title) && ISEMPTY(message)) {
         NSAssert(NO, @"you should set title or message") ;
         return nil;
     }
-    EasyShowAlertView *alertView = [EasyShowAlertView showAlertWithTitle:title message:message];
-    return alertView ;
+    EasyShowAlertView *showView = [[EasyShowAlertView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    showView.alertTitleLabel.text = title ;
+    showView.alertMessageLabel.text = message ;
+    showView.alertShowType = type ;
+    showView.alertItemArray = [NSMutableArray arrayWithCapacity:3];
+    return showView ;
 }
-
 - (void)addItemWithTitle:(NSString *)title itemType:(ShowAlertItemType)itemType callback:(alertItemCallback)callback
 {
     EasyShowAlertItem *item = [[EasyShowAlertItem alloc]init];
     item.title = title ;
     item.itemTpye = itemType ;
     item.callback = callback ;
-    [self addAlertItem:item];
-}
-- (void)show
-{
-    [self showAlert];
-}
-
-
-+ (instancetype)showAlertWithTitle:(NSString *)title message:(NSString *)message
-{
-    EasyShowAlertView *showView = [[EasyShowAlertView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    showView.alertTitleLabel.text = title ;
-    showView.alertMessageLabel.text = message ;
-    showView.alertItemArray = [NSMutableArray arrayWithCapacity:3];
-    return showView ;
-}
-- (void)addAlertItem:(EasyShowAlertItem *)item
-{
     [self.alertItemArray addObject:item];
 }
-- (void)layoutAlertSubViews
-{
-    CGFloat bgViewMaxWidth = SCREEN_WIDTH*0.75 ;
-    CGFloat buttonHeight = 44 ;
-    
-    CGSize titleLabelSize = [self.alertTitleLabel sizeThatFits:CGSizeMake(bgViewMaxWidth, MAXFLOAT)];
-    self.alertTitleLabel.frame = CGRectMake(0, 0, bgViewMaxWidth, titleLabelSize.height);
-    
-    CGSize messageLabelSize = [self.alertMessageLabel sizeThatFits:CGSizeMake(bgViewMaxWidth, MAXFLOAT)];
-    self.alertMessageLabel.frame = CGRectMake(0, self.alertTitleLabel.bottom, bgViewMaxWidth, messageLabelSize.height) ;
-    
-    CGFloat totalHeight = self.alertMessageLabel.bottom + 0.5 ;
-    for (int i = 0; i < self.alertButtonArray.count; i++) {
-        UIButton *tempButton = self.alertButtonArray[i];
-        CGFloat tempButtonY = self.alertMessageLabel.bottom + 0.5 + i*(buttonHeight+ 0.5) ;
-        [tempButton setFrame:CGRectMake(0, tempButtonY, bgViewMaxWidth, buttonHeight)];
-        totalHeight = tempButton.bottom ;
-    }
-    
-    self.alertBgView.bounds = CGRectMake(0, 0, bgViewMaxWidth, totalHeight);
-    self.alertBgView.center = self.center ;
-    
-    UIColor *boderColor = [[UIColor lightGrayColor]colorWithAlphaComponent:0.3];
-    [self.alertBgView setRoundedCorners:UIRectCornerAllCorners
-                            borderWidth:1
-                            borderColor:boderColor
-                             cornerSize:CGSizeMake(15,15)];//需要添加阴影
-    
-}
-
-- (void)showAlert
+- (void)show
 {
     self.oldKeyWindow = [UIApplication sharedApplication].keyWindow ;
     [self.oldKeyWindow resignKeyWindow];
@@ -167,6 +129,63 @@
     
     [self layoutAlertSubViews];
 }
+
+
+- (void)layoutAlertSubViews
+{
+    CGFloat bgViewMaxWidth = self.alertShowType==alertShowTypeAlert ?  SCREEN_WIDTH*0.75 : SCREEN_WIDTH ;
+    CGFloat buttonHeight = 50 ;
+    
+    CGSize titleLabelSize = [self.alertTitleLabel sizeThatFits:CGSizeMake(bgViewMaxWidth, MAXFLOAT)];
+    self.alertTitleLabel.frame = CGRectMake(0, 0, bgViewMaxWidth, titleLabelSize.height);
+    
+    CGSize messageLabelSize = [self.alertMessageLabel sizeThatFits:CGSizeMake(bgViewMaxWidth, MAXFLOAT)];
+    self.alertMessageLabel.frame = CGRectMake(0, self.alertTitleLabel.bottom, bgViewMaxWidth, messageLabelSize.height) ;
+    
+    CGFloat totalHeight = self.alertMessageLabel.bottom + 0.5 ;
+    CGFloat btnCount = self.alertButtonArray.count ;
+    
+    if (self.alertShowType==alertShowTypeAlert && btnCount==2 && self.options.alertTowItemHorizontal) {
+       
+        for (int i = 0; i < btnCount ; i++) {
+            UIButton *tempButton = self.alertButtonArray[i];
+            
+            CGFloat tempButtonX = i ? (bgViewMaxWidth/2+0.5) : 0 ;
+            CGFloat tempButtonY = self.alertMessageLabel.bottom +0.5  ;
+            [tempButton setFrame:CGRectMake(tempButtonX, tempButtonY, bgViewMaxWidth/2, buttonHeight)];
+            totalHeight = tempButton.bottom ;
+        }
+    }
+    else{
+        for (int i = 0; i < btnCount ; i++) {
+            UIButton *tempButton = self.alertButtonArray[i];
+            
+            CGFloat lineHeight = ((i==btnCount-1)&&self.alertShowType==alertShowTypeActionSheet) ? 10 : 0.5 ;
+            CGFloat tempButtonY = self.alertMessageLabel.bottom + lineHeight + i*(buttonHeight+ 0.5) ;
+            [tempButton setFrame:CGRectMake(0, tempButtonY, bgViewMaxWidth, buttonHeight)];
+            totalHeight = tempButton.bottom ;
+        }
+    }
+ 
+    self.alertBgView.bounds = CGRectMake(0, 0, bgViewMaxWidth, totalHeight);
+    
+    if (self.alertShowType == alertShowTypeAlert) {
+        self.alertBgView.center = self.center ;
+        
+        UIColor *boderColor = [[UIColor lightGrayColor]colorWithAlphaComponent:0.3];
+        [self.alertBgView setRoundedCorners:UIRectCornerAllCorners
+                                borderWidth:1
+                                borderColor:boderColor
+                                 cornerSize:CGSizeMake(15,15)];//需要添加阴影
+    }else{
+        self.alertBgView.center = CGPointMake(SCREEN_WIDTH/2, SCREEN_HEIGHT-(totalHeight/2));
+    }
+    
+
+    
+}
+
+
 - (void)buttonAction:(UIButton *)button
 {
     EasyShowAlertItem *item = self.alertItemArray[button.tag];
@@ -293,7 +312,6 @@
 }
 - (void)alertWindowTap
 {
-    
     [self.oldKeyWindow makeKeyWindow];
     [self.alertWindow resignKeyWindow];
     [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
