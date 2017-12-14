@@ -15,17 +15,28 @@
 #import "EasyShowOptions.h"
 
 @interface EasyAlertLabel :UILabel
+
+- (instancetype)initWithContentInset:(UIEdgeInsets)contentInset ;
+
 @property (nonatomic) UIEdgeInsets contentInset;
 @end
 
 @implementation EasyAlertLabel
+- (instancetype)initWithContentInset:(UIEdgeInsets)contentInset
+{
+    if (self = [super init]) {
+        _contentInset = contentInset ;
+    }
+    return self ;
+}
 - (void)setContentInset:(UIEdgeInsets)contentInset {
     _contentInset = contentInset;
     NSString *tempString = self.text;
     self.text = @"";
     self.text = tempString;
 }
-- (CGRect)textRectForBounds:(CGRect)bounds limitedToNumberOfLines:(NSInteger)numberOfLines {
+- (CGRect)textRectForBounds:(CGRect)bounds limitedToNumberOfLines:(NSInteger)numberOfLines
+{
     UIEdgeInsets insets = self.contentInset;
     CGRect rect = [super textRectForBounds:UIEdgeInsetsInsetRect(bounds, insets)
                     limitedToNumberOfLines:numberOfLines];
@@ -38,7 +49,8 @@
     return rect;
 }
 
--(void)drawTextInRect:(CGRect)rect {
+-(void)drawTextInRect:(CGRect)rect
+{
     [super drawTextInRect:UIEdgeInsetsInsetRect(rect, self.contentInset)];
 }
 @end
@@ -69,6 +81,7 @@
 
 @property (nonatomic,strong)UIWindow *alertWindow ;
 @property (nonatomic,strong)UIView *alertBgView ;
+@property (nonatomic,strong)UIWindow *oldKeyWindow ;
 
 @end
 
@@ -93,21 +106,19 @@
 }
 - (void)layoutAlertSubViews
 {
-    CGFloat bgViewMaxWidth = 300 ;
-    CGFloat titleLabelMargin = 30 ;
-    CGFloat messageLabelMargin = 20 ;
+    CGFloat bgViewMaxWidth = SCREEN_WIDTH*0.75 ;
     CGFloat buttonHeight = 44 ;
     
-    CGSize titleLabelSize = [self.alertTitleLabel sizeThatFits:CGSizeMake(bgViewMaxWidth-2*titleLabelMargin, MAXFLOAT)];
-    self.alertTitleLabel.frame = CGRectMake(titleLabelMargin, titleLabelMargin, bgViewMaxWidth-2*titleLabelMargin, titleLabelSize.height);
+    CGSize titleLabelSize = [self.alertTitleLabel sizeThatFits:CGSizeMake(bgViewMaxWidth, MAXFLOAT)];
+    self.alertTitleLabel.frame = CGRectMake(0, 0, bgViewMaxWidth, titleLabelSize.height);
     
-    CGSize messageLabelSize = [self.alertMessageLabel sizeThatFits:CGSizeMake(bgViewMaxWidth-2*messageLabelMargin, MAXFLOAT)];
-    self.alertMessageLabel.frame = CGRectMake(messageLabelMargin, self.alertTitleLabel.bottom+messageLabelMargin, bgViewMaxWidth-2*messageLabelMargin, messageLabelSize.height) ;
+    CGSize messageLabelSize = [self.alertMessageLabel sizeThatFits:CGSizeMake(bgViewMaxWidth, MAXFLOAT)];
+    self.alertMessageLabel.frame = CGRectMake(0, self.alertTitleLabel.bottom, bgViewMaxWidth, messageLabelSize.height) ;
     
-    CGFloat totalHeight = 0 ;
+    CGFloat totalHeight = self.alertMessageLabel.bottom + 0.5 ;
     for (int i = 0; i < self.alertButtonArray.count; i++) {
         UIButton *tempButton = self.alertButtonArray[i];
-        CGFloat tempButtonY = self.alertMessageLabel.bottom + messageLabelMargin  + i*(buttonHeight+ 1.5) ;
+        CGFloat tempButtonY = self.alertMessageLabel.bottom + 0.5 + i*(buttonHeight+ 0.5) ;
         [tempButton setFrame:CGRectMake(0, tempButtonY, bgViewMaxWidth, buttonHeight)];
         totalHeight = tempButton.bottom ;
     }
@@ -120,13 +131,16 @@
                             borderWidth:1
                             borderColor:boderColor
                              cornerSize:CGSizeMake(15,15)];//需要添加阴影
-
+    
 }
 
 - (void)showAlert
 {
+    self.oldKeyWindow = [UIApplication sharedApplication].keyWindow ;
+    [self.oldKeyWindow resignKeyWindow];
     [self.alertWindow addSubview:self];
-
+    [self.alertWindow makeKeyWindow];
+    
     [self addSubview:self.alertBgView];
     
     [self.alertBgView addSubview:self.alertTitleLabel];
@@ -140,15 +154,23 @@
 }
 - (void)buttonAction:(UIButton *)button
 {
-    
+    EasyShowAlertItem *item = self.alertItemArray[button.tag];
+    if (item.callback) {
+        item.callback(self);
+    }
+    [self alertWindowTap];
 }
 - (UIView *)alertBgView
 {
     if (nil == _alertBgView) {
         _alertBgView = [[UIView alloc]init];
-        _alertBgView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-//        _alertBgView.clipsToBounds = YES ;
-//        _alertBgView.layer.cornerRadius = 10 ;
+        if (self.options.alertBackgroundColor) {
+            _alertBgView.backgroundColor = self.options.alertBackgroundColor;
+        }else{
+            _alertBgView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        }
+        //        _alertBgView.clipsToBounds = YES ;
+        //        _alertBgView.layer.cornerRadius = 10 ;
     }
     return _alertBgView ;
 }
@@ -162,11 +184,16 @@
 - (UILabel *)alertTitleLabel
 {
     if (nil == _alertTitleLabel) {
-        _alertTitleLabel = [[UILabel alloc]init];
+        _alertTitleLabel = [[EasyAlertLabel alloc] initWithContentInset:UIEdgeInsetsMake(35, 30, 15, 30)];
         _alertTitleLabel.textAlignment = NSTextAlignmentCenter;
-        _alertTitleLabel.backgroundColor = [UIColor yellowColor];
+        if (self.options.alertBackgroundColor) {
+            _alertTitleLabel.backgroundColor = self.options.alertBackgroundColor;
+        }
+        else{
+            _alertTitleLabel.backgroundColor = [UIColor whiteColor];
+        }
         _alertTitleLabel.font = [UIFont boldSystemFontOfSize:20];
-//        _alertTitleLabel.textColor = [UIColor yellowColor];
+        //        _alertTitleLabel.textColor = [UIColor yellowColor];
         _alertTitleLabel.numberOfLines = 0;
     }
     return _alertTitleLabel ;
@@ -174,9 +201,14 @@
 - (UILabel *)alertMessageLabel
 {
     if (nil == _alertMessageLabel) {
-        _alertMessageLabel = [[UILabel alloc] init];
+        _alertMessageLabel = [[EasyAlertLabel alloc] initWithContentInset:UIEdgeInsetsMake(15, 30, 20, 30)];
         _alertMessageLabel.textAlignment = NSTextAlignmentCenter;
-        _alertMessageLabel.backgroundColor = [UIColor clearColor];
+        if (self.options.alertBackgroundColor) {
+            _alertMessageLabel.backgroundColor = self.options.alertBackgroundColor;
+        }
+        else{
+            _alertMessageLabel.backgroundColor = [UIColor whiteColor];
+        }
         _alertMessageLabel.font = [UIFont systemFontOfSize:17];
         _alertMessageLabel.textColor = [UIColor grayColor];
         _alertMessageLabel.numberOfLines = 0;
@@ -192,7 +224,7 @@
     button.adjustsImageWhenHighlighted = NO;
     [button setTitle:item.title forState:UIControlStateNormal];
     [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
-
+    
     UIImage *bgImage = [EasyShowUtils imageWithColor:[UIColor whiteColor]];
     UIImage *bgHighImage = [EasyShowUtils imageWithColor:[[UIColor whiteColor]colorWithAlphaComponent:0.7] ];
     [button setBackgroundImage:bgImage forState:UIControlStateNormal];
@@ -235,7 +267,6 @@
 }
 - (UIWindow *)alertWindow {
     if (nil == _alertWindow) {
-        
         _alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(alertWindowTap)];
         [_alertWindow addGestureRecognizer:tapGes];
@@ -247,9 +278,17 @@
 }
 - (void)alertWindowTap
 {
+    
+    [self.oldKeyWindow makeKeyWindow];
+    [self.alertWindow resignKeyWindow];
+    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self removeFromSuperview];
+    
+    [self.alertWindow.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    self.alertWindow.hidden = YES ;
     [self.alertWindow removeFromSuperview];
     self.alertWindow = nil;
-    [self removeFromSuperview];
+    
 }
 
 
@@ -346,36 +385,7 @@
         [self.removeTimer fire];
     }
     
-    if (self.options.showStartAnimation) {
-        
-        if (self.showType==ShowTypeText && (self.isShowedStatusBar || self.isShowedNavigation)) {
-            self.y = - self.height ;
-            [UIView animateWithDuration:self.options.showAnimationTime animations:^{
-                self.y = 0 ;
-                [self.showBgView showWindowYToPoint:0];
-            }] ;
-        }
-        else{
-            [self.showBgView showStartAnimationWithDuration:self.options.showAnimationTime];
-        }
-        
-        [superView addSubview:self];
-        
-    }
-    else{
-        if (self.showType==ShowTypeText && (self.isShowedStatusBar || self.isShowedNavigation)) {
-            self.y = 0 ;
-        }
-        else{
-            self.alpha = 0.1 ;
-            [UIView animateWithDuration:self.options.showAnimationTime animations:^{
-                self.alpha = 1.0 ;
-            } completion:^(BOOL finished) {
-                [superView addSubview:self];
-            }];
-        }
-       
-    }
+    [self showSelfToSuperView:superView];
     
     if (self.options.showShadow) {
         CGFloat afterStart = self.options.showStartAnimation ? self.options.showAnimationTime :0;
@@ -403,7 +413,7 @@
     }
     backGroundH = (textSize.height?(textSize.height+30):0) ;
     backGroundW = textSize.width?(textSize.width+40):0  ;
-   
+    
     if (self.options.showLodingType > ShowLodingTypeImage) {//左右形式
         backGroundW = backGroundW + imageH ;
     }
@@ -438,7 +448,7 @@
 {
     //显示图片的高度。
     CGFloat imageH = self.showTextStatus==ShowTextStatusPureText ?:(EasyDrawImageWH + EasyDrawImageEdge) ;
-
+    
     //显示区域的宽高
     CGFloat backGroundH = 0 ;
     CGFloat backGroundW = SCREEN_WIDTH ;
@@ -464,31 +474,31 @@
             }
         } break;
     }
-   
+    
     //显示区域的y值
     CGFloat showFrameY = (SCREEN_HEIGHT-backGroundH)/2  ;//默认显示在中间
-//    if (self.showTextStatus != ShowStatusLoding) {
-        switch (self.options.textStatusType ) {
-            case ShowTextStatusTypeNavigation:
-            case ShowTextStatusTypeStatusBar:
-                showFrameY = 0 ;
-                break ;
-            case ShowTextStatusTypeTop:
-                showFrameY = NAVIGATION_HEIGHT + EasyTextShowEdge ;
-                break;
-            case ShowTextStatusTypeBottom:
-                showFrameY = SCREEN_HEIGHT - backGroundH - EasyTextShowEdge ;
-                break ;
-            default: break;
-        }
-//    }
+    //    if (self.showTextStatus != ShowStatusLoding) {
+    switch (self.options.textStatusType ) {
+        case ShowTextStatusTypeNavigation:
+        case ShowTextStatusTypeStatusBar:
+            showFrameY = 0 ;
+            break ;
+        case ShowTextStatusTypeTop:
+            showFrameY = NAVIGATION_HEIGHT + EasyTextShowEdge ;
+            break;
+        case ShowTextStatusTypeBottom:
+            showFrameY = SCREEN_HEIGHT - backGroundH - EasyTextShowEdge ;
+            break ;
+        default: break;
+    }
+    //    }
     
     
     //显示区域的frame
     CGRect showFrame = CGRectMake(0, 0, backGroundW, backGroundH);
     
     if (self.options.superViewReceiveEvent) {
-       
+        
         //父视图能接受事件--> self的大小为显示区域的大小
         self.frame =  CGRectMake((SCREEN_WIDTH-backGroundW)/2, showFrameY, backGroundW, backGroundH);
     }
@@ -503,11 +513,6 @@
     return showFrame ;
 }
 
-- (void)clearCurrentShow
-{
-    _timerShowTime = [EasyShowOptions sharedEasyShowOptions].maxShowTime + 1 ;
-    [self timerAction];
-}
 - (void)timerAction
 {
     if (_timerShowTime >= _showTime ) {
@@ -518,44 +523,85 @@
             [_removeTimer invalidate];
             _removeTimer = nil ;
         }
-       
+        
         //移除阴影
         if (self.options.showShadow) {
             [self hiddenBackgrouldsubLayer];
         }
         
         //移除自己
-        if (self.options.showEndAnimation) {
-            
-            if (self.showType==ShowTypeText && (self.isShowedStatusBar || self.isShowedNavigation)) {
-
-                [UIView animateWithDuration:self.options.showAnimationTime animations:^{
-                    self.y = -self.height ;
-                    [self.showBgView showWindowYToPoint:-self.height ];
-                    NSLog(@"========= %.2f",self.y);
-                }completion:^(BOOL finished) {
-                    [self removeFromSuperview];
-                }] ;
-            }
-            else{
-                [self.showBgView showEndAnimationWithDuration:self.options.showAnimationTime];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.options.showAnimationTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [self removeFromSuperview];
-                });
-            }
-        }
-        else{
-            [UIView animateWithDuration:self.options.showAnimationTime animations:^{
-                self.alpha = 0.1 ;
-            }completion:^(BOOL finished) {
-                [self removeFromSuperview];
-            }] ;
-        }
+        [self removeSelfFromSuperView];
     }
     _timerShowTime++ ;
     
 }
 
+- (void)clearCurrentShow
+{
+    _timerShowTime = [EasyShowOptions sharedEasyShowOptions].maxShowTime + 1 ;
+    [self timerAction];
+}
+- (void)showSelfToSuperView:(UIView *)superView
+{
+    if (self.options.showStartAnimation) {
+        
+        if (self.showType==ShowTypeText && (self.isShowedStatusBar || self.isShowedNavigation)) {
+            self.y = - self.height ;
+            [UIView animateWithDuration:self.options.showAnimationTime animations:^{
+                self.y = 0 ;
+                [self.showBgView showWindowYToPoint:0];
+            }] ;
+        }
+        else{
+            [self.showBgView showStartAnimationWithDuration:self.options.showAnimationTime];
+        }
+        
+        [superView addSubview:self];
+        
+    }
+    else{
+        if (self.showType==ShowTypeText && (self.isShowedStatusBar || self.isShowedNavigation)) {
+            self.y = 0 ;
+        }
+        else{
+            self.alpha = 0.1 ;
+            [UIView animateWithDuration:self.options.showAnimationTime animations:^{
+                self.alpha = 1.0 ;
+            } completion:^(BOOL finished) {
+                [superView addSubview:self];
+            }];
+        }
+    }
+}
+- (void)removeSelfFromSuperView
+{
+    if (self.options.showEndAnimation) {
+        
+        if (self.showType==ShowTypeText && (self.isShowedStatusBar || self.isShowedNavigation)) {
+            
+            [UIView animateWithDuration:self.options.showAnimationTime animations:^{
+                self.y = -self.height ;
+                [self.showBgView showWindowYToPoint:-self.height ];
+                NSLog(@"========= %.2f",self.y);
+            }completion:^(BOOL finished) {
+                [self removeFromSuperview];
+            }] ;
+        }
+        else{
+            [self.showBgView showEndAnimationWithDuration:self.options.showAnimationTime];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.options.showAnimationTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self removeFromSuperview];
+            });
+        }
+    }
+    else{
+        [UIView animateWithDuration:self.options.showAnimationTime animations:^{
+            self.alpha = 0.1 ;
+        }completion:^(BOOL finished) {
+            [self removeFromSuperview];
+        }] ;
+    }
+}
 - (void)showBackgrouldsubLayer
 {
     CALayer *addSubLayer=[CALayer layer];

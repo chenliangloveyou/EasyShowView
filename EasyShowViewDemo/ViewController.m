@@ -135,15 +135,28 @@
         case 0:
         {
             EasyShowView *showView = [EasyShowView showAlertWithTitle:@"提示" message:@"确定删除发撒发逻辑是否快捷登录法拉第设计方老师大嫁风尚拉克的就分类考试大积分此数据吗？"];
-            [showView addItemWithTitle:@"确定吗打了款" image:nil itemType:ShowAlertItemTypeBlack callback:^(EasyShowView *showview) {
-                NSLog(@"yes");
+
+//            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlack callback:^(EasyShowView *showview) {
+//                NSLog(@"好的=%@",showview) ;
+//            }];
+//            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlodBlack callback:^(EasyShowView *showview) {
+//                NSLog(@"好的=%@",showview) ;
+//            }];
+//            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlue callback:^(EasyShowView *showview) {
+//                NSLog(@"好的=%@",showview) ;
+//            }];
+            [showView addItemWithTitle:@"确定" itemType:ShowAlertItemTypeBlodBlue callback:^(EasyShowView *showview) {
+                NSLog(@"好的=%@",showview) ;
             }];
-            [showView addItemWithTitle:@"取消抄错" image:nil itemType:ShowAlertItemTypeBlodRed callback:^(EasyShowView *showview) {
-                NSLog(@"取消抄错");
+            [showView addItemWithTitle:@"确定删除吗？" itemType:ShowAlertItemTypeRed callback:^(EasyShowView *showview) {
+                NSLog(@"好的=%@",showview) ;
             }];
-            [showView addItemWithTitle:@"确定" image:nil itemType:ShowAlertItemTypeBlodBlue callback:^(EasyShowView *showview) {
-                NSLog(@"确定");
+            [showView addItemWithTitle:@"点击取消当前操作！确定吗？" itemType:ShowAlertItemTypeBlodRed callback:^(EasyShowView *showview) {
+                NSLog(@"好的=%@",showview) ;
             }];
+//            [showView addItemWithTitle:@"好的,我已了解" itemType:ShowStatusTextTypeCustom callback:^(EasyShowView *showview) {
+//                NSLog(@"好的=%@",showview) ;
+//            }];
             [showView show];
         }break;
         case 1:

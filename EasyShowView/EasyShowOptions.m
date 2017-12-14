@@ -31,7 +31,7 @@ singleton_implementation(EasyShowOptions)
         _textColor = [UIColor whiteColor];
         
         _showShadow = YES ;
-        _shadowColor = [UIColor redColor];
+        _shadowColor = [UIColor cyanColor];
         
         _maxWidthScale = 0.8 ;
         _maxShowTime = 6.0f ;
@@ -44,6 +44,8 @@ singleton_implementation(EasyShowOptions)
         _showAnimationTime = 0.4 ;
         
         _showLodingType = ShowLodingTypeImage ;
+        
+//        _alertBackgroundColor = [UIColor cyanColor];
     }
     return self ;
 }

@@ -20,7 +20,6 @@
                                  message:(NSString *)message ;
 
 - (void)addItemWithTitle:(NSString *)title
-                   image:(UIImage *)image
                 itemType:(ShowAlertItemType)itemType
                 callback:(alertItemCallback)callback;
 

@@ -42,15 +42,18 @@
 }
 + (instancetype)showActionSheetWithTitle:(NSString *)title message:(NSString *)message
 {
+    if (ISEMPTY(title) && ISEMPTY(message)) {
+        NSAssert(NO, @"you should set title or message") ;
+        return nil;
+    }
     EasyShowView *showView = [EasyShowView showAlertWithTitle:title message:message];
     return showView ;
 }
 
-- (void)addItemWithTitle:(NSString *)title image:(UIImage *)image itemType:(ShowAlertItemType)itemType callback:(alertItemCallback)callback
+- (void)addItemWithTitle:(NSString *)title itemType:(ShowAlertItemType)itemType callback:(alertItemCallback)callback
 {
     EasyShowAlertItem *item = [[EasyShowAlertItem alloc]init];
     item.title = title ;
-    item.image = image ;
     item.itemTpye = itemType ;
     item.callback = callback ;
     [self addAlertItem:item];
