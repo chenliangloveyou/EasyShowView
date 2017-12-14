@@ -7,11 +7,9 @@
 //
 
 #import "ViewController.h"
-#import "EasyShowView.h"
-#import "EasyShowView+Loding.h"
-#import "EasyShowView+Text.h"
-#import "EasyShowView+Alert.h"
+#import "EasyShow.h"
 #import "EasyShowOptions.h"
+
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong)UITableView *tableView ;
@@ -79,11 +77,11 @@
     static int aa = 0 ;
     [EasyShowOptions sharedEasyShowOptions].textStatusType = (aa++)%5 ;//ShowTextStatusTypeStatusBar ; //
     switch (row) {
-        case 0: [EasyShowView showText:@"这是一条纯文字消息"];  break;
-        case 1: [EasyShowView showSuccessText:@""];  break;
-        case 2: [EasyShowView showErrorText:@""];  break ;
-        case 3: [EasyShowView showInfoText:@""];  break ;
-        case 4: [EasyShowView showImageText:@"" image:[UIImage imageNamed:@"HUD_NF.png"]];  break ;
+        case 0: [EasyShowTextView showText:@"这是一条纯文字消息"];  break;
+        case 1: [EasyShowTextView showSuccessText:@""];  break;
+        case 2: [EasyShowTextView showErrorText:@""];  break ;
+        case 3: [EasyShowTextView showInfoText:@""];  break ;
+        case 4: [EasyShowTextView showImageText:@"" image:[UIImage imageNamed:@"HUD_NF.png"]];  break ;
     }
 }
 - (void)showLodingWithRow:(long)row
@@ -102,18 +100,18 @@
     switch (row) {
         case 0:
             [EasyShowOptions sharedEasyShowOptions].showLodingType = ++b_0%2 ? ShowLodingTypeLeftDefault : ShowLodingTypeDefault ;
-            [EasyShowView showLodingText:@""];
+            [EasyShowLodingView showLodingText:@""];
             break;
         case 1:
             [EasyShowOptions sharedEasyShowOptions].showLodingType = ++b_0%2 ? ShowLodingTypeLeftIndicator : ShowLodingTypeIndicator ;
-            [EasyShowView showLodingText:@""];
+            [EasyShowLodingView showLodingText:@""];
             break ;
         case 2:
             [EasyShowOptions sharedEasyShowOptions].showLodingType = ++b_0%2 ? ShowLodingTypeLeftImage : ShowLodingTypeImage ;
-            [EasyShowView showLodingText:@"正在加载中,请稍后..." image:[UIImage imageNamed:@"HUD_NF.png"]];
+            [EasyShowLodingView showLodingText:@"正在加载中,请稍后..." image:[UIImage imageNamed:@"HUD_NF.png"]];
             break ;
         case 3:
-            [EasyShowView hidenLoding];
+            [EasyShowLodingView hidenLoding];
             break ;
         default:
             break;
@@ -134,7 +132,7 @@
     switch (row) {
         case 0:
         {
-            EasyShowView *showView = [EasyShowView showAlertWithTitle:@"提示" message:@"确定删除发撒发逻辑是否快捷登录法拉第设计方老师大嫁风尚拉克的就分类考试大积分此数据吗？"];
+            EasyShowAlertView *showView = [EasyShowAlertView showAlertWithTitle:@"提示" message:@"确定删除发撒发逻辑是否快捷登录法拉第设计方老师大嫁风尚拉克的就分类考试大积分此数据吗？"];
 
 //            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlack callback:^(EasyShowView *showview) {
 //                NSLog(@"好的=%@",showview) ;

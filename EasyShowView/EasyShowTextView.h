@@ -1,14 +1,14 @@
 //
-//  EasyShowView+Text.h
+//  EasyShowTextView.h
 //  EasyShowViewDemo
 //
-//  Created by nf on 2017/11/29.
+//  Created by nf on 2017/12/14.
 //  Copyright © 2017年 chenliangloveyou. All rights reserved.
 //
 
 #import "EasyShowView.h"
 
-@interface EasyShowView (Text)
+@interface EasyShowTextView : EasyShowView
 
 
 + (void)showText:(NSString *)text ;
@@ -25,5 +25,6 @@
 
 + (void)showImageText:(NSString *)text image:(UIImage *)image ;
 + (void)showImageText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView ;
+
 
 @end

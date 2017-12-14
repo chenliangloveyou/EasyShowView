@@ -10,9 +10,10 @@
 #define EasyShow_h
 
 #import "EasyShowView.h"
-#import "EasyShowView+Text.h"
-#import "EasyShowView+Loding.h"
-#import "EasyShowView+Alert.h"
+#import "EasyShowTextView.h"
+#import "EasyShowLodingView.h"
+#import "EasyShowAlertView.h"
+
 #import "EasyShowOptions.h"
 
 #endif /* EasyShow_h */

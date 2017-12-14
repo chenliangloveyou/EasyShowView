@@ -1,14 +1,14 @@
 //
-//  EasyShowView+Loding.h
+//  EasyShowLodingView.h
 //  EasyShowViewDemo
 //
-//  Created by nf on 2017/11/29.
+//  Created by nf on 2017/12/14.
 //  Copyright © 2017年 chenliangloveyou. All rights reserved.
 //
 
 #import "EasyShowView.h"
 
-@interface EasyShowView (Loding)
+@interface EasyShowLodingView : EasyShowView
 
 
 + (void)showLoding ;
@@ -23,6 +23,7 @@
 + (void)hidenLoding ;
 + (void)hidenLoingInView:(UIView *)superView ;
 + (void)hidenAllLoding ;
+
 
 
 @end

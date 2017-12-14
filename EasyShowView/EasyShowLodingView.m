@@ -1,35 +1,38 @@
 //
-//  EasyShowView+Loding.m
+//  EasyShowLodingView.m
 //  EasyShowViewDemo
 //
-//  Created by nf on 2017/11/29.
+//  Created by nf on 2017/12/14.
 //  Copyright © 2017年 chenliangloveyou. All rights reserved.
 //
 
-#import "EasyShowView+Loding.h"
+#import "EasyShowLodingView.h"
 
-#import "EasyShowOptions.h"
+@interface EasyShowLodingView()
 
-@implementation EasyShowView (Loding)
+@end
+
+
+@implementation EasyShowLodingView
 
 
 + (void)showLoding
 {
-    [EasyShowView showLodingText:@""];
+    [self showLodingText:@""];
 }
 + (void)showLodingText:(NSString *)text
 {
     UIView *showView = kTopViewController.view ;
-    [EasyShowView showLodingText:text inView:showView];
+    [self showLodingText:text inView:showView];
 }
 + (void)showLodingText:(NSString *)text inView:(UIView *)superView
 {
-    [EasyShowView showLodingText:text image:nil inView:superView];
+    [self showLodingText:text image:nil inView:superView];
 }
 + (void)showLodingText:(NSString *)text image:(UIImage *)image
 {
     UIView *showView = kTopViewController.view ;
-    [EasyShowView showLodingText:text image:image inView:showView];
+    [self showLodingText:text image:image inView:showView];
 }
 + (void)showLodingText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView
 {
@@ -40,7 +43,7 @@
 + (void)hidenLoding
 {
     UIView *showView = kTopViewController.view ;
-    [EasyShowView hidenLoingInView:showView];
+    [self hidenLoingInView:showView];
 }
 + (void)hidenAllLoding
 {
@@ -56,6 +59,7 @@
         }
     }
 }
+
 
 
 @end
