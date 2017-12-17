@@ -50,6 +50,8 @@
 //大标题增加出来的高度
 #define kNavBigTitleHeight 55.0f
 
+#define kEasyShowSafeBottomMargin  (ISIPHONE_X ? 34.0f : 0.0f )
+
 //状态栏高度
 #define NAVIGATION_HEIGHT (STATUSBAR_HEIGHT + kNavNormalHeight)
 //#define STATUSBAR_HEIGHT (ISHORIZONTALSCREEM ? (ISIPHONE_X ? 0 : STATUSBAR_HEIGHT) : STATUSBAR_HEIGHT )

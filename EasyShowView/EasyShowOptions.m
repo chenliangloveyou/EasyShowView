@@ -41,11 +41,14 @@ singleton_implementation(EasyShowOptions)
         
         _showStartAnimation = YES ;
         _showEndAnimation = YES ;
-        _showAnimationTime = 0.4 ;
+        _showAnimationTime = 0.3 ;
         
         _showLodingType = ShowLodingTypeImage ;
         
-//        _alertBackgroundColor = [UIColor cyanColor];
+        _alertBackgroundColor = [UIColor cyanColor] ;// [UIColor colorWithRed:82/255.0 green:90/255.0 blue:251.0/255.0 alpha:1] ;
+        _alertTitleColor = [UIColor blackColor];
+        _alertMessageColor = [UIColor darkGrayColor];
+        
         _alertTowItemHorizontal = YES ;
     }
     return self ;

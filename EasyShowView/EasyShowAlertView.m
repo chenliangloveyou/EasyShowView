@@ -81,7 +81,10 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 
 @implementation EasyShowAlertView
 
-
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 + (instancetype)showActionSheetWithTitle:(NSString *)title message:(NSString *)message
 {
     return [self showAlertWithType:alertShowTypeActionSheet title:title message:message];
@@ -114,9 +117,8 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 - (void)show
 {
     self.oldKeyWindow = [UIApplication sharedApplication].keyWindow ;
-    [self.oldKeyWindow resignKeyWindow];
     [self.alertWindow addSubview:self];
-    [self.alertWindow makeKeyWindow];
+    [self.alertWindow makeKeyAndVisible];
     
     [self addSubview:self.alertBgView];
     
@@ -131,9 +133,23 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
    
     [self showStartAnimationWithType:self.options.alertAnimationType completion:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+
 }
+
 - (void)showEndAnimationWithType:(alertAnimationType)type completion:(void(^)(void))completion
 {
+    if (self.alertShowType == alertShowTypeActionSheet) {
+        [UIView animateWithDuration:self.options.showAnimationTime animations:^{
+            self.alertBgView.top = SCREEN_HEIGHT ;
+        } completion:^(BOOL finished) {
+            if (completion) {
+                completion() ;
+            }
+        }];
+        return ;
+    }
+    
     switch (type) {
         case alertAnimationTypeFade:
         {
@@ -151,13 +167,11 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
         }break;
         case alertAnimationTypeZoom:
         {
-            self.alpha = 0 ;
-            self.transform = CGAffineTransformConcat(CGAffineTransformIdentity, CGAffineTransformMakeScale(0.5f, 0.5f));
-
             [UIView animateWithDuration:self.options.showAnimationTime
+             delay:0 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
-                                 self.alpha = 1.0f;
-                                 self.transform = CGAffineTransformIdentity;
+                                 self.alertBgView.alpha = 0 ;
+                                 self.alertBgView.transform = CGAffineTransformMakeScale(0.01, 0.01);
                              } completion:^(BOOL finished) {
                                  if (completion) {
                                      completion() ;
@@ -184,7 +198,16 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 
             [self.alertBgView.layer addAnimation:animationGroup forKey:nil];
         }break ;
-            
+        case alertAnimationTypePush:
+        {
+            [UIView animateWithDuration:self.options.showAnimationTime animations:^{
+                self.alertBgView.top = SCREEN_HEIGHT ;
+            } completion:^(BOOL finished) {
+                if (completion) {
+                    completion() ;
+                }
+            }];
+        }break ;
         default:
         {
             if (completion) {
@@ -205,6 +228,19 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 }
 - (void)showStartAnimationWithType:(alertAnimationType)type completion:(void(^)(void))completion
 {
+    if (self.alertShowType == alertShowTypeActionSheet) {
+        self.alertBgView.top = SCREEN_HEIGHT ;
+        [UIView animateWithDuration:self.options.showAnimationTime animations:^{
+            self.alertBgView.top = (SCREEN_HEIGHT-self.alertBgView.height)-5 ;
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.05 animations:^{
+                self.alertBgView.top = (SCREEN_HEIGHT-self.alertBgView.height) ;
+            } completion:^(BOOL finished) {
+            }];
+        }];
+        return ;
+    }
+    
     switch (type) {
         case alertAnimationTypeFade:
         {
@@ -238,12 +274,28 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
                                              [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
             [self.alertBgView.layer addAnimation:popAnimation forKey:nil];
         }break ;
-            
+        case alertAnimationTypePush:
+        {
+            self.alertBgView.top = SCREEN_HEIGHT ;
+            [UIView animateWithDuration:self.options.showAnimationTime animations:^{
+                self.alertBgView.top = (SCREEN_HEIGHT-self.alertBgView.height)/2-5 ;
+            } completion:^(BOOL finished) {
+                [UIView animateWithDuration:0.05 animations:^{
+                    self.alertBgView.top = (SCREEN_HEIGHT-self.alertBgView.height)/2 ;
+                } completion:^(BOOL finished) {
+                }];
+            }];
+        }break ;
         default:
             break;
     }
 }
 
+- (void)statusBarOrientationChange:(NSNotification *)notification {
+    
+    self.alertWindow.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    [self layoutAlertSubViews];
+}
 - (void)layoutAlertSubViews
 {
     CGFloat bgViewMaxWidth = self.alertShowType==alertShowTypeAlert ?  SCREEN_WIDTH*0.75 : SCREEN_WIDTH ;
@@ -286,14 +338,15 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
         }
     }
  
-    self.alertBgView.bounds = CGRectMake(0, 0, bgViewMaxWidth, totalHeight);
+    CGFloat actionShowAddSafeHeiht = self.alertShowType==alertShowTypeActionSheet ? kEasyShowSafeBottomMargin : 0 ;
+    self.alertBgView.bounds = CGRectMake(0, 0, bgViewMaxWidth, totalHeight+actionShowAddSafeHeiht);
     
     if (self.alertShowType == alertShowTypeAlert) {
         self.alertBgView.center = self.center ;
         
-        UIColor *boderColor = [[UIColor lightGrayColor]colorWithAlphaComponent:0.3];
+        UIColor *boderColor = [self.alertBgView.backgroundColor colorWithAlphaComponent:0.2];
         [self.alertBgView setRoundedCorners:UIRectCornerAllCorners
-                                borderWidth:1
+                                borderWidth:0.5
                                 borderColor:boderColor
                                  cornerSize:CGSizeMake(15,15)];//需要添加阴影
     }else{
@@ -348,6 +401,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
         }else{
             _alertBgView.backgroundColor = [UIColor groupTableViewBackgroundColor];
         }
+        _alertBgView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight ;
         UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(bgViewPan:)] ;
         [_alertBgView addGestureRecognizer:panGesture];
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(bgViewTap:)] ;
@@ -357,6 +411,18 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
         //        _alertBgView.layer.cornerRadius = 10 ;
     }
     return _alertBgView ;
+}
+- (UIWindow *)alertWindow {
+    if (nil == _alertWindow) {
+        _alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        _alertBgView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight ;
+        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(alertWindowTap)];
+        [_alertWindow addGestureRecognizer:tapGes];
+        _alertWindow.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
+        _alertWindow.hidden = NO ;
+    }
+    
+    return _alertWindow;
 }
 - (NSMutableArray *)alertButtonArray
 {
@@ -377,7 +443,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
             _alertTitleLabel.backgroundColor = [UIColor whiteColor];
         }
         _alertTitleLabel.font = [UIFont boldSystemFontOfSize:20];
-        //        _alertTitleLabel.textColor = [UIColor yellowColor];
+        _alertTitleLabel.textColor = self.options.alertTitleColor ;
         _alertTitleLabel.numberOfLines = 0;
     }
     return _alertTitleLabel ;
@@ -394,7 +460,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
             _alertMessageLabel.backgroundColor = [UIColor whiteColor];
         }
         _alertMessageLabel.font = [UIFont systemFontOfSize:17];
-        _alertMessageLabel.textColor = [UIColor grayColor];
+        _alertMessageLabel.textColor = self.options.alertMessageColor;
         _alertMessageLabel.numberOfLines = 0;
     }
     return _alertMessageLabel ;
@@ -449,23 +515,12 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
     
     return button ;
 }
-- (UIWindow *)alertWindow {
-    if (nil == _alertWindow) {
-        _alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(alertWindowTap)];
-        [_alertWindow addGestureRecognizer:tapGes];
-        _alertWindow.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
-        _alertWindow.hidden = NO ;
-    }
-    
-    return _alertWindow;
-}
+
 - (void)alertWindowTap
 {
     
     void (^completion)(void) = ^{
         [self.oldKeyWindow makeKeyWindow];
-        [self.alertWindow resignKeyWindow];
         [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         [self removeFromSuperview];
         

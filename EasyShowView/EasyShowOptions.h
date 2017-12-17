@@ -72,6 +72,7 @@ typedef NS_ENUM(NSUInteger , alertAnimationType) {
     alertAnimationTypeFade,//alpha改变
     alertAnimationTypeBounce ,//抖动
     alertAnimationTypeZoom, //放大缩小
+    alertAnimationTypePush ,//向上push
 };
 
 UIKIT_EXTERN const CGFloat EasyDrawImageWH ;
@@ -105,6 +106,8 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
 
 #pragma mark - alert
 @property (nonatomic,strong)UIColor *alertBackgroundColor ;
+@property (nonatomic,strong)UIColor *alertTitleColor ;
+@property (nonatomic,strong)UIColor *alertMessageColor ;
 @property (nonatomic,assign)BOOL alertTowItemHorizontal ;//如果按钮只有两个就横着排
 @property (nonatomic,assign)alertAnimationType alertAnimationType ;//显示动画类型
 

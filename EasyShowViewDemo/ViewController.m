@@ -130,8 +130,8 @@
 //    }
 //    return ;
     
-        static int aa = 0 ;
-        [EasyShowOptions sharedEasyShowOptions].alertAnimationType =  (aa++)%4 ;//
+    static int aa = 0 ;
+    [EasyShowOptions sharedEasyShowOptions].alertAnimationType =  (aa++)%5 ;//
     switch (row) {
         case 0:
         {
@@ -143,9 +143,9 @@
             [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlodBlack callback:^(EasyShowView *showview) {
                 NSLog(@"好的=%@",showview) ;
             }];
-//            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlue callback:^(EasyShowView *showview) {
-//                NSLog(@"好的=%@",showview) ;
-//            }];
+            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlue callback:^(EasyShowView *showview) {
+                NSLog(@"好的=%@",showview) ;
+            }];
 //            [showView addItemWithTitle:@"确定" itemType:ShowAlertItemTypeBlodBlue callback:^(EasyShowView *showview) {
 //                NSLog(@"好的=%@",showview) ;
 //            }];
