@@ -93,14 +93,17 @@
             [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeLeftIndicator : LodingShowTypeIndicator ;
             [EasyShowLodingView showLodingText:@"加载中..."];
             break ;
-        case 2:
+        case 2:{
             [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeLeftImage : LodingShowTypeImage ;
-            [EasyShowLodingView showLodingText:@"正在加载中,请稍后..." image:[UIImage imageNamed:@"HUD_NF.png"]];
-            break ;
+            UIImage *image = [[UIImage imageNamed:@"HUD_NF.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            [EasyShowLodingView showLodingText:@"正在加载中,请稍后..." image:image];
+        }break ;
         case 3:
-            [EasyShowLodingView hidenLoding];
+            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? ShowLodingTypeCustomImages : ShowLodingTypeLeftCustomImages ;
+            [EasyShowLodingView showLodingText:@"加载中..."];
             break ;
         default:
+            [EasyShowLodingView hidenLoding];
             break;
     }
 }

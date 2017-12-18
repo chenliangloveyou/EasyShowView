@@ -34,7 +34,7 @@
 {
     if ([super initWithFrame:frame]) {
         
-        self.backgroundColor = self.options.backGroundColor ; //[UIColor redColor]; //
+        self.backgroundColor = self.options.lodingBackgroundColor ; //[UIColor redColor]; //
         
         if ( self.options.lodingShowType>LodingShowTypeImage) {//左右的形式
             self.imageView.frame = CGRectMake(EasyDrawImageEdge/2, EasyDrawImageEdge/2, EasyDrawImageWH, EasyDrawImageWH);
@@ -70,6 +70,21 @@
             case LodingShowTypeLeftImage:
                 [self drawAnimiationImageView:YES];
                 break ;
+            case ShowLodingTypeCustomImages:
+            case ShowLodingTypeLeftCustomImages:
+            {
+                
+//                @property (nullable, nonatomic, copy) NSArray<UIImage *> *animationImages; // The array must contain UIImages. Setting hides the single image. default is nil
+//                @property (nullable, nonatomic, copy) NSArray<UIImage *> *highlightedAnimationImages NS_AVAILABLE_IOS(3_0); // The array must contain UIImages. Setting hides the single image. default is nil
+//
+//                @property (nonatomic) NSTimeInterval animationDuration;         // for one cycle of images. default is number of images * 1/30th of a second (i.e. 30 fps)
+//                @property (nonatomic) NSInteger      animationRepeatCount;
+                self.imageView.animationImages = self.options.lodingCustomImagesArray ;
+                self.imageView.animationDuration = 0.3 ;
+                self.imageView.animationRepeatCount = NSIntegerMax ;
+                [self.imageView startAnimating];
+                
+            }break ;
             default:
                 break;
         }
@@ -85,7 +100,7 @@
     CAShapeLayer *centerLayer=[CAShapeLayer layer];
     centerLayer.path=beizPath.CGPath;
     centerLayer.fillColor=[UIColor clearColor].CGColor;//填充色
-    centerLayer.strokeColor=self.options.textColor.CGColor;//边框颜色
+    centerLayer.strokeColor=self.options.lodingTintColor.CGColor;//边框颜色
     centerLayer.lineWidth=2.0f;
     centerLayer.lineCap=kCALineCapRound;//线框类型
     
@@ -160,7 +175,8 @@
         CGFloat imageY = EasyDrawImageEdge/2 ;
         
         _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(imageX,imageY , imageWH, imageWH)];
-        //_imageView.backgroundColor = [UIColor yellowColor];
+        _imageView.backgroundColor = [UIColor greenColor];
+        _imageView.tintColor = self.options.lodingTintColor ;
         [self addSubview:_imageView];
     }
     return _imageView ;
@@ -169,7 +185,7 @@
 {
     if (nil == _textLabel) {
         _textLabel = [[UILabel alloc]init];
-        _textLabel.textColor = self.options.textColor;
+        _textLabel.textColor = self.options.alertTitleColor;
         _textLabel.font = self.options.textFount ;
         _textLabel.backgroundColor = [UIColor clearColor];
         _textLabel.textAlignment = NSTextAlignmentCenter ;
@@ -183,9 +199,9 @@
 {
     if (nil == _imageViewIndeicator) {
         _imageViewIndeicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-        _imageViewIndeicator.tintColor = self.options.textColor ;
-        _imageViewIndeicator.color = self.options.textColor ;
-        //_imageViewIndeicator.backgroundColor = [UIColor yellowColor];
+        _imageViewIndeicator.tintColor = self.options.alertTitleColor ;
+        _imageViewIndeicator.color = self.options.alertTitleColor ;
+        _imageViewIndeicator.backgroundColor = [UIColor yellowColor];
         _imageViewIndeicator.frame = self.imageView.bounds ;
         [self.imageView addSubview:_imageViewIndeicator];
     }
@@ -222,7 +238,7 @@
     //展示视图的frame
     CGRect showFrame = [self showRectWithSpuerView:superView] ;
     
-    if (self.options.superViewReceiveEvent) {//父视图能接受事件
+    if (self.options.lodingSuperViewReceiveEvent) {//父视图能接受事件
         //self的大小为显示区域的大小
         [self setFrame:CGRectMake((SCREEN_WIDTH-showFrame.size.width)/2, showFrame.origin.y, showFrame.size.width, showFrame.size.height)];
         //显示视图的bgview的frame的位置为{0，0}

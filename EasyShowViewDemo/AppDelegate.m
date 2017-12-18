@@ -22,7 +22,15 @@
   
     EasyShowOptions *options = [EasyShowOptions sharedEasyShowOptions];
     options.superViewReceiveEvent = YES ;
-   
+    
+    NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:20];
+    for (int i = 0; i < 20 ; i++) {
+        NSString *tempString = [NSString stringWithFormat:@"VoiceSearchFeedback00%zd",i+1];
+        [tempArray addObject:tempString];
+    }
+    options.lodingCustomImagesArray = [NSArray arrayWithArray:tempArray ];
+    
+    
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:[ViewController new]];
     self.window.rootViewController = nav ;
     

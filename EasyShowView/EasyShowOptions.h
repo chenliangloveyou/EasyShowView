@@ -57,11 +57,12 @@ typedef NS_ENUM(NSUInteger , ShowTextStatusType) {
 typedef NS_ENUM(NSUInteger , LodingShowType) {
     LodingShowTypeDefault , //默认转圈样式
     LodingShowTypeIndicator ,   //菊花样式
+    ShowLodingTypeCustomImages ,//以一个图片数组轮流播放（需添加一组图片）
     LodingShowTypeImage ,//自定义图片转圈样式
     LodingShowTypeLeftDefault ,//默认在左边转圈样式
     LodingShowTypeLeftIndicator , //菊花在左边的样式
     LodingShowTypeLeftImage,//自动以图片左边转圈样式
-//    ShowLodingTypeCustomImages ,//以一个图片数组轮流播放
+    ShowLodingTypeLeftCustomImages ,//以一个图片数组轮流播放需添加一组图片）
 };
 
 /**
@@ -136,7 +137,7 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
  */
 @property (nonatomic,assign)BOOL lodingSuperViewReceiveEvent ;
 
-
+@property (nonatomic,strong)NSArray *lodingCustomImagesArray ;
 
 #pragma mark - alert
 

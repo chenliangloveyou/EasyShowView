@@ -28,7 +28,7 @@ singleton_implementation(EasyShowOptions)
     if (self = [super init]) {
         _textFount = [UIFont systemFontOfSize:13];
         _backGroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.01];
-        _textColor = [UIColor blackColor];
+        _textColor = [UIColor redColor];
         
         _showShadow = YES ;
         _shadowColor = [UIColor cyanColor];
@@ -45,6 +45,17 @@ singleton_implementation(EasyShowOptions)
         
         _lodingShowType = LodingShowTypeImage ;        
         
+        
+        
+
+        _lodingShowType = LodingShowTypeDefault ;
+        _lodingAnimationType = lodingAnimationTypeBounce ;
+        _lodingTintColor = [UIColor blackColor];
+        _lodingBackgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.01];
+        _lodingSuperViewReceiveEvent = YES ;
+        
+        
+        
         // [UIColor colorWithRed:82/255.0 green:90/255.0 blue:251.0/255.0 alpha:1] ;
         _alertTitleColor = [UIColor blackColor];
         _alertMessageColor = [UIColor darkGrayColor];
@@ -53,6 +64,14 @@ singleton_implementation(EasyShowOptions)
     }
     return self ;
 }
-
+- (void)setLodingCustomImagesArray:(NSArray *)lodingCustomImagesArray
+{
+    _lodingCustomImagesArray = lodingCustomImagesArray ;
+}
+- (NSArray *)lodingCustomImagesArray
+{
+    NSAssert(!_lodingCustomImagesArray, @"you should set image array use to animation!");
+    return _lodingCustomImagesArray  ;
+}
 
 @end
