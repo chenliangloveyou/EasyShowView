@@ -27,8 +27,8 @@ singleton_implementation(EasyShowOptions)
 {
     if (self = [super init]) {
         _textFount = [UIFont systemFontOfSize:13];
-        _backGroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.8];
-        _textColor = [UIColor whiteColor];
+        _backGroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.01];
+        _textColor = [UIColor blackColor];
         
         _showShadow = YES ;
         _shadowColor = [UIColor cyanColor];
@@ -43,9 +43,9 @@ singleton_implementation(EasyShowOptions)
         _showEndAnimation = YES ;
         _showAnimationTime = 0.3 ;
         
-        _showLodingType = ShowLodingTypeImage ;
+        _lodingShowType = LodingShowTypeImage ;        
         
-        _alertBackgroundColor = [UIColor cyanColor] ;// [UIColor colorWithRed:82/255.0 green:90/255.0 blue:251.0/255.0 alpha:1] ;
+        // [UIColor colorWithRed:82/255.0 green:90/255.0 blue:251.0/255.0 alpha:1] ;
         _alertTitleColor = [UIColor blackColor];
         _alertMessageColor = [UIColor darkGrayColor];
         

@@ -8,7 +8,7 @@
 
 #import "EasyShowView.h"
 
-@interface EasyShowLodingView : EasyShowView
+@interface EasyShowLodingView : UIView
 
 
 + (void)showLoding ;

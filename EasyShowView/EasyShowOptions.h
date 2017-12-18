@@ -54,16 +54,24 @@ typedef NS_ENUM(NSUInteger , ShowTextStatusType) {
 /**
  * 加载框的样式
  */
-typedef NS_ENUM(NSUInteger , ShowLodingType) {
-    ShowLodingTypeDefault , //默认转圈样式
-    ShowLodingTypeIndicator ,   //菊花样式
-    ShowLodingTypeImage ,//自定义图片转圈样式
-    ShowLodingTypeLeftDefault ,//默认在左边转圈样式
-    ShowLodingTypeLeftIndicator , //菊花在左边的样式
-    ShowLodingTypeLeftImage,//自动以图片左边转圈样式
+typedef NS_ENUM(NSUInteger , LodingShowType) {
+    LodingShowTypeDefault , //默认转圈样式
+    LodingShowTypeIndicator ,   //菊花样式
+    LodingShowTypeImage ,//自定义图片转圈样式
+    LodingShowTypeLeftDefault ,//默认在左边转圈样式
+    LodingShowTypeLeftIndicator , //菊花在左边的样式
+    LodingShowTypeLeftImage,//自动以图片左边转圈样式
 //    ShowLodingTypeCustomImages ,//以一个图片数组轮流播放
 };
 
+/**
+ *
+ */
+typedef NS_ENUM(NSUInteger , lodingAnimationType) {
+    lodingAnimationTypeNone ,//无动画
+    lodingAnimationTypeFade,//alpha改变
+    lodingAnimationTypeBounce ,//抖动
+} ;
 /**
  * alertView的动画形式
  */
@@ -85,6 +93,7 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
 
 @interface EasyShowOptions : NSObject
 
+#pragma mark - text & loding
 
 @property (nonatomic,strong)UIFont *textFount ;         //文字大小
 @property (nonatomic,strong)UIColor *textColor ;        //文字颜色
@@ -102,14 +111,64 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
 @property CGFloat showAnimationTime;//展示动画的时间
 
 @property ShowTextStatusType textStatusType ; //文字的显示样式
-@property ShowLodingType showLodingType ;//加载框的显示样式
+
+
+#pragma mark - loding
+/**
+ * 加载框的显示样式
+ */
+@property LodingShowType lodingShowType ;
+
+/**
+ * 显示/隐藏 加载框的动画
+ */
+@property lodingAnimationType lodingAnimationType ;
+
+/**
+ *  文字/图片颜色
+ *  背景颜色
+ */
+@property (nonatomic,strong)UIColor *lodingTintColor ;
+@property (nonatomic,strong)UIColor *lodingBackgroundColor ;
+
+/**
+ * 在显示加载框的时候，superview能否接收事件
+ */
+@property (nonatomic,assign)BOOL lodingSuperViewReceiveEvent ;
+
+
 
 #pragma mark - alert
+
+/**
+ * alertview的背景颜色。
+ */
 @property (nonatomic,strong)UIColor *alertBackgroundColor ;
+
+/**
+ * title/message的字体颜色
+ */
 @property (nonatomic,strong)UIColor *alertTitleColor ;
 @property (nonatomic,strong)UIColor *alertMessageColor ;
-@property (nonatomic,assign)BOOL alertTowItemHorizontal ;//如果按钮只有两个就横着排
-@property (nonatomic,assign)alertAnimationType alertAnimationType ;//显示动画类型
+
+/**
+ * alertView:是两个按钮的时候 横着摆放
+ */
+@property (nonatomic,assign)BOOL alertTowItemHorizontal ;
+
+/**
+ * alertView:展示和消失的动画类型。
+ * 当展示的是系统alertview和ActionSheet不起作用
+ */
+@property (nonatomic,assign)alertAnimationType alertAnimationType ;
+
+/**
+ * 点击alertview之外的空白区域，是否销毁alertview。默认为:NO
+ *
+ * 系统的alert        不可以点击销毁。
+ * 系统的ActionSheet  添加UIAlertActionStyleCancel类型就会有点击销毁。没有就不会销毁。
+ */
+@property (nonatomic,assign)BOOL alertBgViewTapRemove ;
 
 singleton_interface(EasyShowOptions)
 

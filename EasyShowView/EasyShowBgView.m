@@ -59,7 +59,7 @@
             }
         }
         
-        if (showtype==ShowTypeLoding && self.options.showLodingType>ShowLodingTypeImage) {//左右的形式
+        if (showtype==ShowTypeLoding && self.options.lodingShowType>LodingShowTypeImage) {//左右的形式
             self.imageView.frame = CGRectMake(EasyDrawImageEdge/2, EasyDrawImageEdge/2, EasyDrawImageWH, EasyDrawImageWH);
         }
         if (image) {
@@ -91,7 +91,7 @@
                 }
             }
             else{
-                if (self.options.showLodingType > ShowLodingTypeImage) {//左右的形式
+                if (self.options.lodingShowType > LodingShowTypeImage) {//左右的形式
                     self.textLabel.frame = CGRectMake(EasyDrawImageWH + 20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
                 }
                 else{//上下形式
@@ -104,17 +104,17 @@
         
         if (showtype == ShowTypeLoding){
 
-            switch (self.options.showLodingType) {
-                case ShowLodingTypeDefault:
-                case ShowLodingTypeLeftDefault:
+            switch (self.options.lodingShowType) {
+                case LodingShowTypeDefault:
+                case LodingShowTypeLeftDefault:
                     [self drawAnimationImageViewLoding];
                     break;
-                case ShowLodingTypeIndicator:
-                case ShowLodingTypeLeftIndicator:
+                case LodingShowTypeIndicator:
+                case LodingShowTypeLeftIndicator:
                     [self.imageViewIndeicator startAnimating];
                     break ;
-                case ShowLodingTypeImage:
-                case ShowLodingTypeLeftImage:
+                case LodingShowTypeImage:
+                case LodingShowTypeLeftImage:
                     [self drawAnimiationImageView:YES];
                     break ;
                 default:
