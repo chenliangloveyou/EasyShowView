@@ -59,7 +59,7 @@
             }
         }
         
-        if (showtype==ShowTypeLoding && self.options.lodingShowType>LodingShowTypeImage) {//左右的形式
+        if (showtype==ShowTypeLoding ) {//左右的形式
             self.imageView.frame = CGRectMake(EasyDrawImageEdge/2, EasyDrawImageEdge/2, EasyDrawImageWH, EasyDrawImageWH);
         }
         if (image) {
@@ -91,12 +91,12 @@
                 }
             }
             else{
-                if (self.options.lodingShowType > LodingShowTypeImage) {//左右的形式
-                    self.textLabel.frame = CGRectMake(EasyDrawImageWH + 20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
-                }
-                else{//上下形式
+//                if (self.options.lodingShowType > LodingShowTypeImage) {//左右的形式
+//                    self.textLabel.frame = CGRectMake(EasyDrawImageWH + 20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
+//                }
+//                else{//上下形式
                     self.textLabel.frame = CGRectMake( 20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
-                }
+//                }
             }
             
         }
@@ -104,22 +104,22 @@
         
         if (showtype == ShowTypeLoding){
 
-            switch (self.options.lodingShowType) {
-                case LodingShowTypeDefault:
-                case LodingShowTypeLeftDefault:
-                    [self drawAnimationImageViewLoding];
-                    break;
-                case LodingShowTypeIndicator:
-                case LodingShowTypeLeftIndicator:
-                    [self.imageViewIndeicator startAnimating];
-                    break ;
-                case LodingShowTypeImage:
-                case LodingShowTypeLeftImage:
-                    [self drawAnimiationImageView:YES];
-                    break ;
-                default:
-                    break;
-            }
+//            switch (self.options.lodingShowType) {
+//                case LodingShowTypeDefault:
+//                case LodingShowTypeLeftDefault:
+//                    [self drawAnimationImageViewLoding];
+//                    break;
+//                case LodingShowTypeIndicator:
+//                case LodingShowTypeLeftIndicator:
+//                    [self.imageViewIndeicator startAnimating];
+//                    break ;
+//                case LodingShowTypeImage:
+//                case LodingShowTypeLeftImage:
+//                    [self drawAnimiationImageView:YES];
+//                    break ;
+//                default:
+//                    break;
+//            }
 
         }
         else{

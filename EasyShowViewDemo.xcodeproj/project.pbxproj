@@ -11,13 +11,13 @@
 		6808170A1FCB6CA700A47111 /* hud_loading@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 680817091FCB6CA700A47111 /* hud_loading@2x.png */; };
 		6808170C1FCB6D6900A47111 /* HUD_NF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6808170B1FCB6D6900A47111 /* HUD_NF@2x.png */; };
 		6808170F1FCB756700A47111 /* EasyShowBgView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6808170E1FCB756700A47111 /* EasyShowBgView.m */; };
+		6810CFC91FE92520002253D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6810CFC81FE92520002253D9 /* Assets.xcassets */; };
 		AD944B821FE25988006A9BE1 /* EasyShowTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD944B811FE25988006A9BE1 /* EasyShowTextView.m */; };
 		AD944B851FE25996006A9BE1 /* EasyShowLodingView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD944B841FE25996006A9BE1 /* EasyShowLodingView.m */; };
 		AD944B881FE259AB006A9BE1 /* EasyShowAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD944B871FE259AB006A9BE1 /* EasyShowAlertView.m */; };
 		ADD80A1C1FC7AA28005908C4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A1B1FC7AA28005908C4 /* AppDelegate.m */; };
 		ADD80A1F1FC7AA28005908C4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A1E1FC7AA28005908C4 /* ViewController.m */; };
 		ADD80A221FC7AA28005908C4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADD80A201FC7AA28005908C4 /* Main.storyboard */; };
-		ADD80A241FC7AA28005908C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADD80A231FC7AA28005908C4 /* Assets.xcassets */; };
 		ADD80A271FC7AA28005908C4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADD80A251FC7AA28005908C4 /* LaunchScreen.storyboard */; };
 		ADD80A2A1FC7AA28005908C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A291FC7AA28005908C4 /* main.m */; };
 		ADD80A341FC7AA28005908C4 /* EasyShowViewDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A331FC7AA28005908C4 /* EasyShowViewDemoUITests.m */; };
@@ -43,6 +43,7 @@
 		6808170B1FCB6D6900A47111 /* HUD_NF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HUD_NF@2x.png"; sourceTree = "<group>"; };
 		6808170D1FCB756700A47111 /* EasyShowBgView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowBgView.h; sourceTree = "<group>"; };
 		6808170E1FCB756700A47111 /* EasyShowBgView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowBgView.m; sourceTree = "<group>"; };
+		6810CFC81FE92520002253D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68D65C861FD04B8C00629574 /* EasyShow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShow.h; sourceTree = "<group>"; };
 		AD944B801FE25988006A9BE1 /* EasyShowTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowTextView.h; sourceTree = "<group>"; };
 		AD944B811FE25988006A9BE1 /* EasyShowTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowTextView.m; sourceTree = "<group>"; };
@@ -56,7 +57,6 @@
 		ADD80A1D1FC7AA28005908C4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		ADD80A1E1FC7AA28005908C4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		ADD80A211FC7AA28005908C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		ADD80A231FC7AA28005908C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ADD80A261FC7AA28005908C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ADD80A281FC7AA28005908C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ADD80A291FC7AA28005908C4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -117,8 +117,8 @@
 				ADD80A1E1FC7AA28005908C4 /* ViewController.m */,
 				6808170B1FCB6D6900A47111 /* HUD_NF@2x.png */,
 				ADD80A201FC7AA28005908C4 /* Main.storyboard */,
-				ADD80A231FC7AA28005908C4 /* Assets.xcassets */,
 				ADD80A251FC7AA28005908C4 /* LaunchScreen.storyboard */,
+				6810CFC81FE92520002253D9 /* Assets.xcassets */,
 				ADD80A281FC7AA28005908C4 /* Info.plist */,
 				ADD80A291FC7AA28005908C4 /* main.m */,
 			);
@@ -244,8 +244,8 @@
 				6808170C1FCB6D6900A47111 /* HUD_NF@2x.png in Resources */,
 				ADD80A271FC7AA28005908C4 /* LaunchScreen.storyboard in Resources */,
 				6808170A1FCB6CA700A47111 /* hud_loading@2x.png in Resources */,
-				ADD80A241FC7AA28005908C4 /* Assets.xcassets in Resources */,
 				ADD80A221FC7AA28005908C4 /* Main.storyboard in Resources */,
+				6810CFC91FE92520002253D9 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

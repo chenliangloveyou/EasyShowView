@@ -23,12 +23,12 @@
     EasyShowOptions *options = [EasyShowOptions sharedEasyShowOptions];
     options.superViewReceiveEvent = YES ;
     
-    NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:20];
-    for (int i = 0; i < 20 ; i++) {
-        NSString *tempString = [NSString stringWithFormat:@"VoiceSearchFeedback00%zd",i+1];
-        [tempArray addObject:tempString];
+    NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:7];
+    for (int i = 0; i < 9 ; i++) {
+        NSString *tempString = [NSString stringWithFormat:@"icon_hud_%zd",i+1];
+        [tempArray addObject:[UIImage imageNamed:tempString]];
     }
-    options.lodingCustomImagesArray = [NSArray arrayWithArray:tempArray ];
+    options.lodingPlayImagesArray = [NSArray arrayWithArray:tempArray ];
     
     
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:[ViewController new]];

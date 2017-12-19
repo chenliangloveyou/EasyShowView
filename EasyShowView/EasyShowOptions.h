@@ -10,19 +10,6 @@
 #import <UIKit/UIKit.h>
 #import "EasyShowUtils.h"
 
-/**
- * 添加一个item的样式，只有color和blod可选
- */
-typedef NS_ENUM(NSInteger, ShowAlertItemType) {
-    ShowAlertItemTypeBlack = 0,  // 黑色字体
-    ShowAlertItemTypeBlodBlack , // 黑色加粗字体
-    ShowAlertItemTypeBlue,       // 蓝色字体
-    ShowAlertItemTypeBlodBlue,   // 蓝色加粗字体
-    ShowAlertItemTypeRed   ,     // 红色字体
-    ShowAlertItemTypeBlodRed ,   // 红色加粗字体
-    ShowStatusTextTypeCustom     //自定义的一种自己，需要在EasyShowOptions中配置，如果不配置将会是第一种(黑色字体)
-};
-
 
 //显示类型
 typedef NS_ENUM(NSUInteger , ShowType) {
@@ -51,18 +38,26 @@ typedef NS_ENUM(NSUInteger , ShowTextStatusType) {
     ShowTextStatusTypeNavigation ,//在navigation上显示
 };
 
+
 /**
  * 加载框的样式
  */
 typedef NS_ENUM(NSUInteger , LodingShowType) {
-    LodingShowTypeDefault , //默认转圈样式
-    LodingShowTypeIndicator ,   //菊花样式
-    ShowLodingTypeCustomImages ,//以一个图片数组轮流播放（需添加一组图片）
-    LodingShowTypeImage ,//自定义图片转圈样式
-    LodingShowTypeLeftDefault ,//默认在左边转圈样式
-    LodingShowTypeLeftIndicator , //菊花在左边的样式
-    LodingShowTypeLeftImage,//自动以图片左边转圈样式
-    ShowLodingTypeLeftCustomImages ,//以一个图片数组轮流播放需添加一组图片）
+    
+    LodingShowTypeTurnAround     = 0 ,  //默认转圈样式
+    LodingShowTypeTurnAroundLeft = 1 ,  //默认在左边转圈样式
+
+    LodingShowTypeIndicator      = 2 ,  //菊花样式
+    LodingShowTypeIndicatorLeft  = 3 ,  //菊花在左边的样式
+
+    LodingShowTypePlayImages     = 4 ,  //以一个图片数组轮流播放（需添加一组图片）
+    LodingShowTypePlayImagesLeft = 5 ,  //以一个图片数组轮流播放需添加一组图片）
+
+    LodingShowTypeImageUpturn    = 6 ,//自定义图片翻转样式
+    LodingShowTypeImageUpturnLeft= 7 ,//自动以图片左边翻转样式
+    
+    LodingShowTypeImageAround    = 8 ,//自定义图片边缘转圈样式
+    LodingShowTypeImageAroundLeft= 9 ,//自动以图片左边边缘转圈样式
 };
 
 /**
@@ -73,6 +68,21 @@ typedef NS_ENUM(NSUInteger , lodingAnimationType) {
     lodingAnimationTypeFade,//alpha改变
     lodingAnimationTypeBounce ,//抖动
 } ;
+
+
+/**
+ * 添加一个item的样式，只有color和blod可选
+ */
+typedef NS_ENUM(NSInteger, ShowAlertItemType) {
+    ShowAlertItemTypeBlack = 0,  // 黑色字体
+    ShowAlertItemTypeBlodBlack , // 黑色加粗字体
+    ShowAlertItemTypeBlue,       // 蓝色字体
+    ShowAlertItemTypeBlodBlue,   // 蓝色加粗字体
+    ShowAlertItemTypeRed   ,     // 红色字体
+    ShowAlertItemTypeBlodRed ,   // 红色加粗字体
+    ShowStatusTextTypeCustom     //自定义的一种自己，需要在EasyShowOptions中配置，如果不配置将会是第一种(黑色字体)
+};
+
 /**
  * alertView的动画形式
  */
@@ -88,6 +98,13 @@ UIKIT_EXTERN const CGFloat EasyDrawImageWH ;
 UIKIT_EXTERN const CGFloat EasyDrawImageEdge ;
 UIKIT_EXTERN const CGFloat EasyTextShowEdge ;
 UIKIT_EXTERN const CGFloat EasyShowViewMinWidth ;
+
+
+UIKIT_EXTERN const CGFloat EasyShowLodingMaxWidth  ;     //显示文字的最大宽度（高度已限制死）
+UIKIT_EXTERN const CGFloat EasyShowLodingImageEdge ;    //加载框图片的边距
+UIKIT_EXTERN const CGFloat EasyShowLodingImageWH  ;      //加载框图片的大小
+UIKIT_EXTERN const CGFloat EasyShowLodingImageMaxWH  ;   //加载框图片的最大宽度
+
 
 UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
 
@@ -137,7 +154,7 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
  */
 @property (nonatomic,assign)BOOL lodingSuperViewReceiveEvent ;
 
-@property (nonatomic,strong)NSArray *lodingCustomImagesArray ;
+@property (nonatomic,strong)NSArray *lodingPlayImagesArray ;
 
 #pragma mark - alert
 
@@ -171,7 +188,8 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
  */
 @property (nonatomic,assign)BOOL alertBgViewTapRemove ;
 
-singleton_interface(EasyShowOptions)
++ (instancetype)sharedEasyShowOptions ;
+//singleton_interface(EasyShowOptions)
 
 @end
 

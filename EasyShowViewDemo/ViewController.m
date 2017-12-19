@@ -86,20 +86,25 @@
     static int b_0 = 0 ;
     switch (row) {
         case 0:
-            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeLeftDefault : LodingShowTypeDefault ;
+            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeTurnAroundLeft : LodingShowTypeTurnAround ;
             [EasyShowLodingView showLodingText:@"正在努力加载..."];
             break;
         case 1:
-            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeLeftIndicator : LodingShowTypeIndicator ;
-            [EasyShowLodingView showLodingText:@"加载中..."];
+            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeIndicatorLeft : LodingShowTypeIndicator ;
+            [EasyShowLodingView showLodingText:@""];
             break ;
         case 2:{
-            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeLeftImage : LodingShowTypeImage ;
-            UIImage *image = [[UIImage imageNamed:@"HUD_NF.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-            [EasyShowLodingView showLodingText:@"正在加载中,请稍后..." image:image];
+            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypePlayImagesLeft : LodingShowTypePlayImages ;
+            [EasyShowLodingView showLodingText:@"加载中..."];
         }break ;
         case 3:
-            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? ShowLodingTypeCustomImages : ShowLodingTypeLeftCustomImages ;
+        {
+            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeImageUpturnLeft : LodingShowTypeImageUpturn ;
+            UIImage *image = [[UIImage imageNamed:@"HUD_NF.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            [EasyShowLodingView showLodingText:@"正在加载中,请稍后..." image:image];
+        }   break ;
+        case 4:
+            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeImageAroundLeft : LodingShowTypeImageAround ;
             [EasyShowLodingView showLodingText:@"加载中..."];
             break ;
         default:
@@ -215,7 +220,7 @@
     if (nil == _dataArray) {
         _dataArray = @[
                        @[@"纯文字消息",@"成功消息",@"失败消息",@"提示消息",@"自定义图片"],
-                       @[@"默认加载框",@"菊花加载框",@"图片加载框",@"隐藏加载框"] ,
+                       @[@"转圈加载框",@"菊花加载框",@"自定义图片加载框",@"图片翻转加载框",@"图片边框转圈",@"隐藏加载框"] ,
                        @[@"AlertView(点5次)",@"ActionSheet",@"系统AlertView",@"系统ActionSheet(点2次)"]
                        ];
     }
