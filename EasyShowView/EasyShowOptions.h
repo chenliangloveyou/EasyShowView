@@ -11,13 +11,6 @@
 #import "EasyShowUtils.h"
 
 
-//显示类型
-typedef NS_ENUM(NSUInteger , ShowType) {
-    ShowTypeText ,//显示文字
-    ShowTypeLoding,//显示加载
-};
-
-
 typedef NS_ENUM(NSInteger, ShowTextStatus) {
     
     ShowTextStatusPureText ,/** 纯文字 */

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		680817081FC86C1200A47111 /* EasyShowOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 680817071FC86C1200A47111 /* EasyShowOptions.m */; };
-		6808170A1FCB6CA700A47111 /* hud_loading@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 680817091FCB6CA700A47111 /* hud_loading@2x.png */; };
 		6808170C1FCB6D6900A47111 /* HUD_NF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6808170B1FCB6D6900A47111 /* HUD_NF@2x.png */; };
 		6808170F1FCB756700A47111 /* EasyShowBgView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6808170E1FCB756700A47111 /* EasyShowBgView.m */; };
 		6810CFC91FE92520002253D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6810CFC81FE92520002253D9 /* Assets.xcassets */; };
@@ -39,7 +38,6 @@
 /* Begin PBXFileReference section */
 		680817061FC86C1200A47111 /* EasyShowOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowOptions.h; sourceTree = "<group>"; };
 		680817071FC86C1200A47111 /* EasyShowOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowOptions.m; sourceTree = "<group>"; };
-		680817091FCB6CA700A47111 /* hud_loading@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hud_loading@2x.png"; sourceTree = "<group>"; };
 		6808170B1FCB6D6900A47111 /* HUD_NF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HUD_NF@2x.png"; sourceTree = "<group>"; };
 		6808170D1FCB756700A47111 /* EasyShowBgView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowBgView.h; sourceTree = "<group>"; };
 		6808170E1FCB756700A47111 /* EasyShowBgView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowBgView.m; sourceTree = "<group>"; };
@@ -154,7 +152,6 @@
 				ADD80A431FC7EF36005908C4 /* EasyShowUtils.m */,
 				ADD80A451FC7F934005908C4 /* UIView+EasyShowExt.h */,
 				ADD80A461FC7F934005908C4 /* UIView+EasyShowExt.m */,
-				680817091FCB6CA700A47111 /* hud_loading@2x.png */,
 			);
 			path = EasyShowView;
 			sourceTree = "<group>";
@@ -243,7 +240,6 @@
 			files = (
 				6808170C1FCB6D6900A47111 /* HUD_NF@2x.png in Resources */,
 				ADD80A271FC7AA28005908C4 /* LaunchScreen.storyboard in Resources */,
-				6808170A1FCB6CA700A47111 /* hud_loading@2x.png in Resources */,
 				ADD80A221FC7AA28005908C4 /* Main.storyboard in Resources */,
 				6810CFC91FE92520002253D9 /* Assets.xcassets in Resources */,
 			);

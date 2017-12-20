@@ -16,6 +16,7 @@
 @end
 
 @implementation EasyLodingLabel
+
 - (instancetype)initWithContentInset:(UIEdgeInsets)contentInset
 {
     if (self = [super init]) {
@@ -67,6 +68,86 @@
 
 
 @implementation EasyShowLodingView
+
+
+
+
++ (void)showLodingWithText:(NSString *)text
+                    inView:(UIView *)view
+                     image:(UIImage *)image
+{
+    
+    if (nil == view) {
+        NSAssert(NO, @"there shoud have a superview");
+        return ;
+    }
+    NSAssert([NSThread isMainThread], @"needs to be accessed on the main thread.");
+    
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+        });
+    }
+    
+    //显示之前---->隐藏还在显示的视图
+    NSEnumerator *subviewsEnum = [view.subviews reverseObjectEnumerator];
+    for (UIView *subview in subviewsEnum) {
+        if ([subview isKindOfClass:self]) {
+            EasyShowView *showView = (EasyShowView *)subview ;
+            [showView removeSelfFromSuperView];
+        }
+    }
+    
+    EasyShowLodingView *showView = [[EasyShowLodingView alloc] initWithFrame:CGRectZero];
+    showView.showText = text ;
+    showView.showImage = image ;
+    [showView showViewWithSuperView:view];
+    
+}
+
+
++ (void)showLoding
+{
+    [self showLodingText:@""];
+}
++ (void)showLodingText:(NSString *)text
+{
+    UIView *showView = kTopViewController.view ;
+    [self showLodingText:text inView:showView];
+}
++ (void)showLodingText:(NSString *)text inView:(UIView *)superView
+{
+    [self showLodingText:text image:nil inView:superView];
+}
++ (void)showLodingText:(NSString *)text image:(UIImage *)image
+{
+    UIView *showView = kTopViewController.view ;
+    [self showLodingText:text image:image inView:showView];
+}
++ (void)showLodingText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView
+{
+    [self showLodingWithText:text inView:superView image:image];
+}
+
+
++ (void)hidenLoding
+{
+    UIView *showView = kTopViewController.view ;
+    [self hidenLoingInView:showView];
+}
++ (void)hidenAllLoding
+{
+    
+}
++ (void)hidenLoingInView:(UIView *)superView
+{
+    NSEnumerator *subviewsEnum = [superView.subviews reverseObjectEnumerator];
+    for (UIView *subview in subviewsEnum) {
+        if ([subview isKindOfClass:self]) {
+            EasyShowView *showView = (EasyShowView *)subview ;
+            [showView removeSelfFromSuperView];
+        }
+    }
+}
 
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -206,11 +287,11 @@
         case LodingShowTypeImageUpturn:
         case LodingShowTypeImageUpturnLeft:
             
+        case LodingShowTypeImageAround:
+        case LodingShowTypeImageAroundLeft:
             self.imageView.image = _showImage ;
             
             break ;
-        case LodingShowTypeImageAround:
-        case LodingShowTypeImageAroundLeft:
             break ;
         default:
             break;
@@ -249,6 +330,7 @@
                 break ;
             case LodingShowTypeImageAround:
             case LodingShowTypeImageAroundLeft:
+                [self drawGradientaLayerAmination];
                 break ;
             default:
                 break;
@@ -272,6 +354,50 @@
     
 }
 
+- (void)drawGradientaLayerAmination
+{
+    
+    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+    shapeLayer.fillColor = [UIColor clearColor].CGColor;
+    shapeLayer.strokeColor = [UIColor clearColor].CGColor;
+    shapeLayer.lineCap = kCALineCapRound;
+    shapeLayer.lineJoin = kCALineJoinRound;
+    
+    CGFloat layerRadius = self.imageView.width/2*1.0f ;
+    shapeLayer.frame = CGRectMake(.0f, .0f,  layerRadius*2.f+3,  layerRadius*2.f+3) ;
+    
+    CGFloat cp = layerRadius+3/2.f;
+    UIBezierPath *p = [UIBezierPath bezierPathWithArcCenter:CGPointMake(cp, cp) radius:layerRadius startAngle:.0f endAngle:.75f*M_PI clockwise:YES];
+    shapeLayer.path = p.CGPath;
+    
+    shapeLayer.strokeColor = self.options.lodingTintColor.CGColor;
+    shapeLayer.lineWidth=2.0f;
+
+    
+    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+    gradientLayer.startPoint = CGPointMake(.0f, .5f);
+    gradientLayer.endPoint = CGPointMake(1.f, .5f);
+    gradientLayer.frame = shapeLayer.frame ;
+    
+    NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:6];
+    for(int i=10;i>=0;i-=2) {
+        [tempArray addObject:(__bridge id)[self.options.lodingTintColor colorWithAlphaComponent:i*.1f].CGColor];
+    }
+    gradientLayer.colors = tempArray;
+    gradientLayer.mask = shapeLayer;
+    [self.imageView.layer addSublayer:gradientLayer];
+
+    
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    animation.fromValue = @0;
+    animation.toValue = @(2.f*M_PI);
+    animation.duration = 1;
+    animation.repeatCount = MAXFLOAT;
+    animation.removedOnCompletion = NO;
+    animation.fillMode = kCAFillModeForwards;
+
+    [gradientLayer addAnimation:animation forKey:@"GradientLayerAnimation"];
+}
 - (void)removeSelfFromSuperView
 {
     void (^completion)(void) = ^{
@@ -293,59 +419,7 @@
 }
 
 
-
-- (EasyShowOptions *)options
-{
-    if (nil == _options) {
-        _options = [EasyShowOptions sharedEasyShowOptions];
-    }
-    return _options ;
-}
-- (UIView *)lodingBgView
-{
-    if (nil == _lodingBgView) {
-        _lodingBgView = [[UIView alloc]init] ;
-        _lodingBgView.backgroundColor = self.options.lodingBackgroundColor ;
-        [self addSubview:_lodingBgView];
-    }
-    return _lodingBgView ;
-}
-- (UIImageView *)imageView
-{
-    if (nil == _imageView) {
-        _imageView = [[UIImageView alloc]init];
-        _imageView.backgroundColor = [UIColor clearColor];
-        _imageView.tintColor = self.options.lodingTintColor ;
-        [self.lodingBgView addSubview:_imageView];
-    }
-    return _imageView ;
-}
-- (UILabel *)textLabel
-{
-    if (nil == _textLabel) {
-        _textLabel = [[EasyLodingLabel alloc]initWithContentInset:UIEdgeInsetsMake(10, 20, 10, 20)];
-        _textLabel.textColor = self.options.alertTitleColor;
-        _textLabel.font = self.options.textFount ;
-        _textLabel.backgroundColor = [UIColor clearColor];
-        _textLabel.textAlignment = NSTextAlignmentCenter ;
-        _textLabel.numberOfLines = 0 ;
-        [self.lodingBgView addSubview:_textLabel];
-    }
-    return _textLabel ;
-}
-
-- (UIActivityIndicatorView *)imageViewIndeicator
-{
-    if (nil == _imageViewIndeicator) {
-        UIActivityIndicatorViewStyle style = self.options.lodingShowType%2 ? UIActivityIndicatorViewStyleWhite : UIActivityIndicatorViewStyleWhiteLarge ;
-        _imageViewIndeicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
-        _imageViewIndeicator.tintColor = self.options.alertTitleColor ;
-        _imageViewIndeicator.color = self.options.alertTitleColor ;
-        _imageViewIndeicator.backgroundColor = [UIColor clearColor];
-        _imageViewIndeicator.frame = self.imageView.bounds ;
-    }
-    return _imageViewIndeicator ;
-}
+#pragma mark - animation
 // 转圈动画
 - (void)drawAnimiationImageView:(BOOL)isImageView
 {
@@ -434,86 +508,61 @@
 }
 
 
+#pragma mark - getter
 
-
-
-
-+ (void)showLodingWithText:(NSString *)text
-                    inView:(UIView *)view
-                     image:(UIImage *)image
+- (EasyShowOptions *)options
 {
-    
-    if (nil == view) {
-        NSAssert(NO, @"there shoud have a superview");
-        return ;
+    if (nil == _options) {
+        _options = [EasyShowOptions sharedEasyShowOptions];
     }
-    NSAssert([NSThread isMainThread], @"needs to be accessed on the main thread.");
-    
-    if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-        });
+    return _options ;
+}
+- (UIView *)lodingBgView
+{
+    if (nil == _lodingBgView) {
+        _lodingBgView = [[UIView alloc]init] ;
+        _lodingBgView.backgroundColor = self.options.lodingBackgroundColor ;
+        [self addSubview:_lodingBgView];
     }
-    
-    //显示之前---->隐藏还在显示的视图
-    NSEnumerator *subviewsEnum = [view.subviews reverseObjectEnumerator];
-    for (UIView *subview in subviewsEnum) {
-        if ([subview isKindOfClass:self]) {
-            EasyShowView *showView = (EasyShowView *)subview ;
-            [showView removeSelfFromSuperView];
-        }
+    return _lodingBgView ;
+}
+- (UIImageView *)imageView
+{
+    if (nil == _imageView) {
+        _imageView = [[UIImageView alloc]init];
+        _imageView.backgroundColor = [UIColor clearColor];
+        _imageView.tintColor = self.options.lodingTintColor ;
+        [self.lodingBgView addSubview:_imageView];
     }
-    
-    EasyShowLodingView *showView = [[EasyShowLodingView alloc] initWithFrame:CGRectZero];
-    showView.showText = text ;
-    showView.showImage = image ;
-    [showView showViewWithSuperView:view];
-    
+    return _imageView ;
 }
-
-
-+ (void)showLoding
+- (UILabel *)textLabel
 {
-    [self showLodingText:@""];
-}
-+ (void)showLodingText:(NSString *)text
-{
-    UIView *showView = kTopViewController.view ;
-    [self showLodingText:text inView:showView];
-}
-+ (void)showLodingText:(NSString *)text inView:(UIView *)superView
-{
-    [self showLodingText:text image:nil inView:superView];
-}
-+ (void)showLodingText:(NSString *)text image:(UIImage *)image
-{
-    UIView *showView = kTopViewController.view ;
-    [self showLodingText:text image:image inView:showView];
-}
-+ (void)showLodingText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView
-{
-    [self showLodingWithText:text inView:superView image:image];
-}
-
-
-+ (void)hidenLoding
-{
-    UIView *showView = kTopViewController.view ;
-    [self hidenLoingInView:showView];
-}
-+ (void)hidenAllLoding
-{
-    
-}
-+ (void)hidenLoingInView:(UIView *)superView
-{
-    NSEnumerator *subviewsEnum = [superView.subviews reverseObjectEnumerator];
-    for (UIView *subview in subviewsEnum) {
-        if ([subview isKindOfClass:self]) {
-            EasyShowView *showView = (EasyShowView *)subview ;
-            [showView removeSelfFromSuperView];
-        }
+    if (nil == _textLabel) {
+        _textLabel = [[EasyLodingLabel alloc]initWithContentInset:UIEdgeInsetsMake(10, 20, 10, 20)];
+        _textLabel.textColor = self.options.lodingTintColor;
+        _textLabel.font = self.options.textFount ;
+        _textLabel.backgroundColor = [UIColor clearColor];
+        _textLabel.textAlignment = NSTextAlignmentCenter ;
+        _textLabel.numberOfLines = 0 ;
+        [self.lodingBgView addSubview:_textLabel];
     }
+    return _textLabel ;
 }
+
+- (UIActivityIndicatorView *)imageViewIndeicator
+{
+    if (nil == _imageViewIndeicator) {
+        UIActivityIndicatorViewStyle style = self.options.lodingShowType%2 ? UIActivityIndicatorViewStyleWhite : UIActivityIndicatorViewStyleWhiteLarge ;
+        _imageViewIndeicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
+        _imageViewIndeicator.tintColor = self.options.lodingTintColor ;
+        _imageViewIndeicator.color = self.options.lodingTintColor ;
+        _imageViewIndeicator.backgroundColor = [UIColor clearColor];
+        _imageViewIndeicator.frame = self.imageView.bounds ;
+    }
+    return _imageViewIndeicator ;
+}
+
 
 
 

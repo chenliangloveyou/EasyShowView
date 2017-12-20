@@ -62,8 +62,7 @@
     self.showBgView = [[EasyShowBgView alloc]initWithFrame:showFrame
                                                     status:self.showTextStatus
                                                       text:self.showText
-                                                     image:self.showImage
-                                                  showtype:self.showType];
+                                                     image:self.showImage];
     [self addSubview:self.showBgView];
   
     
@@ -104,7 +103,7 @@
 {
     if (self.options.showStartAnimation) {
         
-        if (self.showType==ShowTypeText && (self.isShowedStatusBar || self.isShowedNavigation)) {
+        if ( (self.isShowedStatusBar || self.isShowedNavigation)) {
             self.y = - self.height ;
             [UIView animateWithDuration:self.options.showAnimationTime animations:^{
                 self.y = 0 ;
@@ -119,7 +118,7 @@
         
     }
     else{
-        if (self.showType==ShowTypeText && (self.isShowedStatusBar || self.isShowedNavigation)) {
+        if ( (self.isShowedStatusBar || self.isShowedNavigation)) {
             self.y = 0 ;
         }
         else{
@@ -142,7 +141,7 @@
     
     if (self.options.showEndAnimation) {
         
-        if (self.showType==ShowTypeText && (self.isShowedStatusBar || self.isShowedNavigation)) {
+        if ( (self.isShowedStatusBar || self.isShowedNavigation)) {
             
             [UIView animateWithDuration:self.options.showAnimationTime animations:^{
                 self.y = -self.height ;

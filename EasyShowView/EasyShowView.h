@@ -16,7 +16,6 @@
 
 @property (nonatomic,strong)NSString *showText ;//展示的文字
 @property (nonatomic,strong)UIImage *showImage ;//展示的图片
-@property (nonatomic,assign)ShowType showType ;//展示的类型
 @property (nonatomic,assign)ShowTextStatus showTextStatus ;//展示的类型
 
 

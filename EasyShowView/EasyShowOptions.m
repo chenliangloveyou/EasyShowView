@@ -55,7 +55,7 @@ singleton_implementation(EasyShowOptions)
         
         _lodingShowType = LodingShowTypeTurnAround ;
         _lodingAnimationType = lodingAnimationTypeBounce ;
-        _lodingTintColor = [UIColor blackColor];
+        _lodingTintColor = [UIColor redColor];
         _lodingBackgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.2];
         _lodingSuperViewReceiveEvent = YES ;
         

@@ -104,9 +104,11 @@
             [EasyShowLodingView showLodingText:@"正在加载中,请稍后..." image:image];
         }   break ;
         case 4:
+        {
             [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeImageAroundLeft : LodingShowTypeImageAround ;
-            [EasyShowLodingView showLodingText:@"加载中..."];
-            break ;
+            UIImage *image = [[UIImage imageNamed:@"HUD_NF.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            [EasyShowLodingView showLodingText:@"正在加载中..." image:image];
+        }break ;
         default:
             [EasyShowLodingView hidenLoding];
             break;
