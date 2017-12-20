@@ -6,9 +6,9 @@
 //  Copyright © 2017年 chenliangloveyou. All rights reserved.
 //
 
-#import "EasyShowView.h"
+#import <UIKit/UIKit.h>
 
-@interface EasyShowTextView : EasyShowView
+@interface EasyShowTextView : UIView
 
 
 + (void)showText:(NSString *)text ;

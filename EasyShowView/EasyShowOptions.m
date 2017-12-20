@@ -36,7 +36,7 @@ singleton_implementation(EasyShowOptions)
     if (self = [super init]) {
         _textFount = [UIFont systemFontOfSize:13];
         _backGroundColor = [[UIColor blackColor]colorWithAlphaComponent:1];
-        _textColor = [UIColor redColor];
+        _textColor = [UIColor whiteColor];
         
         _showShadow = YES ;
         _shadowColor = [UIColor cyanColor];

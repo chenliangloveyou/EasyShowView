@@ -28,6 +28,8 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 
 @interface EasyShowAlertView()<CAAnimationDelegate>
 
+@property (nonatomic,strong)EasyShowOptions *options ;
+
 @property (nonatomic,assign)alertShowType alertShowType ;
 
 @property (nonatomic,strong)UILabel *alertTitleLabel ;
@@ -557,7 +559,13 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
     }
     return _alertButtonArray ;
 }
-
+- (EasyShowOptions *)options
+{
+    if (nil == _options) {
+        _options = [EasyShowOptions sharedEasyShowOptions];
+    }
+    return _options ;
+}
 
 
 

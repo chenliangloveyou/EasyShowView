@@ -126,16 +126,16 @@
             
             
             EasyShowAlertView *showView = [EasyShowAlertView showAlertWithTitle:@"提示" message:@"确定删除发撒发逻辑是否快捷登录法拉第设计数据吗？"];
-            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlack callback:^(EasyShowView *showview) {
+            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlack callback:^(EasyShowAlertView *showview) {
                 NSLog(@"好的=%@",showview) ;
             }];
-            [showView addItemWithTitle:@"取消" itemType:ShowAlertItemTypeBlue callback:^(EasyShowView *showview) {
+            [showView addItemWithTitle:@"取消" itemType:ShowAlertItemTypeBlue callback:^(EasyShowAlertView *showview) {
                 NSLog(@"好的=%@",showview) ;
             }];
-            [showView addItemWithTitle:@"我已了解" itemType:ShowAlertItemTypeBlodBlue callback:^(EasyShowView *showview) {
+            [showView addItemWithTitle:@"我已了解" itemType:ShowAlertItemTypeBlodBlue callback:^(EasyShowAlertView *showview) {
                 NSLog(@"我已了解=%@",showview) ;
             }];
-            [showView addItemWithTitle:@"删除此条数据" itemType:ShowAlertItemTypeBlodRed callback:^(EasyShowView *showview) {
+            [showView addItemWithTitle:@"删除此条数据" itemType:ShowAlertItemTypeBlodRed callback:^(EasyShowAlertView *showview) {
                 NSLog(@"删除此条数据=%@",showview) ;
             }];
             [showView show];
@@ -144,16 +144,16 @@
         case 1:
         {
             EasyShowAlertView *showView = [EasyShowAlertView showActionSheetWithTitle:@"提示" message:@"确定删除发撒发逻辑是否快捷登录法拉第设计此数据吗？"];
-            [showView addItemWithTitle:@"确定" itemType:ShowAlertItemTypeBlack callback:^(EasyShowView *showview) {
+            [showView addItemWithTitle:@"确定" itemType:ShowAlertItemTypeBlack callback:^(EasyShowAlertView *showview) {
                 NSLog(@"好的=%@",showview) ;
             }];
-            [showView addItemWithTitle:@"取消" itemType:ShowAlertItemTypeBlack callback:^(EasyShowView *showview) {
+            [showView addItemWithTitle:@"取消" itemType:ShowAlertItemTypeBlack callback:^(EasyShowAlertView *showview) {
                 NSLog(@"好的=%@",showview) ;
             }];
-            [showView addItemWithTitle:@"确定删除吗" itemType:ShowAlertItemTypeBlodBlue callback:^(EasyShowView *showview) {
+            [showView addItemWithTitle:@"确定删除吗" itemType:ShowAlertItemTypeBlodBlue callback:^(EasyShowAlertView *showview) {
                 NSLog(@"好的=%@",showview) ;
             }];
-            [showView addItemWithTitle:@"点击取消当前操作！" itemType:ShowAlertItemTypeBlodRed callback:^(EasyShowView *showview) {
+            [showView addItemWithTitle:@"点击取消当前操作！" itemType:ShowAlertItemTypeBlodRed callback:^(EasyShowAlertView *showview) {
                 NSLog(@"好的=%@",showview) ;
             }];
           
@@ -162,13 +162,13 @@
         case 2:
         {
             EasyShowAlertView *alertView =[EasyShowAlertView showSystemAlertWithTitle:@"提示" message:@"确定需要此操作吗?次草错爱东方饭店了肯德基福达康！"];
-            [alertView addSystemItemWithTitle:@"确定" itemType:UIAlertActionStyleDefault callback:^(EasyShowView *showview) {
+            [alertView addSystemItemWithTitle:@"确定" itemType:UIAlertActionStyleDefault callback:^(EasyShowAlertView *showview) {
                 NSLog(@"dddddddd    ");
             }];
-            [alertView addSystemItemWithTitle:@"确dd定" itemType:UIAlertActionStyleDestructive callback:^(EasyShowView *showview) {
+            [alertView addSystemItemWithTitle:@"确dd定" itemType:UIAlertActionStyleDestructive callback:^(EasyShowAlertView *showview) {
                 NSLog(@"dddddddd    ");
             }];
-            [alertView addSystemItemWithTitle:@"确定ddaffsfad" itemType:UIAlertActionStyleCancel callback:^(EasyShowView *showview) {
+            [alertView addSystemItemWithTitle:@"确定ddaffsfad" itemType:UIAlertActionStyleCancel callback:^(EasyShowAlertView *showview) {
                 NSLog(@"dddddddd    ");
             }];
             [alertView systemShow];
@@ -177,18 +177,18 @@
         {
             EasyShowAlertView *alertView =[EasyShowAlertView showSystemActionSheetWithTitle:@"请选择您需要的操作" message:@""];
     
-            [alertView addSystemItemWithTitle:@"确定" itemType:UIAlertActionStyleDefault callback:^(EasyShowView *showview) {
+            [alertView addSystemItemWithTitle:@"确定" itemType:UIAlertActionStyleDefault callback:^(EasyShowAlertView *showview) {
                 NSLog(@"dddddddd    ");
             }];
-            [alertView addSystemItemWithTitle:@"确定" itemType:UIAlertActionStyleDefault callback:^(EasyShowView *showview) {
+            [alertView addSystemItemWithTitle:@"确定" itemType:UIAlertActionStyleDefault callback:^(EasyShowAlertView *showview) {
                 NSLog(@"dddddddd    ");
             }];
-            [alertView addSystemItemWithTitle:@"删除操作" itemType:UIAlertActionStyleDestructive callback:^(EasyShowView *showview) {
+            [alertView addSystemItemWithTitle:@"删除操作" itemType:UIAlertActionStyleDestructive callback:^(EasyShowAlertView *showview) {
                 NSLog(@"dddddddd    ");
             }];
             static int c_3 = 0 ;
             if (++c_3%2) {
-                [alertView addSystemItemWithTitle:@"取消" itemType:UIAlertActionStyleCancel callback:^(EasyShowView *showview) {
+                [alertView addSystemItemWithTitle:@"取消" itemType:UIAlertActionStyleCancel callback:^(EasyShowAlertView *showview) {
                     NSLog(@"dddddddd    ");
                 }];
             }

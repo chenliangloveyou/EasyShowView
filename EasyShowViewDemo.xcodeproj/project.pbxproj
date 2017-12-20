@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		680817081FC86C1200A47111 /* EasyShowOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 680817071FC86C1200A47111 /* EasyShowOptions.m */; };
 		6808170C1FCB6D6900A47111 /* HUD_NF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6808170B1FCB6D6900A47111 /* HUD_NF@2x.png */; };
-		6808170F1FCB756700A47111 /* EasyShowBgView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6808170E1FCB756700A47111 /* EasyShowBgView.m */; };
+		6808170F1FCB756700A47111 /* EasyShowTextBgView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6808170E1FCB756700A47111 /* EasyShowTextBgView.m */; };
 		6810CFC91FE92520002253D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6810CFC81FE92520002253D9 /* Assets.xcassets */; };
 		AD0D12511FEA2F2800D66786 /* EasyShowTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D12501FEA2F2800D66786 /* EasyShowTypes.m */; };
 		AD0D12541FEA2F9E00D66786 /* EasyShowLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D12531FEA2F9E00D66786 /* EasyShowLabel.m */; };
@@ -22,7 +22,6 @@
 		ADD80A271FC7AA28005908C4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADD80A251FC7AA28005908C4 /* LaunchScreen.storyboard */; };
 		ADD80A2A1FC7AA28005908C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A291FC7AA28005908C4 /* main.m */; };
 		ADD80A341FC7AA28005908C4 /* EasyShowViewDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A331FC7AA28005908C4 /* EasyShowViewDemoUITests.m */; };
-		ADD80A411FC7AD5F005908C4 /* EasyShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A401FC7AD5F005908C4 /* EasyShowView.m */; };
 		ADD80A441FC7EF36005908C4 /* EasyShowUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A431FC7EF36005908C4 /* EasyShowUtils.m */; };
 		ADD80A471FC7F934005908C4 /* UIView+EasyShowExt.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A461FC7F934005908C4 /* UIView+EasyShowExt.m */; };
 /* End PBXBuildFile section */
@@ -41,8 +40,8 @@
 		680817061FC86C1200A47111 /* EasyShowOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowOptions.h; sourceTree = "<group>"; };
 		680817071FC86C1200A47111 /* EasyShowOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowOptions.m; sourceTree = "<group>"; };
 		6808170B1FCB6D6900A47111 /* HUD_NF@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HUD_NF@2x.png"; sourceTree = "<group>"; };
-		6808170D1FCB756700A47111 /* EasyShowBgView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowBgView.h; sourceTree = "<group>"; };
-		6808170E1FCB756700A47111 /* EasyShowBgView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowBgView.m; sourceTree = "<group>"; };
+		6808170D1FCB756700A47111 /* EasyShowTextBgView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowTextBgView.h; sourceTree = "<group>"; };
+		6808170E1FCB756700A47111 /* EasyShowTextBgView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowTextBgView.m; sourceTree = "<group>"; };
 		6810CFC81FE92520002253D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68D65C861FD04B8C00629574 /* EasyShow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShow.h; sourceTree = "<group>"; };
 		AD0D124F1FEA2F2800D66786 /* EasyShowTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowTypes.h; sourceTree = "<group>"; };
@@ -67,8 +66,6 @@
 		ADD80A2F1FC7AA28005908C4 /* EasyShowViewDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyShowViewDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADD80A331FC7AA28005908C4 /* EasyShowViewDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowViewDemoUITests.m; sourceTree = "<group>"; };
 		ADD80A351FC7AA29005908C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ADD80A3F1FC7AD5F005908C4 /* EasyShowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowView.h; sourceTree = "<group>"; };
-		ADD80A401FC7AD5F005908C4 /* EasyShowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowView.m; sourceTree = "<group>"; };
 		ADD80A421FC7EF36005908C4 /* EasyShowUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowUtils.h; sourceTree = "<group>"; };
 		ADD80A431FC7EF36005908C4 /* EasyShowUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowUtils.m; sourceTree = "<group>"; };
 		ADD80A451FC7F934005908C4 /* UIView+EasyShowExt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+EasyShowExt.h"; sourceTree = "<group>"; };
@@ -142,16 +139,14 @@
 			isa = PBXGroup;
 			children = (
 				68D65C861FD04B8C00629574 /* EasyShow.h */,
-				ADD80A3F1FC7AD5F005908C4 /* EasyShowView.h */,
-				ADD80A401FC7AD5F005908C4 /* EasyShowView.m */,
 				AD944B801FE25988006A9BE1 /* EasyShowTextView.h */,
 				AD944B811FE25988006A9BE1 /* EasyShowTextView.m */,
 				AD944B831FE25996006A9BE1 /* EasyShowLodingView.h */,
 				AD944B841FE25996006A9BE1 /* EasyShowLodingView.m */,
 				AD944B861FE259AB006A9BE1 /* EasyShowAlertView.h */,
 				AD944B871FE259AB006A9BE1 /* EasyShowAlertView.m */,
-				6808170D1FCB756700A47111 /* EasyShowBgView.h */,
-				6808170E1FCB756700A47111 /* EasyShowBgView.m */,
+				6808170D1FCB756700A47111 /* EasyShowTextBgView.h */,
+				6808170E1FCB756700A47111 /* EasyShowTextBgView.m */,
 				AD0D124F1FEA2F2800D66786 /* EasyShowTypes.h */,
 				AD0D12501FEA2F2800D66786 /* EasyShowTypes.m */,
 				AD0D12521FEA2F9E00D66786 /* EasyShowLabel.h */,
@@ -272,13 +267,12 @@
 				AD944B881FE259AB006A9BE1 /* EasyShowAlertView.m in Sources */,
 				ADD80A1F1FC7AA28005908C4 /* ViewController.m in Sources */,
 				680817081FC86C1200A47111 /* EasyShowOptions.m in Sources */,
-				6808170F1FCB756700A47111 /* EasyShowBgView.m in Sources */,
+				6808170F1FCB756700A47111 /* EasyShowTextBgView.m in Sources */,
 				ADD80A2A1FC7AA28005908C4 /* main.m in Sources */,
 				AD944B821FE25988006A9BE1 /* EasyShowTextView.m in Sources */,
 				ADD80A441FC7EF36005908C4 /* EasyShowUtils.m in Sources */,
 				ADD80A1C1FC7AA28005908C4 /* AppDelegate.m in Sources */,
 				AD944B851FE25996006A9BE1 /* EasyShowLodingView.m in Sources */,
-				ADD80A411FC7AD5F005908C4 /* EasyShowView.m in Sources */,
 				AD0D12511FEA2F2800D66786 /* EasyShowTypes.m in Sources */,
 				AD0D12541FEA2F9E00D66786 /* EasyShowLabel.m in Sources */,
 				ADD80A471FC7F934005908C4 /* UIView+EasyShowExt.m in Sources */,

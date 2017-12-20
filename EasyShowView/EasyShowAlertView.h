@@ -6,13 +6,13 @@
 //  Copyright © 2017年 chenliangloveyou. All rights reserved.
 //
 
-#import "EasyShowView.h"
+#import <UIKit/UIKit.h>
+#import "EasyShowTypes.h"
+@class EasyShowAlertView ;
+typedef void (^alertItemCallback)(EasyShowAlertView *showview);
 
 
-typedef void (^alertItemCallback)(EasyShowView *showview);
-
-
-@interface EasyShowAlertView : EasyShowView
+@interface EasyShowAlertView : UIView
 
 
 /**

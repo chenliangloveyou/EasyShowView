@@ -1,24 +1,22 @@
 //
-//  EasyShowBgView.m
+//  EasyShowTextBgView.m
 //  EFHealth
 //
 //  Created by nf on 16/7/20.
 //  Copyright © 2016年 ef. All rights reserved.
 //
 
-#import "EasyShowBgView.h"
+#import "EasyShowTextBgView.h"
 
 #import "UIView+EasyShowExt.h"
 #import "EasyShowUtils.h"
 
-@interface EasyShowBgView()
+@interface EasyShowTextBgView()
 
 @property ShowTextStatus showTextStatus ;
 
 @property (nonatomic,strong)UILabel *textLabel ;
 @property (nonatomic,strong)UIImageView *imageView ;
-
-@property (nonatomic,strong)UIActivityIndicatorView *imageViewIndeicator ;
 
 @property (nonatomic,strong)EasyShowOptions *options ;
 
@@ -26,7 +24,7 @@
 
 @end
 
-@implementation EasyShowBgView
+@implementation EasyShowTextBgView
 
 - (void)dealloc
 {
@@ -85,12 +83,9 @@
             }
         }
         
-    
-    
-    
-    [self drawAnimationImageView];
-}
-return self ;
+        [self drawAnimationImageView];
+    }
+    return self ;
 }
 
 - (UIWindow *)showTextWindow
@@ -103,7 +98,6 @@ return self ;
         UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(gestureTap)];
         [_showTextWindow addGestureRecognizer:gesture];
         _showTextWindow.hidden = NO ;
-        //        [_showTextWindow makeKeyAndVisible];
         _showTextWindow.alpha = 1;
     }
     return _showTextWindow ;
@@ -303,18 +297,6 @@ return self ;
     return _textLabel ;
 }
 
-- (UIActivityIndicatorView *)imageViewIndeicator
-{
-    if (nil == _imageViewIndeicator) {
-        _imageViewIndeicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        _imageViewIndeicator.tintColor = self.options.textColor ;
-        _imageViewIndeicator.color = self.options.textColor ;
-        //        _imageViewIndeicator.backgroundColor = [UIColor yellowColor];
-        _imageViewIndeicator.frame = self.imageView.bounds ;
-        [self.imageView addSubview:_imageViewIndeicator];
-    }
-    return _imageViewIndeicator ;
-}
 /*
  // Only override drawRect: if you perform custom drawing.
  // An empty implementation adversely affects performance during animation.

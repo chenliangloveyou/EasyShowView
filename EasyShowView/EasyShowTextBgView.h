@@ -1,5 +1,5 @@
 //
-//  EasyShowBgView.h
+//  EasyShowTextBgView.h
 //  EFHealth
 //
 //  Created by nf on 16/7/20.
@@ -10,7 +10,7 @@
 
 #import "EasyShowOptions.h"
 
-@interface EasyShowBgView : UIView
+@interface EasyShowTextBgView : UIView
 
 - (instancetype)initWithFrame:(CGRect)frame status:(ShowTextStatus)status text:(NSString *)text image:(UIImage *)image;
 

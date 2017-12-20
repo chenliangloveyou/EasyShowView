@@ -8,7 +8,7 @@
 
 #import "EasyShowLodingView.h"
 #import "UIView+EasyShowExt.h"
-#import "EasyShowBgView.h"
+#import "EasyShowTextBgView.h"
 #import "EasyShowLabel.h"
 
 
@@ -54,7 +54,7 @@
     NSEnumerator *subviewsEnum = [view.subviews reverseObjectEnumerator];
     for (UIView *subview in subviewsEnum) {
         if ([subview isKindOfClass:self]) {
-            EasyShowView *showView = (EasyShowView *)subview ;
+            EasyShowLodingView *showView = (EasyShowLodingView *)subview ;
             [showView removeSelfFromSuperView];
         }
     }
@@ -105,7 +105,7 @@
     NSEnumerator *subviewsEnum = [superView.subviews reverseObjectEnumerator];
     for (UIView *subview in subviewsEnum) {
         if ([subview isKindOfClass:self]) {
-            EasyShowView *showView = (EasyShowView *)subview ;
+            EasyShowLodingView *showView = (EasyShowLodingView *)subview ;
             [showView removeSelfFromSuperView];
         }
     }

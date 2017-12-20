@@ -6,7 +6,7 @@
 //  Copyright © 2017年 chenliangloveyou. All rights reserved.
 //
 
-#import "EasyShowView.h"
+#import <UIKit/UIKit.h>
 
 @interface EasyShowLodingView : UIView
 
