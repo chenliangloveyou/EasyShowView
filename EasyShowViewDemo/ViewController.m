@@ -91,7 +91,7 @@
             break;
         case 1:
             [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeIndicatorLeft : LodingShowTypeIndicator ;
-            [EasyShowLodingView showLodingText:@""];
+            [EasyShowLodingView showLodingText:@"正在添加"];
             break ;
         case 2:{
             [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypePlayImagesLeft : LodingShowTypePlayImages ;

@@ -9,7 +9,7 @@
 #import "EasyShowAlertView.h"
 #import "UIView+EasyShowExt.h"
 #import "EasyShowOptions.h"
-
+#import "EasyShowLabel.h"
 @interface EasyShowAlertItem : NSObject
 @property (nonatomic,strong)NSString *title ;
 @property (nonatomic,assign)ShowAlertItemType itemTpye ;
@@ -17,47 +17,6 @@
 @end
 @implementation EasyShowAlertItem
 @end
-
-
-@interface EasyAlertLabel :UILabel
-- (instancetype)initWithContentInset:(UIEdgeInsets)contentInset ;
-@property (nonatomic) UIEdgeInsets contentInset;
-@end
-
-@implementation EasyAlertLabel
-- (instancetype)initWithContentInset:(UIEdgeInsets)contentInset
-{
-    if (self = [super init]) {
-        _contentInset = contentInset ;
-    }
-    return self ;
-}
-- (void)setContentInset:(UIEdgeInsets)contentInset {
-    _contentInset = contentInset;
-    NSString *tempString = self.text;
-    self.text = @"";
-    self.text = tempString;
-}
-- (CGRect)textRectForBounds:(CGRect)bounds limitedToNumberOfLines:(NSInteger)numberOfLines
-{
-    UIEdgeInsets insets = self.contentInset;
-    CGRect rect = [super textRectForBounds:UIEdgeInsetsInsetRect(bounds, insets)
-                    limitedToNumberOfLines:numberOfLines];
-    
-    rect.origin.x    -= insets.left;
-    rect.origin.y    -= insets.top;
-    rect.size.width  += (insets.left + insets.right);
-    rect.size.height += (insets.top + insets.bottom);
-    
-    return rect;
-}
-
--(void)drawTextInRect:(CGRect)rect
-{
-    [super drawTextInRect:UIEdgeInsetsInsetRect(rect, self.contentInset)];
-}
-@end
-
 
 typedef NS_ENUM(NSUInteger , alertShowType) {
     alertShowTypeAlert ,
@@ -560,7 +519,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 - (UILabel *)alertTitleLabel
 {
     if (nil == _alertTitleLabel) {
-        _alertTitleLabel = [[EasyAlertLabel alloc] initWithContentInset:UIEdgeInsetsMake(35, 30, 15, 30)];
+        _alertTitleLabel = [[EasyShowLabel alloc] initWithContentInset:UIEdgeInsetsMake(35, 30, 15, 30)];
         _alertTitleLabel.textAlignment = NSTextAlignmentCenter;
         if (self.options.alertBackgroundColor) {
             _alertTitleLabel.backgroundColor = self.options.alertBackgroundColor;
@@ -577,7 +536,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 - (UILabel *)alertMessageLabel
 {
     if (nil == _alertMessageLabel) {
-        _alertMessageLabel = [[EasyAlertLabel alloc] initWithContentInset:UIEdgeInsetsMake(15, 30, 20, 30)];
+        _alertMessageLabel = [[EasyShowLabel alloc] initWithContentInset:UIEdgeInsetsMake(15, 30, 20, 30)];
         _alertMessageLabel.textAlignment = NSTextAlignmentCenter;
         if (self.options.alertBackgroundColor) {
             _alertMessageLabel.backgroundColor = self.options.alertBackgroundColor;

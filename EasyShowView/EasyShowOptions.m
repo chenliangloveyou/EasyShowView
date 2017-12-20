@@ -8,7 +8,7 @@
 
 #import "EasyShowOptions.h"
 
-const CGFloat EasyDrawImageWH  = 60 ;   //显示图片的宽高
+const CGFloat EasyDrawImageWH  = 30 ;   //显示图片的宽高
 const CGFloat EasyDrawImageEdge = 15 ;  //显示图片的边距
 const CGFloat EasyTextShowEdge = 40 ;   //显示纯文字时，当设置top和bottom的时候，距离屏幕上下的距离
 const CGFloat EasyShowViewMinWidth = 50 ;//视图最小的宽度
@@ -35,7 +35,7 @@ singleton_implementation(EasyShowOptions)
 {
     if (self = [super init]) {
         _textFount = [UIFont systemFontOfSize:13];
-        _backGroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.01];
+        _backGroundColor = [[UIColor blackColor]colorWithAlphaComponent:1];
         _textColor = [UIColor redColor];
         
         _showShadow = YES ;
