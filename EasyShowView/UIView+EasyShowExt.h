@@ -66,7 +66,7 @@ AutoPoint_5(CGFloat x ,CGFloat y){
 - (UIViewController *)currentViewController;
 //- (UIViewController *)_topViewController:(UIViewController *)vc ;
 
-- (void)setRoundedCorners ;
+- (void)setRoundedCorners:(CGFloat)corners ;
 
 - (void)setRoundedCorners:(UIRectCorner)corners
               borderWidth:(CGFloat)borderWidth

@@ -62,7 +62,7 @@
     
     if (self.options.superViewReceiveEvent) {//父视图能接受事件
         //self的大小为显示区域的大小
-        [self setFrame:CGRectMake((SCREEN_WIDTH-showFrame.size.width)/2, showFrame.origin.y, showFrame.size.width, showFrame.size.height)];
+        [self setFrame:CGRectMake((SCREEN_WIDTH_S-showFrame.size.width)/2, showFrame.origin.y, showFrame.size.width, showFrame.size.height)];
         //显示视图的bgview的frame的位置为{0，0}
         showFrame.origin.y = 0 ;
     }
@@ -207,7 +207,7 @@
                     image:(UIImage *)image
                    stauts:(ShowTextStatus)status
 {
-    if (status==ShowTextStatusPureText && ISEMPTY(text)) {//
+    if (status==ShowTextStatusPureText && ISEMPTY_S(text)) {//
         NSAssert(NO, @"you should set a text for showView !");
         return ;
     }
@@ -257,20 +257,20 @@
     
     //显示区域的宽高
     CGFloat backGroundH = 0 ;
-    CGFloat backGroundW = SCREEN_WIDTH ;
+    CGFloat backGroundW = SCREEN_WIDTH_S ;
     switch (self.options.textStatusType) {
         case ShowTextStatusTypeStatusBar://如果是在statusbar上，则高固定，不需要计算
-            backGroundH = STATUSBAR_HEIGHT ;
+            backGroundH = STATUSBAR_HEIGHT_S ;
             break;
         case ShowTextStatusTypeNavigation:
-            backGroundH = NAVIGATION_HEIGHT ;
+            backGroundH = NAVIGATION_HEIGHT_S ;
             break ;
         default:{
             CGSize textSize = CGSizeZero ;
-            if (!ISEMPTY(self.showText)) {
+            if (!ISEMPTY_S(self.showText)) {
                 textSize = [EasyShowUtils textWidthWithStirng:self.showText
                                                          font:self.options.textFount
-                                                     maxWidth:self.options.maxWidthScale*SCREEN_WIDTH];
+                                                     maxWidth:self.options.maxWidthScale*SCREEN_WIDTH_S];
             }
             backGroundH = (textSize.height?(textSize.height+30):0) + imageH ;
             backGroundW = textSize.width?(textSize.width+40):0  ;
@@ -282,7 +282,7 @@
     }
     
     //显示区域的y值
-    CGFloat showFrameY = (SCREEN_HEIGHT-backGroundH)/2  ;//默认显示在中间
+    CGFloat showFrameY = (SCREEN_HEIGHT_S-backGroundH)/2  ;//默认显示在中间
     //    if (self.showTextStatus != ShowStatusLoding) {
     switch (self.options.textStatusType ) {
         case ShowTextStatusTypeNavigation:
@@ -290,10 +290,10 @@
             showFrameY = 0 ;
             break ;
         case ShowTextStatusTypeTop:
-            showFrameY = NAVIGATION_HEIGHT + EasyTextShowEdge ;
+            showFrameY = NAVIGATION_HEIGHT_S + EasyTextShowEdge ;
             break;
         case ShowTextStatusTypeBottom:
-            showFrameY = SCREEN_HEIGHT - backGroundH - EasyTextShowEdge ;
+            showFrameY = SCREEN_HEIGHT_S - backGroundH - EasyTextShowEdge ;
             break ;
         default: break;
     }

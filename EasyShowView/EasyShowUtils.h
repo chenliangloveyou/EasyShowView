@@ -10,85 +10,53 @@
 #import <UIKit/UIKit.h>
 
 // 是否为空
-#define ISEMPTY(_v) (_v == nil || _v.length == 0)
+#define ISEMPTY_S(_v) (_v == nil || _v.length == 0)
 
 
 //屏幕宽度
-#define  SCREEN_WIDTH [[UIScreen mainScreen] bounds].size.width
+#define  SCREEN_WIDTH_S [[UIScreen mainScreen] bounds].size.width
 //屏幕高度
-#define  SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
+#define  SCREEN_HEIGHT_S [[UIScreen mainScreen] bounds].size.height
 //屏幕的高度
-#define SCREEN_MAX_LENGTH (MAX(SCREEN_WIDTH, SCREEN_HEIGHT))
+#define SCREEN_MAX_LENGTH_S (MAX(SCREEN_WIDTH_S, SCREEN_HEIGHT_S))
 
 //屏幕是否是横屏状态
-#define ISHORIZONTALSCREEM UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)
+#define ISHORIZONTALSCREEM_S UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)
 //retain屏
-#define ISRETAIN ([[UIScreen mainScreen] scale] >= 2.0)
+#define ISRETAIN_S ([[UIScreen mainScreen] scale] >= 2.0)
 //屏幕尺寸判断
-#define ISIPHONE   (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-#define ISIPHONE_4  (ISIPHONE && SCREEN_MAX_LENGTH == 480.0f)  // 4/4s            3.5寸   320*480
-#define ISIPHONE_5  (ISIPHONE && SCREEN_MAX_LENGTH == 568.0f)  // 5/5s/se           4寸   320*568
-#define ISIPHONE_6  (ISIPHONE && SCREEN_MAX_LENGTH == 667.0f)  // 6/6s/7/8        4.7寸   375*667
-#define ISIPHONE_6P (ISIPHONE && SCREEN_MAX_LENGTH == 736.0f)  // 6p/6ps/7p/8p    5.5寸   414*736
-#define ISIPHONE_X  (ISIPHONE && SCREEN_MAX_LENGTH == 812.0f)  // iPhonex         5.8寸   375*812
+#define ISIPHONE_S   (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+//#define ISIPHONE_4  (ISIPHONE && SCREEN_MAX_LENGTH == 480.0f)  // 4/4s            3.5寸   320*480
+//#define ISIPHONE_5  (ISIPHONE && SCREEN_MAX_LENGTH == 568.0f)  // 5/5s/se           4寸   320*568
+//#define ISIPHONE_6  (ISIPHONE && SCREEN_MAX_LENGTH == 667.0f)  // 6/6s/7/8        4.7寸   375*667
+//#define ISIPHONE_6P (ISIPHONE && SCREEN_MAX_LENGTH == 736.0f)  // 6p/6ps/7p/8p    5.5寸   414*736
+#define ISIPHONE_X_S  (ISIPHONE_S && SCREEN_MAX_LENGTH_S == 812.0f)  // iPhonex         5.8寸   375*812
 
 //iOS版本判断
-#define SYSTEM_VERSION ([[[UIDevice currentDevice] systemVersion] floatValue])
-#define IS_IOS7_OR_LATER (SYSTEM_VERSION >= 7.0)
-#define IS_IOS8_OR_LATER (SYSTEM_VERSION >= 8.0)
-#define IS_IOS9_OR_LATER (SYSTEM_VERSION >= 9.0)
-#define IS_IOS10_OR_LATER (SYSTEM_VERSION >= 10.0)
-#define IS_IOS11_OR_LATER (SYSTEM_VERSION >= 11.0)
+//#define SYSTEM_VERSION ([[[UIDevice currentDevice] systemVersion] floatValue])
+//#define IS_IOS7_OR_LATER (SYSTEM_VERSION >= 7.0)
+//#define IS_IOS8_OR_LATER (SYSTEM_VERSION >= 8.0)
+//#define IS_IOS9_OR_LATER (SYSTEM_VERSION >= 9.0)
+//#define IS_IOS10_OR_LATER (SYSTEM_VERSION >= 10.0)
+//#define IS_IOS11_OR_LATER (SYSTEM_VERSION >= 11.0)
 
 
 //statusbar默认高度 orginal
-#define STATUSBAR_HEIGHT  (ISIPHONE_X ? (50) : 20 )
+#define STATUSBAR_HEIGHT_S  (ISIPHONE_X_S ? (50) : 20 )
 
 //导航栏原始高度
-#define kNavNormalHeight 44.0f
+#define kNavNormalHeight_S 44.0f
 
 //大标题增加出来的高度
-#define kNavBigTitleHeight 55.0f
+#define kNavBigTitleHeight_S 55.0f
 
-#define kEasyShowSafeBottomMargin  (ISIPHONE_X ? 34.0f : 0.0f )
+#define kEasyShowSafeBottomMargin_S  (ISIPHONE_X_S ? 34.0f : 0.0f )
 
 //状态栏高度
-#define NAVIGATION_HEIGHT (STATUSBAR_HEIGHT + kNavNormalHeight)
+#define NAVIGATION_HEIGHT_S (STATUSBAR_HEIGHT_S + kNavNormalHeight_S)
 //#define STATUSBAR_HEIGHT (ISHORIZONTALSCREEM ? (ISIPHONE_X ? 0 : STATUSBAR_HEIGHT) : STATUSBAR_HEIGHT )
 
 
-
-//最上面的控制器
-#define kTopViewController [EasyShowUtils topViewController]
-
-
-#define singleton_interface(name) +(instancetype)shared##name;
-
-#define singleton_implementation(name)         \
-static name *_instance;           \
-+ (id)allocWithZone:(struct _NSZone *)zone { \
-static dispatch_once_t onceToken;           \
-dispatch_once(&onceToken, ^{            \
-_instance = [super allocWithZone:zone]; \
-});             \
-return _instance;       \
-}               \
-+ (instancetype)shared##name{           \
-if (_instance == nil) {             \
-static dispatch_once_t onceToken;       \
-dispatch_once(&onceToken, ^{        \
-_instance = [[[self class] alloc] init];      \
-});         \
-}               \
-return _instance;       \
-}           \
-- (id)copyWithZone:(NSZone *)zone{      \
-return _instance;       \
-}       \
-- (id)mutableCopyWithZone:(NSZone *)zone        \
-{               \
-return _instance;       \
-}       \
 
 
 @interface EasyShowUtils : NSObject

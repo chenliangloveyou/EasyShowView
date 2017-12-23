@@ -29,7 +29,32 @@ NSString *const EasyShowViewDidlDismissNotification = @"EasyShowViewDidlDismissN
 @implementation EasyShowOptions
 
 @synthesize lodingPlayImagesArray = _lodingPlayImagesArray ;
-singleton_implementation(EasyShowOptions)
+
+static EasyShowOptions *_showInstance;
++ (id)allocWithZone:(struct _NSZone *)zone {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _showInstance = [super allocWithZone:zone];
+    });
+    return _showInstance;
+}
++ (instancetype)sharedEasyShowOptions{
+    if (nil == _showInstance) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            _showInstance = [[[self class] alloc] init];
+        });
+    }
+    return _showInstance;
+}
+- (id)copyWithZone:(NSZone *)zone{
+    return _showInstance;
+}
+- (id)mutableCopyWithZone:(NSZone *)zone
+{
+    return _showInstance;
+}
+
 
 - (instancetype)init
 {
@@ -55,17 +80,18 @@ singleton_implementation(EasyShowOptions)
         
         _lodingShowType = LodingShowTypeTurnAround ;
         _lodingAnimationType = lodingAnimationTypeBounce ;
-        _lodingTintColor = [UIColor redColor];
-        _lodingBackgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.2];
+        _lodingTintColor = [UIColor blackColor];
+        _lodingBackgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.05];
         _lodingSuperViewReceiveEvent = YES ;
-        
-        
+        _lodingShowOnWindow = NO ;
+        _lodingCycleCornerWidth = 5 ;
         
         // [UIColor colorWithRed:82/255.0 green:90/255.0 blue:251.0/255.0 alpha:1] ;
         _alertTitleColor = [UIColor blackColor];
         _alertMessageColor = [UIColor darkGrayColor];
-        
+        _alertTintColor = [UIColor clearColor];
         _alertTowItemHorizontal = YES ;
+        _alertBgViewTapRemove = NO ;
     }
     return self ;
 }

@@ -17,7 +17,7 @@
 @property (nonatomic,strong)EasyShowOptions *options ;
 
 @property (nonatomic,strong)NSString *showText ;//展示的文字
-@property (nonatomic,strong)UIImage *showImage ;//展示的图片
+@property (nonatomic,strong)NSString *showImageName ;//展示的图片
 
 @property (nonatomic,strong)UIView *lodingBgView ;//上面放着 textlabel 和 imageview
 @property (nonatomic,strong)UILabel *textLabel ;
@@ -32,11 +32,43 @@
 @implementation EasyShowLodingView
 
 
+- (void)dealloc
+{
+    NSLog(@"EasyShowLodingView dealloc--- %@",self);
+}
 
 
++ (void)showLoding
+{
+    [self showLodingText:@""];
+}
++ (void)showLodingText:(NSString *)text
+{
+    UIView *showView = [EasyShowUtils topViewController].view ;
+    if ([EasyShowOptions sharedEasyShowOptions].lodingShowOnWindow) {
+        showView = [UIApplication sharedApplication].keyWindow ;
+    }
+    [self showLodingText:text inView:showView];
+}
++ (void)showLodingText:(NSString *)text inView:(UIView *)superView
+{
+    [self showLodingText:text imageName:nil inView:superView];
+}
++ (void)showLodingText:(NSString *)text imageName:(NSString *)imageName
+{
+    UIView *showView = [EasyShowUtils topViewController].view ;
+    if ([EasyShowOptions sharedEasyShowOptions].lodingShowOnWindow) {
+        showView = [UIApplication sharedApplication].keyWindow ;
+    }
+    [self showLodingText:text imageName:imageName inView:showView];
+}
++ (void)showLodingText:(NSString *)text imageName:(NSString *)imageName inView:(UIView *)superView
+{
+    [self showLodingWithText:text inView:superView imageName:imageName];
+}
 + (void)showLodingWithText:(NSString *)text
                     inView:(UIView *)view
-                     image:(UIImage *)image
+                 imageName:(NSString *)imageName
 {
     
     if (nil == view) {
@@ -61,44 +93,20 @@
     
     EasyShowLodingView *showView = [[EasyShowLodingView alloc] initWithFrame:CGRectZero];
     showView.showText = text ;
-    showView.showImage = image ;
+    showView.showImageName = imageName ;
     [showView showViewWithSuperView:view];
-    
+   
 }
 
-
-+ (void)showLoding
-{
-    [self showLodingText:@""];
-}
-+ (void)showLodingText:(NSString *)text
-{
-    UIView *showView = kTopViewController.view ;
-    [self showLodingText:text inView:showView];
-}
-+ (void)showLodingText:(NSString *)text inView:(UIView *)superView
-{
-    [self showLodingText:text image:nil inView:superView];
-}
-+ (void)showLodingText:(NSString *)text image:(UIImage *)image
-{
-    UIView *showView = kTopViewController.view ;
-    [self showLodingText:text image:image inView:showView];
-}
-+ (void)showLodingText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView
-{
-    [self showLodingWithText:text inView:superView image:image];
-}
 
 
 + (void)hidenLoding
 {
-    UIView *showView = kTopViewController.view ;
+    UIView *showView = [EasyShowUtils topViewController].view ;
+    if ([EasyShowOptions sharedEasyShowOptions].lodingShowOnWindow) {
+        showView = [UIApplication sharedApplication].keyWindow ;
+    }
     [self hidenLoingInView:showView];
-}
-+ (void)hidenAllLoding
-{
-    
 }
 + (void)hidenLoingInView:(UIView *)superView
 {
@@ -106,6 +114,7 @@
     for (UIView *subview in subviewsEnum) {
         if ([subview isKindOfClass:self]) {
             EasyShowLodingView *showView = (EasyShowLodingView *)subview ;
+
             [showView removeSelfFromSuperView];
         }
     }
@@ -152,7 +161,8 @@
         case LodingShowTypeImageAround:
         case LodingShowTypeImageAroundLeft:
         {
-            CGSize tempSize = self.showImage.size ;
+            UIImage *image = [[UIImage imageNamed:self.showImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            CGSize tempSize = image.size ;
             if (tempSize.height > EasyShowLodingImageMaxWH) {
                 tempSize.height = EasyShowLodingImageMaxWH ;
             }
@@ -166,13 +176,13 @@
     }
 
     
-    if (!ISEMPTY(self.showText)) {
+    if (!ISEMPTY_S(self.showText)) {
         self.textLabel.text = self.showText ;
     }
     
     CGFloat textMaxWidth = EasyShowLodingMaxWidth - (self.options.lodingShowType%2?:(EasyShowLodingImageWH+EasyShowLodingImageEdge*2)) ;//当为左右形式的时候减去图片的宽度
     CGSize textSize = [self.textLabel sizeThatFits:CGSizeMake(textMaxWidth, MAXFLOAT)];
-    if (ISEMPTY(self.showText)) {
+    if (ISEMPTY_S(self.showText)) {
         textSize = CGSizeZero ;
     }
    
@@ -190,11 +200,10 @@
     }
 
     
-//    CGRect displayAreaRect = CGRectZero ;//显示区域
     if (self.options.lodingSuperViewReceiveEvent) {
         //父视图能够接受事件 。 显示区域的大小=self的大小=displayAreaSize
 
-        [self setFrame:CGRectMake((SCREEN_WIDTH-displayAreaSize.width)/2, (SCREEN_HEIGHT-displayAreaSize.height)/2, displayAreaSize.width, displayAreaSize.height)];
+        [self setFrame:CGRectMake((SCREEN_WIDTH_S-displayAreaSize.width)/2, (SCREEN_HEIGHT_S-displayAreaSize.height)/2, displayAreaSize.width, displayAreaSize.height)];
     }
     else{
         //父视图不能接收-->self的大小应该为superview的大小。来遮盖
@@ -208,12 +217,11 @@
     self.lodingBgView.frame = CGRectMake(0,0, displayAreaSize.width,displayAreaSize.height) ;
     if (!self.options.lodingSuperViewReceiveEvent) {
         self.lodingBgView.center = self.center ;
-
     }
     
     self.imageView.frame = CGRectMake(EasyShowLodingImageEdge, EasyShowLodingImageEdge, imageSize.width, imageSize.height) ;
     if (!(self.options.lodingShowType%2)) {
-        self.imageView.centerX = self.lodingBgView.centerX ;
+        self.imageView.centerX = self.lodingBgView.width/2 ;
     }
    
     CGFloat textLabelX = 0 ;
@@ -229,7 +237,10 @@
     self.textLabel.frame = CGRectMake(textLabelX, textLabelY, textSize.width, textSize.height );
     
     [superView addSubview:self];
-
+    if (self.options.lodingCycleCornerWidth > 0) {
+        [_lodingBgView setRoundedCorners:self.options.lodingCycleCornerWidth];
+    }
+    
     switch (self.options.lodingShowType) {
         case LodingShowTypeTurnAround:
         case LodingShowTypeTurnAroundLeft:
@@ -243,7 +254,9 @@
         case LodingShowTypePlayImagesLeft:
         {
             UIImage *tempImage  = self.options.lodingPlayImagesArray.firstObject ;
-            self.imageView.image = tempImage ;
+            if (tempImage) {
+                self.imageView.image = tempImage ;
+            }
         }
             break ;
         case LodingShowTypeImageUpturn:
@@ -251,10 +264,15 @@
             
         case LodingShowTypeImageAround:
         case LodingShowTypeImageAroundLeft:
-            self.imageView.image = _showImage ;
-            
-            break ;
-            break ;
+        {
+            UIImage *image = [[UIImage imageNamed:self.showImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            if (image) {
+                self.imageView.image = image ;
+            }
+            else{
+                NSAssert(NO, @"iamgeName is illgal ");
+            }
+        } break ;
         default:
             break;
     }
@@ -282,7 +300,7 @@
                 }
                 self.imageView.animationImages = tempArray ;
                 self.imageView.animationDuration = self.options.showAnimationTime ;
-                self.imageView.animationRepeatCount = NSIntegerMax ;
+//                self.imageView.animationRepeatCount = NSIntegerMax ;
                 [self.imageView startAnimating];
                 
             }break ;
@@ -362,7 +380,16 @@
 }
 - (void)removeSelfFromSuperView
 {
+    NSAssert([NSThread isMainThread], @"needs to be accessed on the main thread.");
+    
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+        });
+    }
+    
+    
     void (^completion)(void) = ^{
+        [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         [self removeFromSuperview];
     };
     switch (self.options.lodingAnimationType) {
@@ -425,7 +452,7 @@
         
         popAnimation.delegate = self ;
         [popAnimation setValue:completion forKey:@"handler"];
-        [self.layer addAnimation:popAnimation forKey:nil];
+        [self.lodingBgView.layer addAnimation:popAnimation forKey:nil];
         return ;
     }
     CABasicAnimation *bacAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
@@ -440,11 +467,16 @@
     animationGroup.duration =  bacAnimation.duration;
     animationGroup.removedOnCompletion = NO;
     animationGroup.fillMode = kCAFillModeForwards;
-    
-    animationGroup.delegate = self ;
-    [animationGroup setValue:completion forKey:@"handler"];
-    [self.layer addAnimation:animationGroup forKey:nil];
+
+//    animationGroup.delegate = self ;
+//    [animationGroup setValue:completion forKey:@"handler"];
+    [self.lodingBgView.layer addAnimation:animationGroup forKey:nil];
    
+    [self performSelector:@selector(ddd) withObject:nil afterDelay:bacAnimation.duration];
+}
+- (void)ddd
+{
+    [self removeFromSuperview];
 }
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {

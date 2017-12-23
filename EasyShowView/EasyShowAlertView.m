@@ -41,8 +41,8 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 @property (nonatomic,strong)UIView *alertBgView ;
 @property (nonatomic,strong)UIWindow *oldKeyWindow ;
 
-@property (nonatomic,strong)NSString *systemTitle ;
-@property (nonatomic,strong)NSString *systemMessage ;
+@property (nonatomic,strong)NSString *alertShowTitle ;
+@property (nonatomic,strong)NSString *alertShowMessage ;
 
 @end
 
@@ -71,19 +71,13 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 }
 + (instancetype)showAlertWithType:(alertShowType)type title:(NSString *)title message:(NSString *)message
 {
-    if (ISEMPTY(title) && ISEMPTY(message)) {
+    if (ISEMPTY_S(title) && ISEMPTY_S(message)) {
         NSAssert(NO, @"you should set title or message") ;
         return nil;
     }
     EasyShowAlertView *showView = [[EasyShowAlertView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-   
-    if (type > alertShowTypeActionSheet) {
-        showView.systemTitle = title ;
-        showView.systemMessage = message ;
-    }else{
-        showView.alertTitleLabel.text = title ;
-        showView.alertMessageLabel.text = message ;
-    }
+    showView.alertShowTitle = title ;
+    showView.alertShowMessage = message ;
     showView.alertShowType = type ;
     showView.alertItemArray = [NSMutableArray arrayWithCapacity:3];
     return showView ;
@@ -96,7 +90,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 
 - (void)addItemWithTitle:(NSString *)title itemType:(ShowAlertItemType)itemType callback:(alertItemCallback)callback
 {
-    NSAssert(!ISEMPTY(title), @"the title should input！");
+    NSAssert(!ISEMPTY_S(title), @"the title should input！");
     
     EasyShowAlertItem *item = [[EasyShowAlertItem alloc]init];
     item.title = title ;
@@ -116,6 +110,9 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
     
     [self.alertBgView addSubview:self.alertTitleLabel];
     [self.alertBgView addSubview:self.alertMessageLabel];
+    self.alertTitleLabel.text = self.alertShowTitle ;
+    self.alertMessageLabel.text = self.alertShowMessage ;
+    
     for (int i = 0; i < self.alertItemArray.count; i++) {
         UIButton *button = [self alertButtonWithIndex:i ];
         [self.alertBgView addSubview:button];
@@ -132,8 +129,8 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 - (void)systemShow
 {
     UIAlertControllerStyle stype = self.alertShowType == alertShowTypeSystemAlert ;
-    UIAlertController *alertC = [UIAlertController alertControllerWithTitle:self.systemTitle
-                                                                    message:self.systemMessage
+    UIAlertController *alertC = [UIAlertController alertControllerWithTitle:self.alertShowTitle
+                                                                    message:self.alertShowMessage
                                                              preferredStyle:stype];
     
     [self.alertItemArray enumerateObjectsUsingBlock:^(EasyShowAlertItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -160,17 +157,17 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 }
 - (void)layoutAlertSubViews
 {
-    CGFloat bgViewMaxWidth = self.alertShowType==alertShowTypeAlert ?  SCREEN_WIDTH*0.75 : SCREEN_WIDTH ;
+    CGFloat bgViewMaxWidth = self.alertShowType==alertShowTypeAlert ?  SCREEN_WIDTH_S*0.75 : SCREEN_WIDTH_S ;
     CGFloat buttonHeight = 50 ;
     
     CGSize titleLabelSize = [self.alertTitleLabel sizeThatFits:CGSizeMake(bgViewMaxWidth, MAXFLOAT)];
-    if (ISEMPTY(self.alertTitleLabel.text)) {
+    if (ISEMPTY_S(self.alertTitleLabel.text)) {
         titleLabelSize.height = 10 ;
     }
     self.alertTitleLabel.frame = CGRectMake(0, 0, bgViewMaxWidth, titleLabelSize.height);
     
     CGSize messageLabelSize = [self.alertMessageLabel sizeThatFits:CGSizeMake(bgViewMaxWidth, MAXFLOAT)];
-    if (ISEMPTY(self.alertMessageLabel.text)) {
+    if (ISEMPTY_S(self.alertMessageLabel.text)) {
         messageLabelSize.height = 10 ;
     }
     self.alertMessageLabel.frame = CGRectMake(0, self.alertTitleLabel.bottom, bgViewMaxWidth, messageLabelSize.height) ;
@@ -200,7 +197,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
         }
     }
  
-    CGFloat actionShowAddSafeHeiht = self.alertShowType==alertShowTypeActionSheet ? kEasyShowSafeBottomMargin : 0 ;
+    CGFloat actionShowAddSafeHeiht = self.alertShowType==alertShowTypeActionSheet ? kEasyShowSafeBottomMargin_S : 0 ;
     self.alertBgView.bounds = CGRectMake(0, 0, bgViewMaxWidth, totalHeight+actionShowAddSafeHeiht);
     
     switch (self.alertShowType) {
@@ -216,7 +213,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
         }break;
         case alertShowTypeActionSheet:
         {
-            self.alertBgView.center = CGPointMake(SCREEN_WIDTH/2, SCREEN_HEIGHT-(totalHeight/2));
+            self.alertBgView.center = CGPointMake(SCREEN_WIDTH_S/2, SCREEN_HEIGHT_S-(totalHeight/2));
         }break ;
         default:
             break;
@@ -333,7 +330,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 {
     if (self.alertShowType == alertShowTypeActionSheet) {
         [UIView animateWithDuration:self.options.showAnimationTime animations:^{
-            self.alertBgView.top = SCREEN_HEIGHT ;
+            self.alertBgView.top = SCREEN_HEIGHT_S ;
         } completion:^(BOOL finished) {
             if (completion) {
                 completion() ;
@@ -393,7 +390,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
         case alertAnimationTypePush:
         {
             [UIView animateWithDuration:self.options.showAnimationTime animations:^{
-                self.alertBgView.top = SCREEN_HEIGHT ;
+                self.alertBgView.top = SCREEN_HEIGHT_S ;
             } completion:^(BOOL finished) {
                 if (completion) {
                     completion() ;
@@ -420,12 +417,12 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 - (void)showStartAnimationWithType:(alertAnimationType)type completion:(void(^)(void))completion
 {
     if (self.alertShowType == alertShowTypeActionSheet) {
-        self.alertBgView.top = SCREEN_HEIGHT ;
+        self.alertBgView.top = SCREEN_HEIGHT_S ;
         [UIView animateWithDuration:self.options.showAnimationTime animations:^{
-            self.alertBgView.top = (SCREEN_HEIGHT-self.alertBgView.height)-5 ;
+            self.alertBgView.top = (SCREEN_HEIGHT_S-self.alertBgView.height)-5 ;
         } completion:^(BOOL finished) {
             [UIView animateWithDuration:0.05 animations:^{
-                self.alertBgView.top = (SCREEN_HEIGHT-self.alertBgView.height) ;
+                self.alertBgView.top = (SCREEN_HEIGHT_S-self.alertBgView.height) ;
             } completion:^(BOOL finished) {
             }];
         }];
@@ -467,12 +464,12 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
         }break ;
         case alertAnimationTypePush:
         {
-            self.alertBgView.top = SCREEN_HEIGHT ;
+            self.alertBgView.top = SCREEN_HEIGHT_S ;
             [UIView animateWithDuration:self.options.showAnimationTime animations:^{
-                self.alertBgView.top = (SCREEN_HEIGHT-self.alertBgView.height)/2-5 ;
+                self.alertBgView.top = (SCREEN_HEIGHT_S-self.alertBgView.height)/2-5 ;
             } completion:^(BOOL finished) {
                 [UIView animateWithDuration:0.05 animations:^{
-                    self.alertBgView.top = (SCREEN_HEIGHT-self.alertBgView.height)/2 ;
+                    self.alertBgView.top = (SCREEN_HEIGHT_S-self.alertBgView.height)/2 ;
                 } completion:^(BOOL finished) {
                 }];
             }];
@@ -487,10 +484,11 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 {
     if (nil == _alertBgView) {
         _alertBgView = [[UIView alloc]init];
-        if (self.options.alertBackgroundColor) {
-            _alertBgView.backgroundColor = self.options.alertBackgroundColor;
-        }else{
+        if (self.options.alertTintColor == [UIColor clearColor]) {
             _alertBgView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        }
+        else{
+            _alertBgView.backgroundColor = self.options.alertTintColor;
         }
         _alertBgView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight ;
         UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(bgViewPan:)] ;
@@ -523,11 +521,11 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
     if (nil == _alertTitleLabel) {
         _alertTitleLabel = [[EasyShowLabel alloc] initWithContentInset:UIEdgeInsetsMake(35, 30, 15, 30)];
         _alertTitleLabel.textAlignment = NSTextAlignmentCenter;
-        if (self.options.alertBackgroundColor) {
-            _alertTitleLabel.backgroundColor = self.options.alertBackgroundColor;
+        if (self.options.alertTintColor == [UIColor clearColor]) {
+            _alertTitleLabel.backgroundColor = [UIColor whiteColor];
         }
         else{
-            _alertTitleLabel.backgroundColor = [UIColor whiteColor];
+            _alertTitleLabel.backgroundColor = self.options.alertTintColor;
         }
         _alertTitleLabel.font = [UIFont boldSystemFontOfSize:20];
         _alertTitleLabel.textColor = self.options.alertTitleColor ;
@@ -540,11 +538,11 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
     if (nil == _alertMessageLabel) {
         _alertMessageLabel = [[EasyShowLabel alloc] initWithContentInset:UIEdgeInsetsMake(15, 30, 20, 30)];
         _alertMessageLabel.textAlignment = NSTextAlignmentCenter;
-        if (self.options.alertBackgroundColor) {
-            _alertMessageLabel.backgroundColor = self.options.alertBackgroundColor;
+        if (self.options.alertTintColor == [UIColor clearColor]) {
+            _alertMessageLabel.backgroundColor = [UIColor whiteColor];
         }
         else{
-            _alertMessageLabel.backgroundColor = [UIColor whiteColor];
+            _alertMessageLabel.backgroundColor = self.options.alertTintColor;
         }
         _alertMessageLabel.font = [UIFont systemFontOfSize:17];
         _alertMessageLabel.textColor = self.options.alertMessageColor;

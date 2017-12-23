@@ -10,6 +10,8 @@
 #import "EasyShow.h"
 #import "EasyShowOptions.h"
 
+#import "SecondViewController.h"
+
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong)UITableView *tableView ;
@@ -28,8 +30,8 @@
 
 - (void)rightBarClick
 {
-    EasyShowOptions *options = [EasyShowOptions sharedEasyShowOptions];
-    options.superViewReceiveEvent = !options.superViewReceiveEvent ;
+    SecondViewController *sc = [[SecondViewController alloc]init];
+    [self.navigationController pushViewController:sc animated:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -67,7 +69,7 @@
     }
 }
 #warning  [EasyShowOptions sharedEasyShowOptions].xxx  不要写到控制器中，这里是为了便于演示。 \
-          在appdelegate里面设置一次自己想要的样式就行(APP里应该是一个统一的风格，如果确实有改变样式的需求，放到控制器中也是没有问题的)。
+          应该写到appdelegate里面，设置一次自己想要的样式就行(APP里应该是一个统一的风格，如果确实有改变样式的需求，放到控制器中也是没有问题的)。
 
 - (void)showTextWithRow:(long)row
 {
@@ -100,14 +102,12 @@
         case 3:
         {
             [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeImageUpturnLeft : LodingShowTypeImageUpturn ;
-            UIImage *image = [[UIImage imageNamed:@"HUD_NF.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-            [EasyShowLodingView showLodingText:@"正在加载中,请稍后..." image:image];
+            [EasyShowLodingView showLodingText:@"正在加载中,请稍后..." imageName:@"HUD_NF.png"];
         }   break ;
         case 4:
         {
             [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeImageAroundLeft : LodingShowTypeImageAround ;
-            UIImage *image = [[UIImage imageNamed:@"HUD_NF.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-            [EasyShowLodingView showLodingText:@"正在加载中..." image:image];
+            [EasyShowLodingView showLodingText:@"" imageName:@"HUD_NF.png"];
         }break ;
         default:
             [EasyShowLodingView hidenLoding];
@@ -120,24 +120,27 @@
   switch (row) {
         case 0:
         {
-            //设置动画类型。建议在appdelegate里面设置一次就好(APP应该统一风格)。
             static int c_0 = 0 ;
+            //设置动画类型。建议在appdelegate里面设置一次就好(APP应该统一风格)。
             [EasyShowOptions sharedEasyShowOptions].alertAnimationType =  (c_0++)%5 ;
-            
-            
+            //设置主题颜色
+            [EasyShowOptions sharedEasyShowOptions].alertTintColor = [UIColor cyanColor];
             EasyShowAlertView *showView = [EasyShowAlertView showAlertWithTitle:@"提示" message:@"确定删除发撒发逻辑是否快捷登录法拉第设计数据吗？"];
-            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlack callback:^(EasyShowAlertView *showview) {
+            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlue callback:^(EasyShowAlertView *showview) {
                 NSLog(@"好的=%@",showview) ;
             }];
-            [showView addItemWithTitle:@"取消" itemType:ShowAlertItemTypeBlue callback:^(EasyShowAlertView *showview) {
-                NSLog(@"好的=%@",showview) ;
-            }];
-            [showView addItemWithTitle:@"我已了解" itemType:ShowAlertItemTypeBlodBlue callback:^(EasyShowAlertView *showview) {
-                NSLog(@"我已了解=%@",showview) ;
-            }];
-            [showView addItemWithTitle:@"删除此条数据" itemType:ShowAlertItemTypeBlodRed callback:^(EasyShowAlertView *showview) {
-                NSLog(@"删除此条数据=%@",showview) ;
-            }];
+            
+            if (c_0%4) {
+                [showView addItemWithTitle:@"取消" itemType:ShowAlertItemTypeRed callback:^(EasyShowAlertView *showview) {
+                    NSLog(@"好的=%@",showview) ;
+                }];
+            }
+            if (c_0%2) {
+                [showView addItemWithTitle:@"我已了解" itemType:ShowAlertItemTypeBlodBlue callback:^(EasyShowAlertView *showview) {
+                    NSLog(@"我已了解=%@",showview) ;
+                }];
+                [EasyShowOptions sharedEasyShowOptions].alertTintColor = [UIColor clearColor];
+            }
             [showView show];
         }break;
           
@@ -166,17 +169,13 @@
                 NSLog(@"dddddddd    ");
             }];
             [alertView addSystemItemWithTitle:@"确dd定" itemType:UIAlertActionStyleDestructive callback:^(EasyShowAlertView *showview) {
-                NSLog(@"dddddddd    ");
-            }];
-            [alertView addSystemItemWithTitle:@"确定ddaffsfad" itemType:UIAlertActionStyleCancel callback:^(EasyShowAlertView *showview) {
-                NSLog(@"dddddddd    ");
+                NSLog(@"dddddwd  ");
             }];
             [alertView systemShow];
         }break ;
         case 3:
         {
             EasyShowAlertView *alertView =[EasyShowAlertView showSystemActionSheetWithTitle:@"请选择您需要的操作" message:@""];
-    
             [alertView addSystemItemWithTitle:@"确定" itemType:UIAlertActionStyleDefault callback:^(EasyShowAlertView *showview) {
                 NSLog(@"dddddddd    ");
             }];

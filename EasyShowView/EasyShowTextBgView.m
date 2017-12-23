@@ -47,9 +47,9 @@
         
         if ((!(self.isShowedStatusBar||self.isShowedNavigation))) {
             
-            [self setRoundedCorners];
+            [self setRoundedCorners:5];
             
-            if (_showTextStatus != ShowTextStatusPureText && (!ISEMPTY(text))) {//只要不是纯文字，其他的都需要显示图片
+            if (_showTextStatus != ShowTextStatusPureText && (!ISEMPTY_S(text))) {//只要不是纯文字，其他的都需要显示图片
                 self.imageView.top  = EasyDrawImageEdge ;
             }
         }
@@ -60,10 +60,10 @@
         }
         
         
-        if (!ISEMPTY(text)) {
+        if (!ISEMPTY_S(text)) {
             CGSize textSize = [EasyShowUtils textWidthWithStirng:text
                                                             font:self.options.textFount
-                                                        maxWidth:self.options.maxWidthScale*SCREEN_WIDTH];
+                                                        maxWidth:self.options.maxWidthScale*SCREEN_WIDTH_S];
             
             self.textLabel.text = text ;
             
@@ -91,8 +91,8 @@
 - (UIWindow *)showTextWindow
 {
     if (nil == _showTextWindow) {
-        CGFloat showHeight = self.isShowedStatusBar ? STATUSBAR_HEIGHT : NAVIGATION_HEIGHT ;
-        _showTextWindow = [[UIWindow alloc]initWithFrame:CGRectMake(0, -showHeight , SCREEN_WIDTH, showHeight )];
+        CGFloat showHeight = self.isShowedStatusBar ? STATUSBAR_HEIGHT_S : NAVIGATION_HEIGHT_S ;
+        _showTextWindow = [[UIWindow alloc]initWithFrame:CGRectMake(0, -showHeight , SCREEN_WIDTH_S, showHeight )];
         _showTextWindow.backgroundColor = self.options.backGroundColor ; // [UIColor yellowColor]; //
         _showTextWindow.windowLevel = UIWindowLevelAlert;
         UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(gestureTap)];
@@ -264,7 +264,7 @@
             imageY = self.height - imageWH - 2.5 ;
         }else if ( self.isShowedNavigation){
             imageX = 10 ;
-            imageY = (self.height - imageWH)/2 + (ISIPHONE_X ? 20 : 3 );
+            imageY = (self.height - imageWH)/2 + (ISIPHONE_X_S ? 20 : 3 );
         }
         
         _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(imageX,imageY , imageWH, imageWH)];

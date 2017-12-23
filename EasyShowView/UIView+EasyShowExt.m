@@ -121,17 +121,15 @@
 
 
 
-- (void)setRoundedCorners
+- (void)setRoundedCorners:(CGFloat)corners
 {
     
-    UIBezierPath* maskPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds
-                                                   byRoundingCorners:UIRectCornerAllCorners
-                                                         cornerRadii:CGSizeMake(5, 0)];
-    CAShapeLayer* maskLayer = [CAShapeLayer layer];
-    maskLayer.frame = self.bounds;
-    maskLayer.path = maskPath.CGPath;
+    UIBezierPath* maskPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(corners, 0)];
+    CAShapeLayer* shapeLayer = [CAShapeLayer layer];
+    shapeLayer.frame = self.bounds;
+    shapeLayer.path = maskPath.CGPath;
     
-    self.layer.mask = maskLayer;
+    self.layer.mask = shapeLayer ;
 }
 
 - (void)setRoundedCorners:(UIRectCorner)corners

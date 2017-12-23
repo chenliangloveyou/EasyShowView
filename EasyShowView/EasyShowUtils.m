@@ -12,7 +12,7 @@
 
 + (CGSize)textWidthWithStirng:(NSString *)string font:(UIFont *)font maxWidth:(CGFloat)maxWidth
 {
-    CGSize size = [string boundingRectWithSize:CGSizeMake(maxWidth, SCREEN_HEIGHT)
+    CGSize size = [string boundingRectWithSize:CGSizeMake(maxWidth, SCREEN_HEIGHT_S)
                                        options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine
                                     attributes:@{NSFontAttributeName:font}
                                        context:nil].size;

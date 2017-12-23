@@ -11,6 +11,7 @@
 		6808170C1FCB6D6900A47111 /* HUD_NF@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6808170B1FCB6D6900A47111 /* HUD_NF@2x.png */; };
 		6808170F1FCB756700A47111 /* EasyShowTextBgView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6808170E1FCB756700A47111 /* EasyShowTextBgView.m */; };
 		6810CFC91FE92520002253D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6810CFC81FE92520002253D9 /* Assets.xcassets */; };
+		6886C7A31FEE16B6001124B7 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6886C7A21FEE16B6001124B7 /* SecondViewController.m */; };
 		AD0D12511FEA2F2800D66786 /* EasyShowTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D12501FEA2F2800D66786 /* EasyShowTypes.m */; };
 		AD0D12541FEA2F9E00D66786 /* EasyShowLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D12531FEA2F9E00D66786 /* EasyShowLabel.m */; };
 		AD944B821FE25988006A9BE1 /* EasyShowTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = AD944B811FE25988006A9BE1 /* EasyShowTextView.m */; };
@@ -43,6 +44,8 @@
 		6808170D1FCB756700A47111 /* EasyShowTextBgView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowTextBgView.h; sourceTree = "<group>"; };
 		6808170E1FCB756700A47111 /* EasyShowTextBgView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowTextBgView.m; sourceTree = "<group>"; };
 		6810CFC81FE92520002253D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6886C7A11FEE16B6001124B7 /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
+		6886C7A21FEE16B6001124B7 /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 		68D65C861FD04B8C00629574 /* EasyShow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShow.h; sourceTree = "<group>"; };
 		AD0D124F1FEA2F2800D66786 /* EasyShowTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowTypes.h; sourceTree = "<group>"; };
 		AD0D12501FEA2F2800D66786 /* EasyShowTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowTypes.m; sourceTree = "<group>"; };
@@ -116,6 +119,8 @@
 				ADD80A1B1FC7AA28005908C4 /* AppDelegate.m */,
 				ADD80A1D1FC7AA28005908C4 /* ViewController.h */,
 				ADD80A1E1FC7AA28005908C4 /* ViewController.m */,
+				6886C7A11FEE16B6001124B7 /* SecondViewController.h */,
+				6886C7A21FEE16B6001124B7 /* SecondViewController.m */,
 				6808170B1FCB6D6900A47111 /* HUD_NF@2x.png */,
 				ADD80A201FC7AA28005908C4 /* Main.storyboard */,
 				ADD80A251FC7AA28005908C4 /* LaunchScreen.storyboard */,
@@ -145,8 +150,6 @@
 				AD944B841FE25996006A9BE1 /* EasyShowLodingView.m */,
 				AD944B861FE259AB006A9BE1 /* EasyShowAlertView.h */,
 				AD944B871FE259AB006A9BE1 /* EasyShowAlertView.m */,
-				6808170D1FCB756700A47111 /* EasyShowTextBgView.h */,
-				6808170E1FCB756700A47111 /* EasyShowTextBgView.m */,
 				AD0D124F1FEA2F2800D66786 /* EasyShowTypes.h */,
 				AD0D12501FEA2F2800D66786 /* EasyShowTypes.m */,
 				AD0D12521FEA2F9E00D66786 /* EasyShowLabel.h */,
@@ -155,6 +158,8 @@
 				680817071FC86C1200A47111 /* EasyShowOptions.m */,
 				ADD80A421FC7EF36005908C4 /* EasyShowUtils.h */,
 				ADD80A431FC7EF36005908C4 /* EasyShowUtils.m */,
+				6808170D1FCB756700A47111 /* EasyShowTextBgView.h */,
+				6808170E1FCB756700A47111 /* EasyShowTextBgView.m */,
 				ADD80A451FC7F934005908C4 /* UIView+EasyShowExt.h */,
 				ADD80A461FC7F934005908C4 /* UIView+EasyShowExt.m */,
 			);
@@ -265,6 +270,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD944B881FE259AB006A9BE1 /* EasyShowAlertView.m in Sources */,
+				6886C7A31FEE16B6001124B7 /* SecondViewController.m in Sources */,
 				ADD80A1F1FC7AA28005908C4 /* ViewController.m in Sources */,
 				680817081FC86C1200A47111 /* EasyShowOptions.m in Sources */,
 				6808170F1FCB756700A47111 /* EasyShowTextBgView.m in Sources */,
