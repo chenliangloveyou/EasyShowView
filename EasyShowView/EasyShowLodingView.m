@@ -299,7 +299,7 @@
                     }
                 }
                 self.imageView.animationImages = tempArray ;
-                self.imageView.animationDuration = self.options.showAnimationTime ;
+                self.imageView.animationDuration = EasyShowAnimationTime ;
 //                self.imageView.animationRepeatCount = NSIntegerMax ;
                 [self.imageView startAnimating];
                 
@@ -428,7 +428,7 @@
 - (void)showFadeAnimationStart:(BOOL)isStart completion:(void(^)(void))completion
 {
     self.alpha = isStart ? 0.1f : 1.0f;
-    [UIView animateWithDuration:self.options.showAnimationTime animations:^{
+    [UIView animateWithDuration:EasyShowAnimationTime animations:^{
         self.alpha = isStart ? 1.0 : 0.1f ;
     } completion:^(BOOL finished) {
         if (completion) {
@@ -440,7 +440,7 @@
 {
     if (isStart) {
         CAKeyframeAnimation *popAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
-        popAnimation.duration = self.options.showAnimationTime ;
+        popAnimation.duration = EasyShowAnimationTime ;
         popAnimation.values = @[[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.01f, 0.01f, 1.0f)],
                                 [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.05f, 1.05f, 1.0f)],
                                 [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.95f, 0.95f, 1.0f)],
@@ -456,7 +456,7 @@
         return ;
     }
     CABasicAnimation *bacAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-    bacAnimation.duration = self.options.showAnimationTime ;
+    bacAnimation.duration = EasyShowAnimationTime ;
     bacAnimation.beginTime = .0;
     bacAnimation.timingFunction = [CAMediaTimingFunction functionWithControlPoints:0.4f :0.3f :0.5f :-0.5f];
     bacAnimation.fromValue = [NSNumber numberWithFloat:1.0f];

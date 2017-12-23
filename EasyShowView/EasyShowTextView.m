@@ -49,7 +49,7 @@
 {
     if (self = [super initWithFrame:frame]) {
         
-        self.backgroundColor =  [[UIColor lightGrayColor] colorWithAlphaComponent:0.02]; // [UIColor greenColor] ;//
+        self.backgroundColor =  [[UIColor lightGrayColor] colorWithAlphaComponent:2]; // [UIColor greenColor] ;//
     }
     return self ;
 }
@@ -60,7 +60,7 @@
     //展示视图的frame
     CGRect showFrame = [self showRectWithSpuerView:superView] ;
     
-    if (self.options.superViewReceiveEvent) {//父视图能接受事件
+    if (self.options.textSuperViewReceiveEvent) {//父视图能接受事件
         //self的大小为显示区域的大小
         [self setFrame:CGRectMake((SCREEN_WIDTH_S-showFrame.size.width)/2, showFrame.origin.y, showFrame.size.width, showFrame.size.height)];
         //显示视图的bgview的frame的位置为{0，0}
@@ -73,16 +73,16 @@
     
     
     self.showBgView = [[EasyShowTextBgView alloc]initWithFrame:showFrame
-                                                    status:self.showTextStatus
-                                                      text:self.showText
-                                                     image:self.showImage];
+                                                        status:self.showTextStatus
+                                                          text:self.showText
+                                                         image:self.showImage];
     [self addSubview:self.showBgView];
     
     
     [self showSelfToSuperView:superView];
     
     if (self.options.showShadow) {
-        CGFloat afterStart = self.options.showStartAnimation ? self.options.showAnimationTime :0;
+        CGFloat afterStart = EasyShowAnimationTime ;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(afterStart * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self showBackgrouldsubLayer];
         });
@@ -114,35 +114,55 @@
 
 - (void)showSelfToSuperView:(UIView *)superView
 {
-    if (self.options.showStartAnimation) {
-        
-        if ( (self.isShowedStatusBar || self.isShowedNavigation)) {
-            self.y = - self.height ;
-            [UIView animateWithDuration:self.options.showAnimationTime animations:^{
+    switch (self.options.textAnimationType) {
+        case TextAnimationTypeNone:
+        {
+            if ( (self.isShowedStatusBar || self.isShowedNavigation)) {
                 self.y = 0 ;
-                [self.showBgView showWindowYToPoint:0];
-            }] ;
+            }
+            else{
+                self.alpha = 0.1 ;
+                [UIView animateWithDuration:EasyShowAnimationTime animations:^{
+                    self.alpha = 1.0 ;
+                } completion:^(BOOL finished) {
+                    [superView addSubview:self];
+                }];
+            }
         }
-        else{
-            [self.showBgView showStartAnimationWithDuration:self.options.showAnimationTime];
-        }
-        
-        [superView addSubview:self];
-        
+            break;
+        case TextAnimationTypeFade:
+        {
+            if ( (self.isShowedStatusBar || self.isShowedNavigation)) {
+                self.y = 0 ;
+            }
+            else{
+                self.alpha = 0.1 ;
+                [UIView animateWithDuration:EasyShowAnimationTime animations:^{
+                    self.alpha = 1.0 ;
+                } completion:^(BOOL finished) {
+                    [superView addSubview:self];
+                }];
+            }
+        }break ;
+        case TextAnimationTypeBounce:
+        {
+            if ( (self.isShowedStatusBar || self.isShowedNavigation)) {
+                self.y = - self.height ;
+                [UIView animateWithDuration:EasyShowAnimationTime animations:^{
+                    self.y = 0 ;
+                    [self.showBgView showWindowYToPoint:0];
+                }] ;
+            }
+            else{
+                [self.showBgView showStartAnimationWithDuration:EasyShowAnimationTime];
+            }
+            
+            [superView addSubview:self];
+        }break ;
+        default:
+            break;
     }
-    else{
-        if ( (self.isShowedStatusBar || self.isShowedNavigation)) {
-            self.y = 0 ;
-        }
-        else{
-            self.alpha = 0.1 ;
-            [UIView animateWithDuration:self.options.showAnimationTime animations:^{
-                self.alpha = 1.0 ;
-            } completion:^(BOOL finished) {
-                [superView addSubview:self];
-            }];
-        }
-    }
+    
 }
 - (void)removeSelfFromSuperView
 {
@@ -152,32 +172,44 @@
         [self hiddenBackgrouldsubLayer];
     }
     
-    if (self.options.showEndAnimation) {
-        
-        if ( (self.isShowedStatusBar || self.isShowedNavigation)) {
-            
-            [UIView animateWithDuration:self.options.showAnimationTime animations:^{
-                self.y = -self.height ;
-                [self.showBgView showWindowYToPoint:-self.height ];
-                NSLog(@"========= %.2f",self.y);
+    switch (self.options.textAnimationType) {
+        case TextAnimationTypeNone:
+            [self removeFromSuperview];
+            break ;
+        case TextAnimationTypeFade:
+        {
+            [UIView animateWithDuration:EasyShowAnimationTime animations:^{
+                self.alpha = 0.1 ;
             }completion:^(BOOL finished) {
                 [self removeFromSuperview];
             }] ;
+        }break ;
+        case TextAnimationTypeBounce:
+        {
+            
+            if ( (self.isShowedStatusBar || self.isShowedNavigation)) {
+                
+                [UIView animateWithDuration:EasyShowAnimationTime animations:^{
+                    self.y = -self.height ;
+                    [self.showBgView showWindowYToPoint:-self.height ];
+                    NSLog(@"========= %.2f",self.y);
+                }completion:^(BOOL finished) {
+                    [self removeFromSuperview];
+                }] ;
+            }
+            else{
+                [self.showBgView showEndAnimationWithDuration:EasyShowAnimationTime];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(EasyShowAnimationTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self removeFromSuperview];
+                });
+            }
         }
-        else{
-            [self.showBgView showEndAnimationWithDuration:self.options.showAnimationTime];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.options.showAnimationTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self removeFromSuperview];
-            });
-        }
+            break ;
+        default:
+            break ;
     }
-    else{
-        [UIView animateWithDuration:self.options.showAnimationTime animations:^{
-            self.alpha = 0.1 ;
-        }completion:^(BOOL finished) {
-            [self removeFromSuperview];
-        }] ;
-    }
+    
+    
 }
 
 
@@ -216,7 +248,7 @@
         return ;
     }
     NSAssert([NSThread isMainThread], @"needs to be accessed on the main thread.");
-  
+    
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^(void) {
         });
@@ -236,10 +268,10 @@
     showView.showImage = image ;
     
     showView.showTextStatus = status ;
-
+    
     showView.showTime = 1 + text.length*0.15 ;
-    if (showView.showTime > [EasyShowOptions sharedEasyShowOptions].maxShowTime) {
-        showView.showTime = [EasyShowOptions sharedEasyShowOptions].maxShowTime ;
+    if (showView.showTime > TextShowMaxTime) {
+        showView.showTime = TextShowMaxTime ;
     }
     if (showView.showTime < 2) {
         showView.showTime = 2 ;
@@ -270,7 +302,7 @@
             if (!ISEMPTY_S(self.showText)) {
                 textSize = [EasyShowUtils textWidthWithStirng:self.showText
                                                          font:self.options.textFount
-                                                     maxWidth:self.options.maxWidthScale*SCREEN_WIDTH_S];
+                                                     maxWidth:TextShowMaxWidth];
             }
             backGroundH = (textSize.height?(textSize.height+30):0) + imageH ;
             backGroundW = textSize.width?(textSize.width+40):0  ;
@@ -302,7 +334,7 @@
     //显示区域的frame
     CGRect showFrame = CGRectMake(0, showFrameY, backGroundW, backGroundH);
     
-    if (!self.options.superViewReceiveEvent) {
+    if (!self.options.textSuperViewReceiveEvent) {
         showFrame.origin = CGPointMake((self.width-backGroundW)/2, showFrameY) ;
     }
     

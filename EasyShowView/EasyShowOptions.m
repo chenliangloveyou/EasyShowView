@@ -13,11 +13,17 @@ const CGFloat EasyDrawImageEdge = 15 ;  //显示图片的边距
 const CGFloat EasyTextShowEdge = 40 ;   //显示纯文字时，当设置top和bottom的时候，距离屏幕上下的距离
 const CGFloat EasyShowViewMinWidth = 50 ;//视图最小的宽度
 
-const CGFloat EasyShowLodingMaxWidth = 200 ;    //显示文字的最大宽度（高度已限制死）
+const CGFloat TextShowMaxTime = 8.0f;//最大的显示时长。显示的时长为字符串长度成比例。但是不会超过设置的此时间长度(默认为6秒)
+const CGFloat TextShowMaxWidth = 300;//文字显示的最大宽度
 
+
+const CGFloat EasyShowLodingMaxWidth = 200 ;    //显示文字的最大宽度（高度已限制死）
 const CGFloat EasyShowLodingImageEdge = 10 ;    //加载框图片的边距
 const CGFloat EasyShowLodingImageWH = 30 ;      //加载框图片的大小
 const CGFloat EasyShowLodingImageMaxWH = 60 ;   //加载框图片的最大宽度
+
+
+const CGFloat EasyShowAnimationTime = 0.3f ;    //动画时间
 
 
 NSString *const EasyShowViewDidlDismissNotification = @"EasyShowViewDidlDismissNotification" ; //当EasyShowView消失的时候会发送此通知。
@@ -66,15 +72,12 @@ static EasyShowOptions *_showInstance;
         _showShadow = YES ;
         _shadowColor = [UIColor cyanColor];
         
-        _maxWidthScale = 0.8 ;
-        _maxShowTime = 6.0f ;
-        _superViewReceiveEvent = NO ;
+    
+        _textSuperViewReceiveEvent = YES ;
         
+        _textAnimationType = TextAnimationTypeFade ;
         _textStatusType = ShowTextStatusTypeMidden  ;
         
-        _showStartAnimation = YES ;
-        _showEndAnimation = YES ;
-        _showAnimationTime = 0.3 ;
         
         
         

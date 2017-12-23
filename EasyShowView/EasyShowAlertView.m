@@ -329,7 +329,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 - (void)showEndAnimationWithType:(alertAnimationType)type completion:(void(^)(void))completion
 {
     if (self.alertShowType == alertShowTypeActionSheet) {
-        [UIView animateWithDuration:self.options.showAnimationTime animations:^{
+        [UIView animateWithDuration:EasyShowAnimationTime animations:^{
             self.alertBgView.top = SCREEN_HEIGHT_S ;
         } completion:^(BOOL finished) {
             if (completion) {
@@ -342,7 +342,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
     switch (type) {
         case alertAnimationTypeFade:
         {
-            [UIView animateWithDuration:self.options.showAnimationTime
+            [UIView animateWithDuration:EasyShowAnimationTime
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
@@ -356,7 +356,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
         }break;
         case alertAnimationTypeZoom:
         {
-            [UIView animateWithDuration:self.options.showAnimationTime
+            [UIView animateWithDuration:EasyShowAnimationTime
                                   delay:0 options:UIViewAnimationOptionCurveEaseIn
                              animations:^{
                                  self.alertBgView.alpha = 0 ;
@@ -370,7 +370,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
         case alertAnimationTypeBounce:
         {
             CABasicAnimation *bacAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-            bacAnimation.duration = self.options.showAnimationTime ;
+            bacAnimation.duration = EasyShowAnimationTime ;
             bacAnimation.beginTime = .0;
             bacAnimation.timingFunction = [CAMediaTimingFunction functionWithControlPoints:0.4f :0.3f :0.5f :-0.5f];
             bacAnimation.fromValue = [NSNumber numberWithFloat:1.0f];
@@ -389,7 +389,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
         }break ;
         case alertAnimationTypePush:
         {
-            [UIView animateWithDuration:self.options.showAnimationTime animations:^{
+            [UIView animateWithDuration:EasyShowAnimationTime animations:^{
                 self.alertBgView.top = SCREEN_HEIGHT_S ;
             } completion:^(BOOL finished) {
                 if (completion) {
@@ -418,7 +418,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 {
     if (self.alertShowType == alertShowTypeActionSheet) {
         self.alertBgView.top = SCREEN_HEIGHT_S ;
-        [UIView animateWithDuration:self.options.showAnimationTime animations:^{
+        [UIView animateWithDuration:EasyShowAnimationTime animations:^{
             self.alertBgView.top = (SCREEN_HEIGHT_S-self.alertBgView.height)-5 ;
         } completion:^(BOOL finished) {
             [UIView animateWithDuration:0.05 animations:^{
@@ -434,7 +434,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
         {
             self.alertBgView.alpha = 0 ;
             [UIView beginAnimations:nil context:NULL];
-            [UIView setAnimationDuration:self.options.showAnimationTime];
+            [UIView setAnimationDuration:EasyShowAnimationTime];
             self.alertBgView.alpha = 1.0f;
             [UIView commitAnimations];
         }break;
@@ -443,7 +443,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
             self.alertBgView.alpha = 0 ;
             self.alertBgView.transform = CGAffineTransformConcat(CGAffineTransformIdentity, CGAffineTransformMakeScale(3, 3));
             [UIView beginAnimations:nil context:NULL];
-            [UIView setAnimationDuration:self.options.showAnimationTime];
+            [UIView setAnimationDuration:EasyShowAnimationTime];
             self.alertBgView.alpha = 1.0f;
             self.alertBgView.transform = CGAffineTransformIdentity;
             [UIView commitAnimations];
@@ -451,7 +451,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
         case alertAnimationTypeBounce:
         {
             CAKeyframeAnimation *popAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
-            popAnimation.duration = self.options.showAnimationTime;
+            popAnimation.duration = EasyShowAnimationTime;
             popAnimation.values = @[[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.01f, 0.01f, 1.0f)],
                                     [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.05f, 1.05f, 1.0f)],
                                     [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.95f, 0.95f, 1.0f)],
@@ -465,7 +465,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
         case alertAnimationTypePush:
         {
             self.alertBgView.top = SCREEN_HEIGHT_S ;
-            [UIView animateWithDuration:self.options.showAnimationTime animations:^{
+            [UIView animateWithDuration:EasyShowAnimationTime animations:^{
                 self.alertBgView.top = (SCREEN_HEIGHT_S-self.alertBgView.height)/2-5 ;
             } completion:^(BOOL finished) {
                 [UIView animateWithDuration:0.05 animations:^{

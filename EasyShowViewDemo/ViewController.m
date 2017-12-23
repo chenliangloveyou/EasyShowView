@@ -26,6 +26,7 @@
     [self.view addSubview:self.tableView];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"接受事件" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarClick)];
+
 }
 
 - (void)rightBarClick

@@ -29,6 +29,15 @@ typedef NS_ENUM(NSUInteger , ShowTextStatusType) {
     ShowTextStatusTypeNavigation ,//在navigation上显示
 };
 
+/**
+ * 文字展示时的动画类型
+ */
+typedef NS_ENUM(NSUInteger , TextAnimationType) {
+    TextAnimationTypeNone ,//无动画
+    TextAnimationTypeFade,//alpha改变
+    TextAnimationTypeBounce ,//抖动
+};
+
 
 /**
  * 加载框的样式

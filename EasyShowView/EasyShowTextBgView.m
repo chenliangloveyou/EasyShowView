@@ -63,7 +63,7 @@
         if (!ISEMPTY_S(text)) {
             CGSize textSize = [EasyShowUtils textWidthWithStirng:text
                                                             font:self.options.textFount
-                                                        maxWidth:self.options.maxWidthScale*SCREEN_WIDTH_S];
+                                                        maxWidth:TextShowMaxWidth];
             
             self.textLabel.text = text ;
             

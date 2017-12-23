@@ -17,11 +17,16 @@ UIKIT_EXTERN const CGFloat EasyTextShowEdge ;
 UIKIT_EXTERN const CGFloat EasyShowViewMinWidth ;
 
 
+UIKIT_EXTERN const CGFloat TextShowMaxTime ;//最大的显示时长。显示的时长为字符串长度成比例。但是不会超过设置的此时间长度(默认为6秒)
+UIKIT_EXTERN const CGFloat TextShowMaxWidth ;//文字显示的最大宽度
+
+
 UIKIT_EXTERN const CGFloat EasyShowLodingMaxWidth  ;     //显示文字的最大宽度（高度已限制死）
 UIKIT_EXTERN const CGFloat EasyShowLodingImageEdge ;    //加载框图片的边距
 UIKIT_EXTERN const CGFloat EasyShowLodingImageWH  ;      //加载框图片的大小
 UIKIT_EXTERN const CGFloat EasyShowLodingImageMaxWH  ;   //加载框图片的最大宽度
 
+UIKIT_EXTERN const CGFloat EasyShowAnimationTime ;//动画时间
 
 UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
 
@@ -37,14 +42,10 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
 @property BOOL showShadow ;//是否显示阴影
 @property (nonatomic,strong)UIColor *shadowColor ;//阴影颜色
 
-@property CGFloat maxWidthScale ; //文字显示的最大宽度的比例
-@property CGFloat maxShowTime ;//最大的显示时长。显示的时长为字符串长度成比例。但是不会超过设置的此时间长度(默认为6秒)
-@property BOOL superViewReceiveEvent ;//在显示的期间，superview是否能接接收事件
 
-@property BOOL showStartAnimation ;//是否弹出加载时的动画
-@property BOOL showEndAnimation ;//是否弹出移除掉的动画
-@property CGFloat showAnimationTime;//展示动画的时间
+@property BOOL textSuperViewReceiveEvent ;//在显示的期间，superview是否能接接收事件
 
+@property TextAnimationType textAnimationType ;//文字展示的动画形式
 @property ShowTextStatusType textStatusType ; //文字的显示样式
 
 
@@ -63,7 +64,7 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
 /**
  * 在显示加载框的时候，superview能否接收事件。默认为NO
  */
-@property (nonatomic,assign)BOOL lodingSuperViewReceiveEvent ;
+@property BOOL lodingSuperViewReceiveEvent ;
 
 /**
  * 是否将加载框显示到window上面。默认为NO（此属性只有在不传superview的时候有效）
@@ -71,7 +72,7 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
  * 当为YES：加载框会在盖住整个window的大小。如果lodingSuperViewReceiveEvent为NO,那么在不隐藏加载框的时候返回事件都会被遮住。
  * 
  */
-@property (nonatomic,assign)BOOL lodingShowOnWindow ;
+@property BOOL lodingShowOnWindow ;
 
 
 /**

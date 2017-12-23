@@ -21,7 +21,7 @@
     
   
     EasyShowOptions *options = [EasyShowOptions sharedEasyShowOptions];
-    options.superViewReceiveEvent = YES ;
+    options.textSuperViewReceiveEvent = YES ;
     
     NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:7];
     for (int i = 0; i < 9 ; i++) {
