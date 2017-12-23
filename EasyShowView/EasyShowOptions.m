@@ -65,29 +65,27 @@ static EasyShowOptions *_showInstance;
 - (instancetype)init
 {
     if (self = [super init]) {
-        _textFount = [UIFont systemFontOfSize:13];
-        _backGroundColor = [[UIColor blackColor]colorWithAlphaComponent:1];
-        _textColor = [UIColor whiteColor];
-        
-        _showShadow = YES ;
-        _shadowColor = [UIColor cyanColor];
-        
-    
-        _textSuperViewReceiveEvent = YES ;
-        
-        _textAnimationType = TextAnimationTypeFade ;
+       
+        _textAnimationType = TextAnimationTypeBounce ;
         _textStatusType = ShowTextStatusTypeMidden  ;
         
+        _textTitleFount = [UIFont systemFontOfSize:15];
+        _textBackGroundColor = [[UIColor whiteColor]colorWithAlphaComponent:1.7];
+        _textTitleColor = [UIColor blackColor];
+        _textShadowColor = [UIColor blueColor];
         
+        _textSuperViewReceiveEvent = YES ;
         
         
         _lodingShowType = LodingShowTypeTurnAround ;
         _lodingAnimationType = lodingAnimationTypeBounce ;
+        _lodingTextFount = [UIFont systemFontOfSize:15];
         _lodingTintColor = [UIColor blackColor];
         _lodingBackgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.05];
         _lodingSuperViewReceiveEvent = YES ;
         _lodingShowOnWindow = NO ;
         _lodingCycleCornerWidth = 5 ;
+        
         
         // [UIColor colorWithRed:82/255.0 green:90/255.0 blue:251.0/255.0 alpha:1] ;
         _alertTitleColor = [UIColor blackColor];

@@ -33,20 +33,35 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
 
 @interface EasyShowOptions : NSObject
 
++ (instancetype)sharedEasyShowOptions ;
+
 #pragma mark - text 
 
-@property (nonatomic,strong)UIFont *textFount ;         //文字大小
-@property (nonatomic,strong)UIColor *textColor ;        //文字颜色
-@property (nonatomic,strong)UIColor *backGroundColor ;  //背景颜色
 
-@property BOOL showShadow ;//是否显示阴影
-@property (nonatomic,strong)UIColor *shadowColor ;//阴影颜色
+/**
+ * 在显示的期间，superview是否能接接收事件
+ */
+@property BOOL textSuperViewReceiveEvent ;
+
+/**
+ * 文字展示的动画形式
+ */
+@property TextAnimationType textAnimationType ;//
+
+/**
+ * /文字的显示样式
+ */
+@property ShowTextStatusType textStatusType ;
+
+/**
+ * 显示大小、文字颜色、背景颜色、阴影颜色(为clearcolor的时候不显示阴影)
+ */
+@property (nonatomic,strong)UIFont *textTitleFount ;         //文字大小
+@property (nonatomic,strong)UIColor *textTitleColor ;        //文字颜色
+@property (nonatomic,strong)UIColor *textBackGroundColor ;  //背景颜色
+@property (nonatomic,strong)UIColor *textShadowColor ;//阴影颜色
 
 
-@property BOOL textSuperViewReceiveEvent ;//在显示的期间，superview是否能接接收事件
-
-@property TextAnimationType textAnimationType ;//文字展示的动画形式
-@property ShowTextStatusType textStatusType ; //文字的显示样式
 
 
 #pragma mark - loding
@@ -74,30 +89,32 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
  */
 @property BOOL lodingShowOnWindow ;
 
-
 /**
- *  文字/图片颜色
- *  背景颜色
- *  圆角大小
+ * 圆角大小
  */
-@property (nonatomic,strong)UIColor *lodingTintColor ;
-@property (nonatomic,strong)UIColor *lodingBackgroundColor ;
 @property (nonatomic,assign)CGFloat lodingCycleCornerWidth ;
 
+/**
+ *  文字/图片颜色、文字大小、背景颜色
+ */
+@property (nonatomic,strong)UIColor *lodingTintColor ;
+@property (nonatomic,strong)UIFont *lodingTextFount ;
+@property (nonatomic,strong)UIColor *lodingBackgroundColor ;
 
+/**
+ * 加载框为数组动画的时候，这里是传入图片的数据
+ */
 @property (nonatomic,strong)NSArray *lodingPlayImagesArray ;
 
 
 #pragma mark - alert
 
-/**
- * alertview的背景颜色。
- */
-@property (nonatomic,strong)UIColor *alertTintColor ;
 
 /**
+ *alertview的背景颜色。
  * title/message的字体颜色
  */
+@property (nonatomic,strong)UIColor *alertTintColor ;
 @property (nonatomic,strong)UIColor *alertTitleColor ;
 @property (nonatomic,strong)UIColor *alertMessageColor ;
 
@@ -120,7 +137,6 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
  */
 @property (nonatomic,assign)BOOL alertBgViewTapRemove ;
 
-+ (instancetype)sharedEasyShowOptions ;
 
 @end
 

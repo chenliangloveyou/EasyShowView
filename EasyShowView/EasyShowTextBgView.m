@@ -29,7 +29,6 @@
 - (void)dealloc
 {
     _showTextWindow = nil ;
-    NSLog(@"%p dealloc",self );
 }
 
 
@@ -37,17 +36,17 @@
 {
     self.showTextWindow.y = toPoint ;
 }
-- (instancetype)initWithFrame:(CGRect)frame status:(ShowTextStatus)status text:(NSString *)text image:(UIImage *)image
+- (instancetype)initWithFrame:(CGRect)frame status:(ShowTextStatus)status text:(NSString *)text imageName:(NSString *)imageName
 {
     if ([super initWithFrame:frame]) {
         
-        self.backgroundColor = self.options.backGroundColor ; //[UIColor redColor]; //
+        self.backgroundColor = self.options.textBackGroundColor ; //[UIColor redColor]; //
         
         _showTextStatus = status ;
         
         if ((!(self.isShowedStatusBar||self.isShowedNavigation))) {
             
-            [self setRoundedCorners:5];
+            [self setRoundedCorners:10];
             
             if (_showTextStatus != ShowTextStatusPureText && (!ISEMPTY_S(text))) {//只要不是纯文字，其他的都需要显示图片
                 self.imageView.top  = EasyDrawImageEdge ;
@@ -55,14 +54,21 @@
         }
         
         
-        if (image) {
-            self.imageView.image = image ;
+        if (imageName) {
+            UIImage *image = [[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            if (image) {
+                self.imageView.image = image ;
+            }
+            else{
+                NSAssert(NO, @"iamgeName is illgal ");
+            }
         }
+        
         
         
         if (!ISEMPTY_S(text)) {
             CGSize textSize = [EasyShowUtils textWidthWithStirng:text
-                                                            font:self.options.textFount
+                                                            font:self.options.textTitleFount
                                                         maxWidth:TextShowMaxWidth];
             
             self.textLabel.text = text ;
@@ -93,7 +99,7 @@
     if (nil == _showTextWindow) {
         CGFloat showHeight = self.isShowedStatusBar ? STATUSBAR_HEIGHT_S : NAVIGATION_HEIGHT_S ;
         _showTextWindow = [[UIWindow alloc]initWithFrame:CGRectMake(0, -showHeight , SCREEN_WIDTH_S, showHeight )];
-        _showTextWindow.backgroundColor = self.options.backGroundColor ; // [UIColor yellowColor]; //
+        _showTextWindow.backgroundColor = self.options.textBackGroundColor ; // [UIColor yellowColor]; //
         _showTextWindow.windowLevel = UIWindowLevelAlert;
         UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(gestureTap)];
         [_showTextWindow addGestureRecognizer:gesture];
@@ -113,7 +119,7 @@
     CAShapeLayer *centerLayer=[CAShapeLayer layer];
     centerLayer.path=beizPath.CGPath;
     centerLayer.fillColor=[UIColor clearColor].CGColor;//填充色
-    centerLayer.strokeColor=self.options.textColor.CGColor;//边框颜色
+    centerLayer.strokeColor=self.options.textTitleColor.CGColor;//边框颜色
     centerLayer.lineWidth=2.0f;
     centerLayer.lineCap=kCALineCapRound;//线框类型
     
@@ -185,14 +191,14 @@
     lineLayer.frame = CGRectZero;
     lineLayer.fillColor = [ UIColor clearColor ].CGColor ;
     lineLayer.path = path. CGPath ;
-    lineLayer.strokeColor = self.options.textColor.CGColor ;
+    lineLayer.strokeColor = self.options.textTitleColor.CGColor ;
     lineLayer.lineWidth = self.isShowedStatusBar ? 1 : 2;
     lineLayer.cornerRadius = 50;
     
     CABasicAnimation *ani = [ CABasicAnimation animationWithKeyPath: @"strokeEnd"];
     ani.fromValue = @0 ;
     ani.toValue = @1 ;
-    ani.duration = 0.4 ;
+    ani.duration = 0.6 ;
     [lineLayer addAnimation :ani forKey :@"strokeEnd"];
     
     [self.imageView.layer addSublayer :lineLayer];
@@ -268,6 +274,7 @@
         }
         
         _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(imageX,imageY , imageWH, imageWH)];
+        _imageView.tintColor = self.options.textTitleColor ;
         //                _imageView.backgroundColor = [UIColor yellowColor];
         if ((self.isShowedStatusBar||self.isShowedNavigation)) {
             [self.showTextWindow addSubview:_imageView];
@@ -282,8 +289,8 @@
 {
     if (nil == _textLabel) {
         _textLabel = [[UILabel alloc]init];
-        _textLabel.textColor = self.options.textColor;
-        _textLabel.font = self.options.textFount ;
+        _textLabel.textColor = self.options.textTitleColor;
+        _textLabel.font = self.options.textTitleFount ;
         _textLabel.backgroundColor = [UIColor clearColor];
         _textLabel.textAlignment = NSTextAlignmentCenter ;
         _textLabel.numberOfLines = 0 ;

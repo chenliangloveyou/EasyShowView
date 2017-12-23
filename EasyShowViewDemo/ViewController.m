@@ -26,7 +26,6 @@
     [self.view addSubview:self.tableView];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"接受事件" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarClick)];
-
 }
 
 - (void)rightBarClick
@@ -78,11 +77,12 @@
     [EasyShowOptions sharedEasyShowOptions].textStatusType = (aa++)%5 ;//ShowTextStatusTypeStatusBar ; //
     switch (row) {
         case 0: [EasyShowTextView showText:@"这是一条纯文字消息!"];  break;
-        case 1: [EasyShowTextView showSuccessText:@"添加成功！"];  break;
+        case 1: [EasyShowTextView showSuccessText:@""];  break;
         case 2: [EasyShowTextView showErrorText:@"服务器错误！"];  break ;
         case 3: [EasyShowTextView showInfoText:@"请完成基本信息！"];  break ;
-        case 4: [EasyShowTextView showImageText:@"" image:[UIImage imageNamed:@"HUD_NF.png"]];  break ;
+        case 4: [EasyShowTextView showImageText:@"自定义图片！" imageName:@"HUD_NF.png"];  break ;
     }
+    
 }
 - (void)showLodingWithRow:(long)row
 {
@@ -210,9 +210,6 @@
         [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cellID"];
         _tableView.dataSource = self ;
         _tableView.delegate = self ;
-//        UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 60)];
-//        img.backgroundColor = [UIColor whiteColor];
-//        _tableView.tableHeaderView =img ;
     }
     return _tableView ;
 }

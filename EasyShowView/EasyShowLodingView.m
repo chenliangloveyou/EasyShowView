@@ -34,7 +34,6 @@
 
 - (void)dealloc
 {
-    NSLog(@"EasyShowLodingView dealloc--- %@",self);
 }
 
 
@@ -535,7 +534,7 @@
     if (nil == _textLabel) {
         _textLabel = [[EasyShowLabel alloc]initWithContentInset:UIEdgeInsetsMake(10, 20, 10, 20)];
         _textLabel.textColor = self.options.lodingTintColor;
-        _textLabel.font = self.options.textFount ;
+        _textLabel.font = self.options.lodingTextFount ;
         _textLabel.backgroundColor = [UIColor clearColor];
         _textLabel.textAlignment = NSTextAlignmentCenter ;
         _textLabel.numberOfLines = 0 ;

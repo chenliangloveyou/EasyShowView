@@ -14,5 +14,6 @@
 #import "EasyShowAlertView.h"
 
 #import "EasyShowOptions.h"
+#import "EasyShowTypes.h"
 
 #endif /* EasyShow_h */

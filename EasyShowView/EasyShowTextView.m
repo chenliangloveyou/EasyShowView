@@ -14,7 +14,7 @@
 @interface EasyShowTextView()<CAAnimationDelegate>
 
 @property (nonatomic,strong)NSString *showText ;//展示的文字
-@property (nonatomic,strong)UIImage *showImage ;//展示的图片
+@property (nonatomic,strong)NSString *showImageName ;//展示的图片
 @property (nonatomic,assign)ShowTextStatus showTextStatus ;//展示的类型
 
 
@@ -42,14 +42,13 @@
 
 - (void)dealloc
 {
-    NSLog(@"%p EasyShowView dealloc",self );
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
         
-        self.backgroundColor =  [[UIColor lightGrayColor] colorWithAlphaComponent:2]; // [UIColor greenColor] ;//
+        self.backgroundColor = [UIColor clearColor];
     }
     return self ;
 }
@@ -75,14 +74,14 @@
     self.showBgView = [[EasyShowTextBgView alloc]initWithFrame:showFrame
                                                         status:self.showTextStatus
                                                           text:self.showText
-                                                         image:self.showImage];
+                                                         imageName:self.showImageName];
     [self addSubview:self.showBgView];
     
     
     [self showSelfToSuperView:superView];
     
-    if (self.options.showShadow) {
-        CGFloat afterStart = EasyShowAnimationTime ;
+    if (self.options.textShadowColor && self.options.textShadowColor!=[UIColor clearColor]) {
+        CGFloat afterStart = self.options.textAnimationType==TextAnimationTypeBounce ? EasyShowAnimationTime : EasyShowAnimationTime/2 ;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(afterStart * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self showBackgrouldsubLayer];
         });
@@ -93,13 +92,13 @@
     CALayer *addSubLayer=[CALayer layer];
     addSubLayer.frame= self.showBgView.frame;
     addSubLayer.cornerRadius=8;
-    addSubLayer.backgroundColor=self.options.backGroundColor.CGColor;
+    addSubLayer.backgroundColor=self.options.textBackGroundColor.CGColor;
     addSubLayer.masksToBounds=NO;
     addSubLayer.name = @"backgrouldsubLayer";
-    addSubLayer.shadowColor = self.options.shadowColor.CGColor;
-    addSubLayer.shadowOffset = CGSizeMake(0.5, 2);
+    addSubLayer.shadowColor = self.options.textShadowColor.CGColor;
+    addSubLayer.shadowOffset = CGSizeMake(0.5,1);
     addSubLayer.shadowOpacity = 0.6;
-    addSubLayer.shadowRadius = 4;
+    addSubLayer.shadowRadius = 3;
     [self.layer insertSublayer:addSubLayer below:self.showBgView.layer];
 }
 - (void)hiddenBackgrouldsubLayer
@@ -119,29 +118,35 @@
         {
             if ( (self.isShowedStatusBar || self.isShowedNavigation)) {
                 self.y = 0 ;
+                [self.showBgView showWindowYToPoint:0];
+
+                [superView addSubview:self];
+
             }
             else{
-                self.alpha = 0.1 ;
-                [UIView animateWithDuration:EasyShowAnimationTime animations:^{
-                    self.alpha = 1.0 ;
-                } completion:^(BOOL finished) {
+//                self.alpha = 0.1 ;
+//                [UIView animateWithDuration:EasyShowAnimationTime animations:^{
+//                    self.alpha = 1.0 ;
+//                } completion:^(BOOL finished) {
                     [superView addSubview:self];
-                }];
+//                }];
             }
-        }
-            break;
+        }break;
         case TextAnimationTypeFade:
         {
             if ( (self.isShowedStatusBar || self.isShowedNavigation)) {
                 self.y = 0 ;
+                [self.showBgView showWindowYToPoint:0];
+
+                [superView addSubview:self];
             }
             else{
                 self.alpha = 0.1 ;
                 [UIView animateWithDuration:EasyShowAnimationTime animations:^{
                     self.alpha = 1.0 ;
                 } completion:^(BOOL finished) {
-                    [superView addSubview:self];
                 }];
+                [superView addSubview:self];
             }
         }break ;
         case TextAnimationTypeBounce:
@@ -168,14 +173,15 @@
 {
     
     //移除阴影
-    if (self.options.showShadow) {
+    if (self.options.textShadowColor && self.options.textShadowColor!=[UIColor clearColor]) {
         [self hiddenBackgrouldsubLayer];
     }
     
     switch (self.options.textAnimationType) {
         case TextAnimationTypeNone:
+        {
             [self removeFromSuperview];
-            break ;
+        }break ;
         case TextAnimationTypeFade:
         {
             [UIView animateWithDuration:EasyShowAnimationTime animations:^{
@@ -192,7 +198,6 @@
                 [UIView animateWithDuration:EasyShowAnimationTime animations:^{
                     self.y = -self.height ;
                     [self.showBgView showWindowYToPoint:-self.height ];
-                    NSLog(@"========= %.2f",self.y);
                 }completion:^(BOOL finished) {
                     [self removeFromSuperview];
                 }] ;
@@ -236,7 +241,7 @@
 
 + (void)showToastWithText:(NSString *)text
                    inView:(UIView *)view
-                    image:(UIImage *)image
+                    imageName:(NSString *)imageName
                    stauts:(ShowTextStatus)status
 {
     if (status==ShowTextStatusPureText && ISEMPTY_S(text)) {//
@@ -265,7 +270,7 @@
     
     EasyShowTextView *showView = [[EasyShowTextView alloc] initWithFrame:CGRectZero];
     showView.showText = text ;
-    showView.showImage = image ;
+    showView.showImageName = imageName ;
     
     showView.showTextStatus = status ;
     
@@ -301,7 +306,7 @@
             CGSize textSize = CGSizeZero ;
             if (!ISEMPTY_S(self.showText)) {
                 textSize = [EasyShowUtils textWidthWithStirng:self.showText
-                                                         font:self.options.textFount
+                                                         font:self.options.textTitleFount
                                                      maxWidth:TextShowMaxWidth];
             }
             backGroundH = (textSize.height?(textSize.height+30):0) + imageH ;
@@ -384,7 +389,7 @@
 
 + (void)showText:(NSString *)text inView:(UIView *)view
 {
-    [self showToastWithText:text inView:view image:nil stauts:ShowTextStatusPureText];
+    [self showToastWithText:text inView:view imageName:nil stauts:ShowTextStatusPureText];
 }
 
 + (void)showSuccessText:(NSString *)text
@@ -394,7 +399,7 @@
 }
 + (void)showSuccessText:(NSString *)text inView:(UIView *)superView
 {
-    [self showToastWithText:text inView:superView image:nil stauts:ShowTextStatusSuccess];
+    [self showToastWithText:text inView:superView imageName:nil stauts:ShowTextStatusSuccess];
 }
 
 + (void)showErrorText:(NSString *)text
@@ -404,7 +409,7 @@
 }
 + (void)showErrorText:(NSString *)text inView:(UIView *)superView
 {
-    [self showToastWithText:text inView:superView image:nil stauts:ShowTextStatusError];
+    [self showToastWithText:text inView:superView imageName:nil stauts:ShowTextStatusError];
 }
 
 + (void)showInfoText:(NSString *)text
@@ -414,17 +419,17 @@
 }
 + (void)showInfoText:(NSString *)text inView:(UIView *)superView
 {
-    [self showToastWithText:text inView:superView image:nil stauts:ShowTextStatusInfo];
+    [self showToastWithText:text inView:superView imageName:nil stauts:ShowTextStatusInfo];
 }
 
-+ (void)showImageText:(NSString *)text image:(UIImage *)image
++ (void)showImageText:(NSString *)text imageName:(NSString *)imageName
 {
     UIView *showView = [UIApplication sharedApplication].keyWindow ;
-    [self showImageText:text image:image inView:showView] ;
+    [self showImageText:text imageName:imageName inView:showView] ;
 }
-+ (void)showImageText:(NSString *)text image:(UIImage *)image inView:(UIView *)superView
++ (void)showImageText:(NSString *)text imageName:(NSString *)imageName inView:(UIView *)superView
 {
-    [self showToastWithText:text inView:superView image:image stauts:ShowTextStatusImage] ;
+    [self showToastWithText:text inView:superView imageName:imageName stauts:ShowTextStatusImage] ;
 }
 
 @end
