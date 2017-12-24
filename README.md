@@ -3,7 +3,12 @@
   
  
 # PreView
- 
+
+![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_text.gif "github")  
+![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_loding.gif "github")  
+![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_alert.gif "github")  
+
+
 # 使用方法
 
 ## 一、提示框
@@ -124,9 +129,10 @@ _隐藏加载框_
 
 ## 三、AlertView/ActionSheet弹出框
 
-### 一：自定义形式
+#### 一：自定义形式
 
-_第一步_创建一个弹出框
+_第一步_
+创建一个弹出框
 ```
 //创建AlertView
 + (instancetype)showAlertWithTitle:(NSString *)title
@@ -135,22 +141,49 @@ _第一步_创建一个弹出框
 + (instancetype)showActionSheetWithTitle:(NSString *)title
                                  message:(NSString *)message ;
 ```
-_第二步_往弹出框上添加事件
+_第二步_ 往弹出框上添加事件
 ```
 - (void)addItemWithTitle:(NSString *)title
                 itemType:(ShowAlertItemType)itemType
                 callback:(alertItemCallback)callback;
 ```
-_第三步_展示弹出框(不可少)
+_第三步_ 展示弹出框(不可少)
 ```
 - (void)show ;
 ```
-### 二：系统形式
-
+#### 二：系统形式
+与自定义的形式。把show后面加一个system。可参考实例。
 
 #### 自定义样式(可略)
 最好在APPdelegate里设置一次。与上面的提示框一起设置
+```
+/**
+ *alertview的背景颜色。
+ * title/message的字体颜色
+ */
+@property (nonatomic,strong)UIColor *alertTintColor ;
+@property (nonatomic,strong)UIColor *alertTitleColor ;
+@property (nonatomic,strong)UIColor *alertMessageColor ;
 
+/**
+ * alertView:是两个按钮的时候 横着摆放
+ */
+@property (nonatomic,assign)BOOL alertTowItemHorizontal ;
+
+/**
+ * alertView:展示和消失的动画类型。
+ * 当展示的是系统alertview和ActionSheet不起作用
+ */
+@property (nonatomic,assign)alertAnimationType alertAnimationType ;
+
+/**
+ * 点击alertview之外的空白区域，是否销毁alertview。默认为:NO
+ *
+ * 系统的alert        不可以点击销毁。
+ * 系统的ActionSheet  添加UIAlertActionStyleCancel类型就会有点击销毁。没有就不会销毁。
+ */
+@property (nonatomic,assign)BOOL alertBgViewTapRemove ;
+```
 
 
 
