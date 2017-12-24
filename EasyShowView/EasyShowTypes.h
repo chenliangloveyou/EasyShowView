@@ -50,7 +50,7 @@ typedef NS_ENUM(NSUInteger , LodingShowType) {
     LodingShowTypeIndicator      = 2 ,  //菊花样式
     LodingShowTypeIndicatorLeft  = 3 ,  //菊花在左边的样式
     
-    LodingShowTypePlayImages     = 4 ,  //以一个图片数组轮流播放（需添加一组图片）
+    LodingShowTypePlayImages     = 4 ,  //以一个图片数组轮流播放（需添加一组图片，在EasyShowOptions中添加）
     LodingShowTypePlayImagesLeft = 5 ,  //以一个图片数组轮流播放需添加一组图片）
     
     LodingShowTypeImageUpturn    = 6 ,//自定义图片翻转样式
