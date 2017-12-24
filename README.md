@@ -71,6 +71,7 @@ _显示一个自定义图片消息_
 
 
 
+----
 
 ## 二、加载框
 
@@ -124,6 +125,10 @@ _隐藏加载框_
   options.lodingCycleCornerWidth = 5 ;
   
 ```
+
+
+
+----
 
 ## 三、AlertView/ActionSheet弹出框
 
