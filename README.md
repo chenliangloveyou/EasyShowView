@@ -4,9 +4,7 @@
  
 # PreView
 
-![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_text.gif "github")  
-![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_loding.gif "github")  
-![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_alert.gif "github")  
+![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_text.gif "github")![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_loding.gif "github")![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_alert.gif "github")  
 
 
 # 使用方法
