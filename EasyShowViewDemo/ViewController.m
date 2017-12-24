@@ -73,10 +73,13 @@
 
 - (void)showTextWithRow:(long)row
 {
-    static int aa = 0 ;
-    [EasyShowOptions sharedEasyShowOptions].textStatusType = (aa++)%5 ;//ShowTextStatusTypeStatusBar ; //
     switch (row) {
-        case 0: [EasyShowTextView showText:@"这是一条纯文字消息!"];  break;
+        case 0:
+        {
+            static int aa = 0 ;
+            [EasyShowOptions sharedEasyShowOptions].textStatusType = (aa++)%5 ;//ShowTextStatusTypeStatusBar ; //
+            [EasyShowTextView showText:@"这是一条纯文字消息!"];
+        }break;
         case 1: [EasyShowTextView showSuccessText:@""];  break;
         case 2: [EasyShowTextView showErrorText:@"服务器错误！"];  break ;
         case 3: [EasyShowTextView showInfoText:@"请完成基本信息！"];  break ;
@@ -127,18 +130,20 @@
             //设置主题颜色
             [EasyShowOptions sharedEasyShowOptions].alertTintColor = [UIColor cyanColor];
             EasyShowAlertView *showView = [EasyShowAlertView showAlertWithTitle:@"提示" message:@"确定删除发撒发逻辑是否快捷登录法拉第设计数据吗？"];
-            [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlue callback:^(EasyShowAlertView *showview) {
-                NSLog(@"好的=%@",showview) ;
-            }];
+           
             
             if (c_0%4) {
                 [showView addItemWithTitle:@"取消" itemType:ShowAlertItemTypeRed callback:^(EasyShowAlertView *showview) {
                     NSLog(@"好的=%@",showview) ;
                 }];
+                
             }
             if (c_0%2) {
                 [showView addItemWithTitle:@"我已了解" itemType:ShowAlertItemTypeBlodBlue callback:^(EasyShowAlertView *showview) {
                     NSLog(@"我已了解=%@",showview) ;
+                }];
+                [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlue callback:^(EasyShowAlertView *showview) {
+                    NSLog(@"好的=%@",showview) ;
                 }];
                 [EasyShowOptions sharedEasyShowOptions].alertTintColor = [UIColor clearColor];
             }

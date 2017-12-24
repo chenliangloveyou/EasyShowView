@@ -70,8 +70,8 @@ static EasyShowOptions *_showInstance;
         _textStatusType = ShowTextStatusTypeMidden  ;
         
         _textTitleFount = [UIFont systemFontOfSize:15];
-        _textBackGroundColor = [[UIColor whiteColor]colorWithAlphaComponent:1.7];
-        _textTitleColor = [UIColor blackColor];
+        _textTitleColor = [[UIColor whiteColor]colorWithAlphaComponent:1.7];
+        _textBackGroundColor = [UIColor blackColor];
         _textShadowColor = [UIColor blueColor];
         
         _textSuperViewReceiveEvent = YES ;
@@ -92,7 +92,7 @@ static EasyShowOptions *_showInstance;
         _alertMessageColor = [UIColor darkGrayColor];
         _alertTintColor = [UIColor clearColor];
         _alertTowItemHorizontal = YES ;
-        _alertBgViewTapRemove = NO ;
+        _alertBgViewTapRemove = YES ;
     }
     return self ;
 }
