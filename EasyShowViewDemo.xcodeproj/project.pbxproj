@@ -44,9 +44,9 @@
 		6808170D1FCB756700A47111 /* EasyShowTextBgView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowTextBgView.h; sourceTree = "<group>"; };
 		6808170E1FCB756700A47111 /* EasyShowTextBgView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowTextBgView.m; sourceTree = "<group>"; };
 		6810CFC81FE92520002253D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		68672FBA1FF3E6B700B7CA4E /* EasyShowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowView.h; sourceTree = "<group>"; };
 		6886C7A11FEE16B6001124B7 /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
 		6886C7A21FEE16B6001124B7 /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
-		68D65C861FD04B8C00629574 /* EasyShow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShow.h; sourceTree = "<group>"; };
 		AD0D124F1FEA2F2800D66786 /* EasyShowTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowTypes.h; sourceTree = "<group>"; };
 		AD0D12501FEA2F2800D66786 /* EasyShowTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowTypes.m; sourceTree = "<group>"; };
 		AD0D12521FEA2F9E00D66786 /* EasyShowLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowLabel.h; sourceTree = "<group>"; };
@@ -143,7 +143,7 @@
 		ADD80A3E1FC7ACFD005908C4 /* EasyShowView */ = {
 			isa = PBXGroup;
 			children = (
-				68D65C861FD04B8C00629574 /* EasyShow.h */,
+				68672FBA1FF3E6B700B7CA4E /* EasyShowView.h */,
 				AD944B801FE25988006A9BE1 /* EasyShowTextView.h */,
 				AD944B811FE25988006A9BE1 /* EasyShowTextView.m */,
 				AD944B831FE25996006A9BE1 /* EasyShowLodingView.h */,

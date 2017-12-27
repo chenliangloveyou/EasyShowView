@@ -1,13 +1,13 @@
 //
-//  EasyShow.h
+//  EasyShowView.h
 //  EasyShowViewDemo
 //
-//  Created by Mr_Chen on 2017/11/30.
+//  Created by Mr_Chen on 2017/12/27.
 //  Copyright © 2017年 chenliangloveyou. All rights reserved.
 //
 
-#ifndef EasyShow_h
-#define EasyShow_h
+#ifndef EasyShowView_h
+#define EasyShowView_h
 
 #import "EasyShowTextView.h"
 #import "EasyShowLodingView.h"
@@ -16,4 +16,4 @@
 #import "EasyShowOptions.h"
 #import "EasyShowTypes.h"
 
-#endif /* EasyShow_h */
+#endif /* EasyShowView_h */

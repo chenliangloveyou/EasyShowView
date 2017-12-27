@@ -7,7 +7,7 @@
 //
 
 #import "SecondViewController.h"
-#import "EasyShow.h"
+#import "EasyShowView.h"
 @interface SecondViewController ()
 
 @end
