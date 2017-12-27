@@ -340,7 +340,7 @@
     CGRect showFrame = CGRectMake(0, showFrameY, backGroundW, backGroundH);
     
     if (!self.options.textSuperViewReceiveEvent) {
-        showFrame.origin = CGPointMake((self.width-backGroundW)/2, showFrameY) ;
+        showFrame.origin = CGPointMake((superView.width-backGroundW)/2, showFrameY) ;
     }
     
     return showFrame ;
