@@ -94,7 +94,7 @@
     showView.showText = text ;
     showView.showImageName = imageName ;
     [showView showViewWithSuperView:view];
-    
+   
 }
 
 
@@ -113,7 +113,7 @@
     for (UIView *subview in subviewsEnum) {
         if ([subview isKindOfClass:self]) {
             EasyShowLodingView *showView = (EasyShowLodingView *)subview ;
-            
+
             [showView removeSelfFromSuperView];
         }
     }
@@ -173,7 +173,7 @@
         default:
             break;
     }
-    
+
     
     if (!ISEMPTY_S(self.showText)) {
         self.textLabel.text = self.showText ;
@@ -184,7 +184,7 @@
     if (ISEMPTY_S(self.showText)) {
         textSize = CGSizeZero ;
     }
-    
+   
     //显示区域的宽高
     CGSize displayAreaSize = CGSizeZero ;
     if (self.options.lodingShowType%2) {
@@ -197,20 +197,20 @@
         displayAreaSize.width = MAX(imageSize.width+2*EasyShowLodingImageEdge, textSize.width);
         displayAreaSize.height = imageSize.height+2*EasyShowLodingImageEdge + textSize.height ;
     }
-    
+
     
     if (self.options.lodingSuperViewReceiveEvent) {
         //父视图能够接受事件 。 显示区域的大小=self的大小=displayAreaSize
-        
-        [self setFrame:CGRectMake((superView.width-displayAreaSize.width)/2, (superView.height-displayAreaSize.height)/2, displayAreaSize.width, displayAreaSize.height)];
+
+        [self setFrame:CGRectMake((SCREEN_WIDTH_S-displayAreaSize.width)/2, (SCREEN_HEIGHT_S-displayAreaSize.height)/2, displayAreaSize.width, displayAreaSize.height)];
     }
     else{
         //父视图不能接收-->self的大小应该为superview的大小。来遮盖
         
         [self setFrame: CGRectMake(0, 0, superView.width, superView.height)] ;
-        
+      
         self.lodingBgView.center = self.center ;
-        
+
     }
     
     self.lodingBgView.frame = CGRectMake(0,0, displayAreaSize.width,displayAreaSize.height) ;
@@ -222,7 +222,7 @@
     if (!(self.options.lodingShowType%2)) {
         self.imageView.centerX = self.lodingBgView.width/2 ;
     }
-    
+   
     CGFloat textLabelX = 0 ;
     CGFloat textLabelY = 0 ;
     if (self.options.lodingShowType%2) {//左右形式
@@ -299,7 +299,7 @@
                 }
                 self.imageView.animationImages = tempArray ;
                 self.imageView.animationDuration = EasyShowAnimationTime ;
-                //                self.imageView.animationRepeatCount = NSIntegerMax ;
+//                self.imageView.animationRepeatCount = NSIntegerMax ;
                 [self.imageView startAnimating];
                 
             }break ;
@@ -315,7 +315,7 @@
                 break;
         }
     };
-    
+   
     
     switch (self.options.lodingAnimationType) {
         case lodingAnimationTypeNone:
@@ -351,7 +351,7 @@
     
     shapeLayer.strokeColor = self.options.lodingTintColor.CGColor;
     shapeLayer.lineWidth=2.0f;
-    
+
     
     CAGradientLayer *gradientLayer = [CAGradientLayer layer];
     gradientLayer.startPoint = CGPointMake(.0f, .5f);
@@ -365,7 +365,7 @@
     gradientLayer.colors = tempArray;
     gradientLayer.mask = shapeLayer;
     [self.imageView.layer addSublayer:gradientLayer];
-    
+
     
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     animation.fromValue = @0;
@@ -374,7 +374,7 @@
     animation.repeatCount = MAXFLOAT;
     animation.removedOnCompletion = NO;
     animation.fillMode = kCAFillModeForwards;
-    
+
     [gradientLayer addAnimation:animation forKey:@"GradientLayerAnimation"];
 }
 - (void)removeSelfFromSuperView
@@ -466,11 +466,11 @@
     animationGroup.duration =  bacAnimation.duration;
     animationGroup.removedOnCompletion = NO;
     animationGroup.fillMode = kCAFillModeForwards;
-    
-    //    animationGroup.delegate = self ;
-    //    [animationGroup setValue:completion forKey:@"handler"];
+
+//    animationGroup.delegate = self ;
+//    [animationGroup setValue:completion forKey:@"handler"];
     [self.lodingBgView.layer addAnimation:animationGroup forKey:nil];
-    
+   
     [self performSelector:@selector(ddd) withObject:nil afterDelay:bacAnimation.duration];
 }
 - (void)ddd
@@ -560,4 +560,3 @@
 
 
 @end
-

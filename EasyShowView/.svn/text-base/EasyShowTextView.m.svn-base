@@ -61,7 +61,7 @@
     
     if (self.options.textSuperViewReceiveEvent) {//父视图能接受事件
         //self的大小为显示区域的大小
-        [self setFrame:CGRectMake((superView.width-showFrame.size.width)/2, showFrame.origin.y, showFrame.size.width, showFrame.size.height)];
+        [self setFrame:CGRectMake((SCREEN_WIDTH_S-showFrame.size.width)/2, showFrame.origin.y, showFrame.size.width, showFrame.size.height)];
         //显示视图的bgview的frame的位置为{0，0}
         showFrame.origin.y = 0 ;
     }
@@ -319,7 +319,7 @@
     }
     
     //显示区域的y值
-    CGFloat showFrameY = (superView.height-backGroundH)/2  ;//默认显示在中间
+    CGFloat showFrameY = (SCREEN_HEIGHT_S-backGroundH)/2  ;//默认显示在中间
     //    if (self.showTextStatus != ShowStatusLoding) {
     switch (self.options.textStatusType ) {
         case ShowTextStatusTypeNavigation:
