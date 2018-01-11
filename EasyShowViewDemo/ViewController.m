@@ -80,7 +80,7 @@
             [EasyShowOptions sharedEasyShowOptions].textStatusType = (aa++)%5 ;//ShowTextStatusTypeStatusBar ; //
             [EasyShowTextView showText:@"这是一条纯文字消息!"];
         }break;
-        case 1: [EasyShowTextView showSuccessText:@""];  break;
+        case 1: [EasyShowTextView showSuccessText:@"显示成功！"];  break;
         case 2: [EasyShowTextView showErrorText:@"服务器错误！"];  break ;
         case 3: [EasyShowTextView showInfoText:@"请完成基本信息！"];  break ;
         case 4: [EasyShowTextView showImageText:@"自定义图片！" imageName:@"HUD_NF.png"];  break ;

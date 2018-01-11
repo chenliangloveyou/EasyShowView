@@ -22,11 +22,19 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    [EasyShowOptions sharedEasyShowOptions].lodingShowType =  LodingShowTypeTurnAround ;
-    [EasyShowLodingView showLodingText:@"正在加载中"] ;
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [EasyShowLodingView hidenLoding];
+    UIView *greenView = [[UIView alloc]initWithFrame:CGRectMake(50, 100, 200, 200)];
+    greenView.backgroundColor = [UIColor greenColor];
+    [self.view addSubview:greenView];
+    
+    
+    [EasyShowOptions sharedEasyShowOptions].lodingShowType =  LodingShowTypeTurnAround ;
+    [EasyShowLodingView showLodingText:@"正在加载中" inView:greenView] ;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [EasyShowLodingView hidenLoingInView:greenView];
+        [EasyShowTextView showSuccessText:@"加载完成?" inView:greenView] ;
+
     });
     // Do any additional setup after loading the view.
 }
