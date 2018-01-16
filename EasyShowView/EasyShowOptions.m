@@ -87,6 +87,17 @@ static EasyShowOptions *_showInstance;
         _lodingCycleCornerWidth = 5 ;
         
         
+        _emptyViewBackgroundColor = [UIColor groupTableViewBackgroundColor] ;
+        _emptyTitleFount = [UIFont systemFontOfSize:18];
+        _emptyTitleColor = [UIColor blackColor];
+        _emptySubTitleFount = [UIFont systemFontOfSize:15];
+        _emptySubTitleColor = [UIColor lightGrayColor] ;
+        _emptyButtonFount = [UIFont systemFontOfSize:14];
+        _emptyButtonColor = [UIColor darkTextColor];
+        _emptyButtonBackgroundColor = [UIColor lightGrayColor];
+        _emptyButtonEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
+        
+        
         // [UIColor colorWithRed:82/255.0 green:90/255.0 blue:251.0/255.0 alpha:1] ;
         _alertTitleColor = [UIColor blackColor];
         _alertMessageColor = [UIColor darkGrayColor];

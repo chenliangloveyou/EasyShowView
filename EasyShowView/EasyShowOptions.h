@@ -107,6 +107,23 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
 @property (nonatomic,strong)NSArray *lodingPlayImagesArray ;
 
 
+#pragma amrk - empty
+
+@property (nonatomic,strong)UIColor *emptyViewBackgroundColor ;
+
+@property (nonatomic,strong)UIFont *emptyTitleFount ;
+@property (nonatomic,strong)UIColor *emptyTitleColor ;
+
+@property (nonatomic,strong)UIFont *emptySubTitleFount ;
+@property (nonatomic,strong)UIColor *emptySubTitleColor ;
+
+@property (nonatomic,strong)UIFont *emptyButtonFount ;
+@property (nonatomic,strong)UIColor *emptyButtonColor ;
+@property (nonatomic,strong)UIColor *emptyButtonBackgroundColor ;
+//按钮往内缩的边距（按钮四边边缘距离文字的距离）
+@property (nonatomic,assign)UIEdgeInsets emptyButtonEdgeInsets ;
+
+
 #pragma mark - alert
 
 
