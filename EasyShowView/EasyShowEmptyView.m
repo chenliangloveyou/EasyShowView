@@ -45,42 +45,42 @@
 //    
 //    return nil ;
 //}
-+ (void)emptyViewWithTitle:(NSString *)title
++ (void)showEmptyViewWithTitle:(NSString *)title
                       inview:(UIView *)superView
 {
-    [self emptyViewWithTitle:title subTitle:nil imageName:nil buttonTitleArray:nil inview:superView callback:nil];
+    [self showEmptyViewWithTitle:title subTitle:nil imageName:nil buttonTitleArray:nil inview:superView callback:nil];
 }
 
-+ (void)emptyViewWithImageName:(NSString *)imageName
++ (void)showEmptyViewWithImageName:(NSString *)imageName
                           inview:(UIView *)superView
 {
-    [self emptyViewWithTitle:nil subTitle:nil imageName:imageName buttonTitleArray:nil inview:superView callback:nil];
+    [self showEmptyViewWithTitle:nil subTitle:nil imageName:imageName buttonTitleArray:nil inview:superView callback:nil];
 }
 
-+ (void)emptyViewWithTitle:(NSString *)title
++ (void)showEmptyViewWithTitle:(NSString *)title
                     subTitle:(NSString *)subTitle
                       inview:(UIView *)superView
 {
-    [self emptyViewWithTitle:title subTitle:subTitle imageName:nil buttonTitleArray:nil inview:superView callback:nil];
+    [self showEmptyViewWithTitle:title subTitle:subTitle imageName:nil buttonTitleArray:nil inview:superView callback:nil];
 }
 
-+ (void)emptyViewWithtitle:(NSString *)title
++ (void)showEmptyViewWithtitle:(NSString *)title
                     subTitle:(NSString *)subTitle
                    imageName:(NSString *)imageName
                       inview:(UIView *)superView
 {
-    [self emptyViewWithTitle:title subTitle:subTitle imageName:imageName buttonTitleArray:nil inview:superView callback:nil];
+    [self showEmptyViewWithTitle:title subTitle:subTitle imageName:imageName buttonTitleArray:nil inview:superView callback:nil];
 }
 
-+ (void)emptyViewWithTitle:(NSString *)title
++ (void)showEmptyViewWithTitle:(NSString *)title
                     subTitle:(NSString *)subTitle
                    imageName:(NSString *)imageName
                       inview:(UIView *)superView
                     callback:(emptyViewCallback)callback
 {
-    [self emptyViewWithTitle:title subTitle:subTitle imageName:imageName buttonTitleArray:nil inview:superView callback:callback];
+    [self showEmptyViewWithTitle:title subTitle:subTitle imageName:imageName buttonTitleArray:nil inview:superView callback:callback];
 }
-+ (void)emptyViewWithTitle:(NSString *)title
++ (void)showEmptyViewWithTitle:(NSString *)title
                     subTitle:(NSString *)subTitle
                    imageName:(NSString *)imageName
             buttonTitleArray:(NSArray *)buttonTitleArray
@@ -164,9 +164,9 @@
     if (!ISEMPTY_S(self.imageName)) {
         UIImage *defaultImage = [UIImage imageNamed:self.imageName];
         CGSize imageSize = defaultImage.size ;
-        if (imageSize.width > contentWidth/2.0f) {
-            imageSize.width=  contentWidth/2.0f ;
-            imageSize.height = (imageSize.height*contentWidth/2.0f)/imageSize.width ;
+        if (imageSize.width > contentWidth*2/3.0f) {
+            imageSize.height = (imageSize.height*(contentWidth*2/3.0f))/imageSize.width ;
+            imageSize.width=  contentWidth*2/3.0f ;
         }
         self.defaultImageView.frame = CGRectMake((contentWidth-imageSize.width)/2.0f, contentHeight, imageSize.width, imageSize.height) ;
         contentHeight += imageSize.height+10 ;
@@ -184,7 +184,6 @@
         self.defaultSubTitleLabel.frame = CGRectMake(0, contentHeight, contentWidth, titleSize.height);
         
         contentHeight += self.defaultSubTitleLabel.height ;
-        
     }
     
     __weak typeof(NSArray *) weakButtonArray = self.buttonTitleArray ;
@@ -203,7 +202,6 @@
             if (weakButtonArray.count==1 || (weakButtonArray.count==2&&obj.tag==2)) {
                 contentHeight += buttonFrame.size.height+10 ;
             }
-            
         }
     }] ;
     
