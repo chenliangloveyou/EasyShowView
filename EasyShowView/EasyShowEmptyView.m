@@ -331,6 +331,17 @@
     return _options ;
 }
 
+
+
++ (void)showEmptyViewLodingWithImageName:(NSString *)imageName
+                                callback:(emptyViewCallback)callback
+{
+}
+
++ (void)showEmptyViewLodingWithTitle:(NSString *)title
+                            callback:(emptyViewCallback)callback
+{
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
