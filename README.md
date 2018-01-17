@@ -1,6 +1,6 @@
 # EasyShowView 
   一款超级简单的展示工具，包括吐丝指示器，loding加载框，空白页提示，alertview，actionsheet的定制。可自定义动画，显示样式等各种操作，使各种展示更加easy。总有一个是你需要的，简单到爆。赶紧来试试吧~~~"
-- (支持cocoapods： pod 'EasyShowView','~>2.0.0')
+- (支持cocoapods： pod 'EasyShowView','~>2.0')
  
 # PreView
 
