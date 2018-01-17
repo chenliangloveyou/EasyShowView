@@ -52,6 +52,10 @@
 
 #define kEasyShowSafeBottomMargin_S  (ISIPHONE_X_S ? 34.0f : 0.0f )
 
+/*随机颜色*/   //[UIColor clearColor];//
+#define kColorRandom_S  [UIColor clearColor];//kColor_N(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
+#define kColor_S(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
+
 //状态栏高度
 #define NAVIGATION_HEIGHT_S (STATUSBAR_HEIGHT_S + kNavNormalHeight_S)
 //#define STATUSBAR_HEIGHT (ISHORIZONTALSCREEM ? (ISIPHONE_X ? 0 : STATUSBAR_HEIGHT) : STATUSBAR_HEIGHT )

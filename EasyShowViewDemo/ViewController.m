@@ -62,14 +62,16 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     switch (indexPath.section) {
-        case 0: [self showTextWithRow:indexPath.row] ;  break;
+        case 0: [self showTextWithRow:indexPath.row] ;  break ;
         case 1: [self showLodingWithRow:indexPath.row]; break ;
-        case 2: [self showAlertWithRow:indexPath.row];  break ;
+        case 2: [self showEmptyWithRow:indexPath.row];  break ;
+        case 3: [self showAlertWithRow:indexPath.row];  break ;
         default: break;
     }
 }
 #warning  [EasyShowOptions sharedEasyShowOptions].xxx  不要写到控制器中，这里是为了便于演示。 \
           应该写到appdelegate里面，设置一次自己想要的样式就行(APP里应该是一个统一的风格，如果确实有改变样式的需求，放到控制器中也是没有问题的)。
+
 
 - (void)showTextWithRow:(long)row
 {
@@ -117,6 +119,60 @@
             [EasyShowLodingView hidenLoding];
             break;
     }
+}
+
+- (void)showEmptyWithRow:(long)row
+{
+    switch (row) {
+        case 0:
+        {
+            __weak typeof(self) weakself = self ;
+            [EasyShowEmptyView showEmptyViewWithTitle:@"网络错误" subTitle:@"请检查网络是否连接正常,点击重新刷新！" imageName:@"noNetFlags.png" buttonTitleArray:@[@"回主页",@"再次加载"] inview:self.view callback:^(EasyShowEmptyView *view, UIButton *button, callbackType callbackType) {
+                switch (callbackType) {
+                    case callbackTypeButton_1:{
+                        SecondViewController *secondVC = [[SecondViewController alloc]init];
+                        [weakself.navigationController pushViewController:secondVC animated:YES];
+                    } break;
+                    default:
+                        break;
+                }
+            }];
+        }break;
+        case 1:
+        {
+            UIView *redView = [[UIView alloc]initWithFrame:CGRectMake(10, 50, 200, 300)];
+            redView.backgroundColor = [UIColor redColor];
+            [self.view addSubview:redView];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [EasyShowEmptyView showEmptyViewWithTitle:@"无网络" subTitle:@"点击重新加载数据！" imageName:@"netError.png" inview:redView callback:^(EasyShowEmptyView *view, UIButton *button, callbackType callbackType) {
+                    [redView removeFromSuperview];
+                }];
+            });
+            
+        }break ;
+        case 2:
+        {
+            UIView *blueView = [[UIView alloc]initWithFrame:CGRectMake(10, 200, 300, 380)];
+            blueView.backgroundColor = [UIColor cyanColor];
+            [self.view addSubview:blueView];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+              
+                [EasyShowEmptyView showEmptyViewWithTitle:@"无数据" subTitle:@"" imageName:@"nodata_icon.png" buttonTitleArray:@[@"重新加载数据"] inview:blueView callback:^(EasyShowEmptyView *view, UIButton *button, callbackType callbackType) {
+                    [EasyShowLodingView showLodingText:@"正在加载..." inView:blueView];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [EasyShowLodingView hidenLoingInView:blueView];
+                        [blueView removeFromSuperview];
+                    });
+                }];
+               
+            });
+        }break ;
+        default:
+            break;
+    }
+    
 }
 - (void)showAlertWithRow:(long)row
 {
@@ -225,6 +281,7 @@
         _dataArray = @[
                        @[@"纯文字消息",@"成功消息",@"失败消息",@"提示消息",@"自定义图片"],
                        @[@"转圈加载框",@"菊花加载框",@"自定义图片加载框",@"图片翻转加载框",@"图片边框转圈",@"隐藏加载框"] ,
+                       @[@"空页面1",@"空页面2",@"空页面3"],
                        @[@"AlertView(点5次)",@"ActionSheet",@"系统AlertView",@"系统ActionSheet(点2次)"]
                        ];
     }
