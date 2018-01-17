@@ -1,16 +1,18 @@
 # EasyShowView 
-  一款超级简单的展示工具，包括吐丝指示器，loding加载框，alertview，actionsheet的定制。可自定义动画，显示样式等各种操作，使各种展示更加easy。简单到爆。赶紧来试试吧~~~"
-- (支持cocoapods： pod 'EasyShowView','~>1.0.0')
+  一款超级简单的展示工具，包括吐丝指示器，loding加载框，空白页提示，alertview，actionsheet的定制。可自定义动画，显示样式等各种操作，使各种展示更加easy。总有一个是你需要的，简单到爆。赶紧来试试吧~~~"
+- (支持cocoapods： pod 'EasyShowView','~>2.0.0')
  
 # PreView
 
-![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_text.gif "github")![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_loding.gif "github")![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_alert.gif "github")  
+![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_all.gif "github")
 
 
 # 使用方法
 
 ## 一、提示框
 
+
+![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_text.gif "github")
 
 _显示一个纯文字消息_
 
@@ -75,6 +77,8 @@ _显示一个自定义图片消息_
 
 ## 二、加载框
 
+![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_loding.gif "github")
+
 _显示加载框_
 ```
 /**
@@ -126,11 +130,60 @@ _隐藏加载框_
   
 ```
 
+----
 
+## 三、空白提示页面
+
+![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_empty.gif "github")
+
+#### 显示，隐藏空白框。
+ 
+ 下面的标题，副标题，图片，按钮，回调都可以自定义添加和删除。
+```
+/**
+ * 标题 副标题 图片 按钮 回调
+ */
++ (void)showEmptyViewWithTitle:(NSString *)title
+                      subTitle:(NSString *)subTitle
+                     imageName:(NSString *)imageName
+              buttonTitleArray:(NSArray *)buttonTitleArray
+                        inview:(UIView *)superView
+                      callback:(emptyViewCallback)callback;
+  
+/**
+ * 隐藏空页面展示视图
+ */
++ (void)hiddenEmptyView:(UIView *)superView ;
+
+```
+#### 自定义形式（可省略）
+
+在appdelegate里面设置以下属性
+```
+//背景颜色
+@property (nonatomic,strong)UIColor *emptyViewBackgroundColor ;
+
+//标题的文字大小、颜色
+@property (nonatomic,strong)UIFont *emptyTitleFount ;
+@property (nonatomic,strong)UIColor *emptyTitleColor ;
+
+//副标题的文字大小 颜色
+@property (nonatomic,strong)UIFont *emptySubTitleFount ;
+@property (nonatomic,strong)UIColor *emptySubTitleColor ;
+
+//按钮的文字背景 颜色 大小
+@property (nonatomic,strong)UIFont *emptyButtonFount ;
+@property (nonatomic,strong)UIColor *emptyButtonColor ;
+@property (nonatomic,strong)UIColor *emptyButtonBackgroundColor ;
+//按钮往内缩的边距（按钮四边边缘距离文字的距离）
+@property (nonatomic,assign)UIEdgeInsets emptyButtonEdgeInsets ;
+```
 
 ----
 
 ## 三、AlertView/ActionSheet弹出框
+
+![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_alert.gif "github") 
 
 #### 一：自定义形式
 
