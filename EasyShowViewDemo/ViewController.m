@@ -227,10 +227,10 @@
         case 2:
         {
             EasyShowAlertView *alertView =[EasyShowAlertView showSystemAlertWithTitle:@"提示" message:@"确定需要此操作吗?次草错爱东方饭店了肯德基福达康！"];
-            [alertView addSystemItemWithTitle:@"确定" itemType:UIAlertActionStyleDefault callback:^(EasyShowAlertView *showview) {
+            [alertView addSystemItemWithTitle:@"确定" itemType:AlertActionSystemStyleDefault callback:^(EasyShowAlertView *showview) {
                 NSLog(@"dddddddd    ");
             }];
-            [alertView addSystemItemWithTitle:@"确dd定" itemType:UIAlertActionStyleDestructive callback:^(EasyShowAlertView *showview) {
+            [alertView addSystemItemWithTitle:@"确dd定" itemType:AlertActionSystemStyleDestructive callback:^(EasyShowAlertView *showview) {
                 NSLog(@"dddddwd  ");
             }];
             [alertView systemShow];
@@ -238,18 +238,18 @@
         case 3:
         {
             EasyShowAlertView *alertView =[EasyShowAlertView showSystemActionSheetWithTitle:@"请选择您需要的操作" message:@""];
-            [alertView addSystemItemWithTitle:@"确定" itemType:UIAlertActionStyleDefault callback:^(EasyShowAlertView *showview) {
+            [alertView addSystemItemWithTitle:@"确定" itemType:AlertActionSystemStyleDefault callback:^(EasyShowAlertView *showview) {
                 NSLog(@"dddddddd    ");
             }];
-            [alertView addSystemItemWithTitle:@"确定" itemType:UIAlertActionStyleDefault callback:^(EasyShowAlertView *showview) {
+            [alertView addSystemItemWithTitle:@"确定" itemType:AlertActionSystemStyleDefault callback:^(EasyShowAlertView *showview) {
                 NSLog(@"dddddddd    ");
             }];
-            [alertView addSystemItemWithTitle:@"删除操作" itemType:UIAlertActionStyleDestructive callback:^(EasyShowAlertView *showview) {
+            [alertView addSystemItemWithTitle:@"删除操作" itemType:AlertActionSystemStyleDestructive callback:^(EasyShowAlertView *showview) {
                 NSLog(@"dddddddd    ");
             }];
             static int c_3 = 0 ;
             if (++c_3%2) {
-                [alertView addSystemItemWithTitle:@"取消" itemType:UIAlertActionStyleCancel callback:^(EasyShowAlertView *showview) {
+                [alertView addSystemItemWithTitle:@"取消" itemType:AlertActionSystemStyleCancel callback:^(EasyShowAlertView *showview) {
                     NSLog(@"dddddddd    ");
                 }];
             }

@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/chenliangloveyou/EasyShowView"
   s.license      = "MIT"
   s.author       = { "chenliangloveyou" => "ios_elite@163.com" }
-  s.source       = { :git => "https://github.com/chenliangloveyou/EasyShowView.git", :commit => "a82db34ff5afc3e5c2332edc3becb8dc124b891c" }
+  s.source       = { :git => "https://github.com/chenliangloveyou/EasyShowView.git", :commit => "98ea976e37e33668a309246e785e2fe09d101633" }
   s.source_files = "EasyShowView/*.{h,m}"
   # s.public_header_files = "Classes/**/*.h"
   s.ios.deployment_target= '7.0'

@@ -11,6 +11,11 @@
 @class EasyShowAlertView ;
 typedef void (^alertItemCallback)(EasyShowAlertView *showview);
 
+typedef NS_ENUM(NSInteger, AlertActionSystemStyle) {
+    AlertActionSystemStyleDefault = 0,
+    AlertActionSystemStyleCancel,
+    AlertActionSystemStyleDestructive
+} ;
 
 @interface EasyShowAlertView : UIView
 
@@ -48,7 +53,7 @@ typedef void (^alertItemCallback)(EasyShowAlertView *showview);
  * 第二步：往创建的alert上面添加事件
  */
 - (void)addSystemItemWithTitle:(NSString *)title
-                      itemType:(UIAlertActionStyle)itemType
+                      itemType:(AlertActionSystemStyle)itemType
                       callback:(alertItemCallback)callback;
 // 第三步：展示alert
 - (void)systemShow ;

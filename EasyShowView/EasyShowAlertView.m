@@ -83,7 +83,7 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
     return showView ;
 }
 
-- (void)addSystemItemWithTitle:(NSString *)title itemType:(UIAlertActionStyle)itemType callback:(alertItemCallback)callback
+- (void)addSystemItemWithTitle:(NSString *)title itemType:(AlertActionSystemStyle)itemType callback:(alertItemCallback)callback
 {
     [self addItemWithTitle:title itemType:(ShowAlertItemType)itemType callback:callback];
 }
@@ -128,24 +128,26 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
 
 - (void)systemShow
 {
-    UIAlertControllerStyle stype = self.alertShowType == alertShowTypeSystemAlert ;
-    UIAlertController *alertC = [UIAlertController alertControllerWithTitle:self.alertShowTitle
-                                                                    message:self.alertShowMessage
-                                                             preferredStyle:stype];
-    
-    [self.alertItemArray enumerateObjectsUsingBlock:^(EasyShowAlertItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        UIAlertAction *action = [UIAlertAction actionWithTitle:obj.title
-                                                         style:(UIAlertActionStyle)obj.itemTpye
-                                                       handler:^(UIAlertAction * _Nonnull action) {
-                                                           if (obj.callback) {
-                                                               obj.callback(self);
-                                                           }
-                                                       }];
-        [alertC addAction:action];
+    if (@available(iOS 8.0, *)) {
+        UIAlertControllerStyle stype = self.alertShowType == alertShowTypeSystemAlert ;
+        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:self.alertShowTitle
+                                                                        message:self.alertShowMessage
+                                                                 preferredStyle:stype];
         
-    }];
-
-    [[EasyShowUtils topViewController] presentViewController:alertC animated:YES completion:nil];
+        [self.alertItemArray enumerateObjectsUsingBlock:^(EasyShowAlertItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            UIAlertAction *action = [UIAlertAction actionWithTitle:obj.title
+                                                             style:(UIAlertActionStyle)obj.itemTpye
+                                                           handler:^(UIAlertAction * _Nonnull action) {
+                                                               if (obj.callback) {
+                                                                   obj.callback(self);
+                                                               }
+                                                           }];
+            [alertC addAction:action];
+            
+        }];
+        
+        [[EasyShowUtils topViewController] presentViewController:alertC animated:YES completion:nil];
+    }
 }
 
 
