@@ -7,7 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
+
+typedef NS_ENUM(NSInteger, ShowTextSuperReceiveEvent) {
+    ShowTextSuperReceiveEventYes ,
+    ShowTextSuperReceiveEventNo ,
+    ShowTextSuperReceiveEventUndefine ,
+};
 
 typedef NS_ENUM(NSInteger, ShowTextStatus) {
     
@@ -27,6 +34,7 @@ typedef NS_ENUM(NSUInteger , ShowTextStatusType) {
     ShowTextStatusTypeBottom,
     ShowTextStatusTypeStatusBar ,//在statusbar上显示
     ShowTextStatusTypeNavigation ,//在navigation上显示
+    ShowTextStatusTypeUndefine ,  /** 未定义 */
 };
 
 /**
@@ -36,6 +44,7 @@ typedef NS_ENUM(NSUInteger , TextAnimationType) {
     TextAnimationTypeNone ,//无动画
     TextAnimationTypeFade,//alpha改变
     TextAnimationTypeBounce ,//抖动
+    TextAnimationTypeUndefine ,  /** 未定义 */
 };
 
 

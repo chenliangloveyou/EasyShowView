@@ -10,6 +10,7 @@
 #import "ViewController.h"
 
 #import "EasyShowOptions.h"
+#import "EasyShowTextGlobalConfig.h"
 @interface AppDelegate ()
 
 @end
@@ -33,6 +34,21 @@
     }
     options.lodingPlayImagesArray = [NSArray arrayWithArray:tempArray ];
     options.lodingSuperViewReceiveEvent = YES ;
+    
+    EasyShowTextGlobalConfig *config = [EasyShowTextGlobalConfig sharedEasyShowTextGlobalConfig];
+    config.textBackGroundColor = [UIColor whiteColor];
+    config.textShowTimeBlock = ^float(NSString *text) {
+        
+        CGFloat tempShowTime = 0 ;
+        tempShowTime = 1 + text.length*0.15 ;
+        if (tempShowTime > TextShowMaxTime) {
+            tempShowTime = TextShowMaxTime ;
+        }
+        if (tempShowTime < 2) {
+            tempShowTime = 2 ;
+        }
+        return tempShowTime ;
+    };
     
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:[ViewController new]];
     self.window.rootViewController = nav ;

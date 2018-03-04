@@ -26,6 +26,8 @@
     [self.view addSubview:self.tableView];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"接受事件" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarClick)];
+    
+    
 }
 
 - (void)rightBarClick
@@ -78,9 +80,18 @@
     switch (row) {
         case 0:
         {
-            static int aa = 0 ;
-            [EasyShowOptions sharedEasyShowOptions].textStatusType = (aa++)%5 ;//ShowTextStatusTypeStatusBar ; //
-            [EasyShowTextView showText:@"这是一条纯文字消息!"];
+            [EasyShowTextView showText:@"你好" config:^EasyShowTextConfig *{
+                return [EasyShowTextConfig configWithSuperView:self.view
+                                             superReceiveEvent:ShowTextSuperReceiveEventUndefine
+                                                 animationType:TextAnimationTypeUndefine ];
+                return [EasyShowTextConfig configWithSuperView:self.view];
+                return [EasyShowTextConfig configWithSuperView:self.view superReceiveEvent:-1] ;
+                return [EasyShowTextConfig configWithSuperView:self.view superReceiveEvent:-1 animationType:-1 textStatusType:-1];
+            }];
+           
+//            static int aa = 0 ;
+//            [EasyShowOptions sharedEasyShowOptions].textStatusType = (aa++)%5 ;//ShowTextStatusTypeStatusBar ; //
+//            [EasyShowTextView showText:@"这是一条纯文字消息!"];
         }break;
         case 1: [EasyShowTextView showSuccessText:@"显示成功！"];  break;
         case 2: [EasyShowTextView showErrorText:@"服务器错误！"];  break ;
