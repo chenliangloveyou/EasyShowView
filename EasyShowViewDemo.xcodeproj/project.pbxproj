@@ -111,12 +111,12 @@
 		6863D89C204ADE0B00964CB1 /* EasyShowUtils */ = {
 			isa = PBXGroup;
 			children = (
-				6863D89D204ADE0B00964CB1 /* UIView+EasyShowExt.h */,
+				6863D8A2204ADE0B00964CB1 /* EasyShowUtils.h */,
 				6863D89E204ADE0B00964CB1 /* EasyShowUtils.m */,
 				6863D89F204ADE0B00964CB1 /* EasyShowLabel.m */,
 				6863D8A0204ADE0B00964CB1 /* UIView+EasyShowExt.m */,
+				6863D89D204ADE0B00964CB1 /* UIView+EasyShowExt.h */,
 				6863D8A1204ADE0B00964CB1 /* EasyShowLabel.h */,
-				6863D8A2204ADE0B00964CB1 /* EasyShowUtils.h */,
 			);
 			path = EasyShowUtils;
 			sourceTree = "<group>";
@@ -219,9 +219,9 @@
 			children = (
 				68672FBA1FF3E6B700B7CA4E /* EasyShowView.h */,
 				6863D8A3204ADE0B00964CB1 /* EasyShowText */,
+				6863D8AB204ADE0C00964CB1 /* EasyShowLoding */,
 				6863D8A8204ADE0C00964CB1 /* EasyShowAlert */,
 				6863D8AE204ADE0C00964CB1 /* EasyShowEmpty */,
-				6863D8AB204ADE0C00964CB1 /* EasyShowLoding */,
 				6863D89C204ADE0B00964CB1 /* EasyShowUtils */,
 				AD0D124F1FEA2F2800D66786 /* EasyShowTypes.h */,
 				AD0D12501FEA2F2800D66786 /* EasyShowTypes.m */,

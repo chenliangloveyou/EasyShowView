@@ -18,7 +18,7 @@
 @implementation EasyShowAlertItem
 @end
 
-typedef NS_ENUM(NSUInteger , alertShowType) {
+typedef NS_ENUM(NSInteger , alertShowType) {
     alertShowTypeAlert ,
     alertShowTypeActionSheet ,
     alertShowTypeSystemAlert ,
@@ -146,7 +146,8 @@ typedef NS_ENUM(NSUInteger , alertShowType) {
             
         }];
         
-        [[EasyShowUtils topViewController] presentViewController:alertC animated:YES completion:nil];
+        UIViewController *presentVC = [EasyShowUtils easyShowViewTopViewController];
+        [presentVC presentViewController:alertC animated:YES completion:nil];
     }
 }
 

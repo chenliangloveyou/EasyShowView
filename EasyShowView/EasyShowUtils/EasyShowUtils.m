@@ -23,19 +23,18 @@
     return size ;
 }
 
-+ (UIViewController *)topViewController {
-    UIViewController *resultVC;
-    resultVC = [self _topViewController:[[UIApplication sharedApplication].keyWindow rootViewController]];
++ (UIViewController *)easyShowViewTopViewController {
+    UIViewController *resultVC = [self tempEasyShowViewTopVC:[[UIApplication sharedApplication].keyWindow rootViewController]];
     while (resultVC.presentedViewController) {
-        resultVC = [self _topViewController:resultVC.presentedViewController];
+        resultVC = [self tempEasyShowViewTopVC:resultVC.presentedViewController];
     }
     return resultVC;
 }
-+ (UIViewController *)_topViewController:(UIViewController *)vc {
++ (UIViewController *)tempEasyShowViewTopVC:(UIViewController *)vc {
     if ([vc isKindOfClass:[UINavigationController class]]) {
-        return [self _topViewController:[(UINavigationController *)vc topViewController]];
+        return [self tempEasyShowViewTopVC:[(UINavigationController *)vc topViewController]];
     } else if ([vc isKindOfClass:[UITabBarController class]]) {
-        return [self _topViewController:[(UITabBarController *)vc selectedViewController]];
+        return [self tempEasyShowViewTopVC:[(UITabBarController *)vc selectedViewController]];
     } else {
         return vc;
     }

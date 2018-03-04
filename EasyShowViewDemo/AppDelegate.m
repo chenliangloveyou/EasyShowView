@@ -10,7 +10,10 @@
 #import "ViewController.h"
 
 #import "EasyShowOptions.h"
+
 #import "EasyShowTextGlobalConfig.h"
+#import "EasyShowLodingGlobalConfig.h"
+
 @interface AppDelegate ()
 
 @end
@@ -49,6 +52,8 @@
         }
         return tempShowTime ;
     };
+    
+    
     
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:[ViewController new]];
     self.window.rootViewController = nav ;

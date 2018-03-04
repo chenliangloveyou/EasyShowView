@@ -67,7 +67,7 @@
 
 + (CGSize)textWidthWithStirng:(NSString *)string font:(UIFont *)font maxWidth:(CGFloat)maxWidth ;
 
-+ (UIViewController *)topViewController ;
++ (UIViewController *)easyShowViewTopViewController ;
 
 + (UIImage *)imageWithColor:(UIColor *)color ;
 @end

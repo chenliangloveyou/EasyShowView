@@ -10,6 +10,10 @@
 #import "EasyShowTypes.h"
 @interface EasyShowLodingGlobalConfig : NSObject
 
++ (instancetype)sharedEasyShowLodingGlobalConfig ;
+
+//是否已经使用了globalConfig，库内部使用
++ (BOOL)isUseLoeingGlobalConfig ;
 
 /**
  * 加载框的显示样式
@@ -32,7 +36,7 @@
  * 当为YES：加载框会在盖住整个window的大小。如果lodingSuperViewReceiveEvent为NO,那么在不隐藏加载框的时候返回事件都会被遮住。
  *
  */
-@property BOOL lodingShowOnWindow ;
+//@property BOOL lodingShowOnWindow ;
 
 /**
  * 圆角大小

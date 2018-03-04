@@ -10,7 +10,7 @@
 
 @class EasyShowEmptyView ;
 
-typedef NS_ENUM(NSUInteger , callbackType) {
+typedef NS_ENUM(NSInteger , callbackType) {
     callbackTypeBgView   = 0,
     callbackTypeButton_1 = 1,
     callbackTypeButton_2 = 2,

@@ -36,6 +36,11 @@ static EasyShowLodingGlobalConfig *_showInstance;
 {
     return _showInstance;
 }
+//是否已经使用了globalConfig，库内部使用
++ (BOOL)isUseLoeingGlobalConfig
+{
+    return _showInstance!=nil ? YES : NO ;
+}
 
 - (instancetype)init
 {

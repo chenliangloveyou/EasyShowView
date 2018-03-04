@@ -10,4 +10,38 @@
 
 @implementation EasyShowLodingConfig
 
+
++ (instancetype)configInView:(UIView *)superView
+{
+    return [self configInView:superView
+                 superReceive:EasyUndefine];
+}
++ (instancetype)configInView:(UIView *)superView
+                superReceive:(BOOL)receive
+{
+    return [self configInView:superView
+                 superReceive:receive
+                     showType:EasyUndefine];
+}
++ (instancetype)configInView:(UIView *)superView
+                superReceive:(BOOL)receive
+                    showType:(LodingShowType)showType
+{
+    return [self configInView:superView
+                 superReceive:receive
+                     showType:showType
+                animationType:EasyUndefine];
+}
++ (instancetype)configInView:(UIView *)superView
+                superReceive:(BOOL)receive
+                    showType:(LodingShowType)showType
+               animationType:(lodingAnimationType)animationType
+{
+    EasyShowLodingConfig *config = [[EasyShowLodingConfig alloc]init];
+    config.superView = superView ;
+    config.lodingSuperViewReceiveEvent = receive ;
+    config.lodingShowType = showType ;
+    config.lodingAnimationType = animationType ;
+    return config ;
+}
 @end

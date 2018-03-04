@@ -8,9 +8,28 @@
 
 #import <Foundation/Foundation.h>
 #import "EasyShowTypes.h"
+
 @interface EasyShowLodingConfig : NSObject
 
++ (instancetype)configInView:(UIView *)superView ;
 
++ (instancetype)configInView:(UIView *)superView
+                superReceive:(BOOL)receive ;
+
++ (instancetype)configInView:(UIView *)superView
+                superReceive:(BOOL)receive
+                    showType:(LodingShowType)showType ;
+
++ (instancetype)configInView:(UIView *)superView
+                superReceive:(BOOL)receive
+                    showType:(LodingShowType)showType
+               animationType:(lodingAnimationType)animationType ;
+
+
+/**
+ * 显示的superview
+ */
+@property (nonatomic,strong)UIView *superView ;
 /**
  * 加载框的显示样式
  */
@@ -32,7 +51,7 @@
  * 当为YES：加载框会在盖住整个window的大小。如果lodingSuperViewReceiveEvent为NO,那么在不隐藏加载框的时候返回事件都会被遮住。
  *
  */
-@property BOOL lodingShowOnWindow ;
+//@property BOOL lodingShowOnWindow ;
 
 /**
  * 圆角大小
@@ -42,14 +61,14 @@
 /**
  *  文字/图片颜色、文字大小、背景颜色
  */
-@property (nonatomic,strong)UIColor *lodingTintColor ;
-@property (nonatomic,strong)UIFont *lodingTextFount ;
-@property (nonatomic,strong)UIColor *lodingBackgroundColor ;
+@property (nonatomic,strong)UIColor * lodingTintColor ;
+@property (nonatomic,strong)UIFont  * lodingTextFount ;
+@property (nonatomic,strong)UIColor * lodingBackgroundColor ;
 
 /**
  * 加载框为数组动画的时候，这里是传入图片的数据
  */
-@property (nonatomic,strong)NSArray *lodingPlayImagesArray ;
+@property (nonatomic,strong)NSArray * lodingPlayImagesArray ;
 
 
 @end

@@ -21,8 +21,8 @@
 @property (nonatomic,assign)ShowTextStatus showTextStatus ;//展示的类型
 @property (nonatomic,strong)EasyShowTextConfig *showTextConfig ;//配置信息
 
-@property (nonatomic,assign)BOOL isShowedStatusBar ;
-@property (nonatomic,assign)BOOL isShowedNavigation ;
+@property (nonatomic,assign)BOOL isShowOnStatusBar ;
+@property (nonatomic,assign)BOOL isShowOnNavigation ;
 
 @property (nonatomic,strong)EasyShowTextBgView *showBgView ;//用于放图片和文字的背景
 
@@ -36,7 +36,6 @@
 @end
 
 @implementation EasyShowTextView
-
 
 - (void)dealloc
 {
@@ -114,7 +113,7 @@
     switch (self.showTextConfig.animationType) {
         case TextAnimationTypeNone:
         {
-            if ( (self.isShowedStatusBar || self.isShowedNavigation)) {
+            if ( (self.isShowOnStatusBar || self.isShowOnNavigation)) {
                 self.y = 0 ;
                 [self.showBgView showWindowYToPoint:0];
 
@@ -132,7 +131,7 @@
         }break;
         case TextAnimationTypeFade:
         {
-            if ( (self.isShowedStatusBar || self.isShowedNavigation)) {
+            if ( (self.isShowOnStatusBar || self.isShowOnNavigation)) {
                 self.y = 0 ;
                 [self.showBgView showWindowYToPoint:0];
 
@@ -149,7 +148,7 @@
         }break ;
         case TextAnimationTypeBounce:
         {
-            if ( (self.isShowedStatusBar || self.isShowedNavigation)) {
+            if ( (self.isShowOnStatusBar || self.isShowOnNavigation)) {
                 self.y = - self.height ;
                 [UIView animateWithDuration:EasyShowAnimationTime animations:^{
                     self.y = 0 ;
@@ -191,7 +190,7 @@
         case TextAnimationTypeBounce:
         {
             
-            if ( (self.isShowedStatusBar || self.isShowedNavigation)) {
+            if ( (self.isShowOnStatusBar || self.isShowOnNavigation)) {
                 
                 [UIView animateWithDuration:EasyShowAnimationTime animations:^{
                     self.y = -self.height ;
@@ -346,12 +345,12 @@
 
 #pragma mark - getter
 //是否显示在statusbar上
-- (BOOL)isShowedStatusBar
+- (BOOL)isShowOnStatusBar
 {
     return self.showTextConfig.textStatusType==ShowTextStatusTypeStatusBar ;
 }
 //是否正在显示在navigation上
-- (BOOL)isShowedNavigation
+- (BOOL)isShowOnNavigation
 {
     return self.showTextConfig.textStatusType==ShowTextStatusTypeNavigation ;
 }

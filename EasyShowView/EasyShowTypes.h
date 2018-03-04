@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+UIKIT_EXTERN const NSInteger EasyUndefine  ;     //属性没有传值的定义
+
 
 typedef NS_ENUM(NSInteger, ShowTextSuperReceiveEvent) {
-    ShowTextSuperReceiveEventYes ,
-    ShowTextSuperReceiveEventNo ,
-    ShowTextSuperReceiveEventUndefine ,
+    ShowTextSuperReceiveEventUndefine = -1 ,
+    ShowTextSuperReceiveEventNo = 0,
+    ShowTextSuperReceiveEventYes = 1 ,
 };
 
 typedef NS_ENUM(NSInteger, ShowTextStatus) {
@@ -28,31 +30,32 @@ typedef NS_ENUM(NSInteger, ShowTextStatus) {
 /**
  * 设置文字的位置
  */
-typedef NS_ENUM(NSUInteger , ShowTextStatusType) {
+typedef NS_ENUM(NSInteger , ShowTextStatusType) {
+    ShowTextStatusTypeUndefine = -1 ,  /** 未定义 */
     ShowTextStatusTypeTop = 0 ,
     ShowTextStatusTypeMidden ,
     ShowTextStatusTypeBottom,
     ShowTextStatusTypeStatusBar ,//在statusbar上显示
     ShowTextStatusTypeNavigation ,//在navigation上显示
-    ShowTextStatusTypeUndefine ,  /** 未定义 */
 };
 
 /**
  * 文字展示时的动画类型
  */
-typedef NS_ENUM(NSUInteger , TextAnimationType) {
+typedef NS_ENUM(NSInteger , TextAnimationType) {
+    TextAnimationTypeUndefine = -1 ,  /** 未定义 */
     TextAnimationTypeNone ,//无动画
     TextAnimationTypeFade,//alpha改变
     TextAnimationTypeBounce ,//抖动
-    TextAnimationTypeUndefine ,  /** 未定义 */
 };
 
 
 /**
  * 加载框的样式
  */
-typedef NS_ENUM(NSUInteger , LodingShowType) {
+typedef NS_ENUM(NSInteger , LodingShowType) {
     
+    LodingShowTypeUnDefine = -1 , /** 未定义 */
     LodingShowTypeTurnAround     = 0 ,  //默认转圈样式
     LodingShowTypeTurnAroundLeft = 1 ,  //默认在左边转圈样式
     
@@ -72,7 +75,8 @@ typedef NS_ENUM(NSUInteger , LodingShowType) {
 /**
  *
  */
-typedef NS_ENUM(NSUInteger , lodingAnimationType) {
+typedef NS_ENUM(NSInteger , lodingAnimationType) {
+    lodingAnimationTypeUndefine = -1 , /** 未定义 */
     lodingAnimationTypeNone ,//无动画
     lodingAnimationTypeFade,//alpha改变
     lodingAnimationTypeBounce ,//抖动
@@ -95,7 +99,7 @@ typedef NS_ENUM(NSInteger, ShowAlertItemType) {
 /**
  * alertView的动画形式
  */
-typedef NS_ENUM(NSUInteger , alertAnimationType) {
+typedef NS_ENUM(NSInteger , alertAnimationType) {
     alertAnimationTypeNone ,//无动画
     alertAnimationTypeFade,//alpha改变
     alertAnimationTypeBounce ,//抖动

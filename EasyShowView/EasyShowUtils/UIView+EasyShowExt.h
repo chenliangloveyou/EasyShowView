@@ -60,11 +60,6 @@ AutoPoint_5(CGFloat x ,CGFloat y){
 @property(nonatomic) CGFloat right;
 @property(nonatomic) CGFloat bottom;
 
-/**
- * 获取当前view所在的控制器
- */
-- (UIViewController *)currentViewController;
-//- (UIViewController *)_topViewController:(UIViewController *)vc ;
 
 - (void)setRoundedCorners:(CGFloat)corners ;
 

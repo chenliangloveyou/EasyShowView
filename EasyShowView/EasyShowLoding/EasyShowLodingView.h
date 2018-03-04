@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "EasyShowLodingConfig.h"
+
 @interface EasyShowLodingView : UIView
 
 /**
@@ -19,11 +21,18 @@
  * 需要自定义的样式可以在EasyShowOptions里设置
  */
 + (void)showLoding ;
-+ (void)showLodingText:(NSString *)text ;
-+ (void)showLodingText:(NSString *)text inView:(UIView *)superView ;
-+ (void)showLodingText:(NSString *)text imageName:(NSString *)imageName ;
-+ (void)showLodingText:(NSString *)text imageName:(NSString *)imageName inView:(UIView *)superView ;
 
++ (void)showLodingText:(NSString *)text ;
+
++ (void)showLodingText:(NSString *)text
+                config:(EasyShowLodingConfig *(^)(void))config ;
+
++ (void)showLodingText:(NSString *)text
+             imageName:(NSString *)imageName ;
+
++ (void)showLodingText:(NSString *)text
+             imageName:(NSString *)imageName
+                config:(EasyShowLodingConfig *(^)(void))config ;
 
 /**
  * 移除一个加载框
@@ -32,6 +41,10 @@
 + (void)hidenLoding ;
 + (void)hidenLoingInView:(UIView *)superView ;
 
+
+//过期方法
++ (void)showLodingText:(NSString *)text inView:(UIView *)superView ;
++ (void)showLodingText:(NSString *)text imageName:(NSString *)imageName inView:(UIView *)superView ;
 
 
 @end

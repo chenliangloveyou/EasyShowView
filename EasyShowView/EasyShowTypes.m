@@ -8,6 +8,8 @@
 
 #import "EasyShowTypes.h"
 
+ const NSInteger EasyUndefine = -1 ;     //属性没有传值的定义
+
 @implementation EasyShowTypes
 
 @end
