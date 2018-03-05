@@ -14,8 +14,6 @@
 
 @interface EasyShowLodingView()<CAAnimationDelegate>
 
-@property (nonatomic,strong)EasyShowOptions *options ;
-
 @property (nonatomic,strong)NSString *showText ;//展示的文字
 @property (nonatomic,strong)NSString *showImageName ;//展示的图片
 @property (nonatomic,strong)EasyShowLodingConfig *showConfig ;//展示的配置信息
@@ -45,59 +43,26 @@
         self.showText = showText ;
         self.showImageName = imageName ;
         self.showConfig = config ;
+        [self bluidUI];
     }
     return self ;
-}
-+ (void)easyShowLodingViewWithText:(NSString *)text
-                       imageName:(NSString *)imageName
-                          config:(EasyShowLodingConfig *)config
-{
-    
-    EasyShowLodingView *showView = [[EasyShowLodingView alloc] initWithFrame:CGRectZero];
-    showView.showText = text ;
-    showView.showImageName = imageName ;
-    showView.showConfig = config ;
-#warning 要处理这个config
-    [showView showViewWithSuperView:config.superView];
-}
-
-
-+ (void)hidenLoding
-{
-    UIView *showView = [EasyShowUtils easyShowViewTopViewController].view ;
-    if ([EasyShowOptions sharedEasyShowOptions].lodingShowOnWindow) {
-        showView = [UIApplication sharedApplication].keyWindow ;
-    }
-    [self hidenLoingInView:showView];
-}
-+ (void)hidenLoingInView:(UIView *)superView
-{
-    NSEnumerator *subviewsEnum = [superView.subviews reverseObjectEnumerator];
-    for (UIView *subview in subviewsEnum) {
-        if ([subview isKindOfClass:self]) {
-            EasyShowLodingView *showView = (EasyShowLodingView *)subview ;
-            
-            [showView removeSelfFromSuperView];
-        }
-    }
 }
 
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        
         self.backgroundColor =  [UIColor clearColor]; // [UIColor greenColor] ;//
     }
     return self ;
 }
 
-- (void)showViewWithSuperView:(UIView *)superView
+- (void)bluidUI
 {
     //展示视图的frame
     
     CGSize imageSize = CGSizeZero ;
-    switch (self.options.lodingShowType) {
+    switch (self.showConfig.lodingShowType) {
         case LodingShowTypeTurnAround:
         case LodingShowTypeTurnAroundLeft:
         case LodingShowTypeIndicator:
@@ -107,8 +72,8 @@
         case LodingShowTypePlayImages:
         case LodingShowTypePlayImagesLeft:
         {
-            NSAssert(self.options.lodingPlayImagesArray, @"you should set a image array!") ;
-            UIImage *image = self.options.lodingPlayImagesArray.firstObject ;
+            NSAssert(self.showConfig.lodingPlayImagesArray, @"you should set a image array!") ;
+            UIImage *image = self.showConfig.lodingPlayImagesArray.firstObject ;
             CGSize tempSize = image.size ;
             if (tempSize.height > EasyShowLodingImageMaxWH) {
                 tempSize.height = EasyShowLodingImageMaxWH ;
@@ -142,7 +107,7 @@
         self.textLabel.text = self.showText ;
     }
     
-    CGFloat textMaxWidth = EasyShowLodingMaxWidth - (self.options.lodingShowType%2?:(EasyShowLodingImageWH+EasyShowLodingImageEdge*2)) ;//当为左右形式的时候减去图片的宽度
+    CGFloat textMaxWidth = EasyShowLodingMaxWidth - (self.showConfig.lodingShowType%2?:(EasyShowLodingImageWH+EasyShowLodingImageEdge*2)) ;//当为左右形式的时候减去图片的宽度
     CGSize textSize = [self.textLabel sizeThatFits:CGSizeMake(textMaxWidth, MAXFLOAT)];
     if (ISEMPTY_S(self.showText)) {
         textSize = CGSizeZero ;
@@ -150,7 +115,7 @@
     
     //显示区域的宽高
     CGSize displayAreaSize = CGSizeZero ;
-    if (self.options.lodingShowType%2) {
+    if (self.showConfig.lodingShowType%2) {
         //左右形式
         displayAreaSize.width = imageSize.width + EasyShowLodingImageEdge*2 + textSize.width ;
         displayAreaSize.height = MAX(imageSize.height+ EasyShowLodingImageEdge*2, textSize.height) ;
@@ -162,33 +127,33 @@
     }
     
     
-    if (self.options.lodingSuperViewReceiveEvent) {
+    if (self.showConfig.lodingSuperViewReceiveEvent) {
         //父视图能够接受事件 。 显示区域的大小=self的大小=displayAreaSize
         
-        [self setFrame:CGRectMake((superView.width-displayAreaSize.width)/2, (superView.height-displayAreaSize.height)/2, displayAreaSize.width, displayAreaSize.height)];
+        [self setFrame:CGRectMake((self.showConfig.superView.width-displayAreaSize.width)/2, (self.showConfig.superView.height-displayAreaSize.height)/2, displayAreaSize.width, displayAreaSize.height)];
     }
     else{
         //父视图不能接收-->self的大小应该为superview的大小。来遮盖
         
-        [self setFrame: CGRectMake(0, 0, superView.width, superView.height)] ;
+        [self setFrame: CGRectMake(0, 0, self.showConfig.superView.width, self.showConfig.superView.height)] ;
         
         self.lodingBgView.center = self.center ;
         
     }
     
     self.lodingBgView.frame = CGRectMake(0,0, displayAreaSize.width,displayAreaSize.height) ;
-    if (!self.options.lodingSuperViewReceiveEvent) {
+    if (!self.showConfig.lodingSuperViewReceiveEvent) {
         self.lodingBgView.center = self.center ;
     }
     
     self.imageView.frame = CGRectMake(EasyShowLodingImageEdge, EasyShowLodingImageEdge, imageSize.width, imageSize.height) ;
-    if (!(self.options.lodingShowType%2)) {
+    if (!(self.showConfig.lodingShowType%2)) {
         self.imageView.centerX = self.lodingBgView.width/2 ;
     }
     
     CGFloat textLabelX = 0 ;
     CGFloat textLabelY = 0 ;
-    if (self.options.lodingShowType%2) {//左右形式
+    if (self.showConfig.lodingShowType%2) {//左右形式
         textLabelX = self.imageView.right  ;
         textLabelY =  (self.lodingBgView.height-textSize.height)/2 ;
     }
@@ -198,12 +163,12 @@
     }
     self.textLabel.frame = CGRectMake(textLabelX, textLabelY, textSize.width, textSize.height );
     
-    [superView addSubview:self];
-    if (self.options.lodingCycleCornerWidth > 0) {
-        [_lodingBgView setRoundedCorners:self.options.lodingCycleCornerWidth];
+//    [superView addSubview:self];
+    if (self.showConfig.lodingCycleCornerWidth > 0) {
+        [_lodingBgView setRoundedCorners:self.showConfig.lodingCycleCornerWidth];
     }
     
-    switch (self.options.lodingShowType) {
+    switch (self.showConfig.lodingShowType) {
         case LodingShowTypeTurnAround:
         case LodingShowTypeTurnAroundLeft:
             [self drawAnimationImageViewLoding];
@@ -215,7 +180,7 @@
         case LodingShowTypePlayImages:
         case LodingShowTypePlayImagesLeft:
         {
-            UIImage *tempImage  = self.options.lodingPlayImagesArray.firstObject ;
+            UIImage *tempImage  = self.showConfig.lodingPlayImagesArray.firstObject ;
             if (tempImage) {
                 self.imageView.image = tempImage ;
             }
@@ -241,7 +206,7 @@
     
     
     void (^completion)(void) = ^{
-        switch (self.options.lodingShowType) {
+        switch (self.showConfig.lodingShowType) {
             case LodingShowTypeTurnAround:
             case LodingShowTypeTurnAroundLeft:
                 [self drawAnimiationImageView:NO];
@@ -254,8 +219,8 @@
             case LodingShowTypePlayImagesLeft:
             {
                 NSMutableArray *tempArray= [NSMutableArray arrayWithCapacity:20];
-                for (int i = 0 ; i < self.options.lodingPlayImagesArray.count; i++) {
-                    UIImage *img = self.options.lodingPlayImagesArray[i] ;
+                for (int i = 0 ; i < self.showConfig.lodingPlayImagesArray.count; i++) {
+                    UIImage *img = self.showConfig.lodingPlayImagesArray[i] ;
                     if ([img isKindOfClass:[UIImage class]]) {
                         [tempArray addObject:img];
                     }
@@ -280,7 +245,7 @@
     };
     
     
-    switch (self.options.lodingAnimationType) {
+    switch (self.showConfig.lodingAnimationType) {
         case lodingAnimationTypeNone:
             completion() ;
             break;
@@ -312,7 +277,7 @@
     UIBezierPath *p = [UIBezierPath bezierPathWithArcCenter:CGPointMake(cp, cp) radius:layerRadius startAngle:.0f endAngle:.75f*M_PI clockwise:YES];
     shapeLayer.path = p.CGPath;
     
-    shapeLayer.strokeColor = self.options.lodingTintColor.CGColor;
+    shapeLayer.strokeColor = self.showConfig.lodingTintColor.CGColor;
     shapeLayer.lineWidth=2.0f;
     
     
@@ -323,7 +288,7 @@
     
     NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:6];
     for(int i=10;i>=0;i-=2) {
-        [tempArray addObject:(__bridge id)[self.options.lodingTintColor colorWithAlphaComponent:i*.1f].CGColor];
+        [tempArray addObject:(__bridge id)[self.showConfig.lodingTintColor colorWithAlphaComponent:i*.1f].CGColor];
     }
     gradientLayer.colors = tempArray;
     gradientLayer.mask = shapeLayer;
@@ -354,7 +319,7 @@
         [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         [self removeFromSuperview];
     };
-    switch (self.options.lodingAnimationType) {
+    switch (self.showConfig.lodingAnimationType) {
         case lodingAnimationTypeNone:
             completion() ;
             break;
@@ -455,7 +420,7 @@
     CAShapeLayer *centerLayer=[CAShapeLayer layer];
     centerLayer.path=beizPath.CGPath;
     centerLayer.fillColor=[UIColor clearColor].CGColor;//填充色
-    centerLayer.strokeColor=self.options.lodingTintColor.CGColor;//边框颜色
+    centerLayer.strokeColor=self.showConfig.lodingTintColor.CGColor;//边框颜色
     centerLayer.lineWidth=2.0f;
     centerLayer.lineCap=kCALineCapRound;//线框类型
     
@@ -466,18 +431,11 @@
 
 #pragma mark - getter
 
-- (EasyShowOptions *)options
-{
-    if (nil == _options) {
-        _options = [EasyShowOptions sharedEasyShowOptions];
-    }
-    return _options ;
-}
 - (UIView *)lodingBgView
 {
     if (nil == _lodingBgView) {
         _lodingBgView = [[UIView alloc]init] ;
-        _lodingBgView.backgroundColor = self.options.lodingBackgroundColor ;
+        _lodingBgView.backgroundColor = self.showConfig.lodingBackgroundColor ;
         [self addSubview:_lodingBgView];
     }
     return _lodingBgView ;
@@ -487,7 +445,7 @@
     if (nil == _imageView) {
         _imageView = [[UIImageView alloc]init];
         _imageView.backgroundColor = [UIColor clearColor];
-        _imageView.tintColor = self.options.lodingTintColor ;
+        _imageView.tintColor = self.showConfig.lodingTintColor ;
         [self.lodingBgView addSubview:_imageView];
     }
     return _imageView ;
@@ -496,8 +454,8 @@
 {
     if (nil == _textLabel) {
         _textLabel = [[EasyShowLabel alloc]initWithContentInset:UIEdgeInsetsMake(10, 20, 10, 20)];
-        _textLabel.textColor = self.options.lodingTintColor;
-        _textLabel.font = self.options.lodingTextFount ;
+        _textLabel.textColor = self.showConfig.lodingTintColor;
+        _textLabel.font = self.showConfig.lodingTextFount ;
         _textLabel.backgroundColor = [UIColor clearColor];
         _textLabel.textAlignment = NSTextAlignmentCenter ;
         _textLabel.numberOfLines = 0 ;
@@ -509,10 +467,10 @@
 - (UIActivityIndicatorView *)imageViewIndeicator
 {
     if (nil == _imageViewIndeicator) {
-        UIActivityIndicatorViewStyle style = self.options.lodingShowType%2 ? UIActivityIndicatorViewStyleWhite : UIActivityIndicatorViewStyleWhiteLarge ;
+        UIActivityIndicatorViewStyle style = self.showConfig.lodingShowType%2 ? UIActivityIndicatorViewStyleWhite : UIActivityIndicatorViewStyleWhiteLarge ;
         _imageViewIndeicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
-        _imageViewIndeicator.tintColor = self.options.lodingTintColor ;
-        _imageViewIndeicator.color = self.options.lodingTintColor ;
+        _imageViewIndeicator.tintColor = self.showConfig.lodingTintColor ;
+        _imageViewIndeicator.color = self.showConfig.lodingTintColor ;
         _imageViewIndeicator.backgroundColor = [UIColor clearColor];
         _imageViewIndeicator.frame = self.imageView.bounds ;
     }
@@ -537,6 +495,30 @@
 }
 
 #pragma mark - 类方法
+
+
++ (void)hidenLoding
+{
+    UIView *showView = [EasyShowUtils easyShowViewTopViewController].view ;
+#warning 还需要处理
+    if ([EasyShowOptions sharedEasyShowOptions].lodingShowOnWindow) {
+        showView = [UIApplication sharedApplication].keyWindow ;
+    }
+    [self hidenLoingInView:showView];
+}
++ (void)hidenLoingInView:(UIView *)superView
+{
+    NSEnumerator *subviewsEnum = [superView.subviews reverseObjectEnumerator];
+    for (UIView *subview in subviewsEnum) {
+        if ([subview isKindOfClass:self]) {
+            EasyShowLodingView *showView = (EasyShowLodingView *)subview ;
+            
+            [showView removeSelfFromSuperView];
+        }
+    }
+}
+
+
 
 + (void)showLoding
 {
@@ -626,39 +608,25 @@
     if (tempConfig.lodingSuperViewReceiveEvent == EasyUndefine ) {
         tempConfig.lodingSuperViewReceiveEvent =  isUseGlobalConfig ? globalConfig.lodingSuperViewReceiveEvent : options.lodingSuperViewReceiveEvent ;
     }
-    if (!config.textTitleFount) {
-        config.textTitleFount =  isUseGlobalConfig ? globalConfig.textTitleFount : options.textTitleFount ;
+#warning 这里几处都需要处理
+    if (!tempConfig.lodingShowOnWindow) {
+        tempConfig.lodingShowOnWindow =  isUseGlobalConfig ? globalConfig.lodingShowOnWindow : options.lodingShowOnWindow ;
     }
-    if (!config.textTitleColor) {
-        config.textTitleColor = isUseGlobalConfig ? globalConfig.textTitleColor : options.textTitleColor ;
+    if (!tempConfig.lodingCycleCornerWidth) {
+        tempConfig.lodingCycleCornerWidth = isUseGlobalConfig ? globalConfig.lodingCycleCornerWidth : options.lodingCycleCornerWidth ;
     }
-    if (!config.textBackGroundColor) {
-        config.textBackGroundColor =  isUseGlobalConfig ? globalConfig.textBackGroundColor : options.textBackGroundColor ;
+    if (!tempConfig.lodingTintColor) {
+        tempConfig.lodingTintColor =  isUseGlobalConfig ? globalConfig.lodingTintColor : options.lodingTintColor ;
     }
-    if (!config.textShadowColor) {
-        config.textShadowColor =  isUseGlobalConfig ? globalConfig.textShadowColor : options.textShadowColor ;
+    if (!tempConfig.lodingTextFount) {
+        tempConfig.lodingTextFount =  isUseGlobalConfig ? globalConfig.lodingTextFount : options.lodingTextFount ;
     }
-    
-    if (!config.textShowTimeBlock) {
-        
-        if (isUseGlobalConfig && globalConfig.textShowTimeBlock) {
-            config.textShowTimeBlock = globalConfig.textShowTimeBlock ;
-        }else{
-            float(^textShowTime)(NSString *text) = ^float(NSString *text){
-                CGFloat time = 1 + text.length*0.15 ;
-                if (time > TextShowMaxTime) {
-                    time = TextShowMaxTime ;
-                }
-                if (time < 2) {
-                    time = 2 ;
-                }
-                return time ;
-            };
-            config.textShowTimeBlock = textShowTime ;
-        }
+    if (!tempConfig.lodingBackgroundColor) {
+        tempConfig.lodingBackgroundColor =  isUseGlobalConfig ? globalConfig.lodingBackgroundColor : options.lodingBackgroundColor ;
     }
-    return config ;
-    
+    if (!tempConfig.lodingPlayImagesArray) {
+        tempConfig.lodingPlayImagesArray =  isUseGlobalConfig ? globalConfig.lodingPlayImagesArray : options.lodingPlayImagesArray ;
+    }
     return tempConfig ;
 }
 

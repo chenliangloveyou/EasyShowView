@@ -38,6 +38,9 @@
     options.lodingPlayImagesArray = [NSArray arrayWithArray:tempArray ];
     options.lodingSuperViewReceiveEvent = YES ;
     
+    
+    
+    
     EasyShowTextGlobalConfig *config = [EasyShowTextGlobalConfig sharedEasyShowTextGlobalConfig];
     config.textBackGroundColor = [UIColor whiteColor];
     config.textShowTimeBlock = ^float(NSString *text) {
@@ -52,6 +55,11 @@
         }
         return tempShowTime ;
     };
+    
+    
+//    EasyShowLodingGlobalConfig *lodingConfig = [EasyShowLodingGlobalConfig sharedEasyShowLodingGlobalConfig];
+//    lodingConfig.lodingSuperViewReceiveEvent = YES ;
+    
     
     
     
