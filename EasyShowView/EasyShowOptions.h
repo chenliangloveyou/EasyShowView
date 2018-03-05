@@ -107,7 +107,7 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
 @property (nonatomic,strong)NSArray *lodingPlayImagesArray ;
 
 
-#pragma amrk - empty
+#pragma mark - empty
 
 //背景颜色
 @property (nonatomic,strong)UIColor *emptyViewBackgroundColor ;

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "EasyShowEmptyItem.h"
+#import "EasyShowEmptyConfig.h"
 @class EasyShowEmptyView ;
 
 typedef NS_ENUM(NSInteger , callbackType) {
@@ -29,6 +31,11 @@ typedef void (^emptyViewCallback)(EasyShowEmptyView *view , UIButton *button , c
 
 //+ (instancetype)emptyViewWithDict:(NSDictionary *)dict
 //                           callback:(emptyViewCallback)callback ;
+
++ (void)showEmptyViewWithItem:(EasyShowEmptyItem *(^)(void))item
+                       config:(EasyShowEmptyConfig *(^)(void))config
+                       inView:(UIView *)superView
+                     callback:(emptyViewCallback)callback ;
 
 /**
  * 标题

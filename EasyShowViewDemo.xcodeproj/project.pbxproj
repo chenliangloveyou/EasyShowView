@@ -22,6 +22,11 @@
 		686A0E55204BB66400A25D80 /* EasyShowLodingConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 686A0E54204BB66400A25D80 /* EasyShowLodingConfig.m */; };
 		686A0E58204BB67400A25D80 /* EasyShowLodingGlobalConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 686A0E57204BB67400A25D80 /* EasyShowLodingGlobalConfig.m */; };
 		6886C7A31FEE16B6001124B7 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6886C7A21FEE16B6001124B7 /* SecondViewController.m */; };
+		689561C8204D8D1B0034C8A2 /* EasyShowEmptyConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 689561C7204D8D1B0034C8A2 /* EasyShowEmptyConfig.m */; };
+		689561CB204D8D320034C8A2 /* EasyShowEmptyGlobalConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 689561CA204D8D320034C8A2 /* EasyShowEmptyGlobalConfig.m */; };
+		689561CE204D8D430034C8A2 /* EasyShowAlertConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 689561CD204D8D430034C8A2 /* EasyShowAlertConfig.m */; };
+		689561D1204D8D500034C8A2 /* EasyShowAlertGlobalConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 689561D0204D8D500034C8A2 /* EasyShowAlertGlobalConfig.m */; };
+		689561D4204D904D0034C8A2 /* EasyShowEmptyItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 689561D3204D904D0034C8A2 /* EasyShowEmptyItem.m */; };
 		68A5747A204AF72D00FAE817 /* EasyShowTextGlobalConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 68A57479204AF72D00FAE817 /* EasyShowTextGlobalConfig.m */; };
 		AD0D12511FEA2F2800D66786 /* EasyShowTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0D12501FEA2F2800D66786 /* EasyShowTypes.m */; };
 		ADD80A1C1FC7AA28005908C4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD80A1B1FC7AA28005908C4 /* AppDelegate.m */; };
@@ -72,6 +77,16 @@
 		686A0E57204BB67400A25D80 /* EasyShowLodingGlobalConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowLodingGlobalConfig.m; sourceTree = "<group>"; };
 		6886C7A11FEE16B6001124B7 /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
 		6886C7A21FEE16B6001124B7 /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		689561C6204D8D1B0034C8A2 /* EasyShowEmptyConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowEmptyConfig.h; sourceTree = "<group>"; };
+		689561C7204D8D1B0034C8A2 /* EasyShowEmptyConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowEmptyConfig.m; sourceTree = "<group>"; };
+		689561C9204D8D320034C8A2 /* EasyShowEmptyGlobalConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowEmptyGlobalConfig.h; sourceTree = "<group>"; };
+		689561CA204D8D320034C8A2 /* EasyShowEmptyGlobalConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowEmptyGlobalConfig.m; sourceTree = "<group>"; };
+		689561CC204D8D430034C8A2 /* EasyShowAlertConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowAlertConfig.h; sourceTree = "<group>"; };
+		689561CD204D8D430034C8A2 /* EasyShowAlertConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowAlertConfig.m; sourceTree = "<group>"; };
+		689561CF204D8D500034C8A2 /* EasyShowAlertGlobalConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowAlertGlobalConfig.h; sourceTree = "<group>"; };
+		689561D0204D8D500034C8A2 /* EasyShowAlertGlobalConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowAlertGlobalConfig.m; sourceTree = "<group>"; };
+		689561D2204D904D0034C8A2 /* EasyShowEmptyItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowEmptyItem.h; sourceTree = "<group>"; };
+		689561D3204D904D0034C8A2 /* EasyShowEmptyItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowEmptyItem.m; sourceTree = "<group>"; };
 		68A57478204AF72D00FAE817 /* EasyShowTextGlobalConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowTextGlobalConfig.h; sourceTree = "<group>"; };
 		68A57479204AF72D00FAE817 /* EasyShowTextGlobalConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyShowTextGlobalConfig.m; sourceTree = "<group>"; };
 		AD0D124F1FEA2F2800D66786 /* EasyShowTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowTypes.h; sourceTree = "<group>"; };
@@ -113,10 +128,10 @@
 			children = (
 				6863D8A2204ADE0B00964CB1 /* EasyShowUtils.h */,
 				6863D89E204ADE0B00964CB1 /* EasyShowUtils.m */,
-				6863D89F204ADE0B00964CB1 /* EasyShowLabel.m */,
 				6863D8A0204ADE0B00964CB1 /* UIView+EasyShowExt.m */,
 				6863D89D204ADE0B00964CB1 /* UIView+EasyShowExt.h */,
 				6863D8A1204ADE0B00964CB1 /* EasyShowLabel.h */,
+				6863D89F204ADE0B00964CB1 /* EasyShowLabel.m */,
 			);
 			path = EasyShowUtils;
 			sourceTree = "<group>";
@@ -141,6 +156,10 @@
 			children = (
 				6863D8A9204ADE0C00964CB1 /* EasyShowAlertView.h */,
 				6863D8AA204ADE0C00964CB1 /* EasyShowAlertView.m */,
+				689561CC204D8D430034C8A2 /* EasyShowAlertConfig.h */,
+				689561CD204D8D430034C8A2 /* EasyShowAlertConfig.m */,
+				689561CF204D8D500034C8A2 /* EasyShowAlertGlobalConfig.h */,
+				689561D0204D8D500034C8A2 /* EasyShowAlertGlobalConfig.m */,
 			);
 			path = EasyShowAlert;
 			sourceTree = "<group>";
@@ -163,6 +182,12 @@
 			children = (
 				6863D8AF204ADE0C00964CB1 /* EasyShowEmptyView.h */,
 				6863D8B0204ADE0C00964CB1 /* EasyShowEmptyView.m */,
+				689561D2204D904D0034C8A2 /* EasyShowEmptyItem.h */,
+				689561D3204D904D0034C8A2 /* EasyShowEmptyItem.m */,
+				689561C6204D8D1B0034C8A2 /* EasyShowEmptyConfig.h */,
+				689561C7204D8D1B0034C8A2 /* EasyShowEmptyConfig.m */,
+				689561C9204D8D320034C8A2 /* EasyShowEmptyGlobalConfig.h */,
+				689561CA204D8D320034C8A2 /* EasyShowEmptyGlobalConfig.m */,
 			);
 			path = EasyShowEmpty;
 			sourceTree = "<group>";
@@ -336,15 +361,20 @@
 			files = (
 				6863D8B6204ADE0C00964CB1 /* EasyShowAlertView.m in Sources */,
 				6886C7A31FEE16B6001124B7 /* SecondViewController.m in Sources */,
+				689561CE204D8D430034C8A2 /* EasyShowAlertConfig.m in Sources */,
+				689561C8204D8D1B0034C8A2 /* EasyShowEmptyConfig.m in Sources */,
+				689561D4204D904D0034C8A2 /* EasyShowEmptyItem.m in Sources */,
 				686A0E55204BB66400A25D80 /* EasyShowLodingConfig.m in Sources */,
 				ADD80A1F1FC7AA28005908C4 /* ViewController.m in Sources */,
 				6863D8B3204ADE0C00964CB1 /* UIView+EasyShowExt.m in Sources */,
 				6863D8B5204ADE0C00964CB1 /* EasyShowTextBgView.m in Sources */,
+				689561CB204D8D320034C8A2 /* EasyShowEmptyGlobalConfig.m in Sources */,
 				680817081FC86C1200A47111 /* EasyShowOptions.m in Sources */,
 				6863D8B4204ADE0C00964CB1 /* EasyShowTextView.m in Sources */,
 				ADD80A2A1FC7AA28005908C4 /* main.m in Sources */,
 				68A5747A204AF72D00FAE817 /* EasyShowTextGlobalConfig.m in Sources */,
 				686A0E58204BB67400A25D80 /* EasyShowLodingGlobalConfig.m in Sources */,
+				689561D1204D8D500034C8A2 /* EasyShowAlertGlobalConfig.m in Sources */,
 				ADD80A1C1FC7AA28005908C4 /* AppDelegate.m in Sources */,
 				6863D8B2204ADE0C00964CB1 /* EasyShowLabel.m in Sources */,
 				6863D8B1204ADE0C00964CB1 /* EasyShowUtils.m in Sources */,

@@ -71,8 +71,6 @@
         default: break;
     }
 }
-#warning  [EasyShowOptions sharedEasyShowOptions].xxx  不要写到控制器中，这里是为了便于演示。 \
-          应该写到appdelegate里面，设置一次自己想要的样式就行(APP里应该是一个统一的风格，如果确实有改变样式的需求，放到控制器中也是没有问题的)。
 
 
 - (void)showTextWithRow:(long)row
@@ -102,34 +100,73 @@
 }
 - (void)showLodingWithRow:(long)row
 {
-    static int b_0 = 0 ;
     switch (row) {
-        case 0:
-            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeTurnAroundLeft : LodingShowTypeTurnAround ;
-            [EasyShowLodingView showLodingText:@"正在努力加载..."];
-            break;
-        case 1:
-            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeIndicatorLeft : LodingShowTypeIndicator ;
-            [EasyShowLodingView showLodingText:@"正在添加"];
-            break ;
-        case 2:{
-            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypePlayImagesLeft : LodingShowTypePlayImages ;
+        case 0:{
             [EasyShowLodingView showLodingText:@"加载中..."];
+        } break;
+        case 1:
+        {
+            [EasyShowLodingView showLodingText:@"正在努力加载中..." config:^EasyShowLodingConfig *{
+                return [EasyShowLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeIndicatorLeft];
+            }];
+        }break ;
+        case 2:
+        {
+            [EasyShowLodingView showLodingText:@"加载中..." config:^EasyShowLodingConfig *{
+                return [EasyShowLodingConfig configInView:self.view superReceive:NO showType:LodingShowTypePlayImages];
+            }];
         }break ;
         case 3:
         {
-            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeImageUpturnLeft : LodingShowTypeImageUpturn ;
-            [EasyShowLodingView showLodingText:@"正在加载中,请稍后..." imageName:@"HUD_NF.png"];
-        }   break ;
+            [EasyShowLodingView showLodingText:@"正在加载中,请稍后..." config:^EasyShowLodingConfig *{
+                return [EasyShowLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypePlayImagesLeft];
+            }];
+        }break ;
         case 4:
         {
-            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeImageAroundLeft : LodingShowTypeImageAround ;
-            [EasyShowLodingView showLodingText:@"" imageName:@"HUD_NF.png"];
+            [EasyShowLodingView showLodingText:@"正在加载中.." imageName:@"HUD_NF.png" config:^EasyShowLodingConfig *{
+                return [EasyShowLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeImageUpturnLeft];
+            }];
         }break ;
+        case 5:
+        {
+            [EasyShowLodingView showLodingText:@"" imageName:@"HUD_NF.png" config:^EasyShowLodingConfig *{
+                return [EasyShowLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeImageAround];
+            }];
+            
+        }
         default:
             [EasyShowLodingView hidenLoding];
             break;
     }
+//    static int b_0 = 0 ;
+//    switch (row) {
+//        case 0:
+//            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeTurnAroundLeft : LodingShowTypeTurnAround ;
+//            [EasyShowLodingView showLodingText:@"正在努力加载..."];
+//            break;
+//        case 1:
+//            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeIndicatorLeft : LodingShowTypeIndicator ;
+//            [EasyShowLodingView showLodingText:@"正在添加"];
+//            break ;
+//        case 2:{
+//            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypePlayImagesLeft : LodingShowTypePlayImages ;
+//            [EasyShowLodingView showLodingText:@"加载中..."];
+//        }break ;
+//        case 3:
+//        {
+//            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeImageUpturnLeft : LodingShowTypeImageUpturn ;
+//            [EasyShowLodingView showLodingText:@"正在加载中,请稍后..." imageName:@"HUD_NF.png"];
+//        }   break ;
+//        case 4:
+//        {
+//            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeImageAroundLeft : LodingShowTypeImageAround ;
+//            [EasyShowLodingView showLodingText:@"" imageName:@"HUD_NF.png"];
+//        }break ;
+//        default:
+//            [EasyShowLodingView hidenLoding];
+//            break;
+//    }
 }
 
 - (void)showEmptyWithRow:(long)row
@@ -137,6 +174,13 @@
     switch (row) {
         case 0:
         {
+            [EasyShowEmptyView showEmptyViewWithItem:^EasyShowEmptyItem *{
+                return [EasyShowEmptyItem shareItem].setImageName(@"kk").setTitle(@"您好") ;
+            } config:^EasyShowEmptyConfig *{
+                return [EasyShowEmptyConfig configWithBgColor:[UIColor whiteColor]];
+            } inView:self.view callback:^(EasyShowEmptyView *view, UIButton *button, callbackType callbackType) {
+                
+            }];
             __weak typeof(self) weakself = self ;
             [EasyShowEmptyView showEmptyViewWithTitle:@"网络错误" subTitle:@"请检查网络是否连接正常,点击重新刷新！" imageName:@"noNetFlags.png" buttonTitleArray:@[@"回主页",@"再次加载"] inview:self.view callback:^(EasyShowEmptyView *view, UIButton *button, callbackType callbackType) {
                 switch (callbackType) {
