@@ -41,8 +41,8 @@
     
     
     
-    EasyShowTextGlobalConfig *config = [EasyShowTextGlobalConfig sharedEasyShowTextGlobalConfig];
-    config.textBackGroundColor = [UIColor whiteColor];
+    EasyShowTextGlobalConfig *config = [EasyShowTextGlobalConfig shared];
+    config.bgColor = [UIColor whiteColor];
     config.textShowTimeBlock = ^float(NSString *text) {
         
         CGFloat tempShowTime = 0 ;

@@ -8,23 +8,55 @@
 
 #import <Foundation/Foundation.h>
 #import "EasyShowTypes.h"
+
 @interface EasyShowTextConfig : NSObject
 
+/** 显示吐丝所需要的父视图(为空将显示在window上) **/
 @property (nonatomic,strong)UIView *superView ;
-@property (nonatomic,assign)ShowTextSuperReceiveEvent superViewReceiveEvent;
+
+/** 显示期间，父视图是否接受事件 **/
+@property (nonatomic,assign)SuperReceiveEvent superViewReceiveEvent;
+
+/** 展示/隐藏 动画类型 **/
 @property (nonatomic,assign)TextAnimationType animationType ;
+
+/** 显示吐丝的位置（上、中、下、statusbar上、导航条上） **/
 @property (nonatomic,assign)ShowTextStatusType textStatusType ;
 
-/**
- * 显示大小、文字颜色、背景颜色、阴影颜色(为clearcolor的时候不显示阴影)
- */
-@property (nonatomic,strong)UIFont  *textTitleFount ;         //文字大小
-@property (nonatomic,strong)UIColor *textTitleColor ;        //文字颜色
-@property (nonatomic,strong)UIColor *textBackGroundColor ;  //背景颜色
-@property (nonatomic,strong)UIColor *textShadowColor ;//阴影颜色
+/** 显示文字大小 **/
+@property (nonatomic,strong)UIFont  *titleFont ;
 
+/** 显示文字颜色 **/
+@property (nonatomic,strong)UIColor *titleColor ;
+
+/** 显示背景颜色 **/
+@property (nonatomic,strong)UIColor *bgColor ;
+
+/** 阴影颜色(为clearcolor的时候不显示阴影) **/
+@property (nonatomic,strong)UIColor *shadowColor ;
+
+/** 显示文字的时间 **/
 @property (nonatomic,copy) float(^textShowTimeBlock)(NSString *text) ;
 
+
+#pragma mark - 创建对象的简便方法
+
+
++ (instancetype)shared ;
+
+
+#pragma mark - 链式编程设置属性(和上面直接设置属性一样)
+- (EasyShowTextConfig *(^)(UIView *spuerView))setSuperView ;
+- (EasyShowTextConfig *(^)(SuperReceiveEvent receive))setSuperViewReceiveEvent ;
+- (EasyShowTextConfig *(^)(TextAnimationType animationType))setAnimationType ;
+- (EasyShowTextConfig *(^)(ShowTextStatusType statusType))setTextStatusType ;
+
+- (EasyShowTextConfig *(^)(UIFont *titleFont))setTitleFont ;
+- (EasyShowTextConfig *(^)(UIColor *titleColor))setTitleColor ;
+- (EasyShowTextConfig *(^)(UIColor *bgColor))setBgColor ;
+- (EasyShowTextConfig *(^)(UIColor *shadowColor))setShadowColor ;
+
+#pragma mark - 类方法设置属性(和上面直接设置属性一样)
 
 /**
  * superview 显示所需要的父视图
@@ -36,7 +68,7 @@
  * receive   在显示的期间，superview是否能接接收事件
  */
 + (instancetype)configWithSuperView:(UIView *)superView
-                  superReceiveEvent:(ShowTextSuperReceiveEvent)receive ;
+                  superReceiveEvent:(SuperReceiveEvent)receive ;
 
 
 /**
@@ -45,7 +77,7 @@
  * animationType 文字展示的动画形式
  */
 + (instancetype)configWithSuperView:(UIView *)superView
-                  superReceiveEvent:(ShowTextSuperReceiveEvent)receive
+                  superReceiveEvent:(SuperReceiveEvent)receive
                       animationType:(TextAnimationType)animationType ;
 
 /**
@@ -55,7 +87,7 @@
  * statusType 文字显示所在的位置
  */
 + (instancetype)configWithSuperView:(UIView *)superView
-                  superReceiveEvent:(ShowTextSuperReceiveEvent)receive
+                  superReceiveEvent:(SuperReceiveEvent)receive
                       animationType:(TextAnimationType)animationType
                      textStatusType:(ShowTextStatusType)statusType ;
 

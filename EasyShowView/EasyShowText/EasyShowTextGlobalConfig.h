@@ -8,35 +8,39 @@
 
 #import <Foundation/Foundation.h>
 #import "EasyShowTypes.h"
+#import "EasyShowUtils.h"
+
 
 @interface EasyShowTextGlobalConfig : NSObject
-/**
- * 在显示的期间，superview是否能接接收事件
- */
-@property BOOL textSuperViewReceiveEvent ;
 
-/**
- * 文字展示的动画形式
- */
-@property TextAnimationType textAnimationType ;//
+/** 吐丝所在的父视图(默认为yes：显示到window上。如果设置为NO:将显示到最顶层控制器上) **/
+@property (nonatomic,assign)BOOL showOnWindow ;
 
-/**
- * /文字的显示样式
- */
-@property ShowTextStatusType textStatusType ;
+/** 显示期间，父视图是否接受事件 **/
+@property (nonatomic,assign)BOOL superViewReceiveEvent;
 
-/**
- * 显示大小、文字颜色、背景颜色、阴影颜色(为clearcolor的时候不显示阴影)
- */
-@property (nonatomic,strong)UIFont *textTitleFount ;         //文字大小
-@property (nonatomic,strong)UIColor *textTitleColor ;        //文字颜色
-@property (nonatomic,strong)UIColor *textBackGroundColor ;  //背景颜色
-@property (nonatomic,strong)UIColor *textShadowColor ;//阴影颜色
+/** 展示/隐藏 动画类型 **/
+@property (nonatomic,assign)TextAnimationType animationType ;
 
+/** 显示吐丝的位置（上、中、下、statusbar上、导航条上） **/
+@property (nonatomic,assign)ShowTextStatusType textStatusType ;
+
+/** 显示文字大小 **/
+@property (nonatomic,strong)UIFont  *titleFont ;
+
+/** 显示文字颜色 **/
+@property (nonatomic,strong)UIColor *titleColor ;
+
+/** 显示背景颜色 **/
+@property (nonatomic,strong)UIColor *bgColor ;
+
+/** 阴影颜色(为clearcolor的时候不显示阴影) **/
+@property (nonatomic,strong)UIColor *shadowColor ;
+
+/** 显示文字的时间 **/
 @property (nonatomic,copy) float(^textShowTimeBlock)(NSString *text) ;
 
-+ (instancetype)sharedEasyShowTextGlobalConfig ;
-
+easyShowView_singleton_interface
 
 //是否已经使用了globalConfig，库内部使用
 + (BOOL)isUseTextGlobalConfig ;

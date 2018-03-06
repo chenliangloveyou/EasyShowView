@@ -12,10 +12,10 @@
 UIKIT_EXTERN const NSInteger EasyUndefine  ;     //属性没有传值的定义
 
 
-typedef NS_ENUM(NSInteger, ShowTextSuperReceiveEvent) {
-    ShowTextSuperReceiveEventUndefine = 0 ,
-    ShowTextSuperReceiveEventNo = 1,
-    ShowTextSuperReceiveEventYes ,
+typedef NS_ENUM(NSInteger, SuperReceiveEvent) {
+    SuperReceiveEventUndefine = 0 ,
+    SuperReceiveEventNo = 1,
+    SuperReceiveEventYes ,
 };
 
 typedef NS_ENUM(NSInteger, ShowTextStatus) {

@@ -7,23 +7,73 @@
 //
 
 #import "EasyShowTextConfig.h"
-@interface EasyShowTextConfig()
 
-//@property (nonatomic,strong)UIView *superView ;
-//@property (nonatomic,assign)ShowTextSuperReceiveEvent superViewReceiveEvent;
-//@property (nonatomic,assign)TextAnimationType animationType ;
-
-@end
 
 @implementation EasyShowTextConfig
+
++ (instancetype)shared
+{
+    return [[self alloc]init];
+}
+
+
+- (EasyShowTextConfig *(^)(UIView *))setSuperView{
+    return ^EasyShowTextConfig *(UIView *superView){
+        self.superView = superView ;
+        return self ;
+    } ;
+}
+- (EasyShowTextConfig *(^)(ShowTextStatusType))setTextStatusType{
+    return ^EasyShowTextConfig *(ShowTextStatusType statusType){
+        self.textStatusType = statusType ;
+        return self ;
+    } ;
+}
+- (EasyShowTextConfig *(^)(TextAnimationType))setAnimationType{
+    return ^EasyShowTextConfig *(TextAnimationType animationType){
+        self.animationType = animationType ;
+        return self ;
+    };
+}
+- (EasyShowTextConfig *(^)(SuperReceiveEvent))setSuperViewReceiveEvent{
+    return ^EasyShowTextConfig *(SuperReceiveEvent receive){
+        self.superViewReceiveEvent = receive ;
+        return self ;
+    };
+}
+- (EasyShowTextConfig *(^)(UIFont *))setTitleFont {
+    return ^EasyShowTextConfig *(UIFont *titleFont){
+        self.titleFont = titleFont ;
+        return self ;
+    };
+}
+- (EasyShowTextConfig *(^)(UIColor *))setTitleColor{
+    return ^EasyShowTextConfig *(UIColor *titleColor){
+        self.titleColor = titleColor ;
+        return self ;
+    };
+}
+- (EasyShowTextConfig *(^)(UIColor *))setBgColor{
+    return ^EasyShowTextConfig *(UIColor *bgcolor){
+        self.bgColor = bgcolor ;
+        return self ;
+    };
+}
+- (EasyShowTextConfig *(^)(UIColor *))setShadowColor{
+    return ^EasyShowTextConfig *(UIColor *shadowColor){
+        self.shadowColor = shadowColor ;
+        return self ;
+    };
+}
+
 
 + (instancetype)configWithSuperView:(UIView *)superView
 {
     return [EasyShowTextConfig configWithSuperView:superView
-                                 superReceiveEvent:ShowTextSuperReceiveEventUndefine
+                                 superReceiveEvent:SuperReceiveEventUndefine
                                      animationType:TextAnimationTypeUndefine ];
 }
-+ (instancetype)configWithSuperView:(UIView *)superView superReceiveEvent:(ShowTextSuperReceiveEvent)receive
++ (instancetype)configWithSuperView:(UIView *)superView superReceiveEvent:(SuperReceiveEvent)receive
 {
     return [EasyShowTextConfig configWithSuperView:superView
                                  superReceiveEvent:receive
@@ -31,7 +81,7 @@
 
 }
 + (instancetype)configWithSuperView:(UIView *)superView
-                  superReceiveEvent:(ShowTextSuperReceiveEvent)receive
+                  superReceiveEvent:(SuperReceiveEvent)receive
                       animationType:(TextAnimationType)animationType
 {
     return [EasyShowTextConfig configWithSuperView:superView
@@ -40,7 +90,7 @@
                                     textStatusType:ShowTextStatusTypeUndefine];
 }
 + (instancetype)configWithSuperView:(UIView *)superView
-                  superReceiveEvent:(ShowTextSuperReceiveEvent)receive
+                  superReceiveEvent:(SuperReceiveEvent)receive
                       animationType:(TextAnimationType)animationType
                      textStatusType:(ShowTextStatusType)statusType
 {

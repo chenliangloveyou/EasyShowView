@@ -61,6 +61,35 @@
 //#define STATUSBAR_HEIGHT (ISHORIZONTALSCREEM ? (ISIPHONE_X ? 0 : STATUSBAR_HEIGHT) : STATUSBAR_HEIGHT )
 
 
+// .h
+
+#define easyShowView_singleton_interface  + (instancetype)shared ;
+// .m
+#define easyShowView_singleton_implementation(class) \
+static class *_showInstance; \
++ (id)allocWithZone:(struct _NSZone *)zone { \
+    static dispatch_once_t onceToken; \
+    dispatch_once(&onceToken, ^{ \
+        _showInstance = [super allocWithZone:zone]; \
+    }); \
+    return _showInstance; \
+} \
++ (instancetype)shared { \
+    if (nil == _showInstance) { \
+        static dispatch_once_t onceToken; \
+        dispatch_once(&onceToken, ^{ \
+            _showInstance = [[class alloc] init]; \
+        }); \
+    } \
+    return _showInstance; \
+} \
+- (id)copyWithZone:(NSZone *)zone{ \
+    return _showInstance; \
+} \
+- (id)mutableCopyWithZone:(NSZone *)zone{ \
+    return _showInstance; \
+} \
+
 
 
 @interface EasyShowUtils : NSObject

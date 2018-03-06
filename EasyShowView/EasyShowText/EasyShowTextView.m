@@ -77,7 +77,7 @@
     
     [self showSelfToSuperView:superView];
     
-    if (self.showTextConfig.textShadowColor && self.showTextConfig.textShadowColor!=[UIColor clearColor]) {
+    if (self.showTextConfig.shadowColor && self.showTextConfig.shadowColor!=[UIColor clearColor]) {
         CGFloat afterStart = self.showTextConfig.animationType==TextAnimationTypeBounce ? EasyShowAnimationTime : EasyShowAnimationTime/2 ;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(afterStart * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self showBackgrouldsubLayer];
@@ -89,10 +89,10 @@
     CALayer *addSubLayer=[CALayer layer];
     addSubLayer.frame= self.showBgView.frame;
     addSubLayer.cornerRadius=8;
-    addSubLayer.backgroundColor=self.showTextConfig.textBackGroundColor.CGColor;
+    addSubLayer.backgroundColor=self.showTextConfig.bgColor.CGColor;
     addSubLayer.masksToBounds=NO;
     addSubLayer.name = @"backgrouldsubLayer";
-    addSubLayer.shadowColor = self.showTextConfig.textShadowColor.CGColor;
+    addSubLayer.shadowColor = self.showTextConfig.shadowColor.CGColor;
     addSubLayer.shadowOffset = CGSizeMake(0.5,1);
     addSubLayer.shadowOpacity = 0.6;
     addSubLayer.shadowRadius = 3;
@@ -170,7 +170,7 @@
 {
     
     //移除阴影
-    if (self.showTextConfig.textShadowColor && self.showTextConfig.textShadowColor!=[UIColor clearColor]) {
+    if (self.showTextConfig.shadowColor && self.showTextConfig.shadowColor!=[UIColor clearColor]) {
         [self hiddenBackgrouldsubLayer];
     }
     
@@ -277,7 +277,7 @@
             CGSize textSize = CGSizeZero ;
             if (!ISEMPTY_S(self.showText)) {
                 textSize = [EasyShowUtils textWidthWithStirng:self.showText
-                                                         font:self.showTextConfig.textTitleFount
+                                                         font:self.showTextConfig.titleFont
                                                      maxWidth:TextShowMaxWidth];
             }
             backGroundH = (textSize.height?(textSize.height+30):0) + imageH ;
@@ -364,29 +364,29 @@
     BOOL isUseGlobalConfig = [EasyShowTextGlobalConfig isUseTextGlobalConfig];
     EasyShowTextGlobalConfig *globalConfig = nil ;
     if (isUseGlobalConfig) {
-        globalConfig = [EasyShowTextGlobalConfig sharedEasyShowTextGlobalConfig];
+        globalConfig = [EasyShowTextGlobalConfig shared];
     }
     
-    if (config.superViewReceiveEvent == ShowTextSuperReceiveEventUndefine) {
-        config.superViewReceiveEvent = isUseGlobalConfig ? globalConfig.textSuperViewReceiveEvent : options.textSuperViewReceiveEvent ;
+    if (config.superViewReceiveEvent == SuperReceiveEventUndefine) {
+        config.superViewReceiveEvent = isUseGlobalConfig ? globalConfig.superViewReceiveEvent : options.textSuperViewReceiveEvent ;
     }
     if (config.animationType == TextAnimationTypeUndefine) {
-        config.animationType = isUseGlobalConfig ? globalConfig.textAnimationType : options.textAnimationType ;
+        config.animationType = isUseGlobalConfig ? globalConfig.animationType : options.textAnimationType ;
     }
     if (config.textStatusType == ShowTextStatusTypeUndefine) {
         config.textStatusType =  isUseGlobalConfig ? globalConfig.textStatusType : options.textStatusType ;
     }
-    if (!config.textTitleFount) {
-        config.textTitleFount =  isUseGlobalConfig ? globalConfig.textTitleFount : options.textTitleFount ;
+    if (!config.titleFont) {
+        config.titleFont =  isUseGlobalConfig ? globalConfig.titleFont : options.textTitleFount ;
     }
-    if (!config.textTitleColor) {
-        config.textTitleColor = isUseGlobalConfig ? globalConfig.textTitleColor : options.textTitleColor ;
+    if (!config.titleColor) {
+        config.titleColor = isUseGlobalConfig ? globalConfig.titleColor : options.textTitleColor ;
     }
-    if (!config.textBackGroundColor) {
-        config.textBackGroundColor =  isUseGlobalConfig ? globalConfig.textBackGroundColor : options.textBackGroundColor ;
+    if (!config.bgColor) {
+        config.bgColor =  isUseGlobalConfig ? globalConfig.bgColor : options.textBackGroundColor ;
     }
-    if (!config.textShadowColor) {
-        config.textShadowColor =  isUseGlobalConfig ? globalConfig.textShadowColor : options.textShadowColor ;
+    if (!config.shadowColor) {
+        config.shadowColor =  isUseGlobalConfig ? globalConfig.shadowColor : options.textShadowColor ;
     }
     
     if (!config.textShowTimeBlock) {

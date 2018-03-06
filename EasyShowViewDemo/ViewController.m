@@ -79,12 +79,13 @@
         case 0:
         {
             [EasyShowTextView showText:@"你好" config:^EasyShowTextConfig *{
-                return [EasyShowTextConfig configWithSuperView:self.view
-                                             superReceiveEvent:ShowTextSuperReceiveEventUndefine
-                                                 animationType:TextAnimationTypeUndefine ];
-                return [EasyShowTextConfig configWithSuperView:self.view];
-                return [EasyShowTextConfig configWithSuperView:self.view superReceiveEvent:-1] ;
-                return [EasyShowTextConfig configWithSuperView:self.view superReceiveEvent:-1 animationType:-1 textStatusType:-1];
+                return [EasyShowTextConfig shared].setAnimationType(TextAnimationTypeNone).setShadowColor([UIColor redColor]).setSuperView(self.view);
+//                return [EasyShowTextConfig configWithSuperView:self.view
+//                                             superReceiveEvent:ShowTextSuperReceiveEventUndefine
+//                                                 animationType:TextAnimationTypeUndefine ];
+//                return [EasyShowTextConfig configWithSuperView:self.view];
+//                return [EasyShowTextConfig configWithSuperView:self.view superReceiveEvent:-1] ;
+//                return [EasyShowTextConfig configWithSuperView:self.view superReceiveEvent:-1 animationType:-1 textStatusType:-1];
             }];
            
 //            static int aa = 0 ;
