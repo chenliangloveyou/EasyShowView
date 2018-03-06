@@ -39,9 +39,9 @@
 {
     EasyShowLodingConfig *config = [[EasyShowLodingConfig alloc]init];
     config.superView = superView ;
-    config.lodingSuperViewReceiveEvent = receive ;
-    config.lodingShowType = showType ;
-    config.lodingAnimationType = animationType ;
+    config.superReceiveEvent = receive ;
+    config.lodingType = showType ;
+    config.animationType = animationType ;
     return config ;
 }
 @end

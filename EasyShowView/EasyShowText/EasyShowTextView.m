@@ -223,10 +223,7 @@
         NSAssert(NO, @"you should set a text for showView !");
         return ;
     }
-    if (nil == config.superView) {
-        NSAssert(NO, @"there shoud have a superview");
-        return ;
-    }
+    
     NSAssert([NSThread isMainThread], @"needs to be accessed on the main thread.");
     
     if (![NSThread isMainThread]) {
@@ -367,6 +364,15 @@
         globalConfig = [EasyShowTextGlobalConfig shared];
     }
     
+    if (!config.superView) {
+        if (isUseGlobalConfig && globalConfig.showOnWindow) {
+            config.superView = kEasyShowKeyWindow ;
+        }
+        else{
+            config.superView = [EasyShowUtils easyShowViewTopViewController].view;
+        }
+    }
+    
     if (config.superViewReceiveEvent == SuperReceiveEventUndefine) {
         config.superViewReceiveEvent = isUseGlobalConfig ? globalConfig.superViewReceiveEvent : options.textSuperViewReceiveEvent ;
     }
@@ -415,11 +421,8 @@
 
 + (void)showText:(NSString *)text
 {
-    UIView *showView = [UIApplication sharedApplication].keyWindow ;
-    __block EasyShowTextConfig *config = [[EasyShowTextConfig alloc]init];
-    config.superView = showView ;
     EasyShowTextConfig *(^configTemp)(void) = ^EasyShowTextConfig *{
-        return config ;
+        return [EasyShowTextConfig shared] ;
     };
     [self showText:text config:configTemp];
 }
@@ -434,11 +437,8 @@
 
 + (void)showSuccessText:(NSString *)text
 {
-    UIView *showView = [UIApplication sharedApplication].keyWindow ;
-    __block EasyShowTextConfig *config = [[EasyShowTextConfig alloc]init];
-    config.superView = showView ;
     EasyShowTextConfig *(^configTemp)(void) = ^EasyShowTextConfig *{
-        return config ;
+        return [EasyShowTextConfig shared] ;
     };
     [self showSuccessText:text config:configTemp];
 }
@@ -453,11 +453,8 @@
 
 + (void)showErrorText:(NSString *)text
 {
-    UIView *showView = [UIApplication sharedApplication].keyWindow ;
-    __block EasyShowTextConfig *config = [[EasyShowTextConfig alloc]init];
-    config.superView = showView ;
     EasyShowTextConfig *(^configTemp)(void) = ^EasyShowTextConfig *{
-        return config ;
+        return [EasyShowTextConfig shared] ;
     };
     [self showErrorText:text config:configTemp];
 }
@@ -472,11 +469,8 @@
 
 + (void)showInfoText:(NSString *)text
 {
-    UIView *showView = [UIApplication sharedApplication].keyWindow ;
-    __block EasyShowTextConfig *config = [[EasyShowTextConfig alloc]init];
-    config.superView = showView ;
     EasyShowTextConfig *(^configTemp)(void) = ^EasyShowTextConfig *{
-        return config ;
+        return [EasyShowTextConfig shared] ;
     };
     [self showInfoText:text config:configTemp];
 }
@@ -491,11 +485,8 @@
 
 + (void)showImageText:(NSString *)text imageName:(NSString *)imageName
 {
-    UIView *showView = [UIApplication sharedApplication].keyWindow ;
-    __block EasyShowTextConfig *config = [[EasyShowTextConfig alloc]init];
-    config.superView = showView ;
     EasyShowTextConfig *(^configTemp)(void) = ^EasyShowTextConfig *{
-        return config ;
+        return [EasyShowTextConfig shared] ;
     };
     [self showImageText:text imageName:imageName config:configTemp] ;
 }

@@ -16,7 +16,6 @@
     return [[self alloc]init];
 }
 
-
 - (EasyShowTextConfig *(^)(UIView *))setSuperView{
     return ^EasyShowTextConfig *(UIView *superView){
         self.superView = superView ;
@@ -94,7 +93,7 @@
                       animationType:(TextAnimationType)animationType
                      textStatusType:(ShowTextStatusType)statusType
 {
-    EasyShowTextConfig *config = [[EasyShowTextConfig alloc]init];
+    EasyShowTextConfig *config = [self shared];
     config.superView = superView ;
     config.superViewReceiveEvent = receive ;
     config.animationType = animationType ;

@@ -26,24 +26,18 @@
                animationType:(lodingAnimationType)animationType ;
 
 
-/**
- * 显示的superview
- */
+
+/** 显示loding所需要的父视图 **/
 @property (nonatomic,strong)UIView *superView ;
-/**
- * 加载框的显示样式
- */
-@property LodingShowType lodingShowType ;
 
-/**
- * 显示/隐藏 加载框的动画
- */
-@property lodingAnimationType lodingAnimationType ;
+/** 加载框所显示的类型 **/
+@property LodingShowType lodingType ;
 
-/**
- * 在显示加载框的时候，superview能否接收事件。默认为NO
- */
-@property BOOL lodingSuperViewReceiveEvent ;
+/** 显示/隐藏 加载框的动画 **/
+@property lodingAnimationType animationType ;
+
+/** 在显示加载框的时候，superview能否接收事件。默认为NO **/
+@property BOOL superReceiveEvent ;
 
 /**
  * 是否将加载框显示到window上面。默认为NO（此属性只有在不传superview的时候有效）
@@ -51,24 +45,23 @@
  * 当为YES：加载框会在盖住整个window的大小。如果lodingSuperViewReceiveEvent为NO,那么在不隐藏加载框的时候返回事件都会被遮住。
  *
  */
-@property BOOL lodingShowOnWindow ;
+@property BOOL showOnWindow ;
 
-/**
- * 圆角大小
- */
-@property (nonatomic,assign)CGFloat lodingCycleCornerWidth ;
 
-/**
- *  文字/图片颜色、文字大小、背景颜色
- */
-@property (nonatomic,strong)UIColor * lodingTintColor ;
-@property (nonatomic,strong)UIFont  * lodingTextFount ;
-@property (nonatomic,strong)UIColor * lodingBackgroundColor ;
+/** 圆角大小 **/
+@property (nonatomic,assign)CGFloat cycleCornerWidth ;
 
-/**
- * 加载框为数组动画的时候，这里是传入图片的数据
- */
-@property (nonatomic,strong)NSArray * lodingPlayImagesArray ;
+/** 加载框主体颜色 **/
+@property (nonatomic,strong)UIColor * tintColor ;
+
+/** 文字字体大小 **/
+@property (nonatomic,strong)UIFont  * textFont ;
+
+/** 背景颜色 **/
+@property (nonatomic,strong)UIColor * bgColor ;
+
+/** 图片动画类型 所需要的图片数组 **/
+@property (nonatomic,strong)NSArray<UIImage *> * playImagesArray ;
 
 
 @end

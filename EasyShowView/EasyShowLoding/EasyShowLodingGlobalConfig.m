@@ -46,14 +46,14 @@ static EasyShowLodingGlobalConfig *_showInstance;
 {
     if (self = [super init]) {
         
-        _lodingShowType = LodingShowTypeTurnAround ;
-        _lodingAnimationType = lodingAnimationTypeBounce ;
-        _lodingTextFount = [UIFont systemFontOfSize:15];
-        _lodingTintColor = [UIColor blackColor];
-        _lodingBackgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.05];
-        _lodingSuperViewReceiveEvent = YES ;
-        _lodingShowOnWindow = NO ;
-        _lodingCycleCornerWidth = 5 ;
+        _lodingType = LodingShowTypeTurnAround ;
+        _animationType = lodingAnimationTypeBounce ;
+        _textFont = [UIFont systemFontOfSize:15];
+        _tintColor = [UIColor blackColor];
+        _bgColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.05];
+        _superReceiveEvent = YES ;
+        _showOnWindow = NO ;
+        _cycleCornerWidth = 5 ;
         
     }
     return self ;

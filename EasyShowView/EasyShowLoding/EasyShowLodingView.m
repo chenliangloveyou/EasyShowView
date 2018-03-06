@@ -62,7 +62,7 @@
     //展示视图的frame
     
     CGSize imageSize = CGSizeZero ;
-    switch (self.showConfig.lodingShowType) {
+    switch (self.showConfig.lodingType) {
         case LodingShowTypeTurnAround:
         case LodingShowTypeTurnAroundLeft:
         case LodingShowTypeIndicator:
@@ -72,8 +72,8 @@
         case LodingShowTypePlayImages:
         case LodingShowTypePlayImagesLeft:
         {
-            NSAssert(self.showConfig.lodingPlayImagesArray, @"you should set a image array!") ;
-            UIImage *image = self.showConfig.lodingPlayImagesArray.firstObject ;
+            NSAssert(self.showConfig.playImagesArray, @"you should set a image array!") ;
+            UIImage *image = self.showConfig.playImagesArray.firstObject ;
             CGSize tempSize = image.size ;
             if (tempSize.height > EasyShowLodingImageMaxWH) {
                 tempSize.height = EasyShowLodingImageMaxWH ;
@@ -107,7 +107,7 @@
         self.textLabel.text = self.showText ;
     }
     
-    CGFloat textMaxWidth = EasyShowLodingMaxWidth - (self.showConfig.lodingShowType%2?:(EasyShowLodingImageWH+EasyShowLodingImageEdge*2)) ;//当为左右形式的时候减去图片的宽度
+    CGFloat textMaxWidth = EasyShowLodingMaxWidth - (self.showConfig.lodingType%2?:(EasyShowLodingImageWH+EasyShowLodingImageEdge*2)) ;//当为左右形式的时候减去图片的宽度
     CGSize textSize = [self.textLabel sizeThatFits:CGSizeMake(textMaxWidth, MAXFLOAT)];
     if (ISEMPTY_S(self.showText)) {
         textSize = CGSizeZero ;
@@ -115,7 +115,7 @@
     
     //显示区域的宽高
     CGSize displayAreaSize = CGSizeZero ;
-    if (self.showConfig.lodingShowType%2) {
+    if (self.showConfig.lodingType%2) {
         //左右形式
         displayAreaSize.width = imageSize.width + EasyShowLodingImageEdge*2 + textSize.width ;
         displayAreaSize.height = MAX(imageSize.height+ EasyShowLodingImageEdge*2, textSize.height) ;
@@ -127,7 +127,7 @@
     }
     
     
-    if (self.showConfig.lodingSuperViewReceiveEvent) {
+    if (self.showConfig.superReceiveEvent) {
         //父视图能够接受事件 。 显示区域的大小=self的大小=displayAreaSize
         
         [self setFrame:CGRectMake((self.showConfig.superView.width-displayAreaSize.width)/2, (self.showConfig.superView.height-displayAreaSize.height)/2, displayAreaSize.width, displayAreaSize.height)];
@@ -142,18 +142,18 @@
     }
     
     self.lodingBgView.frame = CGRectMake(0,0, displayAreaSize.width,displayAreaSize.height) ;
-    if (!self.showConfig.lodingSuperViewReceiveEvent) {
+    if (!self.showConfig.superReceiveEvent) {
         self.lodingBgView.center = self.center ;
     }
     
     self.imageView.frame = CGRectMake(EasyShowLodingImageEdge, EasyShowLodingImageEdge, imageSize.width, imageSize.height) ;
-    if (!(self.showConfig.lodingShowType%2)) {
+    if (!(self.showConfig.lodingType%2)) {
         self.imageView.centerX = self.lodingBgView.width/2 ;
     }
     
     CGFloat textLabelX = 0 ;
     CGFloat textLabelY = 0 ;
-    if (self.showConfig.lodingShowType%2) {//左右形式
+    if (self.showConfig.lodingType%2) {//左右形式
         textLabelX = self.imageView.right  ;
         textLabelY =  (self.lodingBgView.height-textSize.height)/2 ;
     }
@@ -164,11 +164,11 @@
     self.textLabel.frame = CGRectMake(textLabelX, textLabelY, textSize.width, textSize.height );
     
 //    [superView addSubview:self];
-    if (self.showConfig.lodingCycleCornerWidth > 0) {
-        [_lodingBgView setRoundedCorners:self.showConfig.lodingCycleCornerWidth];
+    if (self.showConfig.cycleCornerWidth > 0) {
+        [_lodingBgView setRoundedCorners:self.showConfig.cycleCornerWidth];
     }
     
-    switch (self.showConfig.lodingShowType) {
+    switch (self.showConfig.lodingType) {
         case LodingShowTypeTurnAround:
         case LodingShowTypeTurnAroundLeft:
             [self drawAnimationImageViewLoding];
@@ -180,7 +180,7 @@
         case LodingShowTypePlayImages:
         case LodingShowTypePlayImagesLeft:
         {
-            UIImage *tempImage  = self.showConfig.lodingPlayImagesArray.firstObject ;
+            UIImage *tempImage  = self.showConfig.playImagesArray.firstObject ;
             if (tempImage) {
                 self.imageView.image = tempImage ;
             }
@@ -206,7 +206,7 @@
     
     
     void (^completion)(void) = ^{
-        switch (self.showConfig.lodingShowType) {
+        switch (self.showConfig.lodingType) {
             case LodingShowTypeTurnAround:
             case LodingShowTypeTurnAroundLeft:
                 [self drawAnimiationImageView:NO];
@@ -219,8 +219,8 @@
             case LodingShowTypePlayImagesLeft:
             {
                 NSMutableArray *tempArray= [NSMutableArray arrayWithCapacity:20];
-                for (int i = 0 ; i < self.showConfig.lodingPlayImagesArray.count; i++) {
-                    UIImage *img = self.showConfig.lodingPlayImagesArray[i] ;
+                for (int i = 0 ; i < self.showConfig.playImagesArray.count; i++) {
+                    UIImage *img = self.showConfig.playImagesArray[i] ;
                     if ([img isKindOfClass:[UIImage class]]) {
                         [tempArray addObject:img];
                     }
@@ -245,7 +245,7 @@
     };
     
     
-    switch (self.showConfig.lodingAnimationType) {
+    switch (self.showConfig.animationType) {
         case lodingAnimationTypeNone:
             completion() ;
             break;
@@ -277,7 +277,7 @@
     UIBezierPath *p = [UIBezierPath bezierPathWithArcCenter:CGPointMake(cp, cp) radius:layerRadius startAngle:.0f endAngle:.75f*M_PI clockwise:YES];
     shapeLayer.path = p.CGPath;
     
-    shapeLayer.strokeColor = self.showConfig.lodingTintColor.CGColor;
+    shapeLayer.strokeColor = self.showConfig.tintColor.CGColor;
     shapeLayer.lineWidth=2.0f;
     
     
@@ -288,7 +288,7 @@
     
     NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:6];
     for(int i=10;i>=0;i-=2) {
-        [tempArray addObject:(__bridge id)[self.showConfig.lodingTintColor colorWithAlphaComponent:i*.1f].CGColor];
+        [tempArray addObject:(__bridge id)[self.showConfig.tintColor colorWithAlphaComponent:i*.1f].CGColor];
     }
     gradientLayer.colors = tempArray;
     gradientLayer.mask = shapeLayer;
@@ -319,7 +319,7 @@
         [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         [self removeFromSuperview];
     };
-    switch (self.showConfig.lodingAnimationType) {
+    switch (self.showConfig.animationType) {
         case lodingAnimationTypeNone:
             completion() ;
             break;
@@ -420,7 +420,7 @@
     CAShapeLayer *centerLayer=[CAShapeLayer layer];
     centerLayer.path=beizPath.CGPath;
     centerLayer.fillColor=[UIColor clearColor].CGColor;//填充色
-    centerLayer.strokeColor=self.showConfig.lodingTintColor.CGColor;//边框颜色
+    centerLayer.strokeColor=self.showConfig.tintColor.CGColor;//边框颜色
     centerLayer.lineWidth=2.0f;
     centerLayer.lineCap=kCALineCapRound;//线框类型
     
@@ -435,7 +435,7 @@
 {
     if (nil == _lodingBgView) {
         _lodingBgView = [[UIView alloc]init] ;
-        _lodingBgView.backgroundColor = self.showConfig.lodingBackgroundColor ;
+        _lodingBgView.backgroundColor = self.showConfig.bgColor ;
         [self addSubview:_lodingBgView];
     }
     return _lodingBgView ;
@@ -445,7 +445,7 @@
     if (nil == _imageView) {
         _imageView = [[UIImageView alloc]init];
         _imageView.backgroundColor = [UIColor clearColor];
-        _imageView.tintColor = self.showConfig.lodingTintColor ;
+        _imageView.tintColor = self.showConfig.tintColor ;
         [self.lodingBgView addSubview:_imageView];
     }
     return _imageView ;
@@ -454,8 +454,8 @@
 {
     if (nil == _textLabel) {
         _textLabel = [[EasyShowLabel alloc]initWithContentInset:UIEdgeInsetsMake(10, 20, 10, 20)];
-        _textLabel.textColor = self.showConfig.lodingTintColor;
-        _textLabel.font = self.showConfig.lodingTextFount ;
+        _textLabel.textColor = self.showConfig.tintColor;
+        _textLabel.font = self.showConfig.textFont ;
         _textLabel.backgroundColor = [UIColor clearColor];
         _textLabel.textAlignment = NSTextAlignmentCenter ;
         _textLabel.numberOfLines = 0 ;
@@ -467,10 +467,10 @@
 - (UIActivityIndicatorView *)imageViewIndeicator
 {
     if (nil == _imageViewIndeicator) {
-        UIActivityIndicatorViewStyle style = self.showConfig.lodingShowType%2 ? UIActivityIndicatorViewStyleWhite : UIActivityIndicatorViewStyleWhiteLarge ;
+        UIActivityIndicatorViewStyle style = self.showConfig.lodingType%2 ? UIActivityIndicatorViewStyleWhite : UIActivityIndicatorViewStyleWhiteLarge ;
         _imageViewIndeicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
-        _imageViewIndeicator.tintColor = self.showConfig.lodingTintColor ;
-        _imageViewIndeicator.color = self.showConfig.lodingTintColor ;
+        _imageViewIndeicator.tintColor = self.showConfig.tintColor ;
+        _imageViewIndeicator.color = self.showConfig.tintColor ;
         _imageViewIndeicator.backgroundColor = [UIColor clearColor];
         _imageViewIndeicator.frame = self.imageView.bounds ;
     }
@@ -482,7 +482,7 @@
 {
     UIView *showView = [UIApplication sharedApplication].keyWindow ;
     if ([EasyShowLodingGlobalConfig isUseLoeingGlobalConfig]) {
-        if (![EasyShowLodingGlobalConfig sharedEasyShowLodingGlobalConfig].lodingShowOnWindow) {
+        if (![EasyShowLodingGlobalConfig sharedEasyShowLodingGlobalConfig].showOnWindow) {
             showView = [EasyShowUtils easyShowViewTopViewController].view ;
         }
     }
@@ -599,33 +599,33 @@
         globalConfig = [EasyShowLodingGlobalConfig sharedEasyShowLodingGlobalConfig];
     }
     
-    if (tempConfig.lodingShowType == EasyUndefine) {
-        tempConfig.lodingShowType = isUseGlobalConfig ? globalConfig.lodingShowType : options.lodingShowType ;
+    if (tempConfig.lodingType == EasyUndefine) {
+        tempConfig.lodingType = isUseGlobalConfig ? globalConfig.lodingType : options.lodingShowType ;
     }
-    if (tempConfig.lodingAnimationType == EasyUndefine) {
-        tempConfig.lodingAnimationType = isUseGlobalConfig ? globalConfig.lodingAnimationType : options.lodingAnimationType ;
+    if (tempConfig.animationType == EasyUndefine) {
+        tempConfig.animationType = isUseGlobalConfig ? globalConfig.animationType : options.lodingAnimationType ;
     }
-    if (tempConfig.lodingSuperViewReceiveEvent == EasyUndefine ) {
-        tempConfig.lodingSuperViewReceiveEvent =  isUseGlobalConfig ? globalConfig.lodingSuperViewReceiveEvent : options.lodingSuperViewReceiveEvent ;
+    if (tempConfig.superReceiveEvent == EasyUndefine ) {
+        tempConfig.superReceiveEvent =  isUseGlobalConfig ? globalConfig.superReceiveEvent : options.lodingSuperViewReceiveEvent ;
     }
 #warning 这里几处都需要处理
-    if (!tempConfig.lodingShowOnWindow) {
-        tempConfig.lodingShowOnWindow =  isUseGlobalConfig ? globalConfig.lodingShowOnWindow : options.lodingShowOnWindow ;
+    if (!tempConfig.showOnWindow) {
+        tempConfig.showOnWindow =  isUseGlobalConfig ? globalConfig.showOnWindow : options.lodingShowOnWindow ;
     }
-    if (!tempConfig.lodingCycleCornerWidth) {
-        tempConfig.lodingCycleCornerWidth = isUseGlobalConfig ? globalConfig.lodingCycleCornerWidth : options.lodingCycleCornerWidth ;
+    if (!tempConfig.cycleCornerWidth) {
+        tempConfig.cycleCornerWidth = isUseGlobalConfig ? globalConfig.cycleCornerWidth : options.lodingCycleCornerWidth ;
     }
-    if (!tempConfig.lodingTintColor) {
-        tempConfig.lodingTintColor =  isUseGlobalConfig ? globalConfig.lodingTintColor : options.lodingTintColor ;
+    if (!tempConfig.tintColor) {
+        tempConfig.tintColor =  isUseGlobalConfig ? globalConfig.tintColor : options.lodingTintColor ;
     }
-    if (!tempConfig.lodingTextFount) {
-        tempConfig.lodingTextFount =  isUseGlobalConfig ? globalConfig.lodingTextFount : options.lodingTextFount ;
+    if (!tempConfig.textFont) {
+        tempConfig.textFont =  isUseGlobalConfig ? globalConfig.textFont : options.lodingTextFount ;
     }
-    if (!tempConfig.lodingBackgroundColor) {
-        tempConfig.lodingBackgroundColor =  isUseGlobalConfig ? globalConfig.lodingBackgroundColor : options.lodingBackgroundColor ;
+    if (!tempConfig.bgColor) {
+        tempConfig.bgColor =  isUseGlobalConfig ? globalConfig.bgColor : options.lodingBackgroundColor ;
     }
-    if (!tempConfig.lodingPlayImagesArray) {
-        tempConfig.lodingPlayImagesArray =  isUseGlobalConfig ? globalConfig.lodingPlayImagesArray : options.lodingPlayImagesArray ;
+    if (!tempConfig.playImagesArray) {
+        tempConfig.playImagesArray =  isUseGlobalConfig ? globalConfig.playImagesArray : options.lodingPlayImagesArray ;
     }
     return tempConfig ;
 }

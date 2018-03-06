@@ -61,8 +61,10 @@
 //#define STATUSBAR_HEIGHT (ISHORIZONTALSCREEM ? (ISIPHONE_X ? 0 : STATUSBAR_HEIGHT) : STATUSBAR_HEIGHT )
 
 
-// .h
+#define kEasyShowKeyWindow ([UIApplication sharedApplication].keyWindow)
 
+
+// .h
 #define easyShowView_singleton_interface  + (instancetype)shared ;
 // .m
 #define easyShowView_singleton_implementation(class) \

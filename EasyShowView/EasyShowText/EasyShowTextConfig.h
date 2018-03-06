@@ -41,11 +41,11 @@
 
 #pragma mark - 创建对象的简便方法
 
-
 + (instancetype)shared ;
 
 
 #pragma mark - 链式编程设置属性(和上面直接设置属性一样)
+
 - (EasyShowTextConfig *(^)(UIView *spuerView))setSuperView ;
 - (EasyShowTextConfig *(^)(SuperReceiveEvent receive))setSuperViewReceiveEvent ;
 - (EasyShowTextConfig *(^)(TextAnimationType animationType))setAnimationType ;
@@ -55,6 +55,7 @@
 - (EasyShowTextConfig *(^)(UIColor *titleColor))setTitleColor ;
 - (EasyShowTextConfig *(^)(UIColor *bgColor))setBgColor ;
 - (EasyShowTextConfig *(^)(UIColor *shadowColor))setShadowColor ;
+
 
 #pragma mark - 类方法设置属性(和上面直接设置属性一样)
 

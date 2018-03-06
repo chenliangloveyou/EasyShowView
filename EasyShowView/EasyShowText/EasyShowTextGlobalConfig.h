@@ -42,7 +42,10 @@
 
 easyShowView_singleton_interface
 
-//是否已经使用了globalConfig，库内部使用
+
+/**
+ * 是否已经使用了globalConfig，库内部使用
+ */
 + (BOOL)isUseTextGlobalConfig ;
 
 @end
