@@ -12,13 +12,9 @@
 @interface EasyAlertConfig : NSObject
 
 
-/**
- *alertview的背景颜色。
- * title/message的字体颜色
- */
-@property (nonatomic,strong)UIColor *alertTintColor ;
-@property (nonatomic,strong)UIColor *alertTitleColor ;
-@property (nonatomic,strong)UIColor *alertMessageColor ;
+@property (nonatomic,strong)UIColor *tintColor ;
+@property (nonatomic,strong)UIColor *titleColor ;
+@property (nonatomic,strong)UIColor *subtitleColor ;
 
 /**
  * alertView:是两个按钮的时候 横着摆放
@@ -37,7 +33,7 @@
  * 系统的alert        不可以点击销毁。
  * 系统的ActionSheet  添加UIAlertActionStyleCancel类型就会有点击销毁。没有就不会销毁。
  */
-@property (nonatomic,assign)BOOL alertBgViewTapRemove ;
+@property (nonatomic,assign)BOOL bgViewReceiveEvent ;
 
 
 
