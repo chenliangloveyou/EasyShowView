@@ -50,17 +50,17 @@
                     break ;
                 case callbackTypeButton_2:
                 {
-                    EasyShowAlertView *showView = [EasyShowAlertView showActionSheetWithTitle:@"提示" message:@"确定删除发撒发逻辑是否快捷登录法拉第设计此数据吗？"];
-                    [showView addItemWithTitle:@"确定" itemType:ShowAlertItemTypeBlack callback:^(EasyShowAlertView *showview) {
+                    EasyAlertView *showView = [EasyAlertView showActionSheetWithTitle:@"提示" message:@"确定删除发撒发逻辑是否快捷登录法拉第设计此数据吗？"];
+                    [showView addItemWithTitle:@"确定" itemType:ShowAlertItemTypeBlack callback:^(EasyAlertView *showview) {
                         NSLog(@"好的=%@",showview) ;
                     }];
-                    [showView addItemWithTitle:@"取消" itemType:ShowAlertItemTypeBlack callback:^(EasyShowAlertView *showview) {
+                    [showView addItemWithTitle:@"取消" itemType:ShowAlertItemTypeBlack callback:^(EasyAlertView *showview) {
                         NSLog(@"好的=%@",showview) ;
                     }];
-                    [showView addItemWithTitle:@"确定删除吗" itemType:ShowAlertItemTypeBlodBlue callback:^(EasyShowAlertView *showview) {
+                    [showView addItemWithTitle:@"确定删除吗" itemType:ShowAlertItemTypeBlodBlue callback:^(EasyAlertView *showview) {
                         NSLog(@"好的=%@",showview) ;
                     }];
-                    [showView addItemWithTitle:@"点击取消当前操作！" itemType:ShowAlertItemTypeBlodRed callback:^(EasyShowAlertView *showview) {
+                    [showView addItemWithTitle:@"点击取消当前操作！" itemType:ShowAlertItemTypeBlodRed callback:^(EasyAlertView *showview) {
                         NSLog(@"好的=%@",showview) ;
                     }];
                     

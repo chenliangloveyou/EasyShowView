@@ -1,12 +1,12 @@
 //
-//  EasyShowAlertView.m
+//  EasyAlertView.m
 //  EasyShowViewDemo
 //
 //  Created by nf on 2017/12/14.
 //  Copyright © 2017年 chenliangloveyou. All rights reserved.
 //
 
-#import "EasyShowAlertView.h"
+#import "EasyAlertView.h"
 #import "UIView+EasyShowExt.h"
 #import "EasyShowOptions.h"
 #import "EasyShowLabel.h"
@@ -26,7 +26,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
 };
 
 
-@interface EasyShowAlertView()<CAAnimationDelegate>
+@interface EasyAlertView()<CAAnimationDelegate>
 
 @property (nonatomic,strong)EasyShowOptions *options ;
 
@@ -46,7 +46,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
 
 @end
 
-@implementation EasyShowAlertView
+@implementation EasyAlertView
 
 
 - (void)dealloc
@@ -75,7 +75,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
         NSAssert(NO, @"you should set title or message") ;
         return nil;
     }
-    EasyShowAlertView *showView = [[EasyShowAlertView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    EasyAlertView *showView = [[EasyAlertView alloc]initWithFrame:[UIScreen mainScreen].bounds];
     showView.alertShowTitle = title ;
     showView.alertShowMessage = message ;
     showView.alertShowType = type ;

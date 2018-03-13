@@ -1,5 +1,5 @@
 //
-//  EasyShowAlertView.h
+//  EasyAlertView.h
 //  EasyShowViewDemo
 //
 //  Created by nf on 2017/12/14.
@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EasyShowTypes.h"
-@class EasyShowAlertView ;
-typedef void (^alertItemCallback)(EasyShowAlertView *showview);
+#import "EasyAlertTypes.h"
+@class EasyAlertView ;
+typedef void (^alertItemCallback)(EasyAlertView *showview);
 
 typedef NS_ENUM(NSInteger, AlertActionSystemStyle) {
     AlertActionSystemStyleDefault = 0,
@@ -17,7 +17,7 @@ typedef NS_ENUM(NSInteger, AlertActionSystemStyle) {
     AlertActionSystemStyleDestructive
 } ;
 
-@interface EasyShowAlertView : UIView
+@interface EasyAlertView : UIView
 
 
 /**

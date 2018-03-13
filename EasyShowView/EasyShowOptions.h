@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "EasyShowUtils.h"
 #import "EasyShowTypes.h"
+#import "EasyAlertTypes.h"
 
 UIKIT_EXTERN const CGFloat EasyDrawImageWH ;
 UIKIT_EXTERN const CGFloat EasyDrawImageEdge ;
