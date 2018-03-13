@@ -20,7 +20,7 @@
 
 //副标题的文字大小 颜色
 @property (nonatomic,strong)UIFont *subtitleFont ;
-@property (nonatomic,strong)UIColor *subTitleFont ;
+@property (nonatomic,strong)UIColor *subTitleColor ;
 
 //按钮的文字背景 颜色 大小
 @property (nonatomic,strong)UIFont *buttonFont ;
@@ -30,7 +30,15 @@
 @property (nonatomic,assign)UIEdgeInsets buttonEdgeInsets ;
 
 + (instancetype)shared ;
-
+- (EasyEmptyConfig *(^)(UIColor *))setBgColor ;
+- (EasyEmptyConfig *(^)(UIFont *))setTitleFont ;
+- (EasyEmptyConfig *(^)(UIColor *))setTitleColor ;
+- (EasyEmptyConfig *(^)(UIFont *))setSubtitleFont ;
+- (EasyEmptyConfig *(^)(UIColor *))setSubtitleColor ;
+- (EasyEmptyConfig *(^)(UIFont *))setButtonFont ;
+- (EasyEmptyConfig *(^)(UIColor *))setButtonColor ;
+- (EasyEmptyConfig *(^)(UIColor *))setButtonBgColor ;
+- (EasyEmptyConfig *(^)(UIEdgeInsets))setButtonEdgeInsets ;
 
 + (instancetype)configWithBgColor:(UIColor *)bgColor ;
 + (instancetype)configWithBgColor:(UIColor *)bgColor titleFount:(UIFont *)titleFount ;
