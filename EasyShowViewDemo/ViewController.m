@@ -78,8 +78,8 @@
     switch (row) {
         case 0:
         {
-            [EasyShowTextView showText:@"你好" config:^EasyShowTextConfig *{
-                return [EasyShowTextConfig shared].setAnimationType(TextAnimationTypeNone).setShadowColor([UIColor redColor]).setSuperView(self.view);
+            [EasyTextView showText:@"你好" config:^EasyTextConfig *{
+                return [EasyTextConfig shared].setAnimationType(TextAnimationTypeNone).setShadowColor([UIColor redColor]).setSuperView(self.view);
 //                return [EasyShowTextConfig configWithSuperView:self.view
 //                                             superReceiveEvent:ShowTextSuperReceiveEventUndefine
 //                                                 animationType:TextAnimationTypeUndefine ];
@@ -90,12 +90,12 @@
            
 //            static int aa = 0 ;
 //            [EasyShowOptions sharedEasyShowOptions].textStatusType = (aa++)%5 ;//ShowTextStatusTypeStatusBar ; //
-//            [EasyShowTextView showText:@"这是一条纯文字消息!"];
+//            [EasyTextView showText:@"这是一条纯文字消息!"];
         }break;
-        case 1: [EasyShowTextView showSuccessText:@"显示成功！"];  break;
-        case 2: [EasyShowTextView showErrorText:@"服务器错误！"];  break ;
-        case 3: [EasyShowTextView showInfoText:@"请完成基本信息！"];  break ;
-        case 4: [EasyShowTextView showImageText:@"自定义图片！" imageName:@"HUD_NF.png"];  break ;
+        case 1: [EasyTextView showSuccessText:@"显示成功！"];  break;
+        case 2: [EasyTextView showErrorText:@"服务器错误！"];  break ;
+        case 3: [EasyTextView showInfoText:@"请完成基本信息！"];  break ;
+        case 4: [EasyTextView showImageText:@"自定义图片！" imageName:@"HUD_NF.png"];  break ;
     }
     
 }
@@ -103,69 +103,69 @@
 {
     switch (row) {
         case 0:{
-            [EasyShowLodingView showLodingText:@"加载中..."];
+            [EasyLodingView showLodingText:@"加载中..."];
         } break;
         case 1:
         {
-            [EasyShowLodingView showLodingText:@"正在努力加载中..." config:^EasyShowLodingConfig *{
-                return [EasyShowLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeIndicatorLeft];
+            [EasyLodingView showLodingText:@"正在努力加载中..." config:^EasyLodingConfig *{
+                return [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeIndicatorLeft];
             }];
         }break ;
         case 2:
         {
-            [EasyShowLodingView showLodingText:@"加载中..." config:^EasyShowLodingConfig *{
-                return [EasyShowLodingConfig configInView:self.view superReceive:NO showType:LodingShowTypePlayImages];
+            [EasyLodingView showLodingText:@"加载中..." config:^EasyLodingConfig *{
+                return [EasyLodingConfig configInView:self.view superReceive:NO showType:LodingShowTypePlayImages];
             }];
         }break ;
         case 3:
         {
-            [EasyShowLodingView showLodingText:@"正在加载中,请稍后..." config:^EasyShowLodingConfig *{
-                return [EasyShowLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypePlayImagesLeft];
+            [EasyLodingView showLodingText:@"正在加载中,请稍后..." config:^EasyLodingConfig *{
+                return [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypePlayImagesLeft];
             }];
         }break ;
         case 4:
         {
-            [EasyShowLodingView showLodingText:@"正在加载中.." imageName:@"HUD_NF.png" config:^EasyShowLodingConfig *{
-                return [EasyShowLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeImageUpturnLeft];
+            [EasyLodingView showLodingText:@"正在加载中.." imageName:@"HUD_NF.png" config:^EasyLodingConfig *{
+                return [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeImageUpturnLeft];
             }];
         }break ;
         case 5:
         {
-            [EasyShowLodingView showLodingText:@"" imageName:@"HUD_NF.png" config:^EasyShowLodingConfig *{
-                return [EasyShowLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeImageAround];
+            [EasyLodingView showLodingText:@"" imageName:@"HUD_NF.png" config:^EasyLodingConfig *{
+                return [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeImageAround];
             }];
             
         }
         default:
-            [EasyShowLodingView hidenLoding];
+            [EasyLodingView hidenLoding];
             break;
     }
 //    static int b_0 = 0 ;
 //    switch (row) {
 //        case 0:
 //            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeTurnAroundLeft : LodingShowTypeTurnAround ;
-//            [EasyShowLodingView showLodingText:@"正在努力加载..."];
+//            [EasyLodingView showLodingText:@"正在努力加载..."];
 //            break;
 //        case 1:
 //            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeIndicatorLeft : LodingShowTypeIndicator ;
-//            [EasyShowLodingView showLodingText:@"正在添加"];
+//            [EasyLodingView showLodingText:@"正在添加"];
 //            break ;
 //        case 2:{
 //            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypePlayImagesLeft : LodingShowTypePlayImages ;
-//            [EasyShowLodingView showLodingText:@"加载中..."];
+//            [EasyLodingView showLodingText:@"加载中..."];
 //        }break ;
 //        case 3:
 //        {
 //            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeImageUpturnLeft : LodingShowTypeImageUpturn ;
-//            [EasyShowLodingView showLodingText:@"正在加载中,请稍后..." imageName:@"HUD_NF.png"];
+//            [EasyLodingView showLodingText:@"正在加载中,请稍后..." imageName:@"HUD_NF.png"];
 //        }   break ;
 //        case 4:
 //        {
 //            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeImageAroundLeft : LodingShowTypeImageAround ;
-//            [EasyShowLodingView showLodingText:@"" imageName:@"HUD_NF.png"];
+//            [EasyLodingView showLodingText:@"" imageName:@"HUD_NF.png"];
 //        }break ;
 //        default:
-//            [EasyShowLodingView hidenLoding];
+//            [EasyLodingView hidenLoding];
 //            break;
 //    }
 }
@@ -216,9 +216,9 @@
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
               
                 [EasyShowEmptyView showEmptyViewWithTitle:@"无数据" subTitle:@"" imageName:@"nodata_icon.png" buttonTitleArray:@[@"重新加载数据"] inview:blueView callback:^(EasyShowEmptyView *view, UIButton *button, callbackType callbackType) {
-                    [EasyShowLodingView showLodingText:@"正在加载..." inView:blueView];
+                    [EasyLodingView showLodingText:@"正在加载..." inView:blueView];
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        [EasyShowLodingView hidenLoingInView:blueView];
+                        [EasyLodingView hidenLoingInView:blueView];
                         [blueView removeFromSuperview];
                     });
                 }];

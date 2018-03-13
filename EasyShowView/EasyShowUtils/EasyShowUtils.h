@@ -93,6 +93,7 @@ static class *_showInstance; \
 } \
 
 
+UIKIT_EXTERN const NSInteger EasyUndefine  ;     //属性没有传值的定义
 
 @interface EasyShowUtils : NSObject
 

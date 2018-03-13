@@ -34,7 +34,7 @@ NSString *const EasyShowViewDidlDismissNotification = @"EasyShowViewDidlDismissN
 
 @implementation EasyShowOptions
 
-@synthesize lodingPlayImagesArray = _lodingPlayImagesArray ;
+//@synthesize lodingPlayImagesArray = _lodingPlayImagesArray ;
 
 static EasyShowOptions *_showInstance;
 + (id)allocWithZone:(struct _NSZone *)zone {
@@ -66,25 +66,25 @@ static EasyShowOptions *_showInstance;
 {
     if (self = [super init]) {
        
-        _textAnimationType = TextAnimationTypeBounce ;
-        _textStatusType = ShowTextStatusTypeMidden  ;
-        
-        _textTitleFount = [UIFont systemFontOfSize:15];
-        _textTitleColor = [[UIColor whiteColor]colorWithAlphaComponent:1.7];
-        _textBackGroundColor = [UIColor blackColor];
-        _textShadowColor = [UIColor blueColor];
-        
-        _textSuperViewReceiveEvent = YES ;
-        
-        
-        _lodingShowType = LodingShowTypeTurnAround ;
-        _lodingAnimationType = lodingAnimationTypeBounce ;
-        _lodingTextFount = [UIFont systemFontOfSize:15];
-        _lodingTintColor = [UIColor blackColor];
-        _lodingBackgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.05];
-        _lodingSuperViewReceiveEvent = YES ;
-        _lodingShowOnWindow = NO ;
-        _lodingCycleCornerWidth = 5 ;
+//        _textAnimationType = TextAnimationTypeBounce ;
+//        _textStatusType = ShowTextStatusTypeMidden  ;
+//        
+//        _textTitleFount = [UIFont systemFontOfSize:15];
+//        _textTitleColor = [[UIColor whiteColor]colorWithAlphaComponent:1.7];
+//        _textBackGroundColor = [UIColor blackColor];
+//        _textShadowColor = [UIColor blueColor];
+//        
+//        _textSuperViewReceiveEvent = YES ;
+//        
+//        
+////        _lodingShowType = LodingShowTypeTurnAround ;
+////        _lodingAnimationType = lodingAnimationTypeBounce ;
+//        _lodingTextFount = [UIFont systemFontOfSize:15];
+//        _lodingTintColor = [UIColor blackColor];
+//        _lodingBackgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.05];
+//        _lodingSuperViewReceiveEvent = YES ;
+//        _lodingShowOnWindow = NO ;
+//        _lodingCycleCornerWidth = 5 ;
         
         
         _emptyViewBackgroundColor = [UIColor groupTableViewBackgroundColor] ;
@@ -107,14 +107,14 @@ static EasyShowOptions *_showInstance;
     }
     return self ;
 }
-- (void)setlodingPlayImagesArray:(NSArray *)lodingPlayImagesArray
-{
-    _lodingPlayImagesArray = lodingPlayImagesArray ;
-}
-- (NSArray *)lodingPlayImagesArray
-{
-    NSAssert(_lodingPlayImagesArray, @"you should set image array use to animation!");
-    return _lodingPlayImagesArray  ;
-}
+//- (void)setlodingPlayImagesArray:(NSArray *)lodingPlayImagesArray
+//{
+//    _lodingPlayImagesArray = lodingPlayImagesArray ;
+//}
+//- (NSArray *)lodingPlayImagesArray
+//{
+//    NSAssert(_lodingPlayImagesArray, @"you should set image array use to animation!");
+//    return _lodingPlayImagesArray  ;
+//}
 
 @end

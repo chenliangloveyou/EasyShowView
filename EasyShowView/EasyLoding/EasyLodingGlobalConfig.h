@@ -1,5 +1,5 @@
 //
-//  EasyShowLodingGlobalConfig.h
+//  EasyLodingGlobalConfig.h
 //  EasyShowViewDemo
 //
 //  Created by Mr_Chen on 2018/3/4.
@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "EasyShowTypes.h"
-@interface EasyShowLodingGlobalConfig : NSObject
+#import <UIKit/UIKit.h>
+#import "EasyLodingTypes.h"
 
-+ (instancetype)sharedEasyShowLodingGlobalConfig ;
+@interface EasyLodingGlobalConfig : NSObject
+
++ (instancetype)sharedEasyLodingGlobalConfig ;
 
 //是否已经使用了globalConfig，库内部使用
 + (BOOL)isUseLoeingGlobalConfig ;

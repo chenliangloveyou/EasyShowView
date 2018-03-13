@@ -1,22 +1,22 @@
 //
-//  EasyShowLodingView.m
+//  EasyLodingView.m
 //  EasyShowViewDemo
 //
 //  Created by nf on 2017/12/14.
 //  Copyright © 2017年 chenliangloveyou. All rights reserved.
 //
 
-#import "EasyShowLodingView.h"
+#import "EasyLodingView.h"
 #import "UIView+EasyShowExt.h"
-#import "EasyShowTextBgView.h"
 #import "EasyShowLabel.h"
-#import "EasyShowLodingGlobalConfig.h"
+#import "EasyShowOptions.h"
+#import "EasyLodingGlobalConfig.h"
 
-@interface EasyShowLodingView()<CAAnimationDelegate>
+@interface EasyLodingView()<CAAnimationDelegate>
 
 @property (nonatomic,strong)NSString *showText ;//展示的文字
 @property (nonatomic,strong)NSString *showImageName ;//展示的图片
-@property (nonatomic,strong)EasyShowLodingConfig *showConfig ;//展示的配置信息
+@property (nonatomic,strong)EasyLodingConfig *showConfig ;//展示的配置信息
 
 
 @property (nonatomic,strong)UIView *lodingBgView ;//上面放着 textlabel 和 imageview
@@ -29,7 +29,7 @@
 @end
 
 
-@implementation EasyShowLodingView
+@implementation EasyLodingView
 
 
 - (void)dealloc
@@ -37,7 +37,7 @@
     
 }
 
-- (instancetype)initWithFrame:(CGRect)frame showText:(NSString *)showText iamgeName:(NSString *)imageName config:(EasyShowLodingConfig *)config
+- (instancetype)initWithFrame:(CGRect)frame showText:(NSString *)showText iamgeName:(NSString *)imageName config:(EasyLodingConfig *)config
 {
     if (self = [super initWithFrame:frame]) {
         self.showText = showText ;
@@ -481,15 +481,15 @@
 + (UIView *)showLodingEmptyView
 {
     UIView *showView = [UIApplication sharedApplication].keyWindow ;
-    if ([EasyShowLodingGlobalConfig isUseLoeingGlobalConfig]) {
-        if (![EasyShowLodingGlobalConfig sharedEasyShowLodingGlobalConfig].showOnWindow) {
+    if ([EasyLodingGlobalConfig isUseLoeingGlobalConfig]) {
+        if (![EasyLodingGlobalConfig sharedEasyLodingGlobalConfig].showOnWindow) {
             showView = [EasyShowUtils easyShowViewTopViewController].view ;
         }
     }
     else{
-        if (![EasyShowOptions sharedEasyShowOptions].lodingShowOnWindow) {
-            showView = [EasyShowUtils easyShowViewTopViewController].view ;
-        }
+//        if (![EasyShowOptions sharedEasyShowOptions].lodingShowOnWindow) {
+//            showView = [EasyShowUtils easyShowViewTopViewController].view ;
+//        }
     }
     return showView ;
 }
@@ -501,9 +501,9 @@
 {
     UIView *showView = [EasyShowUtils easyShowViewTopViewController].view ;
 #warning 还需要处理
-    if ([EasyShowOptions sharedEasyShowOptions].lodingShowOnWindow) {
-        showView = [UIApplication sharedApplication].keyWindow ;
-    }
+//    if ([EasyShowOptions sharedEasyShowOptions].lodingShowOnWindow) {
+//        showView = [UIApplication sharedApplication].keyWindow ;
+//    }
     [self hidenLoingInView:showView];
 }
 + (void)hidenLoingInView:(UIView *)superView
@@ -511,7 +511,7 @@
     NSEnumerator *subviewsEnum = [superView.subviews reverseObjectEnumerator];
     for (UIView *subview in subviewsEnum) {
         if ([subview isKindOfClass:self]) {
-            EasyShowLodingView *showView = (EasyShowLodingView *)subview ;
+            EasyLodingView *showView = (EasyLodingView *)subview ;
             
             [showView removeSelfFromSuperView];
         }
@@ -530,28 +530,28 @@
 }
 + (void)showLodingText:(NSString *)text imageName:(NSString *)imageName
 {
-    __block EasyShowLodingConfig *config = [[EasyShowLodingConfig alloc]init];
+    __block EasyLodingConfig *config = [[EasyLodingConfig alloc]init];
     config.superView = [self showLodingEmptyView] ;
-    EasyShowLodingConfig *(^configTemp)(void) = ^EasyShowLodingConfig *{
+    EasyLodingConfig *(^configTemp)(void) = ^EasyLodingConfig *{
         return config ;
     };
     [self showLodingText:text imageName:imageName config:configTemp];
     
 }
 + (void)showLodingText:(NSString *)text
-                config:(EasyShowLodingConfig *(^)(void))config
+                config:(EasyLodingConfig *(^)(void))config
 {
     [self showLodingText:text imageName:nil config:config];
 }
 + (void)showLodingText:(NSString *)text
              imageName:(NSString *)imageName
-                config:(EasyShowLodingConfig *(^)(void))config
+                config:(EasyLodingConfig *(^)(void))config
 {
     NSAssert(config, @"there shoud have a superview!") ;
     
     if (nil == config) {
-        EasyShowLodingConfig *(^configTemp)(void) = ^EasyShowLodingConfig *{
-            return  [[EasyShowLodingConfig alloc]init];
+        EasyLodingConfig *(^configTemp)(void) = ^EasyLodingConfig *{
+            return  [[EasyLodingConfig alloc]init];
         };
         config = configTemp ;
     }
@@ -562,13 +562,13 @@
         });
     }
     
-    EasyShowLodingConfig *tempConfig = [self changeConfigWithConfig:config] ;
+    EasyLodingConfig *tempConfig = [self changeConfigWithConfig:config] ;
     
     //显示之前---->隐藏还在显示的视图
     NSEnumerator *subviewsEnum = [tempConfig.superView.subviews reverseObjectEnumerator];
     for (UIView *subview in subviewsEnum) {
         if ([subview isKindOfClass:self]) {
-            EasyShowLodingView *showView = (EasyShowLodingView *)subview ;
+            EasyLodingView *showView = (EasyLodingView *)subview ;
             [showView removeSelfFromSuperView];
         }
     }
@@ -576,56 +576,51 @@
     if (!tempConfig.superView) {
         tempConfig.superView = [self showLodingEmptyView] ;
     }
-    EasyShowLodingView *lodingView = [[EasyShowLodingView alloc]initWithFrame:CGRectZero
+    EasyLodingView *lodingView = [[EasyLodingView alloc]initWithFrame:CGRectZero
                                                                      showText:text
                                                                     iamgeName:imageName
                                                                        config:tempConfig];
     [tempConfig.superView addSubview:lodingView];
     
-//    [self easyShowLodingViewWithText:text
+//    [self EasyLodingViewWithText:text
 //                           imageName:imageName
 //                              config:config?config():nil];
 }
 
-+ (EasyShowLodingConfig *)changeConfigWithConfig:(EasyShowLodingConfig *(^)(void))config
++ (EasyLodingConfig *)changeConfigWithConfig:(EasyLodingConfig *(^)(void))config
 {
-    EasyShowLodingConfig *tempConfig = config ? config() : [[EasyShowLodingConfig alloc]init] ;
+    EasyLodingConfig *tempConfig = config ? config() : [[EasyLodingConfig alloc]init] ;
     
-    EasyShowOptions *options = [EasyShowOptions sharedEasyShowOptions];
     
-    BOOL isUseGlobalConfig = [EasyShowLodingGlobalConfig isUseLoeingGlobalConfig];
-    EasyShowLodingGlobalConfig *globalConfig = nil ;
-    if (isUseGlobalConfig) {
-        globalConfig = [EasyShowLodingGlobalConfig sharedEasyShowLodingGlobalConfig];
-    }
+    EasyLodingGlobalConfig *globalConfig = [EasyLodingGlobalConfig sharedEasyLodingGlobalConfig];
     
     if (tempConfig.lodingType == EasyUndefine) {
-        tempConfig.lodingType = isUseGlobalConfig ? globalConfig.lodingType : options.lodingShowType ;
+        tempConfig.lodingType =  globalConfig.lodingType  ;
     }
     if (tempConfig.animationType == EasyUndefine) {
-        tempConfig.animationType = isUseGlobalConfig ? globalConfig.animationType : options.lodingAnimationType ;
+        tempConfig.animationType = globalConfig.animationType  ;
     }
     if (tempConfig.superReceiveEvent == EasyUndefine ) {
-        tempConfig.superReceiveEvent =  isUseGlobalConfig ? globalConfig.superReceiveEvent : options.lodingSuperViewReceiveEvent ;
+        tempConfig.superReceiveEvent = globalConfig.superReceiveEvent ;
     }
 #warning 这里几处都需要处理
     if (!tempConfig.showOnWindow) {
-        tempConfig.showOnWindow =  isUseGlobalConfig ? globalConfig.showOnWindow : options.lodingShowOnWindow ;
+        tempConfig.showOnWindow = globalConfig.showOnWindow ;
     }
     if (!tempConfig.cycleCornerWidth) {
-        tempConfig.cycleCornerWidth = isUseGlobalConfig ? globalConfig.cycleCornerWidth : options.lodingCycleCornerWidth ;
+        tempConfig.cycleCornerWidth =globalConfig.cycleCornerWidth;
     }
     if (!tempConfig.tintColor) {
-        tempConfig.tintColor =  isUseGlobalConfig ? globalConfig.tintColor : options.lodingTintColor ;
+        tempConfig.tintColor =  globalConfig.tintColor ;
     }
     if (!tempConfig.textFont) {
-        tempConfig.textFont =  isUseGlobalConfig ? globalConfig.textFont : options.lodingTextFount ;
+        tempConfig.textFont = globalConfig.textFont;
     }
     if (!tempConfig.bgColor) {
-        tempConfig.bgColor =  isUseGlobalConfig ? globalConfig.bgColor : options.lodingBackgroundColor ;
+        tempConfig.bgColor = globalConfig.bgColor ;
     }
     if (!tempConfig.playImagesArray) {
-        tempConfig.playImagesArray =  isUseGlobalConfig ? globalConfig.playImagesArray : options.lodingPlayImagesArray ;
+        tempConfig.playImagesArray = globalConfig.playImagesArray ;
     }
     return tempConfig ;
 }
@@ -633,18 +628,18 @@
 
 + (void)showLodingText:(NSString *)text inView:(UIView *)superView
 {
-    __block EasyShowLodingConfig *config = [[EasyShowLodingConfig alloc]init];
+    __block EasyLodingConfig *config = [[EasyLodingConfig alloc]init];
     config.superView = superView ;
-    EasyShowLodingConfig *(^configTemp)(void) = ^EasyShowLodingConfig *{
+    EasyLodingConfig *(^configTemp)(void) = ^EasyLodingConfig *{
         return config ;
     };
     [self showLodingText:text config:configTemp];
 }
 + (void)showLodingText:(NSString *)text imageName:(NSString *)imageName inView:(UIView *)superView
 {
-    __block EasyShowLodingConfig *config = [[EasyShowLodingConfig alloc]init];
+    __block EasyLodingConfig *config = [[EasyLodingConfig alloc]init];
     config.superView = superView ;
-    EasyShowLodingConfig *(^configTemp)(void) = ^EasyShowLodingConfig *{
+    EasyLodingConfig *(^configTemp)(void) = ^EasyLodingConfig *{
         return config ;
     };
     [self showLodingText:text imageName:imageName config:configTemp];

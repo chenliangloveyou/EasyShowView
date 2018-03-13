@@ -11,8 +11,8 @@
 
 #import "EasyShowOptions.h"
 
-#import "EasyShowTextGlobalConfig.h"
-#import "EasyShowLodingGlobalConfig.h"
+#import "EasyTextGlobalConfig.h"
+#import "EasyLodingGlobalConfig.h"
 
 @interface AppDelegate ()
 
@@ -24,25 +24,26 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
   
-    EasyShowOptions *options = [EasyShowOptions sharedEasyShowOptions];
-    options.textSuperViewReceiveEvent = YES ;
-    options.textAnimationType = TextAnimationTypeBounce ;
-    options.textBackGroundColor = [UIColor whiteColor];
-    options.textTitleColor = [UIColor blackColor];
-    options.textShadowColor =[UIColor redColor];
-    NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:7];
-    for (int i = 0; i < 9 ; i++) {
-        NSString *tempString = [NSString stringWithFormat:@"icon_hud_%zd",i+1];
-        [tempArray addObject:[UIImage imageNamed:tempString]];
-    }
-    options.lodingPlayImagesArray = [NSArray arrayWithArray:tempArray ];
-    options.lodingSuperViewReceiveEvent = YES ;
+//    EasyShowOptions *options = [EasyShowOptions sharedEasyShowOptions];
+//    options.textSuperViewReceiveEvent = YES ;
+//    options.textAnimationType = TextAnimationTypeBounce ;
+//    options.textBackGroundColor = [UIColor whiteColor];
+//    options.textTitleColor = [UIColor blackColor];
+//    options.textShadowColor =[UIColor redColor];
+//    NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:7];
+//    for (int i = 0; i < 9 ; i++) {
+//        NSString *tempString = [NSString stringWithFormat:@"icon_hud_%zd",i+1];
+//        [tempArray addObject:[UIImage imageNamed:tempString]];
+//    }
+//    options.lodingPlayImagesArray = [NSArray arrayWithArray:tempArray ];
+//    options.lodingSuperViewReceiveEvent = YES ;
     
     
     
     
-    EasyShowTextGlobalConfig *config = [EasyShowTextGlobalConfig shared];
+    EasyTextGlobalConfig *config = [EasyTextGlobalConfig shared];
     config.bgColor = [UIColor whiteColor];
+    config.titleColor = [UIColor blackColor];
     config.textShowTimeBlock = ^float(NSString *text) {
         
         CGFloat tempShowTime = 0 ;
@@ -57,7 +58,7 @@
     };
     
     
-//    EasyShowLodingGlobalConfig *lodingConfig = [EasyShowLodingGlobalConfig sharedEasyShowLodingGlobalConfig];
+//    EasyLodingGlobalConfig *lodingConfig = [EasyLodingGlobalConfig sharedEasyLodingGlobalConfig];
 //    lodingConfig.lodingSuperViewReceiveEvent = YES ;
     
     

@@ -1,5 +1,5 @@
 //
-//  EasyShowLodingView.h
+//  EasyLodingView.h
 //  EasyShowViewDemo
 //
 //  Created by nf on 2017/12/14.
@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-#import "EasyShowLodingConfig.h"
+#import "EasyLodingConfig.h"
 
-@interface EasyShowLodingView : UIView
+@interface EasyLodingView : UIView
 
 /**
  * 显示一个加载框
@@ -25,14 +25,14 @@
 + (void)showLodingText:(NSString *)text ;
 
 + (void)showLodingText:(NSString *)text
-                config:(EasyShowLodingConfig *(^)(void))config ;
+                config:(EasyLodingConfig *(^)(void))config ;
 
 + (void)showLodingText:(NSString *)text
              imageName:(NSString *)imageName ;
 
 + (void)showLodingText:(NSString *)text
              imageName:(NSString *)imageName
-                config:(EasyShowLodingConfig *(^)(void))config ;
+                config:(EasyLodingConfig *(^)(void))config ;
 
 /**
  * 移除一个加载框

@@ -1,16 +1,16 @@
 //
-//  EasyShowTextGlobalConfig.m
+//  EasyTextGlobalConfig.m
 //  EasyShowViewDemo
 //
 //  Created by Mr_Chen on 2018/3/3.
 //  Copyright © 2018年 chenliangloveyou. All rights reserved.
 //
 
-#import "EasyShowTextGlobalConfig.h"
+#import "EasyTextGlobalConfig.h"
 
-@implementation EasyShowTextGlobalConfig
+@implementation EasyTextGlobalConfig
 
-easyShowView_singleton_implementation(EasyShowTextGlobalConfig)
+easyShowView_singleton_implementation(EasyTextGlobalConfig)
 
 - (instancetype)init
 {

@@ -1,30 +1,31 @@
 //
-//  EasyShowTextBgView.m
+//  EasyTextBgView.m
 //  EFHealth
 //
 //  Created by nf on 16/7/20.
 //  Copyright © 2016年 ef. All rights reserved.
 //
 
-#import "EasyShowTextBgView.h"
+#import "EasyTextBgView.h"
 
 #import "UIView+EasyShowExt.h"
 #import "EasyShowUtils.h"
+#import "EasyShowOptions.h"
 
-@interface EasyShowTextBgView()
+@interface EasyTextBgView()
 
 @property ShowTextStatus showTextStatus ;
 
 @property (nonatomic,strong)UILabel *textLabel ;
 @property (nonatomic,strong)UIImageView *imageView ;
 
-@property (nonatomic,strong)EasyShowOptions *options ;
+@property (nonatomic,strong)EasyTextConfig *config ;
 
 @property (nonatomic,strong)UIWindow *showTextWindow ;
 
 @end
 
-@implementation EasyShowTextBgView
+@implementation EasyTextBgView
 
 - (void)dealloc
 {
@@ -36,11 +37,12 @@
 {
     self.showTextWindow.y = toPoint ;
 }
-- (instancetype)initWithFrame:(CGRect)frame status:(ShowTextStatus)status text:(NSString *)text imageName:(NSString *)imageName
+- (instancetype)initWithFrame:(CGRect)frame status:(ShowTextStatus)status text:(NSString *)text imageName:(NSString *)imageName config:(EasyTextConfig *)config
 {
     if ([super initWithFrame:frame]) {
         
-        self.backgroundColor = self.options.textBackGroundColor ; //[UIColor redColor]; //
+        _config = config ;
+        self.backgroundColor = self.config.bgColor ; //[UIColor redColor]; //
         
         _showTextStatus = status ;
         
@@ -68,7 +70,7 @@
         
         if (!ISEMPTY_S(text)) {
             CGSize textSize = [EasyShowUtils textWidthWithStirng:text
-                                                            font:self.options.textTitleFount
+                                                            font:self.config.titleFont
                                                         maxWidth:TextShowMaxWidth];
             
             self.textLabel.text = text ;
@@ -99,7 +101,7 @@
     if (nil == _showTextWindow) {
         CGFloat showHeight = self.isShowedStatusBar ? STATUSBAR_HEIGHT_S : NAVIGATION_HEIGHT_S ;
         _showTextWindow = [[UIWindow alloc]initWithFrame:CGRectMake(0, -showHeight , SCREEN_WIDTH_S, showHeight )];
-        _showTextWindow.backgroundColor = self.options.textBackGroundColor ; // [UIColor yellowColor]; //
+        _showTextWindow.backgroundColor = self.config.bgColor ; // [UIColor yellowColor]; //
         _showTextWindow.windowLevel = UIWindowLevelAlert;
         UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(gestureTap)];
         [_showTextWindow addGestureRecognizer:gesture];
@@ -119,7 +121,7 @@
     CAShapeLayer *centerLayer=[CAShapeLayer layer];
     centerLayer.path=beizPath.CGPath;
     centerLayer.fillColor=[UIColor clearColor].CGColor;//填充色
-    centerLayer.strokeColor=self.options.textTitleColor.CGColor;//边框颜色
+    centerLayer.strokeColor=self.config.titleColor.CGColor;//边框颜色
     centerLayer.lineWidth=2.0f;
     centerLayer.lineCap=kCALineCapRound;//线框类型
     
@@ -155,7 +157,7 @@
             return ;
         case ShowTextStatusSuccess:
         {
-            CGFloat addHeight = self.options.textStatusType == ShowTextStatusTypeStatusBar ? 1 : 3 ;
+            CGFloat addHeight = self.config.textStatusType == ShowTextStatusTypeStatusBar ? 1 : 3 ;
             [path moveToPoint:CGPointMake((imageWH-imageWH)/2+imageWH/4,  addHeight + imageWH/2)];
             [path addLineToPoint:CGPointMake(imageWH/2, imageWH*3/4)];
             [path addLineToPoint:CGPointMake(imageWH/2 + imageWH*1/3, imageWH*1/3)];
@@ -174,7 +176,7 @@
         }break ;
         case ShowTextStatusInfo:
         {
-            CGFloat addHeight = self.options.textStatusType == ShowTextStatusTypeStatusBar ? 5 : 3 ;
+            CGFloat addHeight = self.config.textStatusType == ShowTextStatusTypeStatusBar ? 5 : 3 ;
             [path moveToPoint:CGPointMake(imageWH/2,  imageWH/4 )];
             [path addLineToPoint:CGPointMake(imageWH/2,imageWH/4 + addHeight)];
             
@@ -191,7 +193,7 @@
     lineLayer.frame = CGRectZero;
     lineLayer.fillColor = [ UIColor clearColor ].CGColor ;
     lineLayer.path = path. CGPath ;
-    lineLayer.strokeColor = self.options.textTitleColor.CGColor ;
+    lineLayer.strokeColor = self.config.titleColor.CGColor ;
     lineLayer.lineWidth = self.isShowedStatusBar ? 1 : 2;
     lineLayer.cornerRadius = 50;
     
@@ -243,19 +245,12 @@
 //是否显示在statusbar上
 - (BOOL)isShowedStatusBar
 {
-    return self.options.textStatusType==ShowTextStatusTypeStatusBar ;
+    return self.config.textStatusType==ShowTextStatusTypeStatusBar ;
 }
 //是否正在显示在navigation上
 - (BOOL)isShowedNavigation
 {
-    return self.options.textStatusType==ShowTextStatusTypeNavigation ;
-}
-- (EasyShowOptions *)options
-{
-    if (nil == _options) {
-        _options = [EasyShowOptions sharedEasyShowOptions];
-    }
-    return _options ;
+    return self.config.textStatusType==ShowTextStatusTypeNavigation ;
 }
 
 - (UIImageView *)imageView
@@ -274,7 +269,7 @@
         }
         
         _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(imageX,imageY , imageWH, imageWH)];
-        _imageView.tintColor = self.options.textTitleColor ;
+        _imageView.tintColor = self.config.titleColor ;
         //                _imageView.backgroundColor = [UIColor yellowColor];
         if ((self.isShowedStatusBar||self.isShowedNavigation)) {
             [self.showTextWindow addSubview:_imageView];
@@ -289,8 +284,8 @@
 {
     if (nil == _textLabel) {
         _textLabel = [[UILabel alloc]init];
-        _textLabel.textColor = self.options.textTitleColor;
-        _textLabel.font = self.options.textTitleFount ;
+        _textLabel.textColor = self.config.titleColor;
+        _textLabel.font = self.config.titleFont ;
         _textLabel.backgroundColor = [UIColor clearColor];
         _textLabel.textAlignment = NSTextAlignmentCenter ;
         _textLabel.numberOfLines = 0 ;

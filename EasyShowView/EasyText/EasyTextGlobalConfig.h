@@ -1,5 +1,5 @@
 //
-//  EasyShowTextGlobalConfig.h
+//  EasyTextGlobalConfig.h
 //  EasyShowViewDemo
 //
 //  Created by Mr_Chen on 2018/3/3.
@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "EasyShowTypes.h"
+#import "EasyTextTypes.h"
 #import "EasyShowUtils.h"
 
 
-@interface EasyShowTextGlobalConfig : NSObject
+@interface EasyTextGlobalConfig : NSObject
 
 /** 吐丝所在的父视图(默认为yes：显示到window上。如果设置为NO:将显示到最顶层控制器上) **/
 @property (nonatomic,assign)BOOL showOnWindow ;
@@ -39,6 +39,7 @@
 
 /** 显示文字的时间 **/
 @property (nonatomic,copy) float(^textShowTimeBlock)(NSString *text) ;
+
 
 easyShowView_singleton_interface
 

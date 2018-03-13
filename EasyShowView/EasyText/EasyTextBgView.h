@@ -1,5 +1,5 @@
 //
-//  EasyShowTextBgView.h
+//  EasyTextBgView.h
 //  EFHealth
 //
 //  Created by nf on 16/7/20.
@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "EasyShowOptions.h"
+#import "EasyTextConfig.h"
 
-@interface EasyShowTextBgView : UIView
+@interface EasyTextBgView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame status:(ShowTextStatus)status text:(NSString *)text imageName:(NSString *)imageName;
+- (instancetype)initWithFrame:(CGRect)frame status:(ShowTextStatus)status text:(NSString *)text imageName:(NSString *)imageName config:(EasyTextConfig *)config ;
 
 - (void)showWindowYToPoint:(CGFloat)toPoint ;
 

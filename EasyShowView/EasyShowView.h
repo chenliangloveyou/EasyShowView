@@ -9,8 +9,8 @@
 #ifndef EasyShowView_h
 #define EasyShowView_h
 
-#import "EasyShowTextView.h"
-#import "EasyShowLodingView.h"
+#import "EasyTextView.h"
+#import "EasyLodingView.h"
 #import "EasyShowAlertView.h"
 #import "EasyShowEmptyView.h"
 

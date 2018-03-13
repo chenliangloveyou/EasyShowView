@@ -1,17 +1,17 @@
 //
-//  EasyShowLodingGlobalConfig.m
+//  EasyLodingGlobalConfig.m
 //  EasyShowViewDemo
 //
 //  Created by Mr_Chen on 2018/3/4.
 //  Copyright © 2018年 chenliangloveyou. All rights reserved.
 //
 
-#import "EasyShowLodingGlobalConfig.h"
+#import "EasyLodingGlobalConfig.h"
 
-@implementation EasyShowLodingGlobalConfig
+@implementation EasyLodingGlobalConfig
 
 
-static EasyShowLodingGlobalConfig *_showInstance;
+static EasyLodingGlobalConfig *_showInstance;
 + (id)allocWithZone:(struct _NSZone *)zone {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -19,7 +19,7 @@ static EasyShowLodingGlobalConfig *_showInstance;
     });
     return _showInstance;
 }
-+ (instancetype)sharedEasyShowLodingGlobalConfig {
++ (instancetype)sharedEasyLodingGlobalConfig {
     if (nil == _showInstance) {
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{

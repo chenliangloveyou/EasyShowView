@@ -1,5 +1,5 @@
 //
-//  EasyShowTextConfig.h
+//  EasyTextConfig.h
 //  EasyShowViewDemo
 //
 //  Created by Mr_Chen on 2018/3/3.
@@ -7,15 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "EasyShowTypes.h"
+#import "EasyTextTypes.h"
 
-@interface EasyShowTextConfig : NSObject
+@interface EasyTextConfig : NSObject
 
 /** 显示吐丝所需要的父视图(为空将显示在window上) **/
 @property (nonatomic,strong)UIView *superView ;
 
 /** 显示期间，父视图是否接受事件 **/
-@property (nonatomic,assign)SuperReceiveEvent superViewReceiveEvent;
+@property (nonatomic,assign)ShowTextEvent superReceiveEvent;
 
 /** 展示/隐藏 动画类型 **/
 @property (nonatomic,assign)TextAnimationType animationType ;
@@ -46,15 +46,15 @@
 
 #pragma mark - 链式编程设置属性(和上面直接设置属性一样)
 
-- (EasyShowTextConfig *(^)(UIView *spuerView))setSuperView ;
-- (EasyShowTextConfig *(^)(SuperReceiveEvent receive))setSuperViewReceiveEvent ;
-- (EasyShowTextConfig *(^)(TextAnimationType animationType))setAnimationType ;
-- (EasyShowTextConfig *(^)(ShowTextStatusType statusType))setTextStatusType ;
+- (EasyTextConfig *(^)(UIView *spuerView))setSuperView ;
+- (EasyTextConfig *(^)(ShowTextEvent receive))setSuperReceiveEvent ;
+- (EasyTextConfig *(^)(TextAnimationType animationType))setAnimationType ;
+- (EasyTextConfig *(^)(ShowTextStatusType statusType))setTextStatusType ;
 
-- (EasyShowTextConfig *(^)(UIFont *titleFont))setTitleFont ;
-- (EasyShowTextConfig *(^)(UIColor *titleColor))setTitleColor ;
-- (EasyShowTextConfig *(^)(UIColor *bgColor))setBgColor ;
-- (EasyShowTextConfig *(^)(UIColor *shadowColor))setShadowColor ;
+- (EasyTextConfig *(^)(UIFont *titleFont))setTitleFont ;
+- (EasyTextConfig *(^)(UIColor *titleColor))setTitleColor ;
+- (EasyTextConfig *(^)(UIColor *bgColor))setBgColor ;
+- (EasyTextConfig *(^)(UIColor *shadowColor))setShadowColor ;
 
 
 #pragma mark - 类方法设置属性(和上面直接设置属性一样)
@@ -69,7 +69,7 @@
  * receive   在显示的期间，superview是否能接接收事件
  */
 + (instancetype)configWithSuperView:(UIView *)superView
-                  superReceiveEvent:(SuperReceiveEvent)receive ;
+                  superReceiveEvent:(ShowTextEvent)receive ;
 
 
 /**
@@ -78,7 +78,7 @@
  * animationType 文字展示的动画形式
  */
 + (instancetype)configWithSuperView:(UIView *)superView
-                  superReceiveEvent:(SuperReceiveEvent)receive
+                  superReceiveEvent:(ShowTextEvent)receive
                       animationType:(TextAnimationType)animationType ;
 
 /**
@@ -88,7 +88,7 @@
  * statusType 文字显示所在的位置
  */
 + (instancetype)configWithSuperView:(UIView *)superView
-                  superReceiveEvent:(SuperReceiveEvent)receive
+                  superReceiveEvent:(ShowTextEvent)receive
                       animationType:(TextAnimationType)animationType
                      textStatusType:(ShowTextStatusType)statusType ;
 

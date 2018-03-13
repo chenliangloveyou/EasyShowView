@@ -8,6 +8,8 @@
 
 #import "EasyShowUtils.h"
 
+const NSInteger EasyUndefine = 0 ;     //属性没有传值的定义
+
 @implementation EasyShowUtils
 
 + (CGSize)textWidthWithStirng:(NSString *)string font:(UIFont *)font maxWidth:(CGFloat)maxWidth

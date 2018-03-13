@@ -1,30 +1,30 @@
 //
-//  EasyShowTextView.m
+//  EasyTextView.m
 //  EasyShowViewDemo
 //
 //  Created by nf on 2017/12/14.
 //  Copyright © 2017年 chenliangloveyou. All rights reserved.
 //
 
-#import "EasyShowTextView.h"
+#import "EasyTextView.h"
 #import "UIView+EasyShowExt.h"
 
-#import "EasyShowTextBgView.h"
-
-#import "EasyShowTextGlobalConfig.h"
+#import "EasyTextBgView.h"
+#import "EasyShowOptions.h"
+#import "EasyTextGlobalConfig.h"
 #import "EasyShowTypes.h"
 
-@interface EasyShowTextView()<CAAnimationDelegate>
+@interface EasyTextView()<CAAnimationDelegate>
 
 @property (nonatomic,strong)NSString *showText ;//展示的文字
 @property (nonatomic,strong)NSString *showImageName ;//展示的图片
 @property (nonatomic,assign)ShowTextStatus showTextStatus ;//展示的类型
-@property (nonatomic,strong)EasyShowTextConfig *showTextConfig ;//配置信息
+@property (nonatomic,strong)EasyTextConfig *showTextConfig ;//配置信息
 
 @property (nonatomic,assign)BOOL isShowOnStatusBar ;
 @property (nonatomic,assign)BOOL isShowOnNavigation ;
 
-@property (nonatomic,strong)EasyShowTextBgView *showBgView ;//用于放图片和文字的背景
+@property (nonatomic,strong)EasyTextBgView *showBgView ;//用于放图片和文字的背景
 
 
 - (void)showViewWithSuperView:(UIView *)superView ;
@@ -35,7 +35,7 @@
 
 @end
 
-@implementation EasyShowTextView
+@implementation EasyTextView
 
 - (void)dealloc
 {
@@ -56,7 +56,7 @@
     //展示视图的frame
     CGRect showFrame = [self showRectWithSpuerView:superView] ;
     
-    if (self.showTextConfig.superViewReceiveEvent) {//父视图能接受事件
+    if (self.showTextConfig.superReceiveEvent) {//父视图能接受事件
         //self的大小为显示区域的大小
         [self setFrame:CGRectMake((superView.width-showFrame.size.width)/2, showFrame.origin.y, showFrame.size.width, showFrame.size.height)];
         //显示视图的bgview的frame的位置为{0，0}
@@ -68,10 +68,10 @@
     }
     
     
-    self.showBgView = [[EasyShowTextBgView alloc]initWithFrame:showFrame
+    self.showBgView = [[EasyTextBgView alloc]initWithFrame:showFrame
                                                         status:self.showTextStatus
                                                           text:self.showText
-                                                         imageName:self.showImageName];
+                                                         imageName:self.showImageName config:self.showTextConfig];
     [self addSubview:self.showBgView];
     
     
@@ -214,10 +214,10 @@
     
 }
 
-+ (void)easyShowTextViewWithText:(NSString *)text
++ (void)EasyTextViewWithText:(NSString *)text
                        imageName:(NSString *)imageName
                           status:(ShowTextStatus)status
-                          config:(EasyShowTextConfig *)config
+                          config:(EasyTextConfig *)config
 {
     if (status==ShowTextStatusPureText && ISEMPTY_S(text)) {//
         NSAssert(NO, @"you should set a text for showView !");
@@ -235,12 +235,12 @@
     NSEnumerator *subviewsEnum = [config.superView.subviews reverseObjectEnumerator];
     for (UIView *subview in subviewsEnum) {
         if ([subview isKindOfClass:self]) {
-            EasyShowTextView *showView = (EasyShowTextView *)subview ;
+            EasyTextView *showView = (EasyTextView *)subview ;
             [showView removeSelfFromSuperView];
         }
     }
     
-    EasyShowTextView *showView = [[EasyShowTextView alloc] initWithFrame:CGRectZero];
+    EasyTextView *showView = [[EasyTextView alloc] initWithFrame:CGRectZero];
     showView.showText = text ;
     showView.showImageName = imageName ;
     
@@ -307,7 +307,7 @@
     //显示区域的frame
     CGRect showFrame = CGRectMake(0, showFrameY, backGroundW, backGroundH);
     
-    if (!self.showTextConfig.superViewReceiveEvent) {
+    if (!self.showTextConfig.superReceiveEvent) {
         showFrame.origin = CGPointMake((superView.width-backGroundW)/2, showFrameY) ;
     }
     
@@ -354,14 +354,12 @@
 
 #pragma - 工具
 
-+ (EasyShowTextConfig *)changeConfigWithConfig:(EasyShowTextConfig *)config
++ (EasyTextConfig *)changeConfigWithConfig:(EasyTextConfig *)config
 {
-    EasyShowOptions *options = [EasyShowOptions sharedEasyShowOptions];
-    
-    BOOL isUseGlobalConfig = [EasyShowTextGlobalConfig isUseTextGlobalConfig];
-    EasyShowTextGlobalConfig *globalConfig = nil ;
+    BOOL isUseGlobalConfig = [EasyTextGlobalConfig isUseTextGlobalConfig];
+    EasyTextGlobalConfig *globalConfig = nil ;
     if (isUseGlobalConfig) {
-        globalConfig = [EasyShowTextGlobalConfig shared];
+        globalConfig = [EasyTextGlobalConfig shared];
     }
     
     if (!config.superView) {
@@ -373,26 +371,26 @@
         }
     }
     
-    if (config.superViewReceiveEvent == SuperReceiveEventUndefine) {
-        config.superViewReceiveEvent = isUseGlobalConfig ? globalConfig.superViewReceiveEvent : options.textSuperViewReceiveEvent ;
+    if (config.superReceiveEvent == SuperReceiveEventUndefine) {
+        config.superReceiveEvent = globalConfig.superViewReceiveEvent ;
     }
     if (config.animationType == TextAnimationTypeUndefine) {
-        config.animationType = isUseGlobalConfig ? globalConfig.animationType : options.textAnimationType ;
+        config.animationType = globalConfig.animationType ;
     }
     if (config.textStatusType == ShowTextStatusTypeUndefine) {
-        config.textStatusType =  isUseGlobalConfig ? globalConfig.textStatusType : options.textStatusType ;
+        config.textStatusType =  globalConfig.textStatusType ;
     }
     if (!config.titleFont) {
-        config.titleFont =  isUseGlobalConfig ? globalConfig.titleFont : options.textTitleFount ;
+        config.titleFont = globalConfig.titleFont  ;
     }
     if (!config.titleColor) {
-        config.titleColor = isUseGlobalConfig ? globalConfig.titleColor : options.textTitleColor ;
+        config.titleColor =  globalConfig.titleColor ;
     }
     if (!config.bgColor) {
-        config.bgColor =  isUseGlobalConfig ? globalConfig.bgColor : options.textBackGroundColor ;
+        config.bgColor = globalConfig.bgColor ;
     }
     if (!config.shadowColor) {
-        config.shadowColor =  isUseGlobalConfig ? globalConfig.shadowColor : options.textShadowColor ;
+        config.shadowColor =  globalConfig.shadowColor ;
     }
     
     if (!config.textShowTimeBlock) {
@@ -421,14 +419,14 @@
 
 + (void)showText:(NSString *)text
 {
-    EasyShowTextConfig *(^configTemp)(void) = ^EasyShowTextConfig *{
-        return [EasyShowTextConfig shared] ;
+    EasyTextConfig *(^configTemp)(void) = ^EasyTextConfig *{
+        return [EasyTextConfig shared] ;
     };
     [self showText:text config:configTemp];
 }
-+ (void)showText:(NSString *)text config:(EasyShowTextConfig *(^)(void))config
++ (void)showText:(NSString *)text config:(EasyTextConfig *(^)(void))config
 {
-    [self easyShowTextViewWithText:text
+    [self EasyTextViewWithText:text
                          imageName:nil
                             status:ShowTextStatusPureText 
                             config:config?config():nil];
@@ -437,14 +435,14 @@
 
 + (void)showSuccessText:(NSString *)text
 {
-    EasyShowTextConfig *(^configTemp)(void) = ^EasyShowTextConfig *{
-        return [EasyShowTextConfig shared] ;
+    EasyTextConfig *(^configTemp)(void) = ^EasyTextConfig *{
+        return [EasyTextConfig shared] ;
     };
     [self showSuccessText:text config:configTemp];
 }
-+ (void)showSuccessText:(NSString *)text config:(EasyShowTextConfig *(^)(void))config
++ (void)showSuccessText:(NSString *)text config:(EasyTextConfig *(^)(void))config
 {
-    [self easyShowTextViewWithText:text
+    [self EasyTextViewWithText:text
                          imageName:nil
                             status:ShowTextStatusSuccess
                             config:config?config():nil];
@@ -453,14 +451,14 @@
 
 + (void)showErrorText:(NSString *)text
 {
-    EasyShowTextConfig *(^configTemp)(void) = ^EasyShowTextConfig *{
-        return [EasyShowTextConfig shared] ;
+    EasyTextConfig *(^configTemp)(void) = ^EasyTextConfig *{
+        return [EasyTextConfig shared] ;
     };
     [self showErrorText:text config:configTemp];
 }
-+ (void)showErrorText:(NSString *)text config:(EasyShowTextConfig *(^)(void))config
++ (void)showErrorText:(NSString *)text config:(EasyTextConfig *(^)(void))config
 {
-    [self easyShowTextViewWithText:text
+    [self EasyTextViewWithText:text
                          imageName:nil
                             status:ShowTextStatusError
                             config:config?config():nil];
@@ -469,14 +467,14 @@
 
 + (void)showInfoText:(NSString *)text
 {
-    EasyShowTextConfig *(^configTemp)(void) = ^EasyShowTextConfig *{
-        return [EasyShowTextConfig shared] ;
+    EasyTextConfig *(^configTemp)(void) = ^EasyTextConfig *{
+        return [EasyTextConfig shared] ;
     };
     [self showInfoText:text config:configTemp];
 }
-+ (void)showInfoText:(NSString *)text config:(EasyShowTextConfig *(^)(void))config
++ (void)showInfoText:(NSString *)text config:(EasyTextConfig *(^)(void))config
 {
-    [self easyShowTextViewWithText:text
+    [self EasyTextViewWithText:text
                          imageName:nil
                             status:ShowTextStatusInfo
                             config:config?config():nil];
@@ -485,65 +483,18 @@
 
 + (void)showImageText:(NSString *)text imageName:(NSString *)imageName
 {
-    EasyShowTextConfig *(^configTemp)(void) = ^EasyShowTextConfig *{
-        return [EasyShowTextConfig shared] ;
+    EasyTextConfig *(^configTemp)(void) = ^EasyTextConfig *{
+        return [EasyTextConfig shared] ;
     };
     [self showImageText:text imageName:imageName config:configTemp] ;
 }
-+ (void)showImageText:(NSString *)text imageName:(NSString *)imageName config:(EasyShowTextConfig *(^)(void))config
++ (void)showImageText:(NSString *)text imageName:(NSString *)imageName config:(EasyTextConfig *(^)(void))config
 {
-    [self easyShowTextViewWithText:text
+    [self EasyTextViewWithText:text
                          imageName:imageName
                             status:ShowTextStatusImage
                             config:config?config():nil];
 }
 
-
-#pragma mark - 过期方法
-+ (void)showText:(NSString *)text inView:(UIView *)view
-{
-    __block EasyShowTextConfig *config = [[EasyShowTextConfig alloc]init];
-    config.superView = view ;
-    EasyShowTextConfig *(^configTemp)(void) = ^EasyShowTextConfig *{
-        return config ;
-    };
-    [self showText:text config:configTemp];
-}
-+ (void)showSuccessText:(NSString *)text inView:(UIView *)superView
-{
-    __block EasyShowTextConfig *config = [[EasyShowTextConfig alloc]init];
-    config.superView = superView ;
-    EasyShowTextConfig *(^configTemp)(void) = ^EasyShowTextConfig *{
-        return config ;
-    };
-    [self showSuccessText:text config:configTemp];
-}
-+ (void)showErrorText:(NSString *)text inView:(UIView *)superView
-{
-    __block EasyShowTextConfig *config = [[EasyShowTextConfig alloc]init];
-    config.superView = superView ;
-    EasyShowTextConfig *(^configTemp)(void) = ^EasyShowTextConfig *{
-        return config ;
-    };
-    [self showErrorText:text config:configTemp];
-}
-+ (void)showInfoText:(NSString *)text inView:(UIView *)superView
-{
-    __block EasyShowTextConfig *config = [[EasyShowTextConfig alloc]init];
-    config.superView = superView ;
-    EasyShowTextConfig *(^configTemp)(void) = ^EasyShowTextConfig *{
-        return config ;
-    };
-    [self showInfoText:text config:configTemp];
-}
-+ (void)showImageText:(NSString *)text imageName:(NSString *)imageName inView:(UIView *)superView
-{
-    __block EasyShowTextConfig *config = [[EasyShowTextConfig alloc]init];
-    config.superView = superView ;
-    EasyShowTextConfig *(^configTemp)(void) = ^EasyShowTextConfig *{
-        return config ;
-    };
-    [self showImageText:text imageName:imageName config:configTemp] ;
-}
 
 @end
