@@ -10,36 +10,23 @@
 
 #import "EasyEmptyItem.h"
 #import "EasyEmptyConfig.h"
-
-@class EasyEmptyView ;
-
-typedef NS_ENUM(NSInteger , callbackType) {
-    callbackTypeBgView   = 0,
-    callbackTypeButton_1 = 1,
-    callbackTypeButton_2 = 2,
-};
-
-//typedef NS_ENUM(NSUInteger , emptyViewType) {
-//    emptyViewTypeLoding ,
-//    emptyViewTypeNoData ,
-//    emptyViewTypeNetError ,
-////    emptyViewTypeCustom ,
-//};
-
-typedef void (^emptyViewCallback)(EasyEmptyView *view , UIButton *button , callbackType callbackType);
+#import "EasyEmptyTypes.h"
 
 @interface EasyEmptyView : UIScrollView
 
++ (void)showEmptyInView:(UIView *)superview
+                   item:(EasyEmptyItem *(^)(void))item ;
 
++ (void)showEmptyInView:(UIView *)superview
+                   item:(EasyEmptyItem *(^)(void))item
+                 config:(EasyEmptyConfig *(^)(void))config ;
 
 + (void)showEmptyInView:(UIView *)superview
                    item:(EasyEmptyItem *(^)(void))item
                  config:(EasyEmptyConfig *(^)(void))config
                callback:(emptyViewCallback)callback ;
 
-/**
- * 隐藏空页面展示视图
- */
+
 + (void)hiddenEmptyView:(UIView *)superView ;
 
 

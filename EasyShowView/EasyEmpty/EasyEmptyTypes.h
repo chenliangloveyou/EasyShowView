@@ -7,6 +7,26 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+typedef NS_ENUM(NSInteger , callbackType) {
+    callbackTypeBgView   = 0,
+    callbackTypeButton_1 = 1,
+    callbackTypeButton_2 = 2,
+};
+
+//typedef NS_ENUM(NSUInteger , emptyViewType) {
+//    emptyViewTypeLoding ,
+//    emptyViewTypeNoData ,
+//    emptyViewTypeNetError ,
+////    emptyViewTypeCustom ,
+//};
+
+@class EasyEmptyView ;
+
+typedef void (^emptyViewCallback)(EasyEmptyView *view , UIButton *button , callbackType callbackType);
+
+
 
 @interface EasyEmptyTypes : NSObject
 

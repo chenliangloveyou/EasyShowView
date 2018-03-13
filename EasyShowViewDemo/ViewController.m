@@ -27,7 +27,6 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"接受事件" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarClick)];
     
-    
 }
 
 - (void)rightBarClick
@@ -176,11 +175,7 @@
         case 0:
         {
             [EasyEmptyView showEmptyInView:self.view item:^EasyEmptyItem *{
-                return nil ;
-            } config:^EasyEmptyConfig *{
-                return nil ;
-            } callback:^(EasyEmptyView *view, UIButton *button, callbackType callbackType) {
-
+                return [EasyEmptyItem shared].setTitle(@"网络连接已断开").setImageName(@"netError.png") ;
             }];
           
         }break;
@@ -191,9 +186,9 @@
             [self.view addSubview:redView];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                [EasyEmptyView showEmptyViewWithTitle:@"无网络" subTitle:@"点击重新加载数据！" imageName:@"netError.png" inview:redView callback:^(EasyEmptyView *view, UIButton *button, callbackType callbackType) {
-//                    [redView removeFromSuperview];
-//                }];
+                [EasyEmptyView showEmptyInView:redView item:^EasyEmptyItem *{
+                    return [EasyEmptyItem shared].setTitle(@"你开心就好");
+                } config:nil callback:nil];
             });
             
         }break ;

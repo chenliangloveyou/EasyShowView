@@ -8,12 +8,12 @@
 
 #import "EasyEmptyView.h"
 #import "EasyShowOptions.h"
+#import "EasyEmptyGlobalConfig.h"
 #import "EasyShowUtils.h"
 #import "EasyShowLabel.h"
 #import "UIView+EasyShowExt.h"
 
 @interface EasyEmptyView()
-
 
 @property (nonatomic,strong)EasyEmptyItem *emptyItem ;
 @property (nonatomic,strong)EasyEmptyConfig *emptyConfig ;
@@ -28,65 +28,18 @@
 
 @implementation EasyEmptyView
 
-+ (void)showEmptyInView:(UIView *)superview
-                   item:(EasyEmptyItem *(^)(void))item
-                 config:(EasyEmptyConfig *(^)(void))config
-               callback:(emptyViewCallback)callback
-{
-    
-}
-+ (void)showEmptyViewWithTitle:(NSString *)title
-                    subTitle:(NSString *)subTitle
-                   imageName:(NSString *)imageName
-            buttonTitleArray:(NSArray *)buttonTitleArray
-                      inview:(UIView *)superView
-                    callback:(emptyViewCallback)callback
-{
-    NSAssert(buttonTitleArray.count<3, @"you can't set more than two button") ;
-    
-    EasyEmptyView *emptyView = [[EasyEmptyView alloc]init];
-    emptyView.emptyItem.title = title ;
-    emptyView.emptyItem.subtitle  = subTitle ;
-    emptyView.emptyItem.imageName = imageName ;
-    emptyView.emptyItem.buttonArray = buttonTitleArray ;
-    emptyView.callback = callback ;
-    [superView addSubview:emptyView];
-    
-    [emptyView showView];
-}
-
-+ (void)hiddenEmptyView:(UIView *)superView
-{
-    NSEnumerator *subviewsEnum = [superView.subviews reverseObjectEnumerator];
-    for (UIView *subview in subviewsEnum) {
-        if ([subview isKindOfClass:self]) {
-            //            EasyemptyView *emptyView = (EasyemptyView *)subview ;
-            
-            NSAssert([NSThread isMainThread], @"needs to be accessed on the main thread.");
-            
-            if (![NSThread isMainThread]) {
-                dispatch_async(dispatch_get_main_queue(), ^(void) {
-                });
-            }
-            
-            [UIView animateWithDuration:.3 animations:^{
-                subview.alpha = 0.2 ;
-            } completion:^(BOOL finished) {
-                [subview removeFromSuperview];
-            }] ;
-        }
-    }
-}
-
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter]  removeObserver:self name:UIApplicationWillChangeStatusBarFrameNotification object:nil];
 }
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithConfig:(EasyEmptyConfig *)config
 {
-    if (self = [super initWithFrame:frame]) {
+    if (self = [super init]) {
+        
+        _emptyConfig = config ;
+
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight ;
-        self.backgroundColor = self.emptyConfig.bgColor ;
+        self.backgroundColor = config.bgColor ;
         self.alwaysBounceVertical = YES ;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarChangeNoti:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
     }
@@ -165,7 +118,6 @@
 }
 - (void)showView
 {
-    
     if (self.callback) {
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(buttonClick:)];
         [self addGestureRecognizer:tapGesture];
@@ -279,7 +231,95 @@
     return _defaultTitleLabel ;
 }
 
++ (void)showEmptyInView:(UIView *)superview item:(EasyEmptyItem *(^)(void))item
+{
+    [self showEmptyInView:superview item:item config:nil];
+}
 
++ (void)showEmptyInView:(UIView *)superview item:(EasyEmptyItem *(^)(void))item config:(EasyEmptyConfig *(^)(void))config
+{
+    [self showEmptyInView:superview item:item config:config callback:nil];
+}
+
++ (void)showEmptyInView:(UIView *)superview
+                   item:(EasyEmptyItem *(^)(void))item
+                 config:(EasyEmptyConfig *(^)(void))config
+               callback:(emptyViewCallback)callback
+{
+    
+    EasyEmptyConfig *emptyConfig = [self changeConfigWithConfig:config] ;
+    EasyEmptyItem   *emptyItem = item() ;
+    
+    NSAssert(emptyItem.buttonArray.count<3, @"you can't set more than two button") ;
+    
+    EasyEmptyView *emptyView = [[EasyEmptyView alloc]initWithConfig:emptyConfig];
+    emptyView.emptyItem =emptyItem ;
+    emptyView.callback = callback ;
+    
+    [superview addSubview:emptyView] ;
+    
+    [emptyView showView];
+}
+
++ (void)hiddenEmptyView:(UIView *)superView
+{
+    
+    NSAssert([NSThread isMainThread], @"needs to be accessed on the main thread.");
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+        });
+    }
+    
+    NSEnumerator *subviewsEnum = [superView.subviews reverseObjectEnumerator];
+    for (UIView *subview in subviewsEnum) {
+        if ([subview isKindOfClass:self]) {
+            //EasyemptyView *emptyView = (EasyemptyView *)subview ;
+           
+            [UIView animateWithDuration:.3 animations:^{
+                subview.alpha = 0.2 ;
+            } completion:^(BOOL finished) {
+                [subview removeFromSuperview];
+            }] ;
+        }
+    }
+}
+
++ (EasyEmptyConfig *)changeConfigWithConfig:(EasyEmptyConfig *(^)(void))config
+{
+    EasyEmptyConfig *tempConfig = config ? config() : nil ;
+    if (!tempConfig) {
+        tempConfig = [EasyEmptyConfig shared] ;
+    }
+    
+    EasyEmptyGlobalConfig *globalConfig = [EasyEmptyGlobalConfig shared];
+   
+    if (!tempConfig.bgColor) {
+        tempConfig.bgColor =  globalConfig.bgColor  ;
+    }
+    if (!tempConfig.tittleFont) {
+        tempConfig.tittleFont =globalConfig.tittleFont;
+    }
+    if (!tempConfig.titleColor) {
+        tempConfig.titleColor =  globalConfig.titleColor ;
+    }
+    if (!tempConfig.subtitleFont) {
+        tempConfig.subtitleFont = globalConfig.subtitleFont;
+    }
+    if (!tempConfig.subTitleColor) {
+        tempConfig.subTitleColor = globalConfig.subTitleColor ;
+    }
+    if (!tempConfig.buttonFont) {
+        tempConfig.buttonFont =  globalConfig.buttonFont ;
+    }
+    if (!tempConfig.buttonColor) {
+        tempConfig.buttonColor = globalConfig.buttonColor;
+    }
+    
+    if (tempConfig.buttonEdgeInsets.top==0 && tempConfig.buttonEdgeInsets.left==0 && tempConfig.buttonEdgeInsets.bottom==0 && tempConfig.buttonEdgeInsets.right==0 ) {
+        tempConfig.buttonEdgeInsets = globalConfig.buttonEdgeInsets ;
+    }
+    return tempConfig ;
+}
 
 //+ (void)showEmptyViewLodingWithImageName:(NSString *)imageName
 //                                callback:(emptyViewCallback)callback

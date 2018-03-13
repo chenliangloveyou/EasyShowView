@@ -13,6 +13,7 @@
 
 #import "EasyTextGlobalConfig.h"
 #import "EasyLodingGlobalConfig.h"
+#import "EasyEmptyGlobalConfig.h"
 
 @interface AppDelegate ()
 
@@ -21,25 +22,8 @@
 @implementation AppDelegate
 
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-  
-//    EasyShowOptions *options = [EasyShowOptions sharedEasyShowOptions];
-//    options.textSuperViewReceiveEvent = YES ;
-//    options.textAnimationType = TextAnimationTypeBounce ;
-//    options.textBackGroundColor = [UIColor whiteColor];
-//    options.textTitleColor = [UIColor blackColor];
-//    options.textShadowColor =[UIColor redColor];
-//    NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:7];
-//    for (int i = 0; i < 9 ; i++) {
-//        NSString *tempString = [NSString stringWithFormat:@"icon_hud_%zd",i+1];
-//        [tempArray addObject:[UIImage imageNamed:tempString]];
-//    }
-//    options.lodingPlayImagesArray = [NSArray arrayWithArray:tempArray ];
-//    options.lodingSuperViewReceiveEvent = YES ;
-    
-    
-    
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
     
     EasyTextGlobalConfig *config = [EasyTextGlobalConfig shared];
     config.bgColor = [UIColor whiteColor];
@@ -61,7 +45,8 @@
 //    EasyLodingGlobalConfig *lodingConfig = [EasyLodingGlobalConfig sharedEasyLodingGlobalConfig];
 //    lodingConfig.lodingSuperViewReceiveEvent = YES ;
     
-    
+    EasyEmptyGlobalConfig  *emptyConfig = [EasyEmptyGlobalConfig shared];
+    emptyConfig.bgColor = [UIColor lightGrayColor];
     
     
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:[ViewController new]];
