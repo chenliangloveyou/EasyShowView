@@ -15,19 +15,14 @@
 @interface EasyEmptyView()
 
 
-@property (nonatomic,strong)NSString *title ;
-@property (nonatomic,strong)NSString *subTitle ;
-@property (nonatomic,strong)NSString *imageName ;
-@property (nonatomic,strong)NSArray *buttonTitleArray ;
+@property (nonatomic,strong)EasyEmptyItem *emptyItem ;
+@property (nonatomic,strong)EasyEmptyConfig *emptyConfig ;
 @property (nonatomic,strong)emptyViewCallback callback ;
 
 @property (nonatomic,strong)UIView *bgContentView ;
 @property (nonatomic,strong)UILabel *defaultTitleLabel ;
 @property (nonatomic,strong)UILabel *defaultSubTitleLabel ;
 @property (nonatomic,strong)UIImageView *defaultImageView ;
-
-@property (nonatomic,strong)EasyShowOptions *options ;
-
 
 @end
 
@@ -50,10 +45,10 @@
     NSAssert(buttonTitleArray.count<3, @"you can't set more than two button") ;
     
     EasyEmptyView *emptyView = [[EasyEmptyView alloc]init];
-    emptyView.title = title ;
-    emptyView.subTitle  = subTitle ;
-    emptyView.imageName = imageName ;
-    emptyView.buttonTitleArray = buttonTitleArray ;
+    emptyView.emptyItem.title = title ;
+    emptyView.emptyItem.subtitle  = subTitle ;
+    emptyView.emptyItem.imageName = imageName ;
+    emptyView.emptyItem.buttonArray = buttonTitleArray ;
     emptyView.callback = callback ;
     [superView addSubview:emptyView];
     
@@ -91,7 +86,7 @@
 {
     if (self = [super initWithFrame:frame]) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight ;
-        self.backgroundColor = self.options.emptyViewBackgroundColor ;
+        self.backgroundColor = self.emptyConfig.bgColor ;
         self.alwaysBounceVertical = YES ;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarChangeNoti:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
     }
@@ -121,8 +116,8 @@
     
     CGFloat contentWidth = [self bgViewWidth];//bgcontentview的高度
     __block CGFloat contentHeight = 0 ;//计算bgcontentview的高度
-    if (!ISEMPTY_S(self.imageName)) {
-        UIImage *defaultImage = [UIImage imageNamed:self.imageName];
+    if (!ISEMPTY_S(self.emptyItem.imageName)) {
+        UIImage *defaultImage = [UIImage imageNamed:self.emptyItem.imageName];
         CGSize imageSize = defaultImage.size ;
         if (imageSize.width > contentWidth*2/3.0f) {
             imageSize.height = (imageSize.height*(contentWidth*2/3.0f))/imageSize.width ;
@@ -132,21 +127,21 @@
         contentHeight += imageSize.height+10 ;
     }
     
-    if (!ISEMPTY_S(self.title)) {
+    if (!ISEMPTY_S(self.emptyItem.title)) {
         CGSize titleSize = [self.defaultTitleLabel sizeThatFits:CGSizeMake(contentWidth, MAXFLOAT)];
         self.defaultTitleLabel.frame = CGRectMake(0, contentHeight, contentWidth, titleSize.height);
         
         contentHeight += self.defaultTitleLabel.height ;
     }
     
-    if (!ISEMPTY_S(self.subTitle)) {
+    if (!ISEMPTY_S(self.emptyItem.subtitle)) {
         CGSize titleSize = [self.defaultSubTitleLabel sizeThatFits:CGSizeMake(contentWidth, MAXFLOAT)];
         self.defaultSubTitleLabel.frame = CGRectMake(0, contentHeight, contentWidth, titleSize.height);
         
         contentHeight += self.defaultSubTitleLabel.height ;
     }
     
-    __weak typeof(NSArray *) weakButtonArray = self.buttonTitleArray ;
+    __weak typeof(NSArray *) weakButtonArray = self.emptyItem.buttonArray ;
     [self.bgContentView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj isKindOfClass:[UIButton class]]) {
             CGRect buttonFrame = obj.frame ;
@@ -177,19 +172,19 @@
     }
     [self addSubview:self.bgContentView];
     
-    if (!ISEMPTY_S(self.imageName)) {
-        self.defaultImageView.image = [UIImage imageNamed:self.imageName] ;
+    if (!ISEMPTY_S(self.emptyItem.imageName)) {
+        self.defaultImageView.image = [UIImage imageNamed:self.emptyItem.imageName] ;
     }
     
-    if (!ISEMPTY_S(self.title)) {
-        self.defaultTitleLabel.text = self.title ;
+    if (!ISEMPTY_S(self.emptyItem.title)) {
+        self.defaultTitleLabel.text = self.emptyItem.title ;
     }
     
-    if (!ISEMPTY_S(self.subTitle)) {
-        self.defaultSubTitleLabel.text = self.subTitle ;
+    if (!ISEMPTY_S(self.emptyItem.subtitle)) {
+        self.defaultSubTitleLabel.text = self.emptyItem.subtitle ;
     }
     
-    for (int i = 0 ; i < self.buttonTitleArray.count; i++) {
+    for (int i = 0 ; i < self.emptyItem.buttonArray.count; i++) {
         UIButton *button = [self defaultButtonWithIndex:i contentWidth:[self bgViewWidth]] ;
         [self.bgContentView addSubview:button];
     }
@@ -216,21 +211,21 @@
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitleColor:self.options.emptyButtonColor forState:UIControlStateNormal];
-    [button setTitleColor:[self.options.emptyButtonColor colorWithAlphaComponent:0.5f] forState:UIControlStateHighlighted];
-    [button setBackgroundImage:[EasyShowUtils imageWithColor:self.options.emptyButtonBackgroundColor] forState:UIControlStateNormal];
-    [button setBackgroundImage:[EasyShowUtils imageWithColor:[self.options.emptyButtonBackgroundColor colorWithAlphaComponent:0.5f]]  forState:UIControlStateHighlighted];
+    [button setTitleColor:self.emptyConfig.buttonColor forState:UIControlStateNormal];
+    [button setTitleColor:[self.emptyConfig.buttonColor colorWithAlphaComponent:0.5f] forState:UIControlStateHighlighted];
+    [button setBackgroundImage:[EasyShowUtils imageWithColor:self.emptyConfig.bgColor] forState:UIControlStateNormal];
+    [button setBackgroundImage:[EasyShowUtils imageWithColor:[self.emptyConfig.bgColor colorWithAlphaComponent:0.5f]]  forState:UIControlStateHighlighted];
     button.titleLabel.numberOfLines = 0 ;
-    [button setTitleEdgeInsets:self.options.emptyButtonEdgeInsets];
-    button.titleLabel.font = self.options.emptyButtonFount ;
+    [button setTitleEdgeInsets:self.emptyConfig.buttonEdgeInsets];
+    button.titleLabel.font = self.emptyConfig.buttonFont ;
     [button setTag:index+1];
     
-    NSString *titleString = self.buttonTitleArray[index];
-    CGFloat buttonMaxWidth = contentWidth/self.buttonTitleArray.count - self.options.emptyButtonEdgeInsets.left - self.options.emptyButtonEdgeInsets.right ;
+    NSString *titleString = self.emptyItem.buttonArray[index];
+    CGFloat buttonMaxWidth = contentWidth/self.emptyItem.buttonArray.count - self.emptyConfig.buttonEdgeInsets.left - self.emptyConfig.buttonEdgeInsets.right ;
     NSMutableAttributedString *astr = [[NSMutableAttributedString alloc] initWithString:titleString attributes:nil];
     [astr setAttributes:@{NSFontAttributeName:button.titleLabel.font} range:NSMakeRange(0, titleString.length)];
     CGSize buttonSize = [astr boundingRectWithSize:CGSizeMake(buttonMaxWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading context:nil].size;
-    buttonSize = CGSizeMake(buttonSize.width+self.options.emptyButtonEdgeInsets.left + self.options.emptyButtonEdgeInsets.right, buttonSize.height+self.options.emptyButtonEdgeInsets.top+self.options.emptyButtonEdgeInsets.bottom) ;
+    buttonSize = CGSizeMake(buttonSize.width+self.emptyConfig.buttonEdgeInsets.left + self.emptyConfig.buttonEdgeInsets.right, buttonSize.height+self.emptyConfig.buttonEdgeInsets.top+self.emptyConfig.buttonEdgeInsets.bottom) ;
     [button setFrame:CGRectMake(0, 0, buttonSize.width, buttonSize.height)];
     [button  setRoundedCorners:4];
     
@@ -261,8 +256,8 @@
 {
     if (nil == _defaultSubTitleLabel) {
         _defaultSubTitleLabel =  [[EasyShowLabel alloc] initWithContentInset:UIEdgeInsetsMake(10, 20, 10, 20)];
-        _defaultSubTitleLabel.textColor = self.options.emptySubTitleColor ;
-        _defaultSubTitleLabel.font = self.options.emptySubTitleFount ;
+        _defaultSubTitleLabel.textColor = self.emptyConfig.subTitleColor ;
+        _defaultSubTitleLabel.font = self.emptyConfig.subtitleFont ;
         _defaultSubTitleLabel.numberOfLines = 0 ;
         _defaultSubTitleLabel.textAlignment = NSTextAlignmentCenter ;
         _defaultSubTitleLabel.backgroundColor = kColorRandom_S ;
@@ -274,8 +269,8 @@
 {
     if (nil == _defaultTitleLabel) {
         _defaultTitleLabel = [[EasyShowLabel alloc] initWithContentInset:UIEdgeInsetsMake(10, 30, 10, 30)];;
-        _defaultTitleLabel.textColor = self.options.emptyTitleColor ;
-        _defaultTitleLabel.font = self.options.emptyTitleFount ;
+        _defaultTitleLabel.textColor = self.emptyConfig.titleColor ;
+        _defaultTitleLabel.font = self.emptyConfig.tittleFont ;
         _defaultTitleLabel.numberOfLines = 0 ;
         _defaultTitleLabel.backgroundColor = kColorRandom_S ;
         _defaultTitleLabel.textAlignment = NSTextAlignmentCenter ;
@@ -283,25 +278,18 @@
     }
     return _defaultTitleLabel ;
 }
-- (EasyShowOptions *)options
-{
-    if (nil == _options) {
-        _options = [EasyShowOptions sharedEasyShowOptions];
-    }
-    return _options ;
-}
 
 
 
-+ (void)showEmptyViewLodingWithImageName:(NSString *)imageName
-                                callback:(emptyViewCallback)callback
-{
-}
-
-+ (void)showEmptyViewLodingWithTitle:(NSString *)title
-                            callback:(emptyViewCallback)callback
-{
-}
+//+ (void)showEmptyViewLodingWithImageName:(NSString *)imageName
+//                                callback:(emptyViewCallback)callback
+//{
+//}
+//
+//+ (void)showEmptyViewLodingWithTitle:(NSString *)title
+//                            callback:(emptyViewCallback)callback
+//{
+//}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

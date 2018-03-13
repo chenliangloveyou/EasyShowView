@@ -10,4 +10,13 @@
 
 @implementation EasyEmptyGlobalConfig
 
+easyShowView_singleton_implementation(EasyEmptyGlobalConfig)
+
+- (instancetype)init
+{
+    if (self = [super init]) {
+        
+    }
+    return self ;
+}
 @end

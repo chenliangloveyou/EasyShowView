@@ -10,6 +10,7 @@
 
 #import "EasyEmptyItem.h"
 #import "EasyEmptyConfig.h"
+
 @class EasyEmptyView ;
 
 typedef NS_ENUM(NSInteger , callbackType) {
