@@ -95,6 +95,13 @@ static class *_showInstance; \
 
 UIKIT_EXTERN const NSInteger EasyUndefine  ;     //属性没有传值的定义
 
+typedef NS_ENUM(NSInteger, EasyShowEnum) {
+    EasyShowEnumUndefine = 0 ,
+    EasyShowEnumNo = 1,
+    EasyShowEnumYes ,
+};
+
+
 @interface EasyShowUtils : NSObject
 
 + (CGSize)textWidthWithStirng:(NSString *)string font:(UIFont *)font maxWidth:(CGFloat)maxWidth ;

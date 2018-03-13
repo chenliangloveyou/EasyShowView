@@ -1,5 +1,5 @@
 //
-//  EasyShowEmptyItem.h
+//  EasyEmptyItem.h
 //  EasyShowViewDemo
 //
 //  Created by Mr_Chen on 2018/3/5.
@@ -8,18 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-@interface EasyShowEmptyItem : NSObject
+@interface EasyEmptyItem : NSObject
 
 @property (nonatomic,strong)NSString *title ;
 @property (nonatomic,strong)NSString *subtitle ;
 @property (nonatomic,strong)NSString *imageName ;
 @property (nonatomic,strong)NSArray<NSString *> *buttonArray ;
 
-+ (instancetype)shareItem ;
-- (EasyShowEmptyItem *(^)(NSString *title))setTitle ;
-- (EasyShowEmptyItem *(^)(NSString *subTitle))setSubtitle ;
-- (EasyShowEmptyItem *(^)(NSString *imageName))setImageName ;
-- (EasyShowEmptyItem *(^)(NSArray<NSString *> *buttonArray))setButtonArray ;
++ (instancetype)shared ;
+- (EasyEmptyItem *(^)(NSString *))setTitle ;
+- (EasyEmptyItem *(^)(NSString *))setSubtitle ;
+- (EasyEmptyItem *(^)(NSString *))setImageName ;
+- (EasyEmptyItem *(^)(NSArray<NSString *> *))setButtonArray ;
 
 
 + (instancetype)itemWithTitle:(NSString *)title ;

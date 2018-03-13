@@ -27,6 +27,7 @@
 + (void)showLodingText:(NSString *)text
                 config:(EasyLodingConfig *(^)(void))config ;
 
+
 + (void)showLodingText:(NSString *)text
              imageName:(NSString *)imageName ;
 
@@ -41,10 +42,6 @@
 + (void)hidenLoding ;
 + (void)hidenLoingInView:(UIView *)superView ;
 
-
-//过期方法
-+ (void)showLodingText:(NSString *)text inView:(UIView *)superView ;
-+ (void)showLodingText:(NSString *)text imageName:(NSString *)imageName inView:(UIView *)superView ;
 
 
 @end

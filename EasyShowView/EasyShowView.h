@@ -12,7 +12,7 @@
 #import "EasyTextView.h"
 #import "EasyLodingView.h"
 #import "EasyShowAlertView.h"
-#import "EasyShowEmptyView.h"
+#import "EasyEmptyView.h"
 
 #import "EasyShowOptions.h"
 #import "EasyShowTypes.h"

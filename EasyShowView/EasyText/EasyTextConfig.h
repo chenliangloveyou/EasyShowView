@@ -46,15 +46,15 @@
 
 #pragma mark - 链式编程设置属性(和上面直接设置属性一样)
 
-- (EasyTextConfig *(^)(UIView *spuerView))setSuperView ;
-- (EasyTextConfig *(^)(ShowTextEvent receive))setSuperReceiveEvent ;
-- (EasyTextConfig *(^)(TextAnimationType animationType))setAnimationType ;
-- (EasyTextConfig *(^)(ShowTextStatusType statusType))setTextStatusType ;
+- (EasyTextConfig *(^)(UIView *))setSuperView ;
+- (EasyTextConfig *(^)(ShowTextEvent))setSuperReceiveEvent ;
+- (EasyTextConfig *(^)(TextAnimationType))setAnimationType ;
+- (EasyTextConfig *(^)(ShowTextStatusType))setTextStatusType ;
 
-- (EasyTextConfig *(^)(UIFont *titleFont))setTitleFont ;
-- (EasyTextConfig *(^)(UIColor *titleColor))setTitleColor ;
-- (EasyTextConfig *(^)(UIColor *bgColor))setBgColor ;
-- (EasyTextConfig *(^)(UIColor *shadowColor))setShadowColor ;
+- (EasyTextConfig *(^)(UIFont *))setTitleFont ;
+- (EasyTextConfig *(^)(UIColor *))setTitleColor ;
+- (EasyTextConfig *(^)(UIColor *))setBgColor ;
+- (EasyTextConfig *(^)(UIColor *))setShadowColor ;
 
 
 #pragma mark - 类方法设置属性(和上面直接设置属性一样)

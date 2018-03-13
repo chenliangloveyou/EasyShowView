@@ -477,49 +477,8 @@
     return _imageViewIndeicator ;
 }
 
-#pragma mark - 工具方法
-+ (UIView *)showLodingEmptyView
-{
-    UIView *showView = [UIApplication sharedApplication].keyWindow ;
-    if ([EasyLodingGlobalConfig isUseLoeingGlobalConfig]) {
-        if (![EasyLodingGlobalConfig sharedEasyLodingGlobalConfig].showOnWindow) {
-            showView = [EasyShowUtils easyShowViewTopViewController].view ;
-        }
-    }
-    else{
-//        if (![EasyShowOptions sharedEasyShowOptions].lodingShowOnWindow) {
-//            showView = [EasyShowUtils easyShowViewTopViewController].view ;
-//        }
-    }
-    return showView ;
-}
 
 #pragma mark - 类方法
-
-
-+ (void)hidenLoding
-{
-    UIView *showView = [EasyShowUtils easyShowViewTopViewController].view ;
-#warning 还需要处理
-//    if ([EasyShowOptions sharedEasyShowOptions].lodingShowOnWindow) {
-//        showView = [UIApplication sharedApplication].keyWindow ;
-//    }
-    [self hidenLoingInView:showView];
-}
-+ (void)hidenLoingInView:(UIView *)superView
-{
-    NSEnumerator *subviewsEnum = [superView.subviews reverseObjectEnumerator];
-    for (UIView *subview in subviewsEnum) {
-        if ([subview isKindOfClass:self]) {
-            EasyLodingView *showView = (EasyLodingView *)subview ;
-            
-            [showView removeSelfFromSuperView];
-        }
-    }
-}
-
-
-
 + (void)showLoding
 {
     [self showLodingText:@""];
@@ -530,10 +489,8 @@
 }
 + (void)showLodingText:(NSString *)text imageName:(NSString *)imageName
 {
-    __block EasyLodingConfig *config = [[EasyLodingConfig alloc]init];
-    config.superView = [self showLodingEmptyView] ;
     EasyLodingConfig *(^configTemp)(void) = ^EasyLodingConfig *{
-        return config ;
+        return [EasyLodingConfig shared] ;
     };
     [self showLodingText:text imageName:imageName config:configTemp];
     
@@ -543,15 +500,14 @@
 {
     [self showLodingText:text imageName:nil config:config];
 }
-+ (void)showLodingText:(NSString *)text
-             imageName:(NSString *)imageName
-                config:(EasyLodingConfig *(^)(void))config
+
++ (void)showLodingText:(NSString *)text imageName:(NSString *)imageName config:(EasyLodingConfig *(^)(void))config
 {
     NSAssert(config, @"there shoud have a superview!") ;
     
     if (nil == config) {
         EasyLodingConfig *(^configTemp)(void) = ^EasyLodingConfig *{
-            return  [[EasyLodingConfig alloc]init];
+            return  [EasyLodingConfig shared];
         };
         config = configTemp ;
     }
@@ -563,36 +519,71 @@
     }
     
     EasyLodingConfig *tempConfig = [self changeConfigWithConfig:config] ;
+    if (!tempConfig.superView) {
+        if (tempConfig.showOnWindow == EasyShowEnumYes) {
+            tempConfig.superView = [UIApplication sharedApplication].keyWindow ;
+        }else{
+            tempConfig.superView = [EasyShowUtils easyShowViewTopViewController].view ;
+        }
+    }
     
     //显示之前---->隐藏还在显示的视图
-    NSEnumerator *subviewsEnum = [tempConfig.superView.subviews reverseObjectEnumerator];
+    [self hidenLoingInView:tempConfig.superView];
+    
+    //创建显示的view
+    EasyLodingView *lodingView = [[EasyLodingView alloc]initWithFrame:CGRectZero
+                                                             showText:text
+                                                            iamgeName:imageName
+                                                               config:tempConfig];
+    //lodingview加到父视图上面
+    [tempConfig.superView addSubview:lodingView];
+    
+}
+
+
++ (void)hidenLoding
+{
+    UIView *showView = nil ;
+    if ([EasyLodingGlobalConfig shared].showOnWindow == YES) {
+        showView = [UIApplication sharedApplication].keyWindow ;
+    }else{
+        showView = [EasyShowUtils easyShowViewTopViewController].view ;
+    }
+    [self hidenLoingInView:showView];
+}
++ (void)hidenLoingInView:(UIView *)superView
+{
+    NSEnumerator *subviewsEnum = [superView.subviews reverseObjectEnumerator];
     for (UIView *subview in subviewsEnum) {
         if ([subview isKindOfClass:self]) {
             EasyLodingView *showView = (EasyLodingView *)subview ;
             [showView removeSelfFromSuperView];
         }
     }
-    
-    if (!tempConfig.superView) {
-        tempConfig.superView = [self showLodingEmptyView] ;
-    }
-    EasyLodingView *lodingView = [[EasyLodingView alloc]initWithFrame:CGRectZero
-                                                                     showText:text
-                                                                    iamgeName:imageName
-                                                                       config:tempConfig];
-    [tempConfig.superView addSubview:lodingView];
-    
-//    [self EasyLodingViewWithText:text
-//                           imageName:imageName
-//                              config:config?config():nil];
 }
+
+#pragma mark - 工具方法
+//+ (UIView *)showLodingEmptyView
+//{
+//    UIView *showView = [UIApplication sharedApplication].keyWindow ;
+//    if ([EasyLodingGlobalConfig isUseLoeingGlobalConfig]) {
+//        if (![EasyLodingGlobalConfig sharedEasyLodingGlobalConfig].showOnWindow) {
+//            showView = [EasyShowUtils easyShowViewTopViewController].view ;
+//        }
+//    }
+//    else{
+////        if (![EasyShowOptions sharedEasyShowOptions].lodingShowOnWindow) {
+////            showView = [EasyShowUtils easyShowViewTopViewController].view ;
+////        }
+//    }
+//    return showView ;
+//}
 
 + (EasyLodingConfig *)changeConfigWithConfig:(EasyLodingConfig *(^)(void))config
 {
-    EasyLodingConfig *tempConfig = config ? config() : [[EasyLodingConfig alloc]init] ;
+    EasyLodingConfig *tempConfig = config ? config() : [EasyLodingConfig shared] ;
     
-    
-    EasyLodingGlobalConfig *globalConfig = [EasyLodingGlobalConfig sharedEasyLodingGlobalConfig];
+    EasyLodingGlobalConfig *globalConfig = [EasyLodingGlobalConfig shared];
     
     if (tempConfig.lodingType == EasyUndefine) {
         tempConfig.lodingType =  globalConfig.lodingType  ;
@@ -603,8 +594,7 @@
     if (tempConfig.superReceiveEvent == EasyUndefine ) {
         tempConfig.superReceiveEvent = globalConfig.superReceiveEvent ;
     }
-#warning 这里几处都需要处理
-    if (!tempConfig.showOnWindow) {
+    if (tempConfig.showOnWindow == EasyShowEnumUndefine ) {
         tempConfig.showOnWindow = globalConfig.showOnWindow ;
     }
     if (!tempConfig.cycleCornerWidth) {
@@ -626,23 +616,6 @@
 }
 
 
-+ (void)showLodingText:(NSString *)text inView:(UIView *)superView
-{
-    __block EasyLodingConfig *config = [[EasyLodingConfig alloc]init];
-    config.superView = superView ;
-    EasyLodingConfig *(^configTemp)(void) = ^EasyLodingConfig *{
-        return config ;
-    };
-    [self showLodingText:text config:configTemp];
-}
-+ (void)showLodingText:(NSString *)text imageName:(NSString *)imageName inView:(UIView *)superView
-{
-    __block EasyLodingConfig *config = [[EasyLodingConfig alloc]init];
-    config.superView = superView ;
-    EasyLodingConfig *(^configTemp)(void) = ^EasyLodingConfig *{
-        return config ;
-    };
-    [self showLodingText:text imageName:imageName config:configTemp];
-}
+
 @end
 

@@ -1,43 +1,44 @@
 //
-//  EasyShowEmptyItem.m
+//  EasyEmptyItem.m
 //  EasyShowViewDemo
 //
 //  Created by Mr_Chen on 2018/3/5.
 //  Copyright © 2018年 chenliangloveyou. All rights reserved.
 //
 
-#import "EasyShowEmptyItem.h"
+#import "EasyEmptyItem.h"
 
-@implementation EasyShowEmptyItem
+@implementation EasyEmptyItem
 
-+ (instancetype)shareItem
++ (instancetype)shared
 {
     return [[self alloc]init] ;
 }
-- (EasyShowEmptyItem *(^)(NSString *title))setTitle
+
+- (EasyEmptyItem *(^)(NSString *))setTitle
 {
-    return ^EasyShowEmptyItem* (NSString *title) {
+    return ^EasyEmptyItem* (NSString *title) {
         self.title = title;
         return self;
     };
 }
-- (EasyShowEmptyItem *(^)(NSString *))setSubtitle
+- (EasyEmptyItem *(^)(NSString *))setSubtitle
 {
-    return ^EasyShowEmptyItem* (NSString *subtitle){
+    return ^EasyEmptyItem* (NSString *subtitle){
         self.subtitle = subtitle ;
         return self ;
     };
 }
-- (EasyShowEmptyItem *(^)(NSString *))setImageName
+- (EasyEmptyItem *(^)(NSString *))setImageName
 {
-    return ^EasyShowEmptyItem *(NSString *imageName){
+    return ^EasyEmptyItem *(NSString *imageName){
         self.imageName = imageName ;
         return self ;
     };
 }
-- (EasyShowEmptyItem *(^)(NSArray<NSString *> *))setButtonArray
+- (EasyEmptyItem *(^)(NSArray<NSString *> *))setButtonArray
 {
-    return ^EasyShowEmptyItem *(NSArray *buttonArray){
+    return ^EasyEmptyItem *(NSArray *buttonArray){
         self.buttonArray = buttonArray ;
         return self ;
     };
@@ -58,7 +59,7 @@
 }
 + (instancetype)itemWithTitle:(NSString *)title subtitle:(NSString *)subtitle imageName:(NSString *)imageName buttonArray:(NSArray *)buttonArray
 {
-    EasyShowEmptyItem *item = [[EasyShowEmptyItem alloc]init];
+    EasyEmptyItem *item = [[EasyEmptyItem alloc]init];
     item.title = title ;
     item.subtitle = subtitle ;
     item.imageName = imageName ;

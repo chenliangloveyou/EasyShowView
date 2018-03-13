@@ -175,24 +175,14 @@
     switch (row) {
         case 0:
         {
-            [EasyShowEmptyView showEmptyViewWithItem:^EasyShowEmptyItem *{
-                return [EasyShowEmptyItem shareItem].setImageName(@"kk").setTitle(@"您好") ;
-            } config:^EasyShowEmptyConfig *{
-                return [EasyShowEmptyConfig configWithBgColor:[UIColor whiteColor]];
-            } inView:self.view callback:^(EasyShowEmptyView *view, UIButton *button, callbackType callbackType) {
-                
+            [EasyEmptyView showEmptyInView:self.view item:^EasyEmptyItem *{
+                return nil ;
+            } config:^EasyEmptyConfig *{
+                return nil ;
+            } callback:^(EasyEmptyView *view, UIButton *button, callbackType callbackType) {
+
             }];
-            __weak typeof(self) weakself = self ;
-            [EasyShowEmptyView showEmptyViewWithTitle:@"网络错误" subTitle:@"请检查网络是否连接正常,点击重新刷新！" imageName:@"noNetFlags.png" buttonTitleArray:@[@"回主页",@"再次加载"] inview:self.view callback:^(EasyShowEmptyView *view, UIButton *button, callbackType callbackType) {
-                switch (callbackType) {
-                    case callbackTypeButton_1:{
-                        SecondViewController *secondVC = [[SecondViewController alloc]init];
-                        [weakself.navigationController pushViewController:secondVC animated:YES];
-                    } break;
-                    default:
-                        break;
-                }
-            }];
+          
         }break;
         case 1:
         {
@@ -201,9 +191,9 @@
             [self.view addSubview:redView];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [EasyShowEmptyView showEmptyViewWithTitle:@"无网络" subTitle:@"点击重新加载数据！" imageName:@"netError.png" inview:redView callback:^(EasyShowEmptyView *view, UIButton *button, callbackType callbackType) {
-                    [redView removeFromSuperview];
-                }];
+//                [EasyEmptyView showEmptyViewWithTitle:@"无网络" subTitle:@"点击重新加载数据！" imageName:@"netError.png" inview:redView callback:^(EasyEmptyView *view, UIButton *button, callbackType callbackType) {
+//                    [redView removeFromSuperview];
+//                }];
             });
             
         }break ;
@@ -215,13 +205,15 @@
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
               
-                [EasyShowEmptyView showEmptyViewWithTitle:@"无数据" subTitle:@"" imageName:@"nodata_icon.png" buttonTitleArray:@[@"重新加载数据"] inview:blueView callback:^(EasyShowEmptyView *view, UIButton *button, callbackType callbackType) {
-                    [EasyLodingView showLodingText:@"正在加载..." inView:blueView];
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                        [EasyLodingView hidenLoingInView:blueView];
-                        [blueView removeFromSuperview];
-                    });
-                }];
+//                [EasyEmptyView showEmptyViewWithTitle:@"无数据" subTitle:@"" imageName:@"nodata_icon.png" buttonTitleArray:@[@"重新加载数据"] inview:blueView callback:^(EasyEmptyView *view, UIButton *button, callbackType callbackType) {
+//                    [EasyLodingView showLodingText:@"正在加载中..." config:^EasyLodingConfig *{
+//                        return [EasyLodingConfig shared].setSuperView(blueView);
+//                    }];
+//                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                        [EasyLodingView hidenLoingInView:blueView];
+//                        [blueView removeFromSuperview];
+//                    });
+//                }];
                
             });
         }break ;

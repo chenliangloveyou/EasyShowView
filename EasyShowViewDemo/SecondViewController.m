@@ -27,16 +27,21 @@
     greenView.backgroundColor = [UIColor greenColor];
     [self.view addSubview:greenView];
     
-    
-    [EasyLodingView showLodingText:@"正在加载中" inView:greenView] ;
+    [EasyLodingView showLodingText:@"加载中..." config:^EasyLodingConfig *{
+        return [EasyLodingConfig shared].setSuperView(greenView);
+    }];
     __weak typeof(self) weakSelf = self ;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [EasyLodingView hidenLoingInView:greenView];
-        [EasyShowEmptyView showEmptyViewWithTitle:@"网络错误" subTitle:@"请检查网络是否正常，点击返回首页..." imageName:@"netError.png" buttonTitleArray:@[@"显示成功",@"重新选择"] inview:greenView callback:^(EasyShowEmptyView *view, UIButton *button, callbackType callbackType) {
+        [EasyEmptyView showEmptyInView:greenView item:^EasyEmptyItem *{
+            return [EasyEmptyItem shared].setTitle(@"网络错误").setSubtitle(@"请检查网络是否正常，点击返回首页...");
+        } config:^EasyEmptyConfig *{
+            return nil ;
+        } callback:^(EasyEmptyView *view, UIButton *button, callbackType callbackType) {
             switch (callbackType) {
                 case callbackTypeBgView:
                     [weakSelf.navigationController popViewControllerAnimated:YES];
-                break;
+                    break;
                 case callbackTypeButton_1:{
                     [EasyTextView showSuccessText:@"加载成功" config:^EasyTextConfig *{
                         return [EasyTextConfig shared].setSuperView(greenView);
@@ -65,6 +70,7 @@
                     break;
             }
         }];
+        
 
     });
     // Do any additional setup after loading the view.

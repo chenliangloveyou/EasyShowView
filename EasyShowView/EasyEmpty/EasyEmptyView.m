@@ -1,18 +1,18 @@
 //
-//  EasyShowEmptyView.m
+//  EasyEmptyView.m
 //  EasyShowViewDemo
 //
 //  Created by nf on 2018/1/16.
 //  Copyright © 2018年 chenliangloveyou. All rights reserved.
 //
 
-#import "EasyShowEmptyView.h"
+#import "EasyEmptyView.h"
 #import "EasyShowOptions.h"
 #import "EasyShowUtils.h"
 #import "EasyShowLabel.h"
 #import "UIView+EasyShowExt.h"
 
-@interface EasyShowEmptyView()
+@interface EasyEmptyView()
 
 
 @property (nonatomic,strong)NSString *title ;
@@ -31,54 +31,14 @@
 
 @end
 
-@implementation EasyShowEmptyView
+@implementation EasyEmptyView
 
-
-//+ (instancetype)emptyViewWithDict:(NSDictionary *)dict callback:(emptyViewCallback)callback
-//{
-//    UIView *superView = [dict objectForKey:EasyDefaultSuperViewKey];
-//    NSString *title = [dict objectForKey:EasyDefaultTitleKey];
-//    NSString *subTitle = [dict objectForKey:EasyDefaultSubTitleKey] ;
-//    NSString *imageName= [dict objectForKey:EasyDefaultImageNameKey];
-//    NSArray *buttonArray = [dict objectForKey:EasyDefaultButtonTitleArrayKey];
-//    [self emptyViewWithTitle:title subTitle:subTitle imageName:imageName buttonTitleArray:buttonArray inview:superView callback:callback];
-//    
-//    return nil ;
-//}
-+ (void)showEmptyViewWithTitle:(NSString *)title
-                      inview:(UIView *)superView
++ (void)showEmptyInView:(UIView *)superview
+                   item:(EasyEmptyItem *(^)(void))item
+                 config:(EasyEmptyConfig *(^)(void))config
+               callback:(emptyViewCallback)callback
 {
-    [self showEmptyViewWithTitle:title subTitle:nil imageName:nil buttonTitleArray:nil inview:superView callback:nil];
-}
-
-+ (void)showEmptyViewWithImageName:(NSString *)imageName
-                          inview:(UIView *)superView
-{
-    [self showEmptyViewWithTitle:nil subTitle:nil imageName:imageName buttonTitleArray:nil inview:superView callback:nil];
-}
-
-+ (void)showEmptyViewWithTitle:(NSString *)title
-                    subTitle:(NSString *)subTitle
-                      inview:(UIView *)superView
-{
-    [self showEmptyViewWithTitle:title subTitle:subTitle imageName:nil buttonTitleArray:nil inview:superView callback:nil];
-}
-
-+ (void)showEmptyViewWithtitle:(NSString *)title
-                    subTitle:(NSString *)subTitle
-                   imageName:(NSString *)imageName
-                      inview:(UIView *)superView
-{
-    [self showEmptyViewWithTitle:title subTitle:subTitle imageName:imageName buttonTitleArray:nil inview:superView callback:nil];
-}
-
-+ (void)showEmptyViewWithTitle:(NSString *)title
-                    subTitle:(NSString *)subTitle
-                   imageName:(NSString *)imageName
-                      inview:(UIView *)superView
-                    callback:(emptyViewCallback)callback
-{
-    [self showEmptyViewWithTitle:title subTitle:subTitle imageName:imageName buttonTitleArray:nil inview:superView callback:callback];
+    
 }
 + (void)showEmptyViewWithTitle:(NSString *)title
                     subTitle:(NSString *)subTitle
@@ -89,7 +49,7 @@
 {
     NSAssert(buttonTitleArray.count<3, @"you can't set more than two button") ;
     
-    EasyShowEmptyView *emptyView = [[EasyShowEmptyView alloc]init];
+    EasyEmptyView *emptyView = [[EasyEmptyView alloc]init];
     emptyView.title = title ;
     emptyView.subTitle  = subTitle ;
     emptyView.imageName = imageName ;
@@ -143,7 +103,7 @@
 }
 - (void)buttonClick:(UIButton *)button
 {
-    [EasyShowEmptyView hiddenEmptyView:self.superview];
+    [EasyEmptyView hiddenEmptyView:self.superview];
     
     if (self.callback) {
         if ([button isKindOfClass:[UIButton class]]) {

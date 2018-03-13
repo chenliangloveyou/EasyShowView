@@ -55,25 +55,25 @@
     };
 }
 
-- (EasyLodingConfig *(^)(UIColor *titleColor))setTintColor{
+- (EasyLodingConfig *(^)(UIColor *))setTintColor{
     return ^EasyLodingConfig *(UIColor *titleColor){
         self.tintColor = titleColor ;
         return self ;
     };
 }
-- (EasyLodingConfig *(^)(UIFont *textFont))setTextFont {
+- (EasyLodingConfig *(^)(UIFont *))setTextFont {
     return ^EasyLodingConfig *(UIFont *textFont){
         self.textFont = textFont ;
         return self ;
     };
 }
-- (EasyLodingConfig *(^)(UIColor *bgColor))setBgColor {
+- (EasyLodingConfig *(^)(UIColor *))setBgColor {
     return ^EasyLodingConfig *(UIColor *bgcolor){
         self.bgColor = bgcolor ;
         return self ;
     };
 }
-- (EasyLodingConfig *(^)(NSArray<UIImage *> *playImagesArray))setPlayImagesArray
+- (EasyLodingConfig *(^)(NSArray<UIImage *> *))setPlayImagesArray
 {
     return ^EasyLodingConfig *(NSArray<UIImage *> *playImagesArray){
         self.playImagesArray = playImagesArray ;
@@ -95,7 +95,7 @@
                      showType:EasyUndefine];
 }
 + (instancetype)configInView:(UIView *)superView
-                superReceive:(BOOL)receive
+                superReceive:(LodingShowEvent)receive
                     showType:(LodingShowType)showType
 {
     return [self configInView:superView
@@ -104,7 +104,7 @@
                 animationType:EasyUndefine];
 }
 + (instancetype)configInView:(UIView *)superView
-                superReceive:(BOOL)receive
+                superReceive:(LodingShowEvent)receive
                     showType:(LodingShowType)showType
                animationType:(lodingAnimationType)animationType
 {

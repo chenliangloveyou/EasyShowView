@@ -9,6 +9,14 @@
 #import <Foundation/Foundation.h>
 
 
+
+typedef NS_ENUM(NSInteger, LodingShowEvent) {
+    LodingShowEventUndefine = 0 ,
+    LodingShowEventNo = 1,
+    LodingShowEventYes ,
+};
+
+
 /**
  * 加载框的样式
  */
