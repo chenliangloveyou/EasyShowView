@@ -308,7 +308,8 @@
     //显示区域的frame
     CGRect showFrame = CGRectMake(0, showFrameY, backGroundW, backGroundH);
     
-    if (!self.showTextConfig.superReceiveEvent) {
+#warning 所有的都要这样判断
+    if (self.showTextConfig.superReceiveEvent != EasyShowEventYes) {
         showFrame.origin = CGPointMake((superView.width-backGroundW)/2, showFrameY) ;
     }
     

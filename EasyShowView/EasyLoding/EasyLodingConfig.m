@@ -15,7 +15,16 @@
 {
     return [[self alloc]init];
 }
-
+- (instancetype)init
+{
+    if (self = [super init]) {
+        _lodingType = EasyUndefine ;
+        _animationType = EasyUndefine ;
+        _superReceiveEvent = EasyUndefine ;
+        _showOnWindow = EasyUndefine ;
+    }
+    return self ;
+}
 
 - (EasyLodingConfig *(^)(UIView *))setSuperView {
     return ^EasyLodingConfig *(UIView *spuerView){
@@ -35,8 +44,8 @@
         return self ;
     };
 }
-- (EasyLodingConfig *(^)(lodingAnimationType))setAnimationType {
-    return ^EasyLodingConfig *(lodingAnimationType animationtype){
+- (EasyLodingConfig *(^)(LodingAnimationType))setAnimationType {
+    return ^EasyLodingConfig *(LodingAnimationType animationtype){
         self.animationType = animationtype ;
         return self ;
     };
@@ -105,7 +114,7 @@
 + (instancetype)configInView:(UIView *)superView
                 superReceive:(EasyShowEvent)receive
                     showType:(LodingShowType)showType
-               animationType:(lodingAnimationType)animationType
+               animationType:(LodingAnimationType)animationType
 {
     EasyLodingConfig *config = [[EasyLodingConfig alloc]init];
     config.superView = superView ;

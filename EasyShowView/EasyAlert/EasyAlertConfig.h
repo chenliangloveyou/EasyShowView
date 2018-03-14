@@ -26,7 +26,6 @@
 
 @property (nonatomic,assign)NSUInteger alertViewMaxNum ; //允许出现alertView的最大数量
 
-#warning 所有这样的东西应该设定初始值。
 @property (nonatomic, assign) EasyShowEvent isSupportRotating;   //是否支持横屏
 
 + (instancetype)shared ;

@@ -17,7 +17,7 @@ easyShowView_singleton_implementation(EasyLodingGlobalConfig)
     if (self = [super init]) {
         
         _lodingType = LodingShowTypeTurnAround ;
-        _animationType = lodingAnimationTypeBounce ;
+        _animationType = LodingAnimationTypeBounce ;
         _textFont = [UIFont systemFontOfSize:15];
         _tintColor = [UIColor blackColor];
         _bgColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.05];

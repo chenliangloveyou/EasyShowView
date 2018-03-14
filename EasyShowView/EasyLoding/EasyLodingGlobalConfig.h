@@ -20,7 +20,7 @@ easyShowView_singleton_interface
 @property LodingShowType lodingType ;
 
 /** 显示/隐藏 加载框的动画 **/
-@property lodingAnimationType animationType UI_APPEARANCE_SELECTOR ;
+@property LodingAnimationType animationType UI_APPEARANCE_SELECTOR ;
 
 /** 在显示加载框的时候，superview能否接收事件。默认为NO **/
 @property BOOL superReceiveEvent UI_APPEARANCE_SELECTOR ;

@@ -98,8 +98,9 @@ UIKIT_EXTERN const CGFloat EasyShowAnimationTime ;//动画时间
 
 typedef NS_ENUM(NSInteger, EasyShowEvent) {
     EasyShowEventUndefine = 0 ,
-    EasyShowEventNo = 1,
-    EasyShowEventYes ,
+    EasyShowEventYes = 1 ,
+    EasyShowEventNo = 2 ,
+
 };
 
 

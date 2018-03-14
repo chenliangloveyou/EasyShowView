@@ -34,11 +34,11 @@ typedef NS_ENUM(NSInteger , LodingShowType) {
 /**
  * 动画类型
  */
-typedef NS_ENUM(NSInteger , lodingAnimationType) {
-    lodingAnimationTypeUndefine = 0 , /** 未定义 */
-    lodingAnimationTypeNone ,//无动画
-    lodingAnimationTypeFade,//alpha改变
-    lodingAnimationTypeBounce ,//抖动
+typedef NS_ENUM(NSInteger , LodingAnimationType) {
+    LodingAnimationTypeUndefine = 0 , /** 未定义 */
+    LodingAnimationTypeNone ,//无动画
+    LodingAnimationTypeFade,//alpha改变
+    LodingAnimationTypeBounce ,//抖动
 } ;
 
 

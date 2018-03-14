@@ -18,7 +18,11 @@ typedef NS_ENUM(NSInteger, AlertItemType) {
     AlertItemTypeBlodBlue,   // 蓝色加粗字体
     AlertItemTypeRed   ,     // 红色字体
     AlertItemTypeBlodRed ,   // 红色加粗字体
-    ShowStatusTextTypeCustom //自定义的一种自己，需要配置，如果不配置将会是第一种(黑色字体)
+    AlertItemTypeCustom ,    //自定义的一种自己，需要配置，如果不配置将会是第一种(黑色字体)
+    
+    AlertItemTypeSystemDefault ,
+    AlertItemTypeSystemCancel ,
+    AlertItemTypeSystemDestructive ,
 };
 
 /**
@@ -42,11 +46,6 @@ typedef NS_ENUM(NSInteger , AlertViewType) {
 };
 
 
-typedef NS_ENUM(NSInteger, AlertActionSystemStyle) {
-    AlertActionSystemStyleDefault = 0,
-    AlertActionSystemStyleCancel,
-    AlertActionSystemStyleDestructive
-} ;
 
 
 @class EasyAlertView ;
