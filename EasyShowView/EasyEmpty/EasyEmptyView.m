@@ -7,7 +7,7 @@
 //
 
 #import "EasyEmptyView.h"
-#import "EasyShowOptions.h"
+
 #import "EasyEmptyGlobalConfig.h"
 #import "EasyShowUtils.h"
 #import "EasyShowLabel.h"

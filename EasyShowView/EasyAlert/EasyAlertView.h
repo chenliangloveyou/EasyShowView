@@ -9,55 +9,56 @@
 #import <UIKit/UIKit.h>
 #import "EasyAlertTypes.h"
 #import "EasyAlertConfig.h"
-
-typedef NS_ENUM(NSInteger, AlertActionSystemStyle) {
-    AlertActionSystemStyleDefault = 0,
-    AlertActionSystemStyleCancel,
-    AlertActionSystemStyleDestructive
-} ;
+#import "EasyAlertItem.h"
+#import "EasyAlertPart.h"
 
 @interface EasyAlertView : UIView
 
 
+
+/**
+ *  快速创建AlertView的方法 (不用调用show方法了)
+ *
+ * part        alertView的组成部分 标题，副标题，显示类型
+ * config      配置信息
+ * buttonArray 所以需要显示的按钮
+ * callback    点击按钮回调
+ */
++ (EasyAlertView *)alertViewWithPart:(EasyAlertPart *(^)(void))part
+                              config:(EasyAlertConfig *(^)(void))config
+                         buttonArray:(NSArray<NSString *> *(^)(void))buttonArray
+                            callback:(alertItemCallback)callback ;
+
+
 /**
  * 第一步：创建一个自定义的Alert/ActionSheet
- * title/message 不能同时为空
  */
-+ (instancetype)showAlertWithTitle:(NSString *)title
-                           message:(NSString *)message ;
-+ (instancetype)showActionSheetWithTitle:(NSString *)title
-                                 message:(NSString *)message ;
-/**
- * 第二步：往创建的alert上面添加事件
- */
-- (void)addItemWithTitle:(NSString *)title
-                itemType:(ShowAlertItemType)itemType
-                callback:(alertItemCallback)callback;
++ (instancetype)alertViewWithTitle:(NSString *)title
+                          subtitle:(NSString *)subtitle
+                     alertViewType:(alertViewType)alertType
+                            config:(EasyAlertConfig *(^)(void))config  ;
 
-// 第三步：展示alert
-- (void)show ;
-
-
-#pragma mark - 以下是系统创建系统自带的alert
-
-/**
- * 第一步：创建一个系统提供的Alert/ActionSheet
- */
-+ (instancetype)showSystemActionSheetWithTitle:(NSString *)title
-                                       message:(NSString *)message ;
-+ (instancetype)showSystemAlertWithTitle:(NSString *)title
-                                 message:(NSString *)message ;
++ (instancetype)alertViewWithPart:(EasyAlertPart *(^)(void))part
+                           config:(EasyAlertConfig *(^)(void))config ;
 
 /**
  * 第二步：往创建的alert上面添加事件
  */
-- (void)addSystemItemWithTitle:(NSString *)title
-                      itemType:(AlertActionSystemStyle)itemType
-                      callback:(alertItemCallback)callback;
-// 第三步：展示alert
-- (void)systemShow ;
+- (void)addAlertItemWithTitle:(NSString *)title
+                         type:(AlertItemType)type
+                     callback:(alertItemCallback)callback;
+- (void)addAlertItem:(EasyAlertItem *(^)(void))item ;
+- (void)addAlertItemWithTitleArray:(NSArray *)titleArray
+                          callback:(alertItemCallback)callbck ;
+
+/**
+ * 第三步：展示alert
+ */
+- (void)showAlertView ;
 
 
+// 移除alertview
+- (void)removeAlertView ;
 
 
 

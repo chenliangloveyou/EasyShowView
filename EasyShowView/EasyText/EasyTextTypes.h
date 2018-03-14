@@ -48,6 +48,17 @@ typedef NS_ENUM(NSInteger , TextAnimationType) {
 };
 
 
+UIKIT_EXTERN const CGFloat TextShowMaxTime ;//最大的显示时长。显示的时长为字符串长度成比例。但是不会超过设置的此时间长度(默认为6秒)
+UIKIT_EXTERN const CGFloat TextShowMaxWidth ;//文字显示的最大宽度
+
+
+UIKIT_EXTERN const CGFloat EasyDrawImageWH ;
+UIKIT_EXTERN const CGFloat EasyDrawImageEdge ;
+UIKIT_EXTERN const CGFloat EasyTextShowEdge ;
+UIKIT_EXTERN const CGFloat EasyShowViewMinWidth ;
+
+UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
+
 
 @interface EasyTextTypes : NSObject
 

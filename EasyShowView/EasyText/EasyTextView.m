@@ -10,7 +10,7 @@
 #import "UIView+EasyShowExt.h"
 
 #import "EasyTextBgView.h"
-#import "EasyShowOptions.h"
+
 #import "EasyTextGlobalConfig.h"
 
 @interface EasyTextView()<CAAnimationDelegate>
@@ -216,7 +216,7 @@
 + (void)EasyTextViewWithText:(NSString *)text
                        imageName:(NSString *)imageName
                           status:(ShowTextStatus)status
-                          config:(EasyTextConfig *)config
+                          config:(EasyTextConfig *(^)(void))config
 {
     if (status==ShowTextStatusPureText && ISEMPTY_S(text)) {//
         NSAssert(NO, @"you should set a text for showView !");
@@ -230,8 +230,10 @@
         });
     }
     
+    EasyTextConfig *tempConfig = [self changeConfigWithConfig:config] ;
+    
     //显示之前隐藏还在显示的视图
-    NSEnumerator *subviewsEnum = [config.superView.subviews reverseObjectEnumerator];
+    NSEnumerator *subviewsEnum = [tempConfig.superView.subviews reverseObjectEnumerator];
     for (UIView *subview in subviewsEnum) {
         if ([subview isKindOfClass:self]) {
             EasyTextView *showView = (EasyTextView *)subview ;
@@ -245,10 +247,10 @@
     
     showView.showTextStatus = status ;
 
-    showView.showTextConfig = [self changeConfigWithConfig:config] ;
+    showView.showTextConfig = tempConfig ;
     
     showView.timerShowTime = 0 ;
-    [showView showViewWithSuperView:config.superView];
+    [showView showViewWithSuperView:tempConfig.superView];
     
     [showView.removeTimer fire];
 }
@@ -353,49 +355,55 @@
 
 #pragma - 工具
 
-+ (EasyTextConfig *)changeConfigWithConfig:(EasyTextConfig *)config
++ (EasyTextConfig *)changeConfigWithConfig:(EasyTextConfig *(^)(void))config
 {
+    
+    EasyTextConfig *tempConfig = config ? config() : nil ;
+    if (!tempConfig) {
+        tempConfig = [EasyTextConfig shared] ;
+    }
+    
     BOOL isUseGlobalConfig = [EasyTextGlobalConfig isUseTextGlobalConfig];
     EasyTextGlobalConfig *globalConfig = nil ;
     if (isUseGlobalConfig) {
         globalConfig = [EasyTextGlobalConfig shared];
     }
     
-    if (!config.superView) {
+    if (!tempConfig.superView) {
         if (isUseGlobalConfig && globalConfig.showOnWindow) {
-            config.superView = kEasyShowKeyWindow ;
+            tempConfig.superView = kEasyShowKeyWindow ;
         }
         else{
-            config.superView = [EasyShowUtils easyShowViewTopViewController].view;
+            tempConfig.superView = [EasyShowUtils easyShowViewTopViewController].view;
         }
     }
     
-    if (config.superReceiveEvent == EasyUndefine) {
-        config.superReceiveEvent = globalConfig.superViewReceiveEvent ;
+    if (tempConfig.superReceiveEvent == EasyUndefine) {
+        tempConfig.superReceiveEvent = globalConfig.superViewReceiveEvent ;
     }
-    if (config.animationType == TextAnimationTypeUndefine) {
-        config.animationType = globalConfig.animationType ;
+    if (tempConfig.animationType == TextAnimationTypeUndefine) {
+        tempConfig.animationType = globalConfig.animationType ;
     }
-    if (config.textStatusType == ShowTextStatusTypeUndefine) {
-        config.textStatusType =  globalConfig.textStatusType ;
+    if (tempConfig.textStatusType == ShowTextStatusTypeUndefine) {
+        tempConfig.textStatusType =  globalConfig.textStatusType ;
     }
-    if (!config.titleFont) {
-        config.titleFont = globalConfig.titleFont  ;
+    if (!tempConfig.titleFont) {
+        tempConfig.titleFont = globalConfig.titleFont  ;
     }
-    if (!config.titleColor) {
-        config.titleColor =  globalConfig.titleColor ;
+    if (!tempConfig.titleColor) {
+        tempConfig.titleColor =  globalConfig.titleColor ;
     }
-    if (!config.bgColor) {
-        config.bgColor = globalConfig.bgColor ;
+    if (!tempConfig.bgColor) {
+        tempConfig.bgColor = globalConfig.bgColor ;
     }
-    if (!config.shadowColor) {
-        config.shadowColor =  globalConfig.shadowColor ;
+    if (!tempConfig.shadowColor) {
+        tempConfig.shadowColor =  globalConfig.shadowColor ;
     }
     
-    if (!config.textShowTimeBlock) {
+    if (!tempConfig.textShowTimeBlock) {
         
         if (isUseGlobalConfig && globalConfig.textShowTimeBlock) {
-            config.textShowTimeBlock = globalConfig.textShowTimeBlock ;
+            tempConfig.textShowTimeBlock = globalConfig.textShowTimeBlock ;
         }else{
             float(^textShowTime)(NSString *text) = ^float(NSString *text){
                 CGFloat time = 1 + text.length*0.15 ;
@@ -407,10 +415,10 @@
                 }
                 return time ;
             };
-            config.textShowTimeBlock = textShowTime ;
+            tempConfig.textShowTimeBlock = textShowTime ;
         }
     }
-    return config ;
+    return tempConfig ;
 }
 
 
@@ -428,7 +436,7 @@
     [self EasyTextViewWithText:text
                          imageName:nil
                             status:ShowTextStatusPureText 
-                            config:config?config():nil];
+                            config:config];
 }
 
 
@@ -444,7 +452,7 @@
     [self EasyTextViewWithText:text
                          imageName:nil
                             status:ShowTextStatusSuccess
-                            config:config?config():nil];
+                            config:config];
 }
 
 
@@ -460,7 +468,7 @@
     [self EasyTextViewWithText:text
                          imageName:nil
                             status:ShowTextStatusError
-                            config:config?config():nil];
+                            config:config];
 }
 
 
@@ -476,7 +484,7 @@
     [self EasyTextViewWithText:text
                          imageName:nil
                             status:ShowTextStatusInfo
-                            config:config?config():nil];
+                            config:config];
 }
 
 
@@ -492,7 +500,7 @@
     [self EasyTextViewWithText:text
                          imageName:imageName
                             status:ShowTextStatusImage
-                            config:config?config():nil];
+                            config:config];
 }
 
 

@@ -9,7 +9,7 @@
 #import "EasyLodingView.h"
 #import "UIView+EasyShowExt.h"
 #import "EasyShowLabel.h"
-#import "EasyShowOptions.h"
+
 #import "EasyLodingGlobalConfig.h"
 
 @interface EasyLodingView()<CAAnimationDelegate>
@@ -581,7 +581,10 @@
 
 + (EasyLodingConfig *)changeConfigWithConfig:(EasyLodingConfig *(^)(void))config
 {
-    EasyLodingConfig *tempConfig = config ? config() : [EasyLodingConfig shared] ;
+    EasyLodingConfig *tempConfig = config ? config() : nil ;
+    if (!tempConfig) {
+        tempConfig = [EasyLodingConfig shared] ;
+    }
     
     EasyLodingGlobalConfig *globalConfig = [EasyLodingGlobalConfig shared];
     

@@ -10,7 +10,7 @@
 
 #import "UIView+EasyShowExt.h"
 #import "EasyShowUtils.h"
-#import "EasyShowOptions.h"
+
 
 @interface EasyTextBgView()
 

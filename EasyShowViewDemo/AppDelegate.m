@@ -9,11 +9,11 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 
-#import "EasyShowOptions.h"
 
 #import "EasyTextGlobalConfig.h"
 #import "EasyLodingGlobalConfig.h"
 #import "EasyEmptyGlobalConfig.h"
+#import "EasyAlertGlobalConfig.h"
 
 @interface AppDelegate ()
 

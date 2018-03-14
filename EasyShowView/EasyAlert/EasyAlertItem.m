@@ -10,7 +10,7 @@
 
 @implementation EasyAlertItem
 
-+ (instancetype)itemWithTitle:(NSString *)title type:(ShowAlertItemType)type callback:(alertItemCallback)callback
++ (instancetype)itemWithTitle:(NSString *)title type:(AlertItemType)type callback:(alertItemCallback)callback
 {
     EasyAlertItem *item = [[EasyAlertItem alloc]init];
     item.title = title ;

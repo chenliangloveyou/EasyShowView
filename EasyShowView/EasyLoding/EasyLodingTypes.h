@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <UIKit/UIKit.h>
 
 /**
  * 加载框的样式
@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger , LodingShowType) {
     LodingShowTypeIndicator      = 3 ,  //菊花样式
     LodingShowTypeIndicatorLeft  = 4 ,  //菊花在左边的样式
     
-    LodingShowTypePlayImages     = 5 ,  //以一个图片数组轮流播放（需添加一组图片，在EasyShowOptions中添加）
+    LodingShowTypePlayImages     = 5 ,  //以一个图片数组轮流播放（需添加一组图片）
     LodingShowTypePlayImagesLeft = 6 ,  //以一个图片数组轮流播放需添加一组图片）
     
     LodingShowTypeImageUpturn    = 7 ,//自定义图片翻转样式
@@ -42,6 +42,10 @@ typedef NS_ENUM(NSInteger , lodingAnimationType) {
 } ;
 
 
+UIKIT_EXTERN const CGFloat EasyShowLodingMaxWidth  ;     //显示文字的最大宽度（高度已限制死）
+UIKIT_EXTERN const CGFloat EasyShowLodingImageEdge ;    //加载框图片的边距
+UIKIT_EXTERN const CGFloat EasyShowLodingImageWH  ;      //加载框图片的大小
+UIKIT_EXTERN const CGFloat EasyShowLodingImageMaxWH  ;   //加载框图片的最大宽度
 
 @interface EasyLodingTypes : NSObject
 

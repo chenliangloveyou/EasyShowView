@@ -46,6 +46,7 @@
  */
 @property (nonatomic,assign)NSUInteger alertViewMaxNum ;
 
+@property (nonatomic, assign) BOOL isSupportRotating;
 
 + (instancetype)shared ;
 
