@@ -12,7 +12,6 @@
 #import "EasyTextBgView.h"
 #import "EasyShowOptions.h"
 #import "EasyTextGlobalConfig.h"
-#import "EasyShowTypes.h"
 
 @interface EasyTextView()<CAAnimationDelegate>
 
@@ -371,7 +370,7 @@
         }
     }
     
-    if (config.superReceiveEvent == SuperReceiveEventUndefine) {
+    if (config.superReceiveEvent == EasyUndefine) {
         config.superReceiveEvent = globalConfig.superViewReceiveEvent ;
     }
     if (config.animationType == TextAnimationTypeUndefine) {

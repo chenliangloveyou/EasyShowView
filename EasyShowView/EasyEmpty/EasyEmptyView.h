@@ -8,21 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
-#import "EasyEmptyItem.h"
+#import "EasyEmptyPart.h"
 #import "EasyEmptyConfig.h"
 #import "EasyEmptyTypes.h"
 
 @interface EasyEmptyView : UIScrollView
 
 + (void)showEmptyInView:(UIView *)superview
-                   item:(EasyEmptyItem *(^)(void))item ;
+                   item:(EasyEmptyPart *(^)(void))item ;
 
 + (void)showEmptyInView:(UIView *)superview
-                   item:(EasyEmptyItem *(^)(void))item
+                   item:(EasyEmptyPart *(^)(void))item
                  config:(EasyEmptyConfig *(^)(void))config ;
 
 + (void)showEmptyInView:(UIView *)superview
-                   item:(EasyEmptyItem *(^)(void))item
+                   item:(EasyEmptyPart *(^)(void))item
                  config:(EasyEmptyConfig *(^)(void))config
                callback:(emptyViewCallback)callback ;
 

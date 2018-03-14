@@ -15,7 +15,7 @@
 
 @interface EasyEmptyView()
 
-@property (nonatomic,strong)EasyEmptyItem *emptyItem ;
+@property (nonatomic,strong)EasyEmptyPart *emptyItem ;
 @property (nonatomic,strong)EasyEmptyConfig *emptyConfig ;
 @property (nonatomic,strong)emptyViewCallback callback ;
 
@@ -231,24 +231,24 @@
     return _defaultTitleLabel ;
 }
 
-+ (void)showEmptyInView:(UIView *)superview item:(EasyEmptyItem *(^)(void))item
++ (void)showEmptyInView:(UIView *)superview item:(EasyEmptyPart *(^)(void))item
 {
     [self showEmptyInView:superview item:item config:nil];
 }
 
-+ (void)showEmptyInView:(UIView *)superview item:(EasyEmptyItem *(^)(void))item config:(EasyEmptyConfig *(^)(void))config
++ (void)showEmptyInView:(UIView *)superview item:(EasyEmptyPart *(^)(void))item config:(EasyEmptyConfig *(^)(void))config
 {
     [self showEmptyInView:superview item:item config:config callback:nil];
 }
 
 + (void)showEmptyInView:(UIView *)superview
-                   item:(EasyEmptyItem *(^)(void))item
+                   item:(EasyEmptyPart *(^)(void))item
                  config:(EasyEmptyConfig *(^)(void))config
                callback:(emptyViewCallback)callback
 {
     
     EasyEmptyConfig *emptyConfig = [self changeConfigWithConfig:config] ;
-    EasyEmptyItem   *emptyItem = item() ;
+    EasyEmptyPart   *emptyItem = item() ;
     
     NSAssert(emptyItem.buttonArray.count<3, @"you can't set more than two button") ;
     

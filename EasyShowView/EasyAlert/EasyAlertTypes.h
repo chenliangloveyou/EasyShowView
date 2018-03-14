@@ -33,6 +33,18 @@ typedef NS_ENUM(NSInteger , alertAnimationType) {
 };
 
 
+typedef NS_ENUM(NSInteger , alertShowType) {
+    alertShowTypeAlert ,
+    alertShowTypeActionSheet ,
+    alertShowTypeSystemAlert ,
+    alertShowTypeSystemActionSheet ,
+};
+
+
+@class EasyAlertView ;
+typedef void (^alertItemCallback)(EasyAlertView *showview);
+
+
 @interface EasyAlertTypes : NSObject
 
 @end

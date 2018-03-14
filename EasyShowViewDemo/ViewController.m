@@ -174,8 +174,8 @@
     switch (row) {
         case 0:
         {
-            [EasyEmptyView showEmptyInView:self.view item:^EasyEmptyItem *{
-                return [EasyEmptyItem shared].setTitle(@"网络连接已断开").setImageName(@"netError.png") ;
+            [EasyEmptyView showEmptyInView:self.view item:^EasyEmptyPart *{
+                return [EasyEmptyPart shared].setTitle(@"网络连接已断开").setImageName(@"netError.png") ;
             }config:^EasyEmptyConfig *{
                 return [EasyEmptyConfig shared].setBgColor([UIColor colorWithWhite:0.5 alpha:0.5]);
             } callback:^(EasyEmptyView *view, UIButton *button, callbackType callbackType) {
@@ -190,8 +190,8 @@
             [self.view addSubview:redView];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [EasyEmptyView showEmptyInView:redView item:^EasyEmptyItem *{
-                    return [EasyEmptyItem shared].setTitle(@"你开心就好");
+                [EasyEmptyView showEmptyInView:redView item:^EasyEmptyPart *{
+                    return [EasyEmptyPart shared].setTitle(@"你开心就好");
                 } config:nil callback:nil];
             });
             

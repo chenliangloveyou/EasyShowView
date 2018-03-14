@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "EasyAlertTypes.h"
-@class EasyAlertView ;
-typedef void (^alertItemCallback)(EasyAlertView *showview);
+#import "EasyAlertConfig.h"
 
 typedef NS_ENUM(NSInteger, AlertActionSystemStyle) {
     AlertActionSystemStyleDefault = 0,

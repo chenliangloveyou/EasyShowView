@@ -33,8 +33,8 @@
     __weak typeof(self) weakSelf = self ;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [EasyLodingView hidenLoingInView:greenView];
-        [EasyEmptyView showEmptyInView:greenView item:^EasyEmptyItem *{
-            return [EasyEmptyItem shared].setTitle(@"网络错误").setSubtitle(@"请检查网络是否正常，点击返回首页...");
+        [EasyEmptyView showEmptyInView:greenView item:^EasyEmptyPart *{
+            return [EasyEmptyPart shared].setTitle(@"网络错误").setSubtitle(@"请检查网络是否正常，点击返回首页...");
         } config:^EasyEmptyConfig *{
             return nil ;
         } callback:^(EasyEmptyView *view, UIButton *button, callbackType callbackType) {

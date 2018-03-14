@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "EasyShowUtils.h"
-#import "EasyShowTypes.h"
 #import "EasyAlertTypes.h"
 
 UIKIT_EXTERN const CGFloat EasyDrawImageWH ;
@@ -34,7 +33,7 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
 
 @interface EasyShowOptions : NSObject
 
-+ (instancetype)sharedEasyShowOptions ;
+//+ (instancetype)sharedEasyShowOptions ;
 
 #pragma mark - text 
 
@@ -106,58 +105,58 @@ UIKIT_EXTERN NSString *const EasyShowViewDidlDismissNotification;
 // * 加载框为数组动画的时候，这里是传入图片的数据
 // */
 //@property (nonatomic,strong)NSArray *lodingPlayImagesArray ;
-
-
-#pragma mark - empty
-
-//背景颜色
-@property (nonatomic,strong)UIColor *emptyViewBackgroundColor ;
-
-//标题的文字大小、颜色
-@property (nonatomic,strong)UIFont *emptyTitleFount ;
-@property (nonatomic,strong)UIColor *emptyTitleColor ;
-
-//副标题的文字大小 颜色
-@property (nonatomic,strong)UIFont *emptySubTitleFount ;
-@property (nonatomic,strong)UIColor *emptySubTitleColor ;
-
-//按钮的文字背景 颜色 大小
-@property (nonatomic,strong)UIFont *emptyButtonFount ;
-@property (nonatomic,strong)UIColor *emptyButtonColor ;
-@property (nonatomic,strong)UIColor *emptyButtonBackgroundColor ;
-//按钮往内缩的边距（按钮四边边缘距离文字的距离）
-@property (nonatomic,assign)UIEdgeInsets emptyButtonEdgeInsets ;
-
-
-#pragma mark - alert
-
-
-/**
- *alertview的背景颜色。
- * title/message的字体颜色
- */
-@property (nonatomic,strong)UIColor *alertTintColor ;
-@property (nonatomic,strong)UIColor *alertTitleColor ;
-@property (nonatomic,strong)UIColor *alertMessageColor ;
-
-/**
- * alertView:是两个按钮的时候 横着摆放
- */
-@property (nonatomic,assign)BOOL alertTowItemHorizontal ;
-
-/**
- * alertView:展示和消失的动画类型。
- * 当展示的是系统alertview和ActionSheet不起作用
- */
-@property (nonatomic,assign)alertAnimationType alertAnimationType ;
-
-/**
- * 点击alertview之外的空白区域，是否销毁alertview。默认为:NO
- *
- * 系统的alert        不可以点击销毁。
- * 系统的ActionSheet  添加UIAlertActionStyleCancel类型就会有点击销毁。没有就不会销毁。
- */
-@property (nonatomic,assign)BOOL alertBgViewTapRemove ;
+//
+//
+//#pragma mark - empty
+//
+////背景颜色
+//@property (nonatomic,strong)UIColor *emptyViewBackgroundColor ;
+//
+////标题的文字大小、颜色
+//@property (nonatomic,strong)UIFont *emptyTitleFount ;
+//@property (nonatomic,strong)UIColor *emptyTitleColor ;
+//
+////副标题的文字大小 颜色
+//@property (nonatomic,strong)UIFont *emptySubTitleFount ;
+//@property (nonatomic,strong)UIColor *emptySubTitleColor ;
+//
+////按钮的文字背景 颜色 大小
+//@property (nonatomic,strong)UIFont *emptyButtonFount ;
+//@property (nonatomic,strong)UIColor *emptyButtonColor ;
+//@property (nonatomic,strong)UIColor *emptyButtonBackgroundColor ;
+////按钮往内缩的边距（按钮四边边缘距离文字的距离）
+//@property (nonatomic,assign)UIEdgeInsets emptyButtonEdgeInsets ;
+//
+//
+//#pragma mark - alert
+//
+//
+///**
+// *alertview的背景颜色。
+// * title/message的字体颜色
+// */
+//@property (nonatomic,strong)UIColor *alertTintColor ;
+//@property (nonatomic,strong)UIColor *alertTitleColor ;
+//@property (nonatomic,strong)UIColor *alertMessageColor ;
+//
+///**
+// * alertView:是两个按钮的时候 横着摆放
+// */
+//@property (nonatomic,assign)BOOL alertTowItemHorizontal ;
+//
+///**
+// * alertView:展示和消失的动画类型。
+// * 当展示的是系统alertview和ActionSheet不起作用
+// */
+//@property (nonatomic,assign)alertAnimationType alertAnimationType ;
+//
+///**
+// * 点击alertview之外的空白区域，是否销毁alertview。默认为:NO
+// *
+// * 系统的alert        不可以点击销毁。
+// * 系统的ActionSheet  添加UIAlertActionStyleCancel类型就会有点击销毁。没有就不会销毁。
+// */
+//@property (nonatomic,assign)BOOL alertBgViewTapRemove ;
 
 
 @end

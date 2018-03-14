@@ -7,7 +7,6 @@
 //
 
 #import "EasyLodingConfig.h"
-#import "EasyShowTypes.h"
 #import "EasyShowUtils.h"
 
 @implementation EasyLodingConfig
@@ -95,7 +94,7 @@
                      showType:EasyUndefine];
 }
 + (instancetype)configInView:(UIView *)superView
-                superReceive:(LodingShowEvent)receive
+                superReceive:(EasyShowEvent)receive
                     showType:(LodingShowType)showType
 {
     return [self configInView:superView
@@ -104,7 +103,7 @@
                 animationType:EasyUndefine];
 }
 + (instancetype)configInView:(UIView *)superView
-                superReceive:(LodingShowEvent)receive
+                superReceive:(EasyShowEvent)receive
                     showType:(LodingShowType)showType
                animationType:(lodingAnimationType)animationType
 {

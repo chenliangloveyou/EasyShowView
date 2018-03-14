@@ -8,33 +8,22 @@
 
 #import "EasyAlertView.h"
 #import "UIView+EasyShowExt.h"
+#import "EasyAlertConfig.h"
 #import "EasyShowOptions.h"
 #import "EasyShowLabel.h"
-@interface EasyShowAlertItem : NSObject
-@property (nonatomic,strong)NSString *title ;
-@property (nonatomic,assign)ShowAlertItemType itemTpye ;
-@property (nonatomic,strong)alertItemCallback callback ;
-@end
-@implementation EasyShowAlertItem
-@end
-
-typedef NS_ENUM(NSInteger , alertShowType) {
-    alertShowTypeAlert ,
-    alertShowTypeActionSheet ,
-    alertShowTypeSystemAlert ,
-    alertShowTypeSystemActionSheet ,
-};
+#import "EasyAlertGlobalConfig.h"
+#import "EasyAlertItem.h"
 
 
 @interface EasyAlertView()<CAAnimationDelegate>
 
-@property (nonatomic,strong)EasyShowOptions *options ;
+@property (nonatomic,strong)EasyAlertConfig *config ;
 
 @property (nonatomic,assign)alertShowType alertShowType ;
 
 @property (nonatomic,strong)UILabel *alertTitleLabel ;
 @property (nonatomic,strong)UILabel *alertMessageLabel ;
-@property (nonatomic,strong)NSMutableArray<EasyShowAlertItem *> *alertItemArray ;
+@property (nonatomic,strong)NSMutableArray<EasyAlertItem *> *alertItemArray ;
 @property (nonatomic,strong)NSMutableArray *alertButtonArray ;
 
 @property (nonatomic,strong)UIWindow *alertWindow ;
@@ -92,11 +81,8 @@ typedef NS_ENUM(NSInteger , alertShowType) {
 {
     NSAssert(!ISEMPTY_S(title), @"the title should input！");
     
-    EasyShowAlertItem *item = [[EasyShowAlertItem alloc]init];
-    item.title = title ;
-    item.itemTpye = itemType ;
-    item.callback = callback ;
-    [self.alertItemArray addObject:item];
+    EasyAlertItem *tempItem = [EasyAlertItem itemWithTitle:title type:itemType callback:callback ];
+    [self.alertItemArray addObject:tempItem];
 }
 
 
@@ -120,7 +106,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
     
     [self layoutAlertSubViews];
     
-    [self showStartAnimationWithType:self.options.alertAnimationType completion:nil];
+    [self showStartAnimationWithType:self.config.alertAnimationType completion:nil];
     
     //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     
@@ -133,8 +119,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
         UIAlertController *alertC = [UIAlertController alertControllerWithTitle:self.alertShowTitle
                                                                         message:self.alertShowMessage
                                                                  preferredStyle:stype];
-        
-        [self.alertItemArray enumerateObjectsUsingBlock:^(EasyShowAlertItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self.alertItemArray enumerateObjectsUsingBlock:^(EasyAlertItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             UIAlertAction *action = [UIAlertAction actionWithTitle:obj.title
                                                              style:(UIAlertActionStyle)obj.itemTpye
                                                            handler:^(UIAlertAction * _Nonnull action) {
@@ -143,7 +128,6 @@ typedef NS_ENUM(NSInteger , alertShowType) {
                                                                }
                                                            }];
             [alertC addAction:action];
-            
         }];
         
         UIViewController *presentVC = [EasyShowUtils easyShowViewTopViewController];
@@ -178,7 +162,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
     CGFloat totalHeight = self.alertMessageLabel.bottom + 0.5 ;
     CGFloat btnCount = self.alertButtonArray.count ;
     
-    if (self.alertShowType==alertShowTypeAlert && btnCount==2 && self.options.alertTowItemHorizontal) {
+    if (self.alertShowType==alertShowTypeAlert && btnCount==2 && self.config.alertTowItemHorizontal) {
        
         for (int i = 0; i < btnCount ; i++) {
             UIButton *tempButton = self.alertButtonArray[i];
@@ -252,7 +236,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
 
 - (void)buttonClick:(UIButton *)button
 {
-    EasyShowAlertItem *item = self.alertItemArray[button.tag];
+    EasyAlertItem *item = self.alertItemArray[button.tag];
     if (item.callback) {
         typeof(self)weakself = self;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(EasyShowAnimationTime/2.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -263,7 +247,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
 }
 - (UIButton *)alertButtonWithIndex:(long)index
 {
-    EasyShowAlertItem *item = self.alertItemArray[index];
+    EasyAlertItem *item = self.alertItemArray[index];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.tag = index;
@@ -326,7 +310,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
         self.alertWindow = nil;
     };
     
-    [self showEndAnimationWithType:self.options.alertAnimationType
+    [self showEndAnimationWithType:self.config.alertAnimationType
                         completion:completion];
 }
 
@@ -490,11 +474,11 @@ typedef NS_ENUM(NSInteger , alertShowType) {
 {
     if (nil == _alertBgView) {
         _alertBgView = [[UIView alloc]init];
-        if (self.options.alertTintColor == [UIColor clearColor]) {
+        if (self.config.tintColor == [UIColor clearColor]) {
             _alertBgView.backgroundColor = [UIColor groupTableViewBackgroundColor];
         }
         else{
-            _alertBgView.backgroundColor = self.options.alertTintColor;
+            _alertBgView.backgroundColor = self.config.tintColor;
         }
         _alertBgView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight ;
         UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(bgViewPan:)] ;
@@ -513,7 +497,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
         _alertBgView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight ;
          _alertWindow.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
         _alertWindow.hidden = NO ;
-        if (self.options.alertBgViewTapRemove) {
+        if (self.config.bgViewReceiveEvent) {
             UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(alertWindowTap)];
             [_alertWindow addGestureRecognizer:tapGes];
         }
@@ -527,14 +511,14 @@ typedef NS_ENUM(NSInteger , alertShowType) {
     if (nil == _alertTitleLabel) {
         _alertTitleLabel = [[EasyShowLabel alloc] initWithContentInset:UIEdgeInsetsMake(35, 30, 15, 30)];
         _alertTitleLabel.textAlignment = NSTextAlignmentCenter;
-        if (self.options.alertTintColor == [UIColor clearColor]) {
+        if (self.config.tintColor == [UIColor clearColor]) {
             _alertTitleLabel.backgroundColor = [UIColor whiteColor];
         }
         else{
-            _alertTitleLabel.backgroundColor = self.options.alertTintColor;
+            _alertTitleLabel.backgroundColor = self.config.tintColor;
         }
         _alertTitleLabel.font = [UIFont boldSystemFontOfSize:20];
-        _alertTitleLabel.textColor = self.options.alertTitleColor ;
+        _alertTitleLabel.textColor = self.config.titleColor ;
         _alertTitleLabel.numberOfLines = 0;
     }
     return _alertTitleLabel ;
@@ -544,14 +528,14 @@ typedef NS_ENUM(NSInteger , alertShowType) {
     if (nil == _alertMessageLabel) {
         _alertMessageLabel = [[EasyShowLabel alloc] initWithContentInset:UIEdgeInsetsMake(15, 30, 20, 30)];
         _alertMessageLabel.textAlignment = NSTextAlignmentCenter;
-        if (self.options.alertTintColor == [UIColor clearColor]) {
+        if (self.config.tintColor == [UIColor clearColor]) {
             _alertMessageLabel.backgroundColor = [UIColor whiteColor];
         }
         else{
-            _alertMessageLabel.backgroundColor = self.options.alertTintColor;
+            _alertMessageLabel.backgroundColor = self.config.tintColor;
         }
         _alertMessageLabel.font = [UIFont systemFontOfSize:17];
-        _alertMessageLabel.textColor = self.options.alertMessageColor;
+        _alertMessageLabel.textColor = self.config.subtitleColor ;
         _alertMessageLabel.numberOfLines = 0;
     }
     return _alertMessageLabel ;
@@ -562,13 +546,6 @@ typedef NS_ENUM(NSInteger , alertShowType) {
         _alertButtonArray = [NSMutableArray arrayWithCapacity:3];
     }
     return _alertButtonArray ;
-}
-- (EasyShowOptions *)options
-{
-    if (nil == _options) {
-        _options = [EasyShowOptions sharedEasyShowOptions];
-    }
-    return _options ;
 }
 
 

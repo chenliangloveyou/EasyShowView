@@ -15,6 +15,6 @@
 #import "EasyEmptyView.h"
 
 #import "EasyShowOptions.h"
-#import "EasyShowTypes.h"
+
 
 #endif /* EasyShowView_h */

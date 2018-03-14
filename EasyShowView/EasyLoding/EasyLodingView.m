@@ -520,7 +520,7 @@
     
     EasyLodingConfig *tempConfig = [self changeConfigWithConfig:config] ;
     if (!tempConfig.superView) {
-        if (tempConfig.showOnWindow == EasyShowEnumYes) {
+        if (tempConfig.showOnWindow == EasyShowEventYes) {
             tempConfig.superView = [UIApplication sharedApplication].keyWindow ;
         }else{
             tempConfig.superView = [EasyShowUtils easyShowViewTopViewController].view ;
@@ -594,7 +594,7 @@
     if (tempConfig.superReceiveEvent == EasyUndefine ) {
         tempConfig.superReceiveEvent = globalConfig.superReceiveEvent ;
     }
-    if (tempConfig.showOnWindow == EasyShowEnumUndefine ) {
+    if (tempConfig.showOnWindow == EasyUndefine ) {
         tempConfig.showOnWindow = globalConfig.showOnWindow ;
     }
     if (!tempConfig.cycleCornerWidth) {

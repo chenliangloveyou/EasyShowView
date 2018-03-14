@@ -44,15 +44,15 @@ static EasyShowOptions *_showInstance;
     });
     return _showInstance;
 }
-+ (instancetype)sharedEasyShowOptions{
-    if (nil == _showInstance) {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            _showInstance = [[[self class] alloc] init];
-        });
-    }
-    return _showInstance;
-}
+//+ (instancetype)sharedEasyShowOptions{
+//    if (nil == _showInstance) {
+//        static dispatch_once_t onceToken;
+//        dispatch_once(&onceToken, ^{
+//            _showInstance = [[[self class] alloc] init];
+//        });
+//    }
+//    return _showInstance;
+//}
 - (id)copyWithZone:(NSZone *)zone{
     return _showInstance;
 }
