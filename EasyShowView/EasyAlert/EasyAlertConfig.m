@@ -15,6 +15,18 @@
 {
     return [[self alloc]init];
 }
+- (instancetype)init
+{
+    if (self = [super init]) {
+        _alertViewMaxNum = 0 ;
+        _itemHorizontal  = EasyUndefine ;
+        _bgViewEvent = EasyUndefine ;
+        _animationType = EasyUndefine ;
+        _isSupportRotating = EasyUndefine ;
+    }
+    return self ;
+}
+
 - (EasyAlertConfig *(^)(UIColor *))setTintColor
 {
     return ^EasyAlertConfig *(UIColor *tintColor){
@@ -36,24 +48,24 @@
         return self;
     };
 }
-- (EasyAlertConfig *(^)(BOOL))setAlertTowItemHorizontal
+- (EasyAlertConfig *(^)(BOOL))setItemHorizontal
 {
     return ^EasyAlertConfig *(BOOL horizontal){
-        self.alertTowItemHorizontal = horizontal ;
+        self.itemHorizontal = horizontal ;
         return self;
     };
 }
-- (EasyAlertConfig *(^)(alertAnimationType))setAlertAnimationType
+- (EasyAlertConfig *(^)(AlertAnimationType))setAnimationType
 {
-    return ^EasyAlertConfig *(alertAnimationType type){
-        self.alertAnimationType = type ;
+    return ^EasyAlertConfig *(AlertAnimationType type){
+        self.animationType = type ;
         return self;
     };
 }
-- (EasyAlertConfig *(^)(BOOL))setBgViewReceiveEvent
+- (EasyAlertConfig *(^)(BOOL))setBgViewEvent
 {
-    return ^EasyAlertConfig *(BOOL receive){
-        self.bgViewReceiveEvent = receive ;
+    return ^EasyAlertConfig *(BOOL event){
+        self.bgViewEvent = event ;
         return self;
     };
 }

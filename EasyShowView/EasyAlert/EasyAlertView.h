@@ -35,7 +35,7 @@
  */
 + (instancetype)alertViewWithTitle:(NSString *)title
                           subtitle:(NSString *)subtitle
-                     alertViewType:(alertViewType)alertType
+                     AlertViewType:(AlertViewType)alertType
                             config:(EasyAlertConfig *(^)(void))config  ;
 
 + (instancetype)alertViewWithPart:(EasyAlertPart *(^)(void))part

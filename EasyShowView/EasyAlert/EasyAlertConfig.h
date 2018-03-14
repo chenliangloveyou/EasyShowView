@@ -9,53 +9,34 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "EasyAlertTypes.h"
+#import "EasyShowUtils.h"
 @interface EasyAlertConfig : NSObject
 
+@property (nonatomic,strong)UIColor *tintColor ; //alertview的背景颜色
 
-/**
- * alertview的背景颜色
- */
-@property (nonatomic,strong)UIColor *tintColor ;
+@property (nonatomic,strong)UIColor *titleColor ; //title的字体颜色
 
-/**
- * title的字体颜色
- */
-@property (nonatomic,strong)UIColor *titleColor ;
+@property (nonatomic,strong)UIColor *subtitleColor ;//subtitle的字体颜色
 
-/**
- * subtitle的字体颜色
- */
-@property (nonatomic,strong)UIColor *subtitleColor ;
+@property (nonatomic,assign)EasyShowEvent itemHorizontal ;//当alertview为两个的时候，是否横着摆放
 
-/**
- * 当alertview为两个的时候，是否横着摆放
- */
-@property (nonatomic,assign)BOOL alertTowItemHorizontal ;
+@property (nonatomic,assign)AlertAnimationType animationType;//alertView:展示和消失的动画类型。(只对自定义的alertview起作用)
 
-/**
- * alertView:展示和消失的动画类型。(只对自定义的alertview起作用)
- */
-@property (nonatomic,assign)alertAnimationType alertAnimationType ;
+@property (nonatomic,assign)EasyShowEvent bgViewEvent ;    //点击alertview之外的空白区域，是否销毁alertview。默认为:NO
 
-/**
- * 点击alertview之外的空白区域，是否销毁alertview。默认为:NO
- */
-@property (nonatomic,assign)BOOL bgViewReceiveEvent ;
-/**
- * 允许出现alertView的最大数量
- */
-@property (nonatomic,assign)NSUInteger alertViewMaxNum ;
+@property (nonatomic,assign)NSUInteger alertViewMaxNum ; //允许出现alertView的最大数量
 
-@property (nonatomic, assign) BOOL isSupportRotating;
+#warning 所有这样的东西应该设定初始值。
+@property (nonatomic, assign) EasyShowEvent isSupportRotating;   //是否支持横屏
 
 + (instancetype)shared ;
 
 - (EasyAlertConfig *(^)(UIColor *))setTintColor;
 - (EasyAlertConfig *(^)(UIColor *))setTitleColor ;
 - (EasyAlertConfig *(^)(UIColor *))setSubtitleColor ;
-- (EasyAlertConfig *(^)(BOOL))setAlertTowItemHorizontal ;
-- (EasyAlertConfig *(^)(alertAnimationType))setAlertAnimationType ;
-- (EasyAlertConfig *(^)(BOOL))setBgViewReceiveEvent ;
+- (EasyAlertConfig *(^)(BOOL))setItemHorizontal ;
+- (EasyAlertConfig *(^)(AlertAnimationType))setAnimationType ;
+- (EasyAlertConfig *(^)(BOOL))setBgViewEvent ;
 - (EasyAlertConfig *(^)(NSUInteger))setAlertViewMaxNum ;
 
 @end

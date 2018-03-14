@@ -26,7 +26,7 @@
     [self.view addSubview:self.tableView];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"接受事件" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarClick)];
-    
+
 }
 
 - (void)rightBarClick
@@ -88,7 +88,7 @@
             }];
            
 //            static int aa = 0 ;
-//            [EasyShowOptions sharedEasyShowOptions].textStatusType = (aa++)%5 ;//ShowTextStatusTypeStatusBar ; //
+//            [EasyShowOptions sharedEasyShowOptions].textStatusType = (aa++)%5 ;//TextStatusTypeStatusBar ; //
 //            [EasyTextView showText:@"这是一条纯文字消息!"];
         }break;
         case 1: [EasyTextView showSuccessText:@"显示成功！"];  break;
@@ -224,7 +224,7 @@
 - (void)showAlertWithRow:(long)row
 {
 //
-//    EasyAlertView *alertView = [EasyAlertView alertViewWithTitle:@"title" subtitle:@"subtitle" alertViewType:alertViewTypeAlert config:^EasyAlertConfig *{
+//    EasyAlertView *alertView = [EasyAlertView alertViewWithTitle:@"title" subtitle:@"subtitle" AlertViewType:AlertViewTypeAlert config:^EasyAlertConfig *{
 //        return [EasyAlertConfig shared].setTintColor([UIColor blackColor]);
 //    }] ;
 //    [alertView addItemWithTitle:@"alerttype" type:AlertItemTypeRed callback:^(EasyAlertView *showview) {
@@ -241,9 +241,9 @@
 //    [alertView show];
     
     [EasyAlertView alertViewWithPart:^EasyAlertPart *{
-        return [EasyAlertPart shared].setTitle(@"这是个标题").setSubtitle(@"这是副标题").setAlertType(alertViewTypeAlert) ;
+        return [EasyAlertPart shared].setTitle(@"这是个标题").setSubtitle(@"这是副标题").setAlertType(AlertViewTypeAlert) ;
     } config:^EasyAlertConfig *{
-        return [EasyAlertConfig shared].setAlertViewMaxNum(2).setTintColor([UIColor blueColor]) ;
+        return [EasyAlertConfig shared].setAlertViewMaxNum(2).setTitleColor([UIColor blueColor]) ;
     } buttonArray:^NSArray<NSString *> *{
         return @[@"确定",@"取消"] ;
     } callback:^(EasyAlertView *showview) {
@@ -254,7 +254,7 @@
 //        {
 //            static int c_0 = 0 ;
 //            //设置动画类型。建议在appdelegate里面设置一次就好(APP应该统一风格)。
-////            [EasyShowOptions sharedEasyShowOptions].alertAnimationType =  (c_0++)%5 ;
+////            [EasyShowOptions sharedEasyShowOptions].AlertAnimationType =  (c_0++)%5 ;
 //            //设置主题颜色
 ////            [EasyShowOptions sharedEasyShowOptions].alertTintColor = [UIColor cyanColor];
 //            EasyAlertView *showView = [EasyAlertView showAlertWithTitle:@"提示" message:@"确定删除发撒发逻辑是否快捷登录法拉第设计数据吗？"];

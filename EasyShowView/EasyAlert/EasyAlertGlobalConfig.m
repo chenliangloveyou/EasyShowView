@@ -19,11 +19,10 @@ easyShowView_singleton_implementation(EasyAlertGlobalConfig)
         _tintColor = [UIColor cyanColor];
         _titleColor = [UIColor darkTextColor];
         _titleColor = [UIColor lightTextColor];
-        _alertTowItemHorizontal = YES ;
-        _alertAnimationType = alertAnimationTypeBounce ;
-        _bgViewReceiveEvent  = YES ;
+        _itemHorizontal = NO ;
+        _animationType = AlertAnimationTypeBounce ;
+        _bgViewEvent  = YES ;
         _alertViewMaxNum = 2 ;
-        
     }
     return self ;
 }

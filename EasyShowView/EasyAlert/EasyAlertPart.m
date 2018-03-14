@@ -29,9 +29,9 @@
         return self ;
     };
 }
-- (EasyAlertPart *(^)(alertViewType))setAlertType
+- (EasyAlertPart *(^)(AlertViewType))setAlertType
 {
-    return ^EasyAlertPart* (alertViewType type){
+    return ^EasyAlertPart* (AlertViewType type){
         self.alertType = type ;
         return self ;
     };
@@ -44,9 +44,9 @@
 }
 + (instancetype)alertPartWithTitle:(NSString *)title subtitle:(NSString *)subtitle
 {
-    return [self alertPartWithTitle:title subtitle:subtitle alertype:alertViewTypeAlert];
+    return [self alertPartWithTitle:title subtitle:subtitle alertype:AlertViewTypeAlert];
 }
-+ (instancetype)alertPartWithTitle:(NSString *)title subtitle:(NSString *)subtitle alertype:(alertViewType)alerttype
++ (instancetype)alertPartWithTitle:(NSString *)title subtitle:(NSString *)subtitle alertype:(AlertViewType)alerttype
 {
     EasyAlertPart *part = [self shared];
     part.title = title ;

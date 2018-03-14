@@ -24,20 +24,21 @@ typedef NS_ENUM(NSInteger, AlertItemType) {
 /**
  * alertView的动画形式
  */
-typedef NS_ENUM(NSInteger , alertAnimationType) {
-    alertAnimationTypeNone ,//无动画
-    alertAnimationTypeFade,//alpha改变
-    alertAnimationTypeBounce ,//抖动
-    alertAnimationTypeZoom, //放大缩小
-    alertAnimationTypePush ,//向上push
+typedef NS_ENUM(NSInteger , AlertAnimationType) {
+    AlertAnimationTypeUndefine ,//未定义
+    AlertAnimationTypeNone ,//无动画
+    AlertAnimationTypeFade,//alpha改变
+    AlertAnimationTypeBounce ,//抖动
+    AlertAnimationTypeZoom, //放大缩小
+    AlertAnimationTypePush ,//向上push
 };
 
 
-typedef NS_ENUM(NSInteger , alertViewType) {
-    alertViewTypeAlert ,
-    alertViewTypeActionSheet ,
-    alertViewTypeSystemAlert ,
-    alertViewTypeSystemActionSheet ,
+typedef NS_ENUM(NSInteger , AlertViewType) {
+    AlertViewTypeAlert ,   //默认类型
+    AlertViewTypeActionSheet ,
+    AlertViewTypeSystemAlert ,
+    AlertViewTypeSystemActionSheet ,
 };
 
 

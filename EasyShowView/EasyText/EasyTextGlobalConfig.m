@@ -17,10 +17,10 @@ easyShowView_singleton_implementation(EasyTextGlobalConfig)
     if (self = [super init]) {
         
         _showOnWindow = YES ;
-        _superViewReceiveEvent = YES ;
+        _superReceiveEvent = YES ;
 
         _animationType = TextAnimationTypeBounce ;
-        _textStatusType = ShowTextStatusTypeMidden  ;
+        _statusType = TextStatusTypeMidden  ;
         
         _titleFont = [UIFont systemFontOfSize:15];
         _titleColor = [[UIColor whiteColor]colorWithAlphaComponent:1.7];

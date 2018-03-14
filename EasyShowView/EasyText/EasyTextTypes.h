@@ -28,13 +28,13 @@ typedef NS_ENUM(NSInteger, ShowTextStatus) {
 /**
  * 设置文字的位置
  */
-typedef NS_ENUM(NSInteger , ShowTextStatusType) {
-    ShowTextStatusTypeUndefine = 0 ,  /** 未定义 */
-    ShowTextStatusTypeTop = 1 ,
-    ShowTextStatusTypeMidden ,
-    ShowTextStatusTypeBottom,
-    ShowTextStatusTypeStatusBar ,//在statusbar上显示
-    ShowTextStatusTypeNavigation ,//在navigation上显示
+typedef NS_ENUM(NSInteger , TextStatusType) {
+    TextStatusTypeUndefine = 0 ,  /** 未定义 */
+    TextStatusTypeTop = 1 ,
+    TextStatusTypeMidden ,
+    TextStatusTypeBottom,
+    TextStatusTypeStatusBar ,//在statusbar上显示
+    TextStatusTypeNavigation ,//在navigation上显示
 };
 
 /**

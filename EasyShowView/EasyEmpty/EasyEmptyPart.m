@@ -39,7 +39,7 @@
 - (EasyEmptyPart *(^)(NSArray<NSString *> *))setButtonArray
 {
     return ^EasyEmptyPart *(NSArray *buttonArray){
-        self.buttonArray = buttonArray ;
+        self.buttonArray = [buttonArray copy];
         return self ;
     };
 }
@@ -63,7 +63,7 @@
     item.title = title ;
     item.subtitle = subtitle ;
     item.imageName = imageName ;
-    item.buttonArray = buttonArray ;
+    item.buttonArray = [buttonArray copy];
     return item ;
 }
 

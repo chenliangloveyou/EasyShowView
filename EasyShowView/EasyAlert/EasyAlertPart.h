@@ -15,16 +15,17 @@
 
 @property (nonatomic,strong)NSString *subtitle ;
 
-@property (nonatomic,assign)alertViewType alertType ;
+@property (nonatomic,assign)AlertViewType alertType ;
 
 + (instancetype)shared ;
+
 - (EasyAlertPart *(^)(NSString *))setTitle ;
 - (EasyAlertPart *(^)(NSString *))setSubtitle ;
-- (EasyAlertPart *(^)(alertViewType))setAlertType ;
+- (EasyAlertPart *(^)(AlertViewType))setAlertType ;
 
 + (instancetype)alertPartWithTitle:(NSString *)title ;
 + (instancetype)alertPartWithTitle:(NSString *)title subtitle:(NSString *)subtitle ;
-+ (instancetype)alertPartWithTitle:(NSString *)title subtitle:(NSString *)subtitle alertype:(alertViewType)alerttype ;
++ (instancetype)alertPartWithTitle:(NSString *)title subtitle:(NSString *)subtitle alertype:(AlertViewType)alerttype ;
 
 
 @end

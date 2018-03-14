@@ -55,7 +55,7 @@
     //展示视图的frame
     CGRect showFrame = [self showRectWithSpuerView:superView] ;
     
-    if (self.showTextConfig.superReceiveEvent) {//父视图能接受事件
+    if (self.showTextConfig.superReceiveEvent == EasyShowEventYes) {//父视图能接受事件
         //self的大小为显示区域的大小
         [self setFrame:CGRectMake((superView.width-showFrame.size.width)/2, showFrame.origin.y, showFrame.size.width, showFrame.size.height)];
         //显示视图的bgview的frame的位置为{0，0}
@@ -264,11 +264,11 @@
     //显示区域的宽高
     CGFloat backGroundH = 0 ;
     CGFloat backGroundW = SCREEN_WIDTH_S ;
-    switch (self.showTextConfig.textStatusType) {
-        case ShowTextStatusTypeStatusBar://如果是在statusbar上，则高固定，不需要计算
+    switch (self.showTextConfig.statusType) {
+        case TextStatusTypeStatusBar://如果是在statusbar上，则高固定，不需要计算
             backGroundH = STATUSBAR_HEIGHT_S ;
             break;
-        case ShowTextStatusTypeNavigation:
+        case TextStatusTypeNavigation:
             backGroundH = NAVIGATION_HEIGHT_S ;
             break ;
         default:{
@@ -290,15 +290,15 @@
     //显示区域的y值
     CGFloat showFrameY = (superView.height-backGroundH)/2  ;//默认显示在中间
     //    if (self.showTextStatus != ShowStatusLoding) {
-    switch (self.showTextConfig.textStatusType ) {
-        case ShowTextStatusTypeNavigation:
-        case ShowTextStatusTypeStatusBar:
+    switch (self.showTextConfig.statusType ) {
+        case TextStatusTypeNavigation:
+        case TextStatusTypeStatusBar:
             showFrameY = 0 ;
             break ;
-        case ShowTextStatusTypeTop:
+        case TextStatusTypeTop:
             showFrameY = NAVIGATION_HEIGHT_S + EasyTextShowEdge ;
             break;
-        case ShowTextStatusTypeBottom:
+        case TextStatusTypeBottom:
             showFrameY = SCREEN_HEIGHT_S - backGroundH - EasyTextShowEdge ;
             break ;
         default: break;
@@ -345,12 +345,12 @@
 //是否显示在statusbar上
 - (BOOL)isShowOnStatusBar
 {
-    return self.showTextConfig.textStatusType==ShowTextStatusTypeStatusBar ;
+    return self.showTextConfig.statusType==TextStatusTypeStatusBar ;
 }
 //是否正在显示在navigation上
 - (BOOL)isShowOnNavigation
 {
-    return self.showTextConfig.textStatusType==ShowTextStatusTypeNavigation ;
+    return self.showTextConfig.statusType==TextStatusTypeNavigation ;
 }
 
 #pragma - 工具
@@ -362,15 +362,10 @@
     if (!tempConfig) {
         tempConfig = [EasyTextConfig shared] ;
     }
-    
-    BOOL isUseGlobalConfig = [EasyTextGlobalConfig isUseTextGlobalConfig];
-    EasyTextGlobalConfig *globalConfig = nil ;
-    if (isUseGlobalConfig) {
-        globalConfig = [EasyTextGlobalConfig shared];
-    }
+    EasyTextGlobalConfig *globalConfig = [EasyTextGlobalConfig shared];
     
     if (!tempConfig.superView) {
-        if (isUseGlobalConfig && globalConfig.showOnWindow) {
+        if (globalConfig.showOnWindow) {
             tempConfig.superView = kEasyShowKeyWindow ;
         }
         else{
@@ -379,13 +374,13 @@
     }
     
     if (tempConfig.superReceiveEvent == EasyUndefine) {
-        tempConfig.superReceiveEvent = globalConfig.superViewReceiveEvent ;
+        tempConfig.superReceiveEvent = globalConfig.superReceiveEvent ;
     }
     if (tempConfig.animationType == TextAnimationTypeUndefine) {
         tempConfig.animationType = globalConfig.animationType ;
     }
-    if (tempConfig.textStatusType == ShowTextStatusTypeUndefine) {
-        tempConfig.textStatusType =  globalConfig.textStatusType ;
+    if (tempConfig.statusType == TextStatusTypeUndefine) {
+        tempConfig.statusType =  globalConfig.statusType ;
     }
     if (!tempConfig.titleFont) {
         tempConfig.titleFont = globalConfig.titleFont  ;
@@ -402,7 +397,7 @@
     
     if (!tempConfig.textShowTimeBlock) {
         
-        if (isUseGlobalConfig && globalConfig.textShowTimeBlock) {
+        if (globalConfig.textShowTimeBlock) {
             tempConfig.textShowTimeBlock = globalConfig.textShowTimeBlock ;
         }else{
             float(^textShowTime)(NSString *text) = ^float(NSString *text){

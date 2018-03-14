@@ -7,13 +7,22 @@
 //
 
 #import "EasyTextConfig.h"
-
+#import "EasyShowUtils.h"
 
 @implementation EasyTextConfig
 
 + (instancetype)shared
 {
     return [[self alloc]init];
+}
+- (instancetype)init
+{
+    if (self = [super init]) {
+        _superReceiveEvent = EasyUndefine ;
+        _animationType = EasyUndefine ;
+        _statusType = EasyUndefine ;
+    }
+    return self ;
 }
 
 - (EasyTextConfig *(^)(UIView *))setSuperView{
@@ -22,9 +31,9 @@
         return self ;
     } ;
 }
-- (EasyTextConfig *(^)(ShowTextStatusType))setTextStatusType{
-    return ^EasyTextConfig *(ShowTextStatusType statusType){
-        self.textStatusType = statusType ;
+- (EasyTextConfig *(^)(TextStatusType))setTextStatusType{
+    return ^EasyTextConfig *(TextStatusType statusType){
+        self.statusType = statusType ;
         return self ;
     } ;
 }
@@ -87,18 +96,18 @@
     return [EasyTextConfig configWithSuperView:superView
                                  superReceiveEvent:receive
                                      animationType:TextAnimationTypeUndefine
-                                    textStatusType:ShowTextStatusTypeUndefine];
+                                    textStatusType:TextStatusTypeUndefine];
 }
 + (instancetype)configWithSuperView:(UIView *)superView
                   superReceiveEvent:(ShowTextEvent)receive
                       animationType:(TextAnimationType)animationType
-                     textStatusType:(ShowTextStatusType)statusType
+                     textStatusType:(TextStatusType)statusType
 {
     EasyTextConfig *config = [self shared];
     config.superView = superView ;
     config.superReceiveEvent = receive ;
     config.animationType = animationType ;
-    config.textStatusType = statusType ;
+    config.statusType = statusType ;
     return config ;
 }
 @end

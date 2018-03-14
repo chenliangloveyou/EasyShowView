@@ -157,7 +157,7 @@
             return ;
         case ShowTextStatusSuccess:
         {
-            CGFloat addHeight = self.config.textStatusType == ShowTextStatusTypeStatusBar ? 1 : 3 ;
+            CGFloat addHeight = self.config.statusType == TextStatusTypeStatusBar ? 1 : 3 ;
             [path moveToPoint:CGPointMake((imageWH-imageWH)/2+imageWH/4,  addHeight + imageWH/2)];
             [path addLineToPoint:CGPointMake(imageWH/2, imageWH*3/4)];
             [path addLineToPoint:CGPointMake(imageWH/2 + imageWH*1/3, imageWH*1/3)];
@@ -176,7 +176,7 @@
         }break ;
         case ShowTextStatusInfo:
         {
-            CGFloat addHeight = self.config.textStatusType == ShowTextStatusTypeStatusBar ? 5 : 3 ;
+            CGFloat addHeight = self.config.statusType == TextStatusTypeStatusBar ? 5 : 3 ;
             [path moveToPoint:CGPointMake(imageWH/2,  imageWH/4 )];
             [path addLineToPoint:CGPointMake(imageWH/2,imageWH/4 + addHeight)];
             
@@ -245,12 +245,12 @@
 //是否显示在statusbar上
 - (BOOL)isShowedStatusBar
 {
-    return self.config.textStatusType==ShowTextStatusTypeStatusBar ;
+    return self.config.statusType==TextStatusTypeStatusBar ;
 }
 //是否正在显示在navigation上
 - (BOOL)isShowedNavigation
 {
-    return self.config.textStatusType==ShowTextStatusTypeNavigation ;
+    return self.config.statusType==TextStatusTypeNavigation ;
 }
 
 - (UIImageView *)imageView

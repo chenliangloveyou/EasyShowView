@@ -29,18 +29,7 @@
 
 + (void)hiddenEmptyView:(UIView *)superView ;
 
-
-///**
-// * 敬请期待
-// */
-//+ (void)showEmptyViewLodingWithTitle:(NSString *)title
-//                            callback:(emptyViewCallback)callback ;
-//
-///**
-// * 敬请期待
-// */
-//+ (void)showEmptyViewLodingWithImageName:(NSString *)imageName
-//                                callback:(emptyViewCallback)callback ;
+#warning 添加视图出来，可用于直接隐藏
 
 
 @end
