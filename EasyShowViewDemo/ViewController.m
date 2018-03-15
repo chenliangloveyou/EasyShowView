@@ -248,7 +248,6 @@
                 [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlue callback:^(EasyAlertView *showview) {
                     NSLog(@"好的=%@",showview) ;
                 }];
-//                [EasyShowOptions sharedEasyShowOptions].alertTintColor = [UIColor clearColor];
             }
             [showView show];
         }break;
