@@ -159,8 +159,8 @@
 			children = (
 				6863D8A2204ADE0B00964CB1 /* EasyShowUtils.h */,
 				6863D89E204ADE0B00964CB1 /* EasyShowUtils.m */,
-				6863D8A0204ADE0B00964CB1 /* UIView+EasyShowExt.m */,
 				6863D89D204ADE0B00964CB1 /* UIView+EasyShowExt.h */,
+				6863D8A0204ADE0B00964CB1 /* UIView+EasyShowExt.m */,
 				6863D8A1204ADE0B00964CB1 /* EasyShowLabel.h */,
 				6863D89F204ADE0B00964CB1 /* EasyShowLabel.m */,
 			);

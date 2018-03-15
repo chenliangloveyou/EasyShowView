@@ -108,23 +108,17 @@
         }break ;
         case 3:
         {
-            [EasyLodingView showLodingText:@"正在加载中,请稍后..." config:^EasyLodingConfig *{
-                return [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypePlayImagesLeft];
-            }];
-        }break ;
-        case 4:
-        {
             [EasyLodingView showLodingText:@"正在加载中.." imageName:@"HUD_NF.png" config:^EasyLodingConfig *{
                 return [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeImageUpturnLeft];
             }];
         }break ;
-        case 5:
+        case 4:
         {
             [EasyLodingView showLodingText:@"" imageName:@"HUD_NF.png" config:^EasyLodingConfig *{
                 return [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeImageAround];
             }];
             
-        }
+        }break;
         default:
             [EasyLodingView hidenLoding];
             break;
@@ -195,25 +189,10 @@
             } buttonArray:^NSArray<NSString *> *{
                 return @[@"确定",@"取消"] ;
             } callback:^(EasyAlertView *showview) {
-                
-<<<<<<< HEAD
-            }
-            if (c_0%2) {
-                [showView addItemWithTitle:@"我已了解" itemType:ShowAlertItemTypeBlodBlue callback:^(EasyAlertView *showview) {
-                    NSLog(@"我已了解=%@",showview) ;
-                }];
-                [showView addItemWithTitle:@"好的" itemType:ShowAlertItemTypeBlue callback:^(EasyAlertView *showview) {
-                    NSLog(@"好的=%@",showview) ;
-                }];
-            }
-            [showView show];
-        }break;
           
-=======
             }];
         } break;
             
->>>>>>> 335c880e440a9dde697a17169becb2688b2564ec
         case 1:
         {
             EasyAlertView *alertV = [EasyAlertView alertViewWithPart:^EasyAlertPart *{
