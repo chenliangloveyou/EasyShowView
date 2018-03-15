@@ -8,41 +8,27 @@
 
 #import "EasyAlertView.h"
 #import "UIView+EasyShowExt.h"
-#import "EasyShowOptions.h"
-#import "EasyShowLabel.h"
-@interface EasyShowAlertItem : NSObject
-@property (nonatomic,strong)NSString *title ;
-@property (nonatomic,assign)ShowAlertItemType itemTpye ;
-@property (nonatomic,strong)alertItemCallback callback ;
-@end
-@implementation EasyShowAlertItem
-@end
+#import "EasyAlertConfig.h"
 
-typedef NS_ENUM(NSInteger , alertShowType) {
-    alertShowTypeAlert ,
-    alertShowTypeActionSheet ,
-    alertShowTypeSystemAlert ,
-    alertShowTypeSystemActionSheet ,
-};
+#import "EasyShowLabel.h"
+#import "EasyAlertGlobalConfig.h"
+#import "EasyAlertItem.h"
 
 
 @interface EasyAlertView()<CAAnimationDelegate>
 
-@property (nonatomic,strong)EasyShowOptions *options ;
+@property (nonatomic,strong)EasyAlertConfig *config ;
+@property (nonatomic,strong)EasyAlertPart   *part ;
 
-@property (nonatomic,assign)alertShowType alertShowType ;
-
-@property (nonatomic,strong)UILabel *alertTitleLabel ;
-@property (nonatomic,strong)UILabel *alertMessageLabel ;
-@property (nonatomic,strong)NSMutableArray<EasyShowAlertItem *> *alertItemArray ;
-@property (nonatomic,strong)NSMutableArray *alertButtonArray ;
+@property (nonatomic,strong)UILabel *titleLabel ;
+@property (nonatomic,strong)UILabel *subtitleLabel ;
+@property (nonatomic,strong)UIView *alertBgView ;
+@property (nonatomic,strong)NSMutableArray<EasyAlertItem *> *itemArray ;
+@property (nonatomic,strong)NSMutableArray<UIButton *> *buttonArray ;
 
 @property (nonatomic,strong)UIWindow *alertWindow ;
-@property (nonatomic,strong)UIView *alertBgView ;
 @property (nonatomic,strong)UIWindow *oldKeyWindow ;
 
-@property (nonatomic,strong)NSString *alertShowTitle ;
-@property (nonatomic,strong)NSString *alertShowMessage ;
 
 @end
 
@@ -51,160 +37,199 @@ typedef NS_ENUM(NSInteger , alertShowType) {
 
 - (void)dealloc
 {
-//    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-+ (instancetype)showActionSheetWithTitle:(NSString *)title message:(NSString *)message
+
+
++ (EasyAlertView *)alertViewWithPart:(EasyAlertPart *(^)(void))part
+                              config:(EasyAlertConfig *(^)(void))config
+                         buttonArray:(NSArray<NSString *> *(^)(void))buttonArray
+                            callback:(alertItemCallback)callback
 {
-    return [self showAlertWithType:alertShowTypeActionSheet title:title message:message];
+    EasyAlertView *alertView = [self alertViewWithPart:part config:config ];
+    NSArray *tempArr = buttonArray ? buttonArray() : @[] ;
+    [alertView addAlertItemWithTitleArray:tempArr callback:callback];
+    [alertView showAlertView];
+    return alertView ;
 }
-+ (instancetype)showAlertWithTitle:(NSString *)title message:(NSString *)message
+
+
+//第一步：创建一个自定义的Alert/ActionSheet
++ (instancetype)alertViewWithTitle:(NSString *)title
+                          subtitle:(NSString *)subtitle
+                     AlertViewType:(AlertViewType)alertType
+                            config:(EasyAlertConfig *(^)(void))config
 {
-    return [self showAlertWithType:alertShowTypeAlert title:title message:message];
+    EasyAlertPart *(^tempPart)(void) = ^EasyAlertPart *{
+        return [EasyAlertPart alertPartWithTitle:title subtitle:subtitle alertype:alertType] ;
+    };
+    return [self alertViewWithPart:tempPart config:config] ;
+    
 }
-+ (instancetype)showSystemActionSheetWithTitle:(NSString *)title message:(NSString *)message
+
++ (instancetype)alertViewWithPart:(EasyAlertPart *(^)(void))part
+                           config:(EasyAlertConfig *(^)(void))config
 {
-    return [self showAlertWithType:alertShowTypeSystemActionSheet title:title message:message] ;
-}
-+ (instancetype)showSystemAlertWithTitle:(NSString *)title message:(NSString *)message
-{
-    return [self showAlertWithType:alertShowTypeSystemAlert title:title message:message];
-}
-+ (instancetype)showAlertWithType:(alertShowType)type title:(NSString *)title message:(NSString *)message
-{
-    if (ISEMPTY_S(title) && ISEMPTY_S(message)) {
-        NSAssert(NO, @"you should set title or message") ;
-        return nil;
-    }
-    EasyAlertView *showView = [[EasyAlertView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    showView.alertShowTitle = title ;
-    showView.alertShowMessage = message ;
-    showView.alertShowType = type ;
-    showView.alertItemArray = [NSMutableArray arrayWithCapacity:3];
+    EasyAlertPart *tempPart = [self changePartWithPart:part];
+    EasyAlertConfig *tempConfig = [self changeConfigWithConfig:config] ;
+    
+    EasyAlertView *showView = [[EasyAlertView alloc]initWithPart:tempPart config:tempConfig];
+    showView.itemArray = [NSMutableArray arrayWithCapacity:3];
     return showView ;
 }
 
-- (void)addSystemItemWithTitle:(NSString *)title itemType:(AlertActionSystemStyle)itemType callback:(alertItemCallback)callback
+//第二步：往创建的alert上面添加事件
+- (void)addAlertItemWithTitle:(NSString *)title
+                         type:(AlertItemType)type
+                     callback:(alertItemCallback)callback
 {
-    [self addItemWithTitle:title itemType:(ShowAlertItemType)itemType callback:callback];
+    EasyAlertItem *tempItem = [EasyAlertItem itemWithTitle:title type:type callback:callback];
+    [self.itemArray addObject:tempItem];
 }
-
-- (void)addItemWithTitle:(NSString *)title itemType:(ShowAlertItemType)itemType callback:(alertItemCallback)callback
+- (void)addAlertItem:(EasyAlertItem *(^)(void))item
 {
-    NSAssert(!ISEMPTY_S(title), @"the title should input！");
-    
-    EasyShowAlertItem *item = [[EasyShowAlertItem alloc]init];
-    item.title = title ;
-    item.itemTpye = itemType ;
-    item.callback = callback ;
-    [self.alertItemArray addObject:item];
+    EasyAlertItem *tempItem = item ? item() : [EasyAlertItem init];
+    [self.itemArray addObject:tempItem];
 }
-
-
-- (void)show
+- (void)addAlertItemWithTitleArray:(NSArray *)titleArray
+                          callback:(alertItemCallback)callbck
 {
-    self.oldKeyWindow = [UIApplication sharedApplication].keyWindow ;
-    [self.alertWindow addSubview:self];
-    [self.alertWindow makeKeyAndVisible];
-    
-    [self addSubview:self.alertBgView];
-    
-    [self.alertBgView addSubview:self.alertTitleLabel];
-    [self.alertBgView addSubview:self.alertMessageLabel];
-    self.alertTitleLabel.text = self.alertShowTitle ;
-    self.alertMessageLabel.text = self.alertShowMessage ;
-    
-    for (int i = 0; i < self.alertItemArray.count; i++) {
-        UIButton *button = [self alertButtonWithIndex:i ];
-        [self.alertBgView addSubview:button];
+    for (int i = 0 ; i < titleArray.count; i++) {
+        EasyAlertItem *tempItem = [EasyAlertItem itemWithTitle:titleArray[i] type:AlertItemTypeBlack callback:callbck];
+        [self.itemArray addObject:tempItem];
     }
-    
-    [self layoutAlertSubViews];
-    
-    [self showStartAnimationWithType:self.options.alertAnimationType completion:nil];
-    
-    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarOrientationChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-    
 }
 
-- (void)systemShow
+//第三步：展示alert
+- (void)showAlertView
 {
-    if (@available(iOS 8.0, *)) {
-        UIAlertControllerStyle stype = self.alertShowType == alertShowTypeSystemAlert ;
-        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:self.alertShowTitle
-                                                                        message:self.alertShowMessage
+    
+    if (self.part.alertType == AlertViewTypeSystemAlert ||self.part.alertType==AlertViewTypeSystemActionSheet ) {
+        UIAlertControllerStyle stype = self.part.alertType == AlertViewTypeSystemAlert ;
+        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:self.part.title
+                                                                        message:self.part.subtitle
                                                                  preferredStyle:stype];
-        
-        [self.alertItemArray enumerateObjectsUsingBlock:^(EasyShowAlertItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self.itemArray enumerateObjectsUsingBlock:^(EasyAlertItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+           
+            UIAlertActionStyle actionStyle = UIAlertActionStyleDefault ;
+            if (obj.itemTpye == AlertItemTypeSystemCancel) {
+                actionStyle = UIAlertActionStyleCancel ;
+            }else if (obj.itemTpye == AlertItemTypeSystemDestructive){
+                actionStyle = UIAlertActionStyleDestructive ;
+            }
+            
             UIAlertAction *action = [UIAlertAction actionWithTitle:obj.title
-                                                             style:(UIAlertActionStyle)obj.itemTpye
+                                                             style:actionStyle
                                                            handler:^(UIAlertAction * _Nonnull action) {
                                                                if (obj.callback) {
                                                                    obj.callback(self);
                                                                }
                                                            }];
             [alertC addAction:action];
-            
         }];
-        
+       
         UIViewController *presentVC = [EasyShowUtils easyShowViewTopViewController];
         [presentVC presentViewController:alertC animated:YES completion:nil];
+        
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [presentVC dismissViewControllerAnimated:YES completion:nil];
+        });
+        return ;
+    }    
+    
+    self.oldKeyWindow = [UIApplication sharedApplication].keyWindow ;
+    [self.alertWindow addSubview:self];
+    [self.alertWindow makeKeyAndVisible];
+    
+    [self addSubview:self.alertBgView];
+    
+    [self.alertBgView addSubview:self.titleLabel];
+    [self.alertBgView addSubview:self.subtitleLabel];
+    self.titleLabel.text = self.part.title ;
+    self.subtitleLabel.text = self.part.subtitle ;
+    
+    for (int i = 0; i < self.itemArray.count; i++) {
+        UIButton *button = [self alertButtonWithIndex:i];
+        [self.alertBgView addSubview:button];
     }
+    
+    [self layoutAlertSubViews];
+    
+    [self showStartAnimationWithType:self.config.animationType completion:nil];
+    
+}
+
+
+// 移除alertview
+- (void)removeAlertView
+{
+    [self alertWindowTap];
+}
+- (instancetype)initWithPart:(EasyAlertPart *)part config:(EasyAlertConfig *)config
+{
+    if (self = [super init]) {
+        _part = part ;
+        _config = config ;
+        self.frame = [UIApplication sharedApplication].keyWindow.bounds ;
+    }
+    return self ;
 }
 
 
 
 - (void)statusBarOrientationChange:(NSNotification *)notification {
     
-//    self.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    //    self.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     [self layoutAlertSubViews];
 }
 - (void)layoutAlertSubViews
 {
-    CGFloat bgViewMaxWidth = self.alertShowType==alertShowTypeAlert ?  SCREEN_WIDTH_S*0.75 : SCREEN_WIDTH_S ;
+    CGFloat bgViewMaxWidth = self.part.alertType==AlertViewTypeAlert ?  SCREEN_WIDTH_S*0.75 : SCREEN_WIDTH_S ;
     CGFloat buttonHeight = 50 ;
     
-    CGSize titleLabelSize = [self.alertTitleLabel sizeThatFits:CGSizeMake(bgViewMaxWidth, MAXFLOAT)];
-    if (ISEMPTY_S(self.alertTitleLabel.text)) {
+    CGSize titleLabelSize = [self.titleLabel sizeThatFits:CGSizeMake(bgViewMaxWidth, MAXFLOAT)];
+    if (ISEMPTY_S(self.titleLabel.text)) {
         titleLabelSize.height = 10 ;
     }
-    self.alertTitleLabel.frame = CGRectMake(0, 0, bgViewMaxWidth, titleLabelSize.height);
+    self.titleLabel.frame = CGRectMake(0, 0, bgViewMaxWidth, titleLabelSize.height);
     
-    CGSize messageLabelSize = [self.alertMessageLabel sizeThatFits:CGSizeMake(bgViewMaxWidth, MAXFLOAT)];
-    if (ISEMPTY_S(self.alertMessageLabel.text)) {
+    CGSize messageLabelSize = [self.subtitleLabel sizeThatFits:CGSizeMake(bgViewMaxWidth, MAXFLOAT)];
+    if (ISEMPTY_S(self.subtitleLabel.text)) {
         messageLabelSize.height = 10 ;
     }
-    self.alertMessageLabel.frame = CGRectMake(0, self.alertTitleLabel.bottom, bgViewMaxWidth, messageLabelSize.height) ;
+    self.subtitleLabel.frame = CGRectMake(0, self.titleLabel.bottom, bgViewMaxWidth, messageLabelSize.height) ;
     
-    CGFloat totalHeight = self.alertMessageLabel.bottom + 0.5 ;
-    CGFloat btnCount = self.alertButtonArray.count ;
+    CGFloat totalHeight = self.subtitleLabel.bottom + 0.5 ;
+    CGFloat btnCount = self.buttonArray.count ;
     
-    if (self.alertShowType==alertShowTypeAlert && btnCount==2 && self.options.alertTowItemHorizontal) {
-       
+    if (self.part.alertType==AlertViewTypeAlert && btnCount==2 && self.config.itemHorizontal) {
+        
         for (int i = 0; i < btnCount ; i++) {
-            UIButton *tempButton = self.alertButtonArray[i];
+            UIButton *tempButton = self.buttonArray[i];
             
             CGFloat tempButtonX = i ? (bgViewMaxWidth/2+0.5) : 0 ;
-            CGFloat tempButtonY = self.alertMessageLabel.bottom +0.5  ;
+            CGFloat tempButtonY = self.subtitleLabel.bottom +0.5  ;
             [tempButton setFrame:CGRectMake(tempButtonX, tempButtonY, bgViewMaxWidth/2, buttonHeight)];
             totalHeight = tempButton.bottom ;
         }
     }
     else{
         for (int i = 0; i < btnCount ; i++) {
-            UIButton *tempButton = self.alertButtonArray[i];
+            UIButton *tempButton = self.buttonArray[i];
             
-            CGFloat lineHeight = ((i==btnCount-1)&&self.alertShowType==alertShowTypeActionSheet) ? 10 : 0.5 ;
-            CGFloat tempButtonY = self.alertMessageLabel.bottom + lineHeight + i*(buttonHeight+ 0.5) ;
+            CGFloat lineHeight = ((i==btnCount-1)&&self.part.alertType==AlertViewTypeActionSheet) ? 10 : 0.5 ;
+            CGFloat tempButtonY = self.subtitleLabel.bottom + lineHeight + i*(buttonHeight+ 0.5) ;
             [tempButton setFrame:CGRectMake(0, tempButtonY, bgViewMaxWidth, buttonHeight)];
             totalHeight = tempButton.bottom ;
         }
     }
- 
-    CGFloat actionShowAddSafeHeiht = self.alertShowType==alertShowTypeActionSheet ? kEasyShowSafeBottomMargin_S : 0 ;
+    
+    CGFloat actionShowAddSafeHeiht = self.part.alertType==AlertViewTypeActionSheet ? kEasyShowSafeBottomMargin_S : 0 ;
     self.alertBgView.bounds = CGRectMake(0, 0, bgViewMaxWidth, totalHeight+actionShowAddSafeHeiht);
     
-    switch (self.alertShowType) {
-        case alertShowTypeAlert:
+    switch (self.part.alertType) {
+        case AlertViewTypeAlert:
         {
             self.alertBgView.center = self.center ;
             
@@ -214,14 +239,14 @@ typedef NS_ENUM(NSInteger , alertShowType) {
                                     borderColor:boderColor
                                      cornerSize:CGSizeMake(15,15)];//需要添加阴影
         }break;
-        case alertShowTypeActionSheet:
+        case AlertViewTypeActionSheet:
         {
             self.alertBgView.center = CGPointMake(SCREEN_WIDTH_S/2, SCREEN_HEIGHT_S-(totalHeight/2));
         }break ;
         default:
             break;
     }
-  
+    
 }
 
 - (void)bgViewTap:(UIPanGestureRecognizer *)recognizer
@@ -231,10 +256,10 @@ typedef NS_ENUM(NSInteger , alertShowType) {
 - (void)bgViewPan:(UIPanGestureRecognizer *)recognizer
 {
     CGPoint location = [recognizer locationInView:self];
-
+    
     UIButton *tempButton = nil;
-    for (int i = 0; i < self.alertButtonArray.count; i++) {
-        UIButton *itemBtn = self.alertButtonArray[i];
+    for (int i = 0; i < self.buttonArray.count; i++) {
+        UIButton *itemBtn = self.buttonArray[i];
         CGRect btnFrame = [itemBtn convertRect:itemBtn.bounds toView:self];
         if (CGRectContainsPoint(btnFrame, location)) {
             itemBtn.highlighted = YES;
@@ -252,7 +277,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
 
 - (void)buttonClick:(UIButton *)button
 {
-    EasyShowAlertItem *item = self.alertItemArray[button.tag];
+    EasyAlertItem *item = self.itemArray[button.tag];
     if (item.callback) {
         typeof(self)weakself = self;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(EasyShowAnimationTime/2.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -263,7 +288,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
 }
 - (UIButton *)alertButtonWithIndex:(long)index
 {
-    EasyShowAlertItem *item = self.alertItemArray[index];
+    EasyAlertItem *item = self.itemArray[index];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.tag = index;
@@ -279,35 +304,37 @@ typedef NS_ENUM(NSInteger , alertShowType) {
     UIFont *textFont = [UIFont systemFontOfSize:17] ;
     UIColor *textColor = [UIColor blackColor] ;
     switch (item.itemTpye) {
-        case ShowAlertItemTypeRed: {
+        case AlertItemTypeRed: {
             textColor = [UIColor redColor];
         }break ;
-        case ShowAlertItemTypeBlodRed:{
+        case AlertItemTypeBlodRed:{
             textColor = [UIColor redColor];
             textFont  = [UIFont boldSystemFontOfSize:17] ;
         }break ;
-        case ShowAlertItemTypeBlue:{
+        case AlertItemTypeBlue:{
             textColor = [UIColor blueColor];
         }break ;
-        case ShowAlertItemTypeBlodBlue:{
+        case AlertItemTypeBlodBlue:{
             textColor = [UIColor blueColor];
             textFont = [UIFont boldSystemFontOfSize:17] ;
         }break ;
-        case ShowAlertItemTypeBlack:{
+        case AlertItemTypeBlack:{
             
         }break ;
-        case ShowAlertItemTypeBlodBlack:{
+        case AlertItemTypeBlodBlack:{
             textFont = [UIFont boldSystemFontOfSize:17] ;
         }break ;
-        case ShowStatusTextTypeCustom:{
+        case AlertItemTypeCustom:{
             
         }break ;
+        default:
+        break ;
     }
     [button setTitleColor:textColor forState:UIControlStateNormal];
     [button setTitleColor:[textColor colorWithAlphaComponent:0.2] forState:UIControlStateHighlighted];
     [button.titleLabel setFont:textFont] ;
     
-    [self.alertButtonArray addObject:button];
+    [self.buttonArray addObject:button];
     
     return button ;
 }
@@ -326,15 +353,15 @@ typedef NS_ENUM(NSInteger , alertShowType) {
         self.alertWindow = nil;
     };
     
-    [self showEndAnimationWithType:self.options.alertAnimationType
+    [self showEndAnimationWithType:self.config.animationType
                         completion:completion];
 }
 
 #pragma mark - animation
 
-- (void)showEndAnimationWithType:(alertAnimationType)type completion:(void(^)(void))completion
+- (void)showEndAnimationWithType:(AlertAnimationType)type completion:(void(^)(void))completion
 {
-    if (self.alertShowType == alertShowTypeActionSheet) {
+    if (self.part.alertType == AlertViewTypeActionSheet) {
         [UIView animateWithDuration:EasyShowAnimationTime animations:^{
             self.alertBgView.top = SCREEN_HEIGHT_S ;
         } completion:^(BOOL finished) {
@@ -346,7 +373,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
     }
     
     switch (type) {
-        case alertAnimationTypeFade:
+        case AlertAnimationTypeFade:
         {
             [UIView animateWithDuration:EasyShowAnimationTime
                                   delay:0
@@ -360,7 +387,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
                                  }
                              }];
         }break;
-        case alertAnimationTypeZoom:
+        case AlertAnimationTypeZoom:
         {
             [UIView animateWithDuration:EasyShowAnimationTime
                                   delay:0 options:UIViewAnimationOptionCurveEaseIn
@@ -373,7 +400,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
                                  }
                              }];
         }break ;
-        case alertAnimationTypeBounce:
+        case AlertAnimationTypeBounce:
         {
             CABasicAnimation *bacAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
             bacAnimation.duration = EasyShowAnimationTime ;
@@ -393,7 +420,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
             
             [self.alertBgView.layer addAnimation:animationGroup forKey:nil];
         }break ;
-        case alertAnimationTypePush:
+        case AlertAnimationTypePush:
         {
             [UIView animateWithDuration:EasyShowAnimationTime animations:^{
                 self.alertBgView.top = SCREEN_HEIGHT_S ;
@@ -420,9 +447,9 @@ typedef NS_ENUM(NSInteger , alertShowType) {
         completion();
     }
 }
-- (void)showStartAnimationWithType:(alertAnimationType)type completion:(void(^)(void))completion
+- (void)showStartAnimationWithType:(AlertAnimationType)type completion:(void(^)(void))completion
 {
-    if (self.alertShowType == alertShowTypeActionSheet) {
+    if (self.part.alertType == AlertViewTypeActionSheet) {
         self.alertBgView.top = SCREEN_HEIGHT_S ;
         [UIView animateWithDuration:EasyShowAnimationTime animations:^{
             self.alertBgView.top = (SCREEN_HEIGHT_S-self.alertBgView.height)-5 ;
@@ -436,7 +463,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
     }
     
     switch (type) {
-        case alertAnimationTypeFade:
+        case AlertAnimationTypeFade:
         {
             self.alertBgView.alpha = 0 ;
             [UIView beginAnimations:nil context:NULL];
@@ -444,7 +471,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
             self.alertBgView.alpha = 1.0f;
             [UIView commitAnimations];
         }break;
-        case alertAnimationTypeZoom:
+        case AlertAnimationTypeZoom:
         {
             self.alertBgView.alpha = 0 ;
             self.alertBgView.transform = CGAffineTransformConcat(CGAffineTransformIdentity, CGAffineTransformMakeScale(3, 3));
@@ -454,7 +481,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
             self.alertBgView.transform = CGAffineTransformIdentity;
             [UIView commitAnimations];
         }break ;
-        case alertAnimationTypeBounce:
+        case AlertAnimationTypeBounce:
         {
             CAKeyframeAnimation *popAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
             popAnimation.duration = EasyShowAnimationTime;
@@ -468,7 +495,7 @@ typedef NS_ENUM(NSInteger , alertShowType) {
                                              [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
             [self.alertBgView.layer addAnimation:popAnimation forKey:nil];
         }break ;
-        case alertAnimationTypePush:
+        case AlertAnimationTypePush:
         {
             self.alertBgView.top = SCREEN_HEIGHT_S ;
             [UIView animateWithDuration:EasyShowAnimationTime animations:^{
@@ -490,18 +517,18 @@ typedef NS_ENUM(NSInteger , alertShowType) {
 {
     if (nil == _alertBgView) {
         _alertBgView = [[UIView alloc]init];
-        if (self.options.alertTintColor == [UIColor clearColor]) {
+        if (self.config.tintColor == [UIColor clearColor]) {
             _alertBgView.backgroundColor = [UIColor groupTableViewBackgroundColor];
         }
         else{
-            _alertBgView.backgroundColor = self.options.alertTintColor;
+            _alertBgView.backgroundColor = self.config.tintColor;
         }
         _alertBgView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight ;
         UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(bgViewPan:)] ;
         [_alertBgView addGestureRecognizer:panGesture];
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(bgViewTap:)] ;
         [_alertBgView addGestureRecognizer:tapGesture];
-
+        
         //        _alertBgView.clipsToBounds = YES ;
         //        _alertBgView.layer.cornerRadius = 10 ;
     }
@@ -511,9 +538,9 @@ typedef NS_ENUM(NSInteger , alertShowType) {
     if (nil == _alertWindow) {
         _alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         _alertBgView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight ;
-         _alertWindow.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
+        _alertWindow.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
         _alertWindow.hidden = NO ;
-        if (self.options.alertBgViewTapRemove) {
+        if (self.config.bgViewEvent) {
             UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(alertWindowTap)];
             [_alertWindow addGestureRecognizer:tapGes];
         }
@@ -522,57 +549,96 @@ typedef NS_ENUM(NSInteger , alertShowType) {
     return _alertWindow;
 }
 
-- (UILabel *)alertTitleLabel
+- (UILabel *)titleLabel
 {
-    if (nil == _alertTitleLabel) {
-        _alertTitleLabel = [[EasyShowLabel alloc] initWithContentInset:UIEdgeInsetsMake(35, 30, 15, 30)];
-        _alertTitleLabel.textAlignment = NSTextAlignmentCenter;
-        if (self.options.alertTintColor == [UIColor clearColor]) {
-            _alertTitleLabel.backgroundColor = [UIColor whiteColor];
+    if (nil == _titleLabel) {
+        _titleLabel = [[EasyShowLabel alloc] initWithContentInset:UIEdgeInsetsMake(35, 30, 15, 30)];
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
+        if (self.config.tintColor == [UIColor clearColor]) {
+            _titleLabel.backgroundColor = [UIColor whiteColor];
         }
         else{
-            _alertTitleLabel.backgroundColor = self.options.alertTintColor;
+            _titleLabel.backgroundColor = self.config.tintColor;
         }
-        _alertTitleLabel.font = [UIFont boldSystemFontOfSize:20];
-        _alertTitleLabel.textColor = self.options.alertTitleColor ;
-        _alertTitleLabel.numberOfLines = 0;
+        _titleLabel.font = [UIFont boldSystemFontOfSize:20];
+        _titleLabel.textColor = self.config.titleColor ;
+        _titleLabel.numberOfLines = 0;
     }
-    return _alertTitleLabel ;
+    return _titleLabel ;
 }
-- (UILabel *)alertMessageLabel
+- (UILabel *)subtitleLabel
 {
-    if (nil == _alertMessageLabel) {
-        _alertMessageLabel = [[EasyShowLabel alloc] initWithContentInset:UIEdgeInsetsMake(15, 30, 20, 30)];
-        _alertMessageLabel.textAlignment = NSTextAlignmentCenter;
-        if (self.options.alertTintColor == [UIColor clearColor]) {
-            _alertMessageLabel.backgroundColor = [UIColor whiteColor];
+    if (nil == _subtitleLabel) {
+        _subtitleLabel = [[EasyShowLabel alloc] initWithContentInset:UIEdgeInsetsMake(15, 30, 20, 30)];
+        _subtitleLabel.textAlignment = NSTextAlignmentCenter;
+        if (self.config.tintColor == [UIColor clearColor]) {
+            _subtitleLabel.backgroundColor = [UIColor whiteColor];
         }
         else{
-            _alertMessageLabel.backgroundColor = self.options.alertTintColor;
+            _subtitleLabel.backgroundColor = self.config.tintColor;
         }
-        _alertMessageLabel.font = [UIFont systemFontOfSize:17];
-        _alertMessageLabel.textColor = self.options.alertMessageColor;
-        _alertMessageLabel.numberOfLines = 0;
+        _subtitleLabel.font = [UIFont systemFontOfSize:17];
+        _subtitleLabel.textColor = self.config.subtitleColor ;
+        _subtitleLabel.numberOfLines = 0;
     }
-    return _alertMessageLabel ;
+    return _subtitleLabel ;
 }
-- (NSMutableArray *)alertButtonArray
+- (NSMutableArray *)buttonArray
 {
-    if (nil == _alertButtonArray) {
-        _alertButtonArray = [NSMutableArray arrayWithCapacity:3];
+    if (nil == _buttonArray) {
+        _buttonArray = [NSMutableArray arrayWithCapacity:3];
     }
-    return _alertButtonArray ;
+    return _buttonArray ;
 }
-- (EasyShowOptions *)options
+
+
+#pragma mark - 工具方法
++ (EasyAlertPart *)changePartWithPart:(EasyAlertPart *(^)(void))part
 {
-    if (nil == _options) {
-        _options = [EasyShowOptions sharedEasyShowOptions];
+    EasyAlertPart *tempPart = part ? part() : nil ;
+    if (nil == tempPart) {
+        tempPart = [EasyAlertPart alertPartWithTitle:nil subtitle:nil alertype:AlertViewTypeAlert] ;
     }
-    return _options ;
+    
+    if (ISEMPTY_S(tempPart.title) && ISEMPTY_S(tempPart.subtitle)) {
+        NSAssert(NO, @"you should set title or message") ;
+    }
+    return tempPart ;
 }
-
-
-
-
++ (EasyAlertConfig *)changeConfigWithConfig:(EasyAlertConfig *(^)(void))config
+{
+    EasyAlertConfig *tempConfig = config ? config() : nil ;
+    if (nil == tempConfig) {
+        tempConfig = [EasyAlertConfig shared];
+    }
+    
+    EasyAlertGlobalConfig *globalConfig = [EasyAlertGlobalConfig shared];
+    if (!tempConfig.tintColor) {
+        tempConfig.tintColor = globalConfig.tintColor ;
+    }
+    if (!tempConfig.titleColor) {
+        tempConfig.titleColor = globalConfig.titleColor ;
+    }
+    if (!tempConfig.subtitleColor) {
+        tempConfig.subtitleColor = globalConfig.subtitleColor ;
+    }
+    if (tempConfig.itemHorizontal == EasyUndefine) {
+        tempConfig.itemHorizontal = globalConfig.itemHorizontal ;
+    }
+    if (tempConfig.animationType == EasyUndefine) {
+        tempConfig.animationType = globalConfig.animationType ;
+    }
+    if (tempConfig.bgViewEvent == EasyUndefine) {
+        tempConfig.bgViewEvent = globalConfig.bgViewEvent ;
+    }
+    if (tempConfig.alertViewMaxNum == 0) {
+        tempConfig.alertViewMaxNum = globalConfig.alertViewMaxNum ;
+    }
+    if (tempConfig.isSupportRotating == EasyUndefine) {
+        tempConfig.isSupportRotating = globalConfig.isSupportRotating ;
+    }
+    
+    return tempConfig ;
+}
 
 @end

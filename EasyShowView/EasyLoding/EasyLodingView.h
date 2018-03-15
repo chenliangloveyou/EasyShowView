@@ -18,22 +18,22 @@
  * imageName：需要显示加载框的图片名称
  * superview:加载框所需要的父视图（如果不传会放到window和topviewcontroller上面，在EasyShowOptions里指定）
  *
- * 需要自定义的样式可以在EasyShowOptions里设置
+ * 需要自定义的样式可以在里设置
  */
-+ (void)showLoding ;
++ (EasyLodingView *)showLoding ;
 
-+ (void)showLodingText:(NSString *)text ;
++ (EasyLodingView *)showLodingText:(NSString *)text ;
 
-+ (void)showLodingText:(NSString *)text
-                config:(EasyLodingConfig *(^)(void))config ;
++ (EasyLodingView *)showLodingText:(NSString *)text
+                            config:(EasyLodingConfig *(^)(void))config ;
 
 
-+ (void)showLodingText:(NSString *)text
-             imageName:(NSString *)imageName ;
++ (EasyLodingView *)showLodingText:(NSString *)text
+                         imageName:(NSString *)imageName ;
 
-+ (void)showLodingText:(NSString *)text
-             imageName:(NSString *)imageName
-                config:(EasyLodingConfig *(^)(void))config ;
++ (EasyLodingView *)showLodingText:(NSString *)text
+                         imageName:(NSString *)imageName
+                            config:(EasyLodingConfig *(^)(void))config ;
 
 /**
  * 移除一个加载框
@@ -41,7 +41,7 @@
  */
 + (void)hidenLoding ;
 + (void)hidenLoingInView:(UIView *)superView ;
-
++ (void)hidenLoding:(EasyLodingView *)lodingView ;
 
 
 @end

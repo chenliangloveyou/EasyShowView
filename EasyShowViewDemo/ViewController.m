@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "EasyShowView.h"
-#import "EasyShowOptions.h"
+
 
 #import "SecondViewController.h"
 
@@ -26,7 +26,7 @@
     [self.view addSubview:self.tableView];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"接受事件" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarClick)];
-    
+
 }
 
 - (void)rightBarClick
@@ -79,19 +79,9 @@
         {
             [EasyTextView showText:@"你好" config:^EasyTextConfig *{
                 return [EasyTextConfig shared].setAnimationType(TextAnimationTypeNone).setShadowColor([UIColor redColor]).setSuperView(self.view);
-//                return [EasyShowTextConfig configWithSuperView:self.view
-//                                             superReceiveEvent:ShowTextSuperReceiveEventUndefine
-//                                                 animationType:TextAnimationTypeUndefine ];
-//                return [EasyShowTextConfig configWithSuperView:self.view];
-//                return [EasyShowTextConfig configWithSuperView:self.view superReceiveEvent:-1] ;
-//                return [EasyShowTextConfig configWithSuperView:self.view superReceiveEvent:-1 animationType:-1 textStatusType:-1];
             }];
-           
-//            static int aa = 0 ;
-//            [EasyShowOptions sharedEasyShowOptions].textStatusType = (aa++)%5 ;//ShowTextStatusTypeStatusBar ; //
-//            [EasyTextView showText:@"这是一条纯文字消息!"];
         }break;
-        case 1: [EasyTextView showSuccessText:@"显示成功！"];  break;
+        case 1: [EasyTextView showSuccessText:@"显示成功！" config:nil];  break;
         case 2: [EasyTextView showErrorText:@"服务器错误！"];  break ;
         case 3: [EasyTextView showInfoText:@"请完成基本信息！"];  break ;
         case 4: [EasyTextView showImageText:@"自定义图片！" imageName:@"HUD_NF.png"];  break ;
@@ -139,34 +129,7 @@
             [EasyLodingView hidenLoding];
             break;
     }
-//    static int b_0 = 0 ;
-//    switch (row) {
-//        case 0:
-//            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeTurnAroundLeft : LodingShowTypeTurnAround ;
-//            [EasyLodingView showLodingText:@"正在努力加载..."];
-//            break;
-//        case 1:
-//            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeIndicatorLeft : LodingShowTypeIndicator ;
-//            [EasyLodingView showLodingText:@"正在添加"];
-//            break ;
-//        case 2:{
-//            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypePlayImagesLeft : LodingShowTypePlayImages ;
-//            [EasyLodingView showLodingText:@"加载中..."];
-//        }break ;
-//        case 3:
-//        {
-//            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeImageUpturnLeft : LodingShowTypeImageUpturn ;
-//            [EasyLodingView showLodingText:@"正在加载中,请稍后..." imageName:@"HUD_NF.png"];
-//        }   break ;
-//        case 4:
-//        {
-//            [EasyShowOptions sharedEasyShowOptions].lodingShowType = ++b_0%2 ? LodingShowTypeImageAroundLeft : LodingShowTypeImageAround ;
-//            [EasyLodingView showLodingText:@"" imageName:@"HUD_NF.png"];
-//        }break ;
-//        default:
-//            [EasyLodingView hidenLoding];
-//            break;
-//    }
+  
 }
 
 - (void)showEmptyWithRow:(long)row
@@ -174,8 +137,8 @@
     switch (row) {
         case 0:
         {
-            [EasyEmptyView showEmptyInView:self.view item:^EasyEmptyItem *{
-                return [EasyEmptyItem shared].setTitle(@"网络连接已断开").setImageName(@"netError.png") ;
+            [EasyEmptyView showEmptyInView:self.view item:^EasyEmptyPart *{
+                return [EasyEmptyPart shared].setTitle(@"网络连接已断开").setImageName(@"netError.png") ;
             }config:^EasyEmptyConfig *{
                 return [EasyEmptyConfig shared].setBgColor([UIColor colorWithWhite:0.5 alpha:0.5]);
             } callback:^(EasyEmptyView *view, UIButton *button, callbackType callbackType) {
@@ -190,8 +153,8 @@
             [self.view addSubview:redView];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [EasyEmptyView showEmptyInView:redView item:^EasyEmptyItem *{
-                    return [EasyEmptyItem shared].setTitle(@"你开心就好");
+                [EasyEmptyView showEmptyInView:redView item:^EasyEmptyPart *{
+                    return [EasyEmptyPart shared].setTitle(@"你开心就好");
                 } config:nil callback:nil];
             });
             
@@ -223,23 +186,17 @@
 }
 - (void)showAlertWithRow:(long)row
 {
-
-  switch (row) {
-        case 0:
-        {
-            static int c_0 = 0 ;
-            //设置动画类型。建议在appdelegate里面设置一次就好(APP应该统一风格)。
-//            [EasyShowOptions sharedEasyShowOptions].alertAnimationType =  (c_0++)%5 ;
-            //设置主题颜色
-//            [EasyShowOptions sharedEasyShowOptions].alertTintColor = [UIColor cyanColor];
-            EasyAlertView *showView = [EasyAlertView showAlertWithTitle:@"提示" message:@"确定删除发撒发逻辑是否快捷登录法拉第设计数据吗？"];
-           
-            
-            if (c_0%4) {
-                [showView addItemWithTitle:@"取消" itemType:ShowAlertItemTypeRed callback:^(EasyAlertView *showview) {
-                    NSLog(@"好的=%@",showview) ;
-                }];
+    switch (row) {
+        case 0:{
+            [EasyAlertView alertViewWithPart:^EasyAlertPart *{
+                return [EasyAlertPart shared].setTitle(@"这是个标题").setSubtitle(@"这是副标题").setAlertType(AlertViewTypeAlert) ;
+            } config:^EasyAlertConfig *{
+                return [EasyAlertConfig shared].setAlertViewMaxNum(2).setTitleColor([UIColor blueColor]) ;
+            } buttonArray:^NSArray<NSString *> *{
+                return @[@"确定",@"取消"] ;
+            } callback:^(EasyAlertView *showview) {
                 
+<<<<<<< HEAD
             }
             if (c_0%2) {
                 [showView addItemWithTitle:@"我已了解" itemType:ShowAlertItemTypeBlodBlue callback:^(EasyAlertView *showview) {
@@ -252,57 +209,58 @@
             [showView show];
         }break;
           
+=======
+            }];
+        } break;
+            
+>>>>>>> 335c880e440a9dde697a17169becb2688b2564ec
         case 1:
         {
-            EasyAlertView *showView = [EasyAlertView showActionSheetWithTitle:@"提示" message:@"确定删除发撒发逻辑是否快捷登录法拉第设计此数据吗？"];
-            [showView addItemWithTitle:@"确定" itemType:ShowAlertItemTypeBlack callback:^(EasyAlertView *showview) {
-                NSLog(@"好的=%@",showview) ;
+            EasyAlertView *alertV = [EasyAlertView alertViewWithPart:^EasyAlertPart *{
+                return [EasyAlertPart shared].setSubtitle(@"这是副标题").setAlertType(AlertViewTypeActionSheet) ;
+            } config:nil];
+            [alertV addAlertItem:^EasyAlertItem *{
+                return [EasyAlertItem itemWithTitle:@"shan'chu" type:AlertItemTypeBlue callback:nil];
             }];
-            [showView addItemWithTitle:@"取消" itemType:ShowAlertItemTypeBlack callback:^(EasyAlertView *showview) {
-                NSLog(@"好的=%@",showview) ;
+            [alertV addAlertItem:^EasyAlertItem *{
+                return [EasyAlertItem itemWithTitle:@"红色粗体" type:AlertItemTypeBlodRed callback:nil];
             }];
-            [showView addItemWithTitle:@"确定删除吗" itemType:ShowAlertItemTypeBlodBlue callback:^(EasyAlertView *showview) {
-                NSLog(@"好的=%@",showview) ;
+            [alertV addAlertItemWithTitleArray:@[@"这是家的",@"zitfalsj",@"发开始放假"] callback:nil];
+            [alertV showAlertView];
+            
+        } break ;
+        case 2:{
+            EasyAlertView *alertView = [EasyAlertView alertViewWithTitle:@"标题" subtitle:@"负表笔" AlertViewType:AlertViewTypeSystemAlert config:nil];
+            [alertView addAlertItem:^EasyAlertItem *{
+                return [EasyAlertItem itemWithTitle:@"shan'chu" type:AlertItemTypeSystemDestructive callback:nil];
             }];
-            [showView addItemWithTitle:@"点击取消当前操作！" itemType:ShowAlertItemTypeBlodRed callback:^(EasyAlertView *showview) {
-                NSLog(@"好的=%@",showview) ;
+            [alertView addAlertItem:^EasyAlertItem *{
+                return [EasyAlertItem itemWithTitle:@"nihao a a " type:AlertItemTypeSystemDefault callback:nil];
             }];
-          
-            [showView show];
-        }break;
-        case 2:
-        {
-            EasyAlertView *alertView =[EasyAlertView showSystemAlertWithTitle:@"提示" message:@"确定需要此操作吗?次草错爱东方饭店了肯德基福达康！"];
-            [alertView addSystemItemWithTitle:@"确定" itemType:AlertActionSystemStyleDefault callback:^(EasyAlertView *showview) {
-                NSLog(@"dddddddd    ");
+            [alertView addAlertItem:^EasyAlertItem *{
+                return [EasyAlertItem itemWithTitle:@"fsdlfsdjfkdjsfkl" type:AlertItemTypeSystemCancel callback:nil];
             }];
-            [alertView addSystemItemWithTitle:@"确dd定" itemType:AlertActionSystemStyleDestructive callback:^(EasyAlertView *showview) {
-                NSLog(@"dddddwd  ");
+            [alertView addAlertItem:^EasyAlertItem *{
+                return [EasyAlertItem itemWithTitle:@"你的真啊" type:AlertItemTypeSystemDestructive callback:nil];
             }];
-            [alertView systemShow];
+            [alertView addAlertItem:^EasyAlertItem *{
+                return [EasyAlertItem itemWithTitle:@"nihao a a " type:AlertItemTypeSystemDefault callback:nil];
+            }];
+            [alertView showAlertView];
         }break ;
-        case 3:
-        {
-            EasyAlertView *alertView =[EasyAlertView showSystemActionSheetWithTitle:@"请选择您需要的操作" message:@""];
-            [alertView addSystemItemWithTitle:@"确定" itemType:AlertActionSystemStyleDefault callback:^(EasyAlertView *showview) {
-                NSLog(@"dddddddd    ");
+        case 3:{
+            [EasyAlertView alertViewWithPart:^EasyAlertPart *{
+                return [EasyAlertPart shared].setSubtitle(@"这是").setAlertType(AlertViewTypeSystemActionSheet) ;
+            } config:^EasyAlertConfig *{
+                return [EasyAlertConfig shared].setAnimationType(AlertAnimationTypePush);
+            } buttonArray:^NSArray<NSString *> *{
+                return @[@"好的"];
+            } callback:^(EasyAlertView *showview) {
+                
             }];
-            [alertView addSystemItemWithTitle:@"确定" itemType:AlertActionSystemStyleDefault callback:^(EasyAlertView *showview) {
-                NSLog(@"dddddddd    ");
-            }];
-            [alertView addSystemItemWithTitle:@"删除操作" itemType:AlertActionSystemStyleDestructive callback:^(EasyAlertView *showview) {
-                NSLog(@"dddddddd    ");
-            }];
-            static int c_3 = 0 ;
-            if (++c_3%2) {
-                [alertView addSystemItemWithTitle:@"取消" itemType:AlertActionSystemStyleCancel callback:^(EasyAlertView *showview) {
-                    NSLog(@"dddddddd    ");
-                }];
-            }
-            [alertView systemShow];
         }break ;
         default:
-          break ;
+            break;
     }
 }
 

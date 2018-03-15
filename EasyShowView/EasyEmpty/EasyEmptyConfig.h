@@ -11,23 +11,20 @@
 
 @interface EasyEmptyConfig : NSObject
 
-//背景颜色
-@property (nonatomic,strong)UIColor *bgColor ;
 
-//标题的文字大小、颜色
-@property (nonatomic,strong)UIFont *tittleFont ;
-@property (nonatomic,strong)UIColor *titleColor ;
+@property (nonatomic,strong)UIColor *bgColor ;   //背景颜色
 
-//副标题的文字大小 颜色
-@property (nonatomic,strong)UIFont *subtitleFont ;
-@property (nonatomic,strong)UIColor *subTitleColor ;
+@property (nonatomic,strong)UIFont *tittleFont ; //标题字体大小
+@property (nonatomic,strong)UIColor *titleColor ;//标题字体颜色
 
-//按钮的文字背景 颜色 大小
-@property (nonatomic,strong)UIFont *buttonFont ;
-@property (nonatomic,strong)UIColor *buttonColor ;
-@property (nonatomic,strong)UIColor *buttonBgColor ;
-//按钮往内缩的边距（按钮四边边缘距离文字的距离）
-@property (nonatomic,assign)UIEdgeInsets buttonEdgeInsets ;
+@property (nonatomic,strong)UIFont *subtitleFont ;  //副标题字体大小
+@property (nonatomic,strong)UIColor *subTitleColor ;//副标题字体颜色
+
+@property (nonatomic,strong)UIFont *buttonFont ;    //按钮字体大小
+@property (nonatomic,strong)UIColor *buttonColor ;  //按钮字体亚瑟
+@property (nonatomic,strong)UIColor *buttonBgColor ;//按钮背景颜色
+
+@property (nonatomic,assign)UIEdgeInsets buttonEdgeInsets ; //按钮往内缩的边距（按钮四边边缘距离文字的距离）
 
 + (instancetype)shared ;
 - (EasyEmptyConfig *(^)(UIColor *))setBgColor ;

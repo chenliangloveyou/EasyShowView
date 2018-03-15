@@ -10,9 +10,8 @@
 #import "UIView+EasyShowExt.h"
 
 #import "EasyTextBgView.h"
-#import "EasyShowOptions.h"
+
 #import "EasyTextGlobalConfig.h"
-#import "EasyShowTypes.h"
 
 @interface EasyTextView()<CAAnimationDelegate>
 
@@ -56,7 +55,7 @@
     //展示视图的frame
     CGRect showFrame = [self showRectWithSpuerView:superView] ;
     
-    if (self.showTextConfig.superReceiveEvent) {//父视图能接受事件
+    if (self.showTextConfig.superReceiveEvent == EasyShowEventYes) {//父视图能接受事件
         //self的大小为显示区域的大小
         [self setFrame:CGRectMake((superView.width-showFrame.size.width)/2, showFrame.origin.y, showFrame.size.width, showFrame.size.height)];
         //显示视图的bgview的frame的位置为{0，0}
@@ -217,7 +216,7 @@
 + (void)EasyTextViewWithText:(NSString *)text
                        imageName:(NSString *)imageName
                           status:(ShowTextStatus)status
-                          config:(EasyTextConfig *)config
+                          config:(EasyTextConfig *(^)(void))config
 {
     if (status==ShowTextStatusPureText && ISEMPTY_S(text)) {//
         NSAssert(NO, @"you should set a text for showView !");
@@ -231,8 +230,10 @@
         });
     }
     
+    EasyTextConfig *tempConfig = [self changeConfigWithConfig:config] ;
+    
     //显示之前隐藏还在显示的视图
-    NSEnumerator *subviewsEnum = [config.superView.subviews reverseObjectEnumerator];
+    NSEnumerator *subviewsEnum = [tempConfig.superView.subviews reverseObjectEnumerator];
     for (UIView *subview in subviewsEnum) {
         if ([subview isKindOfClass:self]) {
             EasyTextView *showView = (EasyTextView *)subview ;
@@ -246,10 +247,10 @@
     
     showView.showTextStatus = status ;
 
-    showView.showTextConfig = [self changeConfigWithConfig:config] ;
+    showView.showTextConfig = tempConfig ;
     
     showView.timerShowTime = 0 ;
-    [showView showViewWithSuperView:config.superView];
+    [showView showViewWithSuperView:tempConfig.superView];
     
     [showView.removeTimer fire];
 }
@@ -263,11 +264,11 @@
     //显示区域的宽高
     CGFloat backGroundH = 0 ;
     CGFloat backGroundW = SCREEN_WIDTH_S ;
-    switch (self.showTextConfig.textStatusType) {
-        case ShowTextStatusTypeStatusBar://如果是在statusbar上，则高固定，不需要计算
+    switch (self.showTextConfig.statusType) {
+        case TextStatusTypeStatusBar://如果是在statusbar上，则高固定，不需要计算
             backGroundH = STATUSBAR_HEIGHT_S ;
             break;
-        case ShowTextStatusTypeNavigation:
+        case TextStatusTypeNavigation:
             backGroundH = NAVIGATION_HEIGHT_S ;
             break ;
         default:{
@@ -289,15 +290,15 @@
     //显示区域的y值
     CGFloat showFrameY = (superView.height-backGroundH)/2  ;//默认显示在中间
     //    if (self.showTextStatus != ShowStatusLoding) {
-    switch (self.showTextConfig.textStatusType ) {
-        case ShowTextStatusTypeNavigation:
-        case ShowTextStatusTypeStatusBar:
+    switch (self.showTextConfig.statusType ) {
+        case TextStatusTypeNavigation:
+        case TextStatusTypeStatusBar:
             showFrameY = 0 ;
             break ;
-        case ShowTextStatusTypeTop:
+        case TextStatusTypeTop:
             showFrameY = NAVIGATION_HEIGHT_S + EasyTextShowEdge ;
             break;
-        case ShowTextStatusTypeBottom:
+        case TextStatusTypeBottom:
             showFrameY = SCREEN_HEIGHT_S - backGroundH - EasyTextShowEdge ;
             break ;
         default: break;
@@ -307,7 +308,8 @@
     //显示区域的frame
     CGRect showFrame = CGRectMake(0, showFrameY, backGroundW, backGroundH);
     
-    if (!self.showTextConfig.superReceiveEvent) {
+#warning 所有的都要这样判断
+    if (self.showTextConfig.superReceiveEvent != EasyShowEventYes) {
         showFrame.origin = CGPointMake((superView.width-backGroundW)/2, showFrameY) ;
     }
     
@@ -344,59 +346,60 @@
 //是否显示在statusbar上
 - (BOOL)isShowOnStatusBar
 {
-    return self.showTextConfig.textStatusType==ShowTextStatusTypeStatusBar ;
+    return self.showTextConfig.statusType==TextStatusTypeStatusBar ;
 }
 //是否正在显示在navigation上
 - (BOOL)isShowOnNavigation
 {
-    return self.showTextConfig.textStatusType==ShowTextStatusTypeNavigation ;
+    return self.showTextConfig.statusType==TextStatusTypeNavigation ;
 }
 
 #pragma - 工具
 
-+ (EasyTextConfig *)changeConfigWithConfig:(EasyTextConfig *)config
++ (EasyTextConfig *)changeConfigWithConfig:(EasyTextConfig *(^)(void))config
 {
-    BOOL isUseGlobalConfig = [EasyTextGlobalConfig isUseTextGlobalConfig];
-    EasyTextGlobalConfig *globalConfig = nil ;
-    if (isUseGlobalConfig) {
-        globalConfig = [EasyTextGlobalConfig shared];
-    }
     
-    if (!config.superView) {
-        if (isUseGlobalConfig && globalConfig.showOnWindow) {
-            config.superView = kEasyShowKeyWindow ;
+    EasyTextConfig *tempConfig = config ? config() : nil ;
+    if (!tempConfig) {
+        tempConfig = [EasyTextConfig shared] ;
+    }
+    EasyTextGlobalConfig *globalConfig = [EasyTextGlobalConfig shared];
+    
+    if (!tempConfig.superView) {
+        if (globalConfig.showOnWindow) {
+            tempConfig.superView = kEasyShowKeyWindow ;
         }
         else{
-            config.superView = [EasyShowUtils easyShowViewTopViewController].view;
+            tempConfig.superView = [EasyShowUtils easyShowViewTopViewController].view;
         }
     }
     
-    if (config.superReceiveEvent == SuperReceiveEventUndefine) {
-        config.superReceiveEvent = globalConfig.superViewReceiveEvent ;
+    if (tempConfig.superReceiveEvent == EasyUndefine) {
+        tempConfig.superReceiveEvent = globalConfig.superReceiveEvent ;
     }
-    if (config.animationType == TextAnimationTypeUndefine) {
-        config.animationType = globalConfig.animationType ;
+    if (tempConfig.animationType == TextAnimationTypeUndefine) {
+        tempConfig.animationType = globalConfig.animationType ;
     }
-    if (config.textStatusType == ShowTextStatusTypeUndefine) {
-        config.textStatusType =  globalConfig.textStatusType ;
+    if (tempConfig.statusType == TextStatusTypeUndefine) {
+        tempConfig.statusType =  globalConfig.statusType ;
     }
-    if (!config.titleFont) {
-        config.titleFont = globalConfig.titleFont  ;
+    if (!tempConfig.titleFont) {
+        tempConfig.titleFont = globalConfig.titleFont  ;
     }
-    if (!config.titleColor) {
-        config.titleColor =  globalConfig.titleColor ;
+    if (!tempConfig.titleColor) {
+        tempConfig.titleColor =  globalConfig.titleColor ;
     }
-    if (!config.bgColor) {
-        config.bgColor = globalConfig.bgColor ;
+    if (!tempConfig.bgColor) {
+        tempConfig.bgColor = globalConfig.bgColor ;
     }
-    if (!config.shadowColor) {
-        config.shadowColor =  globalConfig.shadowColor ;
+    if (!tempConfig.shadowColor) {
+        tempConfig.shadowColor =  globalConfig.shadowColor ;
     }
     
-    if (!config.textShowTimeBlock) {
+    if (!tempConfig.textShowTimeBlock) {
         
-        if (isUseGlobalConfig && globalConfig.textShowTimeBlock) {
-            config.textShowTimeBlock = globalConfig.textShowTimeBlock ;
+        if (globalConfig.textShowTimeBlock) {
+            tempConfig.textShowTimeBlock = globalConfig.textShowTimeBlock ;
         }else{
             float(^textShowTime)(NSString *text) = ^float(NSString *text){
                 CGFloat time = 1 + text.length*0.15 ;
@@ -408,10 +411,10 @@
                 }
                 return time ;
             };
-            config.textShowTimeBlock = textShowTime ;
+            tempConfig.textShowTimeBlock = textShowTime ;
         }
     }
-    return config ;
+    return tempConfig ;
 }
 
 
@@ -429,7 +432,7 @@
     [self EasyTextViewWithText:text
                          imageName:nil
                             status:ShowTextStatusPureText 
-                            config:config?config():nil];
+                            config:config];
 }
 
 
@@ -445,7 +448,7 @@
     [self EasyTextViewWithText:text
                          imageName:nil
                             status:ShowTextStatusSuccess
-                            config:config?config():nil];
+                            config:config];
 }
 
 
@@ -461,7 +464,7 @@
     [self EasyTextViewWithText:text
                          imageName:nil
                             status:ShowTextStatusError
-                            config:config?config():nil];
+                            config:config];
 }
 
 
@@ -477,7 +480,7 @@
     [self EasyTextViewWithText:text
                          imageName:nil
                             status:ShowTextStatusInfo
-                            config:config?config():nil];
+                            config:config];
 }
 
 
@@ -493,7 +496,7 @@
     [self EasyTextViewWithText:text
                          imageName:imageName
                             status:ShowTextStatusImage
-                            config:config?config():nil];
+                            config:config];
 }
 
 

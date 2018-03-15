@@ -9,7 +9,7 @@
 #import "EasyLodingView.h"
 #import "UIView+EasyShowExt.h"
 #import "EasyShowLabel.h"
-#import "EasyShowOptions.h"
+
 #import "EasyLodingGlobalConfig.h"
 
 @interface EasyLodingView()<CAAnimationDelegate>
@@ -246,13 +246,13 @@
     
     
     switch (self.showConfig.animationType) {
-        case lodingAnimationTypeNone:
+        case LodingAnimationTypeNone:
             completion() ;
             break;
-        case lodingAnimationTypeBounce:
+        case LodingAnimationTypeBounce:
             [self showBounceAnimationStart:YES completion:completion];
             break ;
-        case lodingAnimationTypeFade:
+        case LodingAnimationTypeFade:
             [self showFadeAnimationStart:YES completion:completion ] ;
             break ;
         default:
@@ -320,13 +320,13 @@
         [self removeFromSuperview];
     };
     switch (self.showConfig.animationType) {
-        case lodingAnimationTypeNone:
+        case LodingAnimationTypeNone:
             completion() ;
             break;
-        case lodingAnimationTypeBounce:
+        case LodingAnimationTypeBounce:
             [self showBounceAnimationStart:NO completion:completion];
             break ;
-        case lodingAnimationTypeFade:
+        case LodingAnimationTypeFade:
             [self showFadeAnimationStart:NO completion:completion ] ;
             break ;
         default:
@@ -479,29 +479,29 @@
 
 
 #pragma mark - 类方法
-+ (void)showLoding
++ (EasyLodingView *)showLoding
 {
-    [self showLodingText:@""];
+    return [self showLodingText:@""];
 }
-+ (void)showLodingText:(NSString *)text
++ (EasyLodingView *)showLodingText:(NSString *)text
 {
-    [self showLodingText:text imageName:nil];
+    return [self showLodingText:text imageName:nil];
 }
-+ (void)showLodingText:(NSString *)text imageName:(NSString *)imageName
++ (EasyLodingView *)showLodingText:(NSString *)text imageName:(NSString *)imageName
 {
     EasyLodingConfig *(^configTemp)(void) = ^EasyLodingConfig *{
         return [EasyLodingConfig shared] ;
     };
-    [self showLodingText:text imageName:imageName config:configTemp];
+    return [self showLodingText:text imageName:imageName config:configTemp];
     
 }
-+ (void)showLodingText:(NSString *)text
++ (EasyLodingView *)showLodingText:(NSString *)text
                 config:(EasyLodingConfig *(^)(void))config
 {
-    [self showLodingText:text imageName:nil config:config];
+    return [self showLodingText:text imageName:nil config:config];
 }
 
-+ (void)showLodingText:(NSString *)text imageName:(NSString *)imageName config:(EasyLodingConfig *(^)(void))config
++ (EasyLodingView *)showLodingText:(NSString *)text imageName:(NSString *)imageName config:(EasyLodingConfig *(^)(void))config
 {
     NSAssert(config, @"there shoud have a superview!") ;
     
@@ -520,7 +520,7 @@
     
     EasyLodingConfig *tempConfig = [self changeConfigWithConfig:config] ;
     if (!tempConfig.superView) {
-        if (tempConfig.showOnWindow == EasyShowEnumYes) {
+        if (tempConfig.showOnWindow == EasyShowEventYes) {
             tempConfig.superView = [UIApplication sharedApplication].keyWindow ;
         }else{
             tempConfig.superView = [EasyShowUtils easyShowViewTopViewController].view ;
@@ -537,7 +537,7 @@
                                                                config:tempConfig];
     //lodingview加到父视图上面
     [tempConfig.superView addSubview:lodingView];
-    
+    return lodingView ;
 }
 
 
@@ -557,9 +557,13 @@
     for (UIView *subview in subviewsEnum) {
         if ([subview isKindOfClass:self]) {
             EasyLodingView *showView = (EasyLodingView *)subview ;
-            [showView removeSelfFromSuperView];
+            [self hidenLoding:showView];
         }
     }
+}
++ (void)hidenLoding:(EasyLodingView *)lodingView
+{
+    [lodingView removeSelfFromSuperView];
 }
 
 #pragma mark - 工具方法
@@ -581,7 +585,10 @@
 
 + (EasyLodingConfig *)changeConfigWithConfig:(EasyLodingConfig *(^)(void))config
 {
-    EasyLodingConfig *tempConfig = config ? config() : [EasyLodingConfig shared] ;
+    EasyLodingConfig *tempConfig = config ? config() : nil ;
+    if (!tempConfig) {
+        tempConfig = [EasyLodingConfig shared] ;
+    }
     
     EasyLodingGlobalConfig *globalConfig = [EasyLodingGlobalConfig shared];
     
@@ -594,7 +601,7 @@
     if (tempConfig.superReceiveEvent == EasyUndefine ) {
         tempConfig.superReceiveEvent = globalConfig.superReceiveEvent ;
     }
-    if (tempConfig.showOnWindow == EasyShowEnumUndefine ) {
+    if (tempConfig.showOnWindow == EasyUndefine ) {
         tempConfig.showOnWindow = globalConfig.showOnWindow ;
     }
     if (!tempConfig.cycleCornerWidth) {

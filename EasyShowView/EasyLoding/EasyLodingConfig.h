@@ -21,10 +21,10 @@
 @property LodingShowType lodingType ;
 
 /** 显示/隐藏 加载框的动画 **/
-@property lodingAnimationType animationType ;
+@property LodingAnimationType animationType ;
 
 /** 在显示加载框的时候，superview能否接收事件。默认为NO **/
-@property LodingShowEvent superReceiveEvent ;
+@property EasyShowEvent superReceiveEvent ;
 
 /**
  * 是否将加载框显示到window上面。默认为NO（此属性只有在不传superview的时候有效）
@@ -32,7 +32,7 @@
  * 当为YES：加载框会在盖住整个window的大小。如果superReceiveEvent为NO,那么在不隐藏加载框的时候返回事件都会被遮住。
  *
  */
-@property EasyShowEnum showOnWindow ;
+@property EasyShowEvent showOnWindow ;
 
 
 /** 圆角大小 **/
@@ -62,7 +62,7 @@
 - (EasyLodingConfig *(^)(UIView *))setSuperView ;
 - (EasyLodingConfig *(^)(BOOL))setSuperReceiveEvent ;
 - (EasyLodingConfig *(^)(LodingShowType))setLodingType ;
-- (EasyLodingConfig *(^)(lodingAnimationType animationType))setAnimationType ;
+- (EasyLodingConfig *(^)(LodingAnimationType animationType))setAnimationType ;
 - (EasyLodingConfig *(^)(BOOL))setShowOnWindow ;
 - (EasyLodingConfig *(^)(CGFloat))setCycleCornerWidth ;
 - (EasyLodingConfig *(^)(UIColor *))setTintColor ;
@@ -79,13 +79,13 @@
                 superReceive:(BOOL)receive ;
 
 + (instancetype)configInView:(UIView *)superView
-                superReceive:(LodingShowEvent)receive
+                superReceive:(EasyShowEvent)receive
                     showType:(LodingShowType)showType ;
 
 + (instancetype)configInView:(UIView *)superView
-                superReceive:(LodingShowEvent)receive
+                superReceive:(EasyShowEvent)receive
                     showType:(LodingShowType)showType
-               animationType:(lodingAnimationType)animationType ;
+               animationType:(LodingAnimationType)animationType ;
 
 
 

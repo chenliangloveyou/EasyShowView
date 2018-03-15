@@ -11,32 +11,23 @@
 
 @interface EasyTextConfig : NSObject
 
-/** 显示吐丝所需要的父视图(为空将显示在window上) **/
-@property (nonatomic,strong)UIView *superView ;
+@property (nonatomic,strong)UIView *superView ; // 显示吐丝所需要的父视图(为空将显示在window上)
 
-/** 显示期间，父视图是否接受事件 **/
-@property (nonatomic,assign)ShowTextEvent superReceiveEvent;
+@property (nonatomic,assign)ShowTextEvent superReceiveEvent;   //显示期间，父视图是否接受事件
 
-/** 展示/隐藏 动画类型 **/
-@property (nonatomic,assign)TextAnimationType animationType ;
+@property (nonatomic,assign)TextAnimationType animationType ;   // 展示/隐藏 动画类型
 
-/** 显示吐丝的位置（上、中、下、statusbar上、导航条上） **/
-@property (nonatomic,assign)ShowTextStatusType textStatusType ;
+@property (nonatomic,assign)TextStatusType statusType ; // 显示吐丝的位置（上、中、下、statusbar上、导航条上）
 
-/** 显示文字大小 **/
-@property (nonatomic,strong)UIFont  *titleFont ;
+@property (nonatomic,strong)UIFont  *titleFont ;    //显示文字大小
 
-/** 显示文字颜色 **/
-@property (nonatomic,strong)UIColor *titleColor ;
+@property (nonatomic,strong)UIColor *titleColor ;   // 显示文字颜色
 
-/** 显示背景颜色 **/
-@property (nonatomic,strong)UIColor *bgColor ;
+@property (nonatomic,strong)UIColor *bgColor ;  //显示背景颜色
 
-/** 阴影颜色(为clearcolor的时候不显示阴影) **/
-@property (nonatomic,strong)UIColor *shadowColor ;
+@property (nonatomic,strong)UIColor *shadowColor ;  // 阴影颜色(为clearcolor的时候不显示阴影)
 
-/** 显示文字的时间 **/
-@property (nonatomic,copy) float(^textShowTimeBlock)(NSString *text) ;
+@property (nonatomic,copy) float(^textShowTimeBlock)(NSString *text) ;  //显示文字的时间
 
 
 #pragma mark - 创建对象的简便方法
@@ -49,7 +40,7 @@
 - (EasyTextConfig *(^)(UIView *))setSuperView ;
 - (EasyTextConfig *(^)(ShowTextEvent))setSuperReceiveEvent ;
 - (EasyTextConfig *(^)(TextAnimationType))setAnimationType ;
-- (EasyTextConfig *(^)(ShowTextStatusType))setTextStatusType ;
+- (EasyTextConfig *(^)(TextStatusType))setTextStatusType ;
 
 - (EasyTextConfig *(^)(UIFont *))setTitleFont ;
 - (EasyTextConfig *(^)(UIColor *))setTitleColor ;
@@ -90,6 +81,6 @@
 + (instancetype)configWithSuperView:(UIView *)superView
                   superReceiveEvent:(ShowTextEvent)receive
                       animationType:(TextAnimationType)animationType
-                     textStatusType:(ShowTextStatusType)statusType ;
+                     textStatusType:(TextStatusType)statusType ;
 
 @end

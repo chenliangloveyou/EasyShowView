@@ -10,4 +10,20 @@
 
 @implementation EasyAlertGlobalConfig
 
+easyShowView_singleton_implementation(EasyAlertGlobalConfig)
+
+- (instancetype)init
+{
+    if (self = [super init]) {
+        
+        _tintColor = [UIColor cyanColor];
+        _titleColor = [UIColor darkTextColor];
+        _titleColor = [UIColor lightTextColor];
+        _itemHorizontal = NO ;
+        _animationType = AlertAnimationTypeBounce ;
+        _bgViewEvent  = YES ;
+        _alertViewMaxNum = 2 ;
+    }
+    return self ;
+}
 @end
