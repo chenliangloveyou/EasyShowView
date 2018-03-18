@@ -34,17 +34,16 @@
 
 @implementation EasyAlertView
 
-
 - (void)dealloc
 {
-    //    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
 + (EasyAlertView *)alertViewWithPart:(EasyAlertPart *(^)(void))part
                               config:(EasyAlertConfig *(^)(void))config
                          buttonArray:(NSArray<NSString *> *(^)(void))buttonArray
-                            callback:(alertItemCallback)callback
+                            callback:(AlertCallback)callback
 {
     EasyAlertView *alertView = [self alertViewWithPart:part config:config ];
     NSArray *tempArr = buttonArray ? buttonArray() : @[] ;
@@ -81,7 +80,7 @@
 //第二步：往创建的alert上面添加事件
 - (void)addAlertItemWithTitle:(NSString *)title
                          type:(AlertItemType)type
-                     callback:(alertItemCallback)callback
+                     callback:(AlertCallback)callback
 {
     EasyAlertItem *tempItem = [EasyAlertItem itemWithTitle:title type:type callback:callback];
     [self.itemArray addObject:tempItem];
@@ -92,7 +91,7 @@
     [self.itemArray addObject:tempItem];
 }
 - (void)addAlertItemWithTitleArray:(NSArray *)titleArray
-                          callback:(alertItemCallback)callbck
+                          callback:(AlertCallback)callbck
 {
     for (int i = 0 ; i < titleArray.count; i++) {
         EasyAlertItem *tempItem = [EasyAlertItem itemWithTitle:titleArray[i] type:AlertItemTypeBlack callback:callbck];
@@ -122,7 +121,7 @@
                                                              style:actionStyle
                                                            handler:^(UIAlertAction * _Nonnull action) {
                                                                if (obj.callback) {
-                                                                   obj.callback(self);
+                                                                   obj.callback(self,idx);
                                                                }
                                                            }];
             [alertC addAction:action];
@@ -131,10 +130,6 @@
         UIViewController *presentVC = [EasyShowUtils easyShowViewTopViewController];
         [presentVC presentViewController:alertC animated:YES completion:nil];
         
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [presentVC dismissViewControllerAnimated:YES completion:nil];
-        });
         return ;
     }    
     
@@ -203,7 +198,7 @@
     CGFloat totalHeight = self.subtitleLabel.bottom + 0.5 ;
     CGFloat btnCount = self.buttonArray.count ;
     
-    if (self.part.alertType==AlertViewTypeAlert && btnCount==2 && self.config.itemHorizontal) {
+    if (self.part.alertType==AlertViewTypeAlert && btnCount==2 && self.config.twoItemHorizontal) {
         
         for (int i = 0; i < btnCount ; i++) {
             UIButton *tempButton = self.buttonArray[i];
@@ -281,7 +276,7 @@
     if (item.callback) {
         typeof(self)weakself = self;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(EasyShowAnimationTime/2.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            item.callback(weakself);
+            item.callback(weakself,button.tag);
         });
     }
     [self alertWindowTap];
@@ -622,8 +617,8 @@
     if (!tempConfig.subtitleColor) {
         tempConfig.subtitleColor = globalConfig.subtitleColor ;
     }
-    if (tempConfig.itemHorizontal == EasyUndefine) {
-        tempConfig.itemHorizontal = globalConfig.itemHorizontal ;
+    if (tempConfig.twoItemHorizontal == EasyUndefine) {
+        tempConfig.twoItemHorizontal = globalConfig.twoItemHorizontal ;
     }
     if (tempConfig.animationType == EasyUndefine) {
         tempConfig.animationType = globalConfig.animationType ;

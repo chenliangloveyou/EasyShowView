@@ -19,8 +19,7 @@
  * 6p/6ps/7p/8p 5.5寸   414*736
  * iPhonex      5.8寸   375*812
  */
-CG_INLINE CGFloat
-AutoWidth_5(CGFloat width){
+CG_INLINE CGFloat AutoWidth_5(CGFloat width){
     return ([[UIScreen mainScreen] bounds].size.width/320.0f)*width ;
 }
 
@@ -47,8 +46,8 @@ AutoPoint_5(CGFloat x ,CGFloat y){
 
 @interface UIView (EasyShowExt)
 
-@property (nonatomic) CGFloat x;
-@property (nonatomic) CGFloat y;
+@property(nonatomic) CGFloat x;
+@property(nonatomic) CGFloat y;
 @property(nonatomic) CGFloat width;
 @property(nonatomic) CGFloat height;
 

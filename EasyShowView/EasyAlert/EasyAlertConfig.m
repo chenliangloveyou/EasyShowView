@@ -19,7 +19,7 @@
 {
     if (self = [super init]) {
         _alertViewMaxNum = 0 ;
-        _itemHorizontal  = EasyUndefine ;
+        _twoItemHorizontal  = EasyUndefine ;
         _bgViewEvent = EasyUndefine ;
         _animationType = EasyUndefine ;
         _isSupportRotating = EasyUndefine ;
@@ -48,10 +48,10 @@
         return self;
     };
 }
-- (EasyAlertConfig *(^)(BOOL))setItemHorizontal
+- (EasyAlertConfig *(^)(BOOL))settwoItemHorizontal
 {
     return ^EasyAlertConfig *(BOOL horizontal){
-        self.itemHorizontal = horizontal ;
+        self.twoItemHorizontal = horizontal ;
         return self;
     };
 }

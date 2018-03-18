@@ -49,7 +49,7 @@ typedef NS_ENUM(NSInteger , AlertViewType) {
 
 
 @class EasyAlertView ;
-typedef void (^alertItemCallback)(EasyAlertView *showview);
+typedef void (^AlertCallback)(EasyAlertView *showview , long index);
 
 
 @interface EasyAlertTypes : NSObject

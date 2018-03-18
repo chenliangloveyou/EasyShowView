@@ -11,11 +11,9 @@
 
 @interface EasyAlertPart : NSObject
 
-@property (nonatomic,strong)NSString *title ;
-
-@property (nonatomic,strong)NSString *subtitle ;
-
-@property (nonatomic,assign)AlertViewType alertType ;
+@property (nonatomic,strong)NSString *title ;         //标题
+@property (nonatomic,strong)NSString *subtitle ;      //副标题
+@property (nonatomic,assign)AlertViewType alertType ; //alert类型 分4种
 
 + (instancetype)shared ;
 

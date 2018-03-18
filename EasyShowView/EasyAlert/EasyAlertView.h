@@ -17,17 +17,18 @@
 
 
 /**
- *  快速创建AlertView的方法 (不用调用show方法了)
+ *  快速创建AlertView的方法 
  *
  * part        alertView的组成部分 标题，副标题，显示类型
- * config      配置信息
+ * config      配置信息（如果为空，就是使用EasyAlertGlobalConfig中的属性值）
  * buttonArray 所以需要显示的按钮
  * callback    点击按钮回调
  */
 + (EasyAlertView *)alertViewWithPart:(EasyAlertPart *(^)(void))part
                               config:(EasyAlertConfig *(^)(void))config
                          buttonArray:(NSArray<NSString *> *(^)(void))buttonArray
-                            callback:(alertItemCallback)callback ;
+                            callback:(AlertCallback)callback ;
+
 
 
 /**
@@ -46,10 +47,10 @@
  */
 - (void)addAlertItemWithTitle:(NSString *)title
                          type:(AlertItemType)type
-                     callback:(alertItemCallback)callback;
+                     callback:(AlertCallback)callback;
 - (void)addAlertItem:(EasyAlertItem *(^)(void))item ;
 - (void)addAlertItemWithTitleArray:(NSArray *)titleArray
-                          callback:(alertItemCallback)callbck ;
+                          callback:(AlertCallback)callbck ;
 
 /**
  * 第三步：展示alert

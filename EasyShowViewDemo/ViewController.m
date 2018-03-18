@@ -23,9 +23,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view addSubview:self.tableView];
+    self.title = @"EasyShowView示例";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"展示" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarClick)];
+
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"接受事件" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarClick)];
+    [self.view addSubview:self.tableView];
 
 }
 
@@ -178,6 +180,8 @@
     }
     
 }
+
+
 - (void)showAlertWithRow:(long)row
 {
     switch (row) {
@@ -188,7 +192,7 @@
                 return [EasyAlertConfig shared].setAlertViewMaxNum(2).setTitleColor([UIColor blueColor]) ;
             } buttonArray:^NSArray<NSString *> *{
                 return @[@"确定",@"取消"] ;
-            } callback:^(EasyAlertView *showview) {
+            } callback:^(EasyAlertView *showview , long index) {
           
             }];
         } break;
@@ -196,15 +200,12 @@
         case 1:
         {
             EasyAlertView *alertV = [EasyAlertView alertViewWithPart:^EasyAlertPart *{
-                return [EasyAlertPart shared].setSubtitle(@"这是副标题").setAlertType(AlertViewTypeActionSheet) ;
+                return [EasyAlertPart shared].setTitle(@"标题").setSubtitle(@"这是副标题").setAlertType(AlertViewTypeActionSheet) ;
             } config:nil];
-            [alertV addAlertItem:^EasyAlertItem *{
-                return [EasyAlertItem itemWithTitle:@"shan'chu" type:AlertItemTypeBlue callback:nil];
-            }];
+            [alertV addAlertItemWithTitleArray:@[@"这是家的",@"zitfalsj",@"发开始放假"] callback:nil];
             [alertV addAlertItem:^EasyAlertItem *{
                 return [EasyAlertItem itemWithTitle:@"红色粗体" type:AlertItemTypeBlodRed callback:nil];
             }];
-            [alertV addAlertItemWithTitleArray:@[@"这是家的",@"zitfalsj",@"发开始放假"] callback:nil];
             [alertV showAlertView];
             
         } break ;
@@ -234,9 +235,20 @@
                 return [EasyAlertConfig shared].setAnimationType(AlertAnimationTypePush);
             } buttonArray:^NSArray<NSString *> *{
                 return @[@"好的"];
-            } callback:^(EasyAlertView *showview) {
+            } callback:^(EasyAlertView *showview , long index) {
                 
             }];
+            
+            [EasyAlertView alertViewWithPart:^EasyAlertPart *{
+                return [EasyAlertPart shared].setSubtitle(@"这是").setAlertType(AlertViewTypeSystemActionSheet) ;
+            } config:^EasyAlertConfig *{
+                return [EasyAlertConfig shared].setAnimationType(AlertAnimationTypePush);
+            } buttonArray:^NSArray<NSString *> *{
+                return @[@"好的"];
+            } callback:^(EasyAlertView *showview , long index) {
+                
+            }];
+            
         }break ;
         default:
             break;
@@ -265,7 +277,7 @@
                        @[@"纯文字消息",@"成功消息",@"失败消息",@"提示消息",@"自定义图片"],
                        @[@"转圈加载框",@"菊花加载框",@"自定义图片加载框",@"图片翻转加载框",@"图片边框转圈",@"隐藏加载框"] ,
                        @[@"空页面1",@"空页面2",@"空页面3"],
-                       @[@"AlertView(点5次)",@"ActionSheet",@"系统AlertView",@"系统ActionSheet(点2次)"]
+                       @[@"一行代码显示alertView",@"ActionSheet",@"系统AlertView",@"系统ActionSheet(点2次)",@"ar"]
                        ];
     }
     return _dataArray ;

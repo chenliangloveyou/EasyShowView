@@ -11,10 +11,12 @@
 
 @interface EasyAlertItem : NSObject
 
-@property (nonatomic,strong)NSString *title ;
-@property (nonatomic,assign)AlertItemType itemTpye ;
-@property (nonatomic,strong)alertItemCallback callback ;
+@property (nonatomic,strong)NSString *title ;           //按钮的标题
+@property (nonatomic,assign)AlertItemType itemTpye ;    //按钮的类型
+@property (nonatomic,strong)AlertCallback callback ;//点击按钮的回调
 
-+ (instancetype)itemWithTitle:(NSString *)title type:(AlertItemType)type callback:(alertItemCallback)callback ;
+
++ (instancetype)itemWithTitle:(NSString *)title type:(AlertItemType)type ;
++ (instancetype)itemWithTitle:(NSString *)title type:(AlertItemType)type callback:(AlertCallback)callback ;
 
 @end
