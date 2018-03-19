@@ -378,9 +378,6 @@
         }
     }
     
-//    if (tempConfig.superReceiveEvent == EasyUndefine) {
-//        tempConfig.superReceiveEvent = globalConfig.superReceiveEvent ;
-//    }
     if (tempConfig.animationType == TextAnimationTypeUndefine) {
         tempConfig.animationType = globalConfig.animationType ;
     }

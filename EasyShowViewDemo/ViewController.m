@@ -135,7 +135,9 @@
     switch (row) {
         case 0:
         {
-            [EasyLodingView showLodingText:@"加载中..."];
+            static int a = 0 ;
+            NSString *s = ++a%2 ? @"" : @"加载中...";
+            [EasyLodingView showLodingText:s];
         } break;
             
             
@@ -143,13 +145,8 @@
         {
             [EasyLodingView showLodingText:@"正在努力加载中..." config:^EasyLodingConfig *{
                 static int a = 0 ;
-                if (++a%2) {
-                    return [EasyLodingConfig configInView:self.view showType:LodingShowTypeIndicatorLeft animationType:LodingAnimationTypeFade superReceive:YES];
-                }else{
-                    EasyLodingConfig *config = [EasyLodingConfig configInView:self.view showType:LodingShowTypeIndicator animationType:LodingAnimationTypeBounce];
-                    config.setAnimationType(LodingAnimationTypeFade);
-                    return config ;
-                }
+                int type = ++a%2 ? LodingShowTypeIndicatorLeft : LodingShowTypeIndicator ;
+                return [EasyLodingConfig shared].setLodingType(type);
             }];
         }break ;
            
@@ -157,8 +154,9 @@
         case 2:
         {
             [EasyLodingView showLodingText:@"加载中..." config:^EasyLodingConfig *{
-//                return [EasyLodingConfig configInView:self.view superReceive:NO showType:LodingShowTypePlayImages];
-                return nil ;
+                static int a = 0 ;
+                int type = ++a%2 ? LodingShowTypePlayImagesLeft : LodingShowTypePlayImages ;
+                return [EasyLodingConfig shared].setLodingType(type);
             }];
         }break ;
             
@@ -166,8 +164,9 @@
         case 3:
         {
             [EasyLodingView showLodingText:@"正在加载中.." imageName:@"HUD_NF.png" config:^EasyLodingConfig *{
-                return nil ;
-//                return [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeImageUpturnLeft];
+                static int a = 0 ;
+                int type = ++a%2 ? LodingShowTypeImageUpturnLeft : LodingShowTypeImageUpturn ;
+                return [EasyLodingConfig shared].setLodingType(type);
             }];
         }break ;
             
@@ -175,9 +174,8 @@
         case 4:
         {
             [EasyLodingView showLodingText:@"" imageName:@"HUD_NF.png" config:^EasyLodingConfig *{
-                return nil ;// [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeImageAround];
+                return [EasyLodingConfig shared].setLodingType(LodingShowTypeImageAround) ;
             }];
-            
         }break;
             
             

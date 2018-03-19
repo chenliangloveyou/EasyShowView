@@ -103,7 +103,7 @@
         self.textLabel.text = self.showText ;
     }
     
-    CGFloat textMaxWidth = EasyShowLodingMaxWidth - (self.showConfig.lodingType%2?:(EasyShowLodingImageWH+EasyShowLodingImageEdge*2)) ;//当为左右形式的时候减去图片的宽度
+    CGFloat textMaxWidth = EasyShowLodingMaxWidth - ((!self.showConfig.lodingType%2)?:(EasyShowLodingImageWH+EasyShowLodingImageEdge*2)) ;//当为左右形式的时候减去图片的宽度
     CGSize textSize = [self.textLabel sizeThatFits:CGSizeMake(textMaxWidth, MAXFLOAT)];
     if (ISEMPTY_S(self.showText)) {
         textSize = CGSizeZero ;
@@ -142,6 +142,7 @@
         self.lodingBgView.center = self.center ;
     }
     
+
     self.imageView.frame = CGRectMake(EasyShowLodingImageEdge, EasyShowLodingImageEdge, imageSize.width, imageSize.height) ;
     if (!(self.showConfig.lodingType%2)) {
         self.imageView.centerX = self.lodingBgView.width/2 ;
@@ -158,6 +159,10 @@
         textLabelY = self.imageView.bottom + EasyShowLodingImageEdge ;
     }
     self.textLabel.frame = CGRectMake(textLabelX, textLabelY, textSize.width, textSize.height );
+    
+    if (!(self.showConfig.lodingType%2) && !ISEMPTY_S(self.showText)) {
+        self.imageView.y += 8 ;
+    }
     
 //    [superView addSubview:self];
     if (self.showConfig.cycleCornerWidth > 0) {
@@ -449,10 +454,11 @@
 - (UILabel *)textLabel
 {
     if (nil == _textLabel) {
-        _textLabel = [[EasyShowLabel alloc]initWithContentInset:UIEdgeInsetsMake(10, 20, 10, 20)];
+        CGFloat margX = self.showConfig.lodingType%2 ? 5 : 20 ;
+        _textLabel = [[EasyShowLabel alloc]initWithContentInset:UIEdgeInsetsMake(10, margX, 10, margX)];
         _textLabel.textColor = self.showConfig.tintColor;
         _textLabel.font = self.showConfig.textFont ;
-        _textLabel.backgroundColor = [UIColor clearColor];
+//        _textLabel.backgroundColor = [UIColor purpleColor];
         _textLabel.textAlignment = NSTextAlignmentCenter ;
         _textLabel.numberOfLines = 0 ;
         [self.lodingBgView addSubview:_textLabel];
@@ -467,7 +473,7 @@
         _imageViewIndeicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
         _imageViewIndeicator.tintColor = self.showConfig.tintColor ;
         _imageViewIndeicator.color = self.showConfig.tintColor ;
-        _imageViewIndeicator.backgroundColor = [UIColor clearColor];
+//        _imageViewIndeicator.backgroundColor = [UIColor yellowColor];
         _imageViewIndeicator.frame = self.imageView.bounds ;
     }
     return _imageViewIndeicator ;
@@ -588,18 +594,12 @@
     
     EasyLodingGlobalConfig *globalConfig = [EasyLodingGlobalConfig shared];
     
-//    if (tempConfig.lodingType == EasyUndefine) {
-//        tempConfig.lodingType =  globalConfig.lodingType  ;
-//    }
-//    if (tempConfig.animationType == EasyUndefine) {
-//        tempConfig.animationType = globalConfig.animationType  ;
-//    }
-//    if (tempConfig.superReceiveEvent == EasyUndefine ) {
-//        tempConfig.superReceiveEvent = globalConfig.superReceiveEvent ;
-//    }
-//    if (tempConfig.showOnWindow == EasyUndefine ) {
-//        tempConfig.showOnWindow = globalConfig.showOnWindow ;
-//    }
+    if (tempConfig.lodingType == LodingShowTypeUnDefine) {
+        tempConfig.lodingType =  globalConfig.lodingType  ;
+    }
+    if (tempConfig.animationType == LodingAnimationTypeUndefine) {
+        tempConfig.animationType = globalConfig.animationType  ;
+    }
     if (!tempConfig.cycleCornerWidth) {
         tempConfig.cycleCornerWidth =globalConfig.cycleCornerWidth;
     }

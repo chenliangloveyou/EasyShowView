@@ -617,21 +617,13 @@
     if (!tempConfig.subtitleColor) {
         tempConfig.subtitleColor = globalConfig.subtitleColor ;
     }
-//    if (tempConfig.twoItemHorizontal == EasyUndefine) {
-//        tempConfig.twoItemHorizontal = globalConfig.twoItemHorizontal ;
-//    }
-//    if (tempConfig.animationType == EasyUndefine) {
-//        tempConfig.animationType = globalConfig.animationType ;
-//    }
-//    if (tempConfig.bgViewEvent == EasyUndefine) {
-//        tempConfig.bgViewEvent = globalConfig.bgViewEvent ;
-//    }
-    if (tempConfig.alertViewMaxNum == 0) {
+    if (tempConfig.animationType == AlertAnimationTypeUndefine) {
+        tempConfig.animationType = globalConfig.animationType ;
+    }
+    if (tempConfig.alertViewMaxNum <= 0) {
         tempConfig.alertViewMaxNum = globalConfig.alertViewMaxNum ;
     }
-//    if (tempConfig.isSupportRotating == EasyUndefine) {
-//        tempConfig.isSupportRotating = globalConfig.isSupportRotating ;
-//    }
+
     
     return tempConfig ;
 }
