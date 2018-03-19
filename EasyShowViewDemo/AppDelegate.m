@@ -35,8 +35,8 @@
    /**显示加载框**/
     EasyLodingGlobalConfig *lodingConfig = [EasyLodingGlobalConfig shared];
     lodingConfig.lodingType = LodingAnimationTypeFade ;
-    lodingConfig.bgColor = [UIColor cyanColor];
-    lodingConfig.textFont = [UIFont systemFontOfSize:20];
+//    lodingConfig.bgColor = [UIColor lightTextColor];
+//    lodingConfig.textFont = [UIFont systemFontOfSize:20];
     NSMutableArray *tempArr = [NSMutableArray arrayWithCapacity:8];
     for (int i = 0; i < 9; i++) {
         UIImage *img = [UIImage imageNamed:[NSString stringWithFormat:@"icon_hud_%d",i+1]];

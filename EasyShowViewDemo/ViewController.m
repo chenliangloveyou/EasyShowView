@@ -153,11 +153,14 @@
             
         case 2:
         {
-            [EasyLodingView showLodingText:@"加载中..." config:^EasyLodingConfig *{
+            EasyLodingView *lodingV = [EasyLodingView showLodingText:@"3秒后能交互..." config:^EasyLodingConfig *{
                 static int a = 0 ;
                 int type = ++a%2 ? LodingShowTypePlayImagesLeft : LodingShowTypePlayImages ;
-                return [EasyLodingConfig shared].setLodingType(type);
+                return [EasyLodingConfig shared].setLodingType(type).setSuperReceiveEvent(NO);
             }];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [EasyLodingView hidenLoding:lodingV];
+            });
         }break ;
             
             
@@ -166,14 +169,16 @@
             [EasyLodingView showLodingText:@"正在加载中.." imageName:@"HUD_NF.png" config:^EasyLodingConfig *{
                 static int a = 0 ;
                 int type = ++a%2 ? LodingShowTypeImageUpturnLeft : LodingShowTypeImageUpturn ;
-                return [EasyLodingConfig shared].setLodingType(type);
+                return [EasyLodingConfig shared].setLodingType(type).setBgColor([UIColor blackColor]).setTintColor([UIColor whiteColor]);
             }];
         }break ;
             
             
         case 4:
         {
-            [EasyLodingView showLodingText:@"" imageName:@"HUD_NF.png" config:^EasyLodingConfig *{
+            static int a = 0 ;
+            NSString *s = ++a%2 ? @"大小根据图片尺寸变化" : @"" ;
+            [EasyLodingView showLodingText:s imageName:@"HUD_NF.png" config:^EasyLodingConfig *{
                 return [EasyLodingConfig shared].setLodingType(LodingShowTypeImageAround) ;
             }];
         }break;

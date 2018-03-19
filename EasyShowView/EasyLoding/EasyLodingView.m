@@ -103,7 +103,11 @@
         self.textLabel.text = self.showText ;
     }
     
-    CGFloat textMaxWidth = EasyShowLodingMaxWidth - ((!self.showConfig.lodingType%2)?:(EasyShowLodingImageWH+EasyShowLodingImageEdge*2)) ;//当为左右形式的时候减去图片的宽度
+    CGFloat textMaxWidth = EasyShowLodingMaxWidth ;
+    if (self.showConfig.lodingType%2 == 0) {//当为左右形式的时候减去图片的宽度
+        textMaxWidth -= EasyShowLodingImageWH+EasyShowLodingImageEdge*2 ;
+    }
+    
     CGSize textSize = [self.textLabel sizeThatFits:CGSizeMake(textMaxWidth, MAXFLOAT)];
     if (ISEMPTY_S(self.showText)) {
         textSize = CGSizeZero ;
@@ -111,7 +115,7 @@
     
     //显示区域的宽高
     CGSize displayAreaSize = CGSizeZero ;
-    if (self.showConfig.lodingType%2) {
+    if (self.showConfig.lodingType%2 == 0) {
         //左右形式
         displayAreaSize.width = imageSize.width + EasyShowLodingImageEdge*2 + textSize.width ;
         displayAreaSize.height = MAX(imageSize.height+ EasyShowLodingImageEdge*2, textSize.height) ;
@@ -144,13 +148,15 @@
     
 
     self.imageView.frame = CGRectMake(EasyShowLodingImageEdge, EasyShowLodingImageEdge, imageSize.width, imageSize.height) ;
-    if (!(self.showConfig.lodingType%2)) {
+    if (self.showConfig.lodingType%2 != 0) {//上下形式
         self.imageView.centerX = self.lodingBgView.width/2 ;
+    }else{
+        self.imageView.centerY = self.lodingBgView.height/2;
     }
     
     CGFloat textLabelX = 0 ;
     CGFloat textLabelY = 0 ;
-    if (self.showConfig.lodingType%2) {//左右形式
+    if (self.showConfig.lodingType%2 == 0 ) {//左右形式
         textLabelX = self.imageView.right  ;
         textLabelY =  (self.lodingBgView.height-textSize.height)/2 ;
     }
@@ -160,7 +166,7 @@
     }
     self.textLabel.frame = CGRectMake(textLabelX, textLabelY, textSize.width, textSize.height );
     
-    if (!(self.showConfig.lodingType%2) && !ISEMPTY_S(self.showText)) {
+    if ((self.showConfig.lodingType%2 !=0) && !ISEMPTY_S(self.showText)) {
         self.imageView.y += 8 ;
     }
     
@@ -454,11 +460,11 @@
 - (UILabel *)textLabel
 {
     if (nil == _textLabel) {
-        CGFloat margX = self.showConfig.lodingType%2 ? 5 : 20 ;
+        CGFloat margX = self.showConfig.lodingType%2 ? 20 : 8 ;
         _textLabel = [[EasyShowLabel alloc]initWithContentInset:UIEdgeInsetsMake(10, margX, 10, margX)];
         _textLabel.textColor = self.showConfig.tintColor;
         _textLabel.font = self.showConfig.textFont ;
-//        _textLabel.backgroundColor = [UIColor purpleColor];
+        _textLabel.backgroundColor = [UIColor clearColor];
         _textLabel.textAlignment = NSTextAlignmentCenter ;
         _textLabel.numberOfLines = 0 ;
         [self.lodingBgView addSubview:_textLabel];
@@ -469,11 +475,11 @@
 - (UIActivityIndicatorView *)imageViewIndeicator
 {
     if (nil == _imageViewIndeicator) {
-        UIActivityIndicatorViewStyle style = self.showConfig.lodingType%2 ? UIActivityIndicatorViewStyleWhite : UIActivityIndicatorViewStyleWhiteLarge ;
+        UIActivityIndicatorViewStyle style = self.showConfig.lodingType%2 ?UIActivityIndicatorViewStyleWhiteLarge : UIActivityIndicatorViewStyleWhite ;
         _imageViewIndeicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:style];
         _imageViewIndeicator.tintColor = self.showConfig.tintColor ;
         _imageViewIndeicator.color = self.showConfig.tintColor ;
-//        _imageViewIndeicator.backgroundColor = [UIColor yellowColor];
+        _imageViewIndeicator.backgroundColor = [UIColor clearColor];
         _imageViewIndeicator.frame = self.imageView.bounds ;
     }
     return _imageViewIndeicator ;

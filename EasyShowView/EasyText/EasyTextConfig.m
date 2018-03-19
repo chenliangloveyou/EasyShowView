@@ -90,12 +90,12 @@
 {
     return [self configWithSuperView:superView
                        animationType:animationType
-                      textStatusType:TextStatusTypeUndefine];
+                          statusType:TextStatusTypeUndefine];
 }
 
 + (instancetype)configWithSuperView:(UIView *)superView
                       animationType:(TextAnimationType)animationType
-                     textStatusType:(TextStatusType)statusType
+                         statusType:(TextStatusType)statusType
 {
     return [self configWithSuperView:superView
                        animationType:animationType
