@@ -78,6 +78,9 @@
     
     if (self.showTextConfig.shadowColor && self.showTextConfig.shadowColor!=[UIColor clearColor]) {
         CGFloat afterStart = self.showTextConfig.animationType==TextAnimationTypeBounce ? EasyShowAnimationTime : EasyShowAnimationTime/2 ;
+        if (afterStart > 0.1) {
+            afterStart -=0.1 ;
+        }
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(afterStart * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self showBackgrouldsubLayer];
         });
@@ -170,7 +173,9 @@
     
     //移除阴影
     if (self.showTextConfig.shadowColor && self.showTextConfig.shadowColor!=[UIColor clearColor]) {
-        [self hiddenBackgrouldsubLayer];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+             [self hiddenBackgrouldsubLayer];
+        });
     }
     
     switch (self.showTextConfig.animationType) {
@@ -308,7 +313,6 @@
     //显示区域的frame
     CGRect showFrame = CGRectMake(0, showFrameY, backGroundW, backGroundH);
     
-#warning 所有的都要这样判断
     if (self.showTextConfig.superReceiveEvent != EasyShowEventYes) {
         showFrame.origin = CGPointMake((superView.width-backGroundW)/2, showFrameY) ;
     }

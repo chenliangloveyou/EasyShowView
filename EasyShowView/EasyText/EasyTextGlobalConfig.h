@@ -16,7 +16,7 @@
 
 @property (nonatomic,strong)UIView *superView ;              // 显示吐丝所需要的父视图(为空将显示在window上)
 
-@property (nonatomic,assign)ShowTextEvent superReceiveEvent ;//显示期间，父视图是否接受事件
+@property (nonatomic,assign)BOOL superReceiveEvent ;//显示期间，父视图是否接受事件
 
 @property (nonatomic,assign)TextAnimationType animationType ;// 展示/隐藏 动画类型
 

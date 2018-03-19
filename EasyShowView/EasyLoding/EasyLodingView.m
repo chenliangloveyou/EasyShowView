@@ -127,7 +127,7 @@
     }
     
     
-    if (self.showConfig.superReceiveEvent) {
+    if (self.showConfig.superReceiveEvent == EasyShowEventYes) {
         //父视图能够接受事件 。 显示区域的大小=self的大小=displayAreaSize
         
         [self setFrame:CGRectMake((self.showConfig.superView.width-displayAreaSize.width)/2, (self.showConfig.superView.height-displayAreaSize.height)/2, displayAreaSize.width, displayAreaSize.height)];
@@ -142,7 +142,7 @@
     }
     
     self.lodingBgView.frame = CGRectMake(0,0, displayAreaSize.width,displayAreaSize.height) ;
-    if (!self.showConfig.superReceiveEvent) {
+    if (self.showConfig.superReceiveEvent != EasyShowEventYes ) {
         self.lodingBgView.center = self.center ;
     }
     

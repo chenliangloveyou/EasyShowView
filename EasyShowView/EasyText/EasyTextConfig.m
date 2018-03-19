@@ -31,7 +31,7 @@
         return self ;
     } ;
 }
-- (EasyTextConfig *(^)(TextStatusType))setTextStatusType{
+- (EasyTextConfig *(^)(TextStatusType))setStatusType{
     return ^EasyTextConfig *(TextStatusType statusType){
         self.statusType = statusType ;
         return self ;

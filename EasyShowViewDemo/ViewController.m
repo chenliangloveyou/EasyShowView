@@ -73,47 +73,102 @@
     }
 }
 
-
+#pragma mark - showText
 - (void)showTextWithRow:(long)row
+{
+    switch (row) {
+            
+        case 0:
+        {
+            [EasyTextView showText:@"纯文字消息" config:^EasyTextConfig *{
+                //（这三种方法都是一样的，根据使用习惯选择一种就行。|| 不传的参数就会使用EasyTextGlobalConfig全局配置的属性）
+                //方法一
+                //return [EasyTextConfig configWithSuperView:self.view superReceiveEvent:ShowTextEventUndefine animationType:TextAnimationTypeNone textStatusType:TextStatusTypeBottom];
+                //方法二
+                //return [EasyTextConfig shared].setBgColor([UIColor lightGrayColor]).setShadowColor([UIColor clearColor]).setStatusType(TextStatusTypeBottom);
+                //方法三
+                EasyTextConfig *config = [EasyTextConfig shared];
+                config.bgColor = [UIColor lightGrayColor] ;
+                config.shadowColor = [UIColor clearColor] ;
+                config.statusType = TextStatusTypeBottom ;
+                return config ;
+            }];
+        }break;
+            
+            
+        case 1:
+        {
+            [EasyTextView showSuccessText:@"显示成功消息!"];
+        } break;
+      
+            
+        case 2:
+        {
+            [EasyTextView showErrorText:@"服务器错误！" config:^EasyTextConfig *{
+                return [EasyTextConfig shared].setStatusType(TextStatusTypeNavigation) ;
+            }];
+        } break ;
+       
+            
+        case 3:
+        {
+            [EasyTextView showInfoText:@"请完成基本信息！" config:^EasyTextConfig *{
+                return [EasyTextConfig shared].setShadowColor([UIColor redColor]).setBgColor([UIColor blackColor]).setTitleColor([UIColor whiteColor]);
+            }];
+        }break ;
+       
+            
+        case 4:
+        {
+            [EasyTextView showImageText:@"自定义图片！" imageName:@"HUD_NF.png" config:^EasyTextConfig *{
+                return [EasyTextConfig shared].setAnimationType(TextAnimationTypeNone).setShadowColor([UIColor clearColor]).setBgColor([UIColor blackColor]).setTitleColor([UIColor whiteColor]);
+            }];
+        }break ;
+    }
+    
+}
+
+#pragma mark - showLoding
+- (void)showLodingWithRow:(long)row
 {
     switch (row) {
         case 0:
         {
-            [EasyTextView showText:@"你好" config:^EasyTextConfig *{
-                return [EasyTextConfig shared].setAnimationType(TextAnimationTypeNone).setShadowColor([UIColor redColor]).setSuperView(self.view);
-            }];
-        }break;
-        case 1: [EasyTextView showSuccessText:@"显示成功！" config:nil];  break;
-        case 2: [EasyTextView showErrorText:@"服务器错误！"];  break ;
-        case 3: [EasyTextView showInfoText:@"请完成基本信息！"];  break ;
-        case 4: [EasyTextView showImageText:@"自定义图片！" imageName:@"HUD_NF.png"];  break ;
-    }
-    
-}
-- (void)showLodingWithRow:(long)row
-{
-    switch (row) {
-        case 0:{
             [EasyLodingView showLodingText:@"加载中..."];
         } break;
+            
+            
         case 1:
         {
             [EasyLodingView showLodingText:@"正在努力加载中..." config:^EasyLodingConfig *{
-                return [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeIndicatorLeft];
+                static int a = 0 ;
+                if (++a%2) {
+                    return [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeIndicatorLeft];
+                }else{
+                    EasyLodingConfig *config = [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeIndicator];
+                    config.setAnimationType(LodingAnimationTypeFade);
+                    return config ;
+                }
             }];
         }break ;
+           
+            
         case 2:
         {
             [EasyLodingView showLodingText:@"加载中..." config:^EasyLodingConfig *{
                 return [EasyLodingConfig configInView:self.view superReceive:NO showType:LodingShowTypePlayImages];
             }];
         }break ;
+            
+            
         case 3:
         {
             [EasyLodingView showLodingText:@"正在加载中.." imageName:@"HUD_NF.png" config:^EasyLodingConfig *{
                 return [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeImageUpturnLeft];
             }];
         }break ;
+            
+            
         case 4:
         {
             [EasyLodingView showLodingText:@"" imageName:@"HUD_NF.png" config:^EasyLodingConfig *{
@@ -121,6 +176,8 @@
             }];
             
         }break;
+            
+            
         default:
             [EasyLodingView hidenLoding];
             break;
@@ -128,6 +185,7 @@
   
 }
 
+#pragma mark - showEmpty
 - (void)showEmptyWithRow:(long)row
 {
     switch (row) {
@@ -182,6 +240,7 @@
 }
 
 
+#pragma mark - showAlert
 - (void)showAlertWithRow:(long)row
 {
     switch (row) {

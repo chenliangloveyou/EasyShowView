@@ -25,30 +25,34 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
+    /**显示文字**/
     EasyTextGlobalConfig *config = [EasyTextGlobalConfig shared];
     config.bgColor = [UIColor whiteColor];
     config.titleColor = [UIColor blackColor];
-    config.textShowTimeBlock = ^float(NSString *text) {
-        
-        CGFloat tempShowTime = 0 ;
-        tempShowTime = 1 + text.length*0.15 ;
-        if (tempShowTime > TextShowMaxTime) {
-            tempShowTime = TextShowMaxTime ;
-        }
-        if (tempShowTime < 2) {
-            tempShowTime = 2 ;
-        }
-        return tempShowTime ;
-    };
+    config.shadowColor = [UIColor cyanColor];
     
     
-//    EasyLodingGlobalConfig *lodingConfig = [EasyLodingGlobalConfig sharedEasyLodingGlobalConfig];
-//    lodingConfig.lodingSuperViewReceiveEvent = YES ;
+   /**显示加载框**/
+    EasyLodingGlobalConfig *lodingConfig = [EasyLodingGlobalConfig shared];
+    lodingConfig.lodingType = LodingAnimationTypeFade ;
+    lodingConfig.bgColor = [UIColor cyanColor];
+    lodingConfig.textFont = [UIFont systemFontOfSize:20];
+    NSMutableArray *tempArr = [NSMutableArray arrayWithCapacity:8];
+    for (int i = 0; i < 9; i++) {
+        UIImage *img = [UIImage imageNamed:[NSString stringWithFormat:@"icon_hud_%d",i+1]];
+        [tempArr addObject:img] ;
+    }
+    lodingConfig.playImagesArray = tempArr ;
     
+    
+    
+    /**显示空白页面**/
     EasyEmptyGlobalConfig  *emptyConfig = [EasyEmptyGlobalConfig shared];
     emptyConfig.bgColor = [UIColor lightGrayColor];
     
     
+    
+    /**显示alert**/
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:[ViewController new]];
     self.window.rootViewController = nav ;
     

@@ -17,7 +17,7 @@ easyShowView_singleton_interface
 
 
 /** 加载框所显示的类型 **/
-@property LodingShowType lodingType ;
+@property LodingShowType lodingType UI_APPEARANCE_SELECTOR ;
 
 /** 显示/隐藏 加载框的动画 **/
 @property LodingAnimationType animationType UI_APPEARANCE_SELECTOR ;
@@ -35,19 +35,19 @@ easyShowView_singleton_interface
 
 
 /** 圆角大小 **/
-@property (nonatomic,assign)CGFloat cycleCornerWidth ;
+@property (nonatomic,assign)CGFloat cycleCornerWidth UI_APPEARANCE_SELECTOR ;
 
 /** 加载框主体颜色 **/
-@property (nonatomic,strong)UIColor * tintColor ;
+@property (nonatomic,strong)UIColor * tintColor UI_APPEARANCE_SELECTOR ;
 
 /** 文字字体大小 **/
-@property (nonatomic,strong)UIFont  * textFont ;
+@property (nonatomic,strong)UIFont  * textFont UI_APPEARANCE_SELECTOR ;
 
 /** 背景颜色 **/
-@property (nonatomic,strong)UIColor * bgColor ;
+@property (nonatomic,strong)UIColor * bgColor UI_APPEARANCE_SELECTOR ;
 
 /** 图片动画类型 所需要的图片数组 **/
-@property (nonatomic,strong)NSArray<UIImage *> * playImagesArray ;
+@property (nonatomic,strong)NSArray<UIImage *> * playImagesArray UI_APPEARANCE_SELECTOR ;
 
 
 

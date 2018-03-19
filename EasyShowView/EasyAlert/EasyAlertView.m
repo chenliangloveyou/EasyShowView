@@ -535,7 +535,7 @@
         _alertBgView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight ;
         _alertWindow.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
         _alertWindow.hidden = NO ;
-        if (self.config.bgViewEvent) {
+        if (self.config.bgViewEvent == EasyShowEventYes) {
             UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(alertWindowTap)];
             [_alertWindow addGestureRecognizer:tapGes];
         }

@@ -111,6 +111,7 @@ typedef NS_ENUM(NSInteger, EasyShowEvent) {
 + (UIViewController *)easyShowViewTopViewController ;
 
 + (UIImage *)imageWithColor:(UIColor *)color ;
+
 @end
 
 

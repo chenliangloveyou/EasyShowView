@@ -40,7 +40,7 @@
 - (EasyTextConfig *(^)(UIView *))setSuperView ;
 - (EasyTextConfig *(^)(ShowTextEvent))setSuperReceiveEvent ;
 - (EasyTextConfig *(^)(TextAnimationType))setAnimationType ;
-- (EasyTextConfig *(^)(TextStatusType))setTextStatusType ;
+- (EasyTextConfig *(^)(TextStatusType))setStatusType ;
 
 - (EasyTextConfig *(^)(UIFont *))setTitleFont ;
 - (EasyTextConfig *(^)(UIColor *))setTitleColor ;

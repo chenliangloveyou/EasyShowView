@@ -19,7 +19,7 @@
 @property (nonatomic,assign)AlertAnimationType animationType;//alertView:展示和消失的动画类型。(只对自定义的alertview起作用)
 @property (nonatomic,assign)EasyShowEvent bgViewEvent ;    //点击alertview之外的空白区域，是否销毁alertview。默认为:NO
 @property (nonatomic,assign)NSUInteger alertViewMaxNum ; //允许出现alertView的最大数量
-@property (nonatomic, assign) EasyShowEvent isSupportRotating;   //是否支持横屏
+@property (nonatomic, assign)EasyShowEvent isSupportRotating;   //是否支持横屏
 
 + (instancetype)shared ;
 
