@@ -8,6 +8,7 @@
 
 #import "EasyLodingConfig.h"
 #import "EasyShowUtils.h"
+#import "EasyLodingGlobalConfig.h"
 
 @implementation EasyLodingConfig
 
@@ -18,10 +19,11 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        _lodingType = EasyUndefine ;
-        _animationType = EasyUndefine ;
-        _superReceiveEvent = EasyUndefine ;
-        _showOnWindow = EasyUndefine ;
+        EasyLodingGlobalConfig *golbalC = [EasyLodingGlobalConfig shared];
+        _lodingType = golbalC.lodingType ;
+        _animationType = golbalC.animationType ;
+        _superReceiveEvent = golbalC.superReceiveEvent ;
+        _showOnWindow = golbalC.showOnWindow ;
     }
     return self ;
 }
@@ -90,31 +92,35 @@
 }
 
 
+
 + (instancetype)configInView:(UIView *)superView
 {
-    return [self configInView:superView
-                 superReceive:EasyUndefine];
+    return [EasyLodingConfig configInView:superView
+                                 showType:LodingShowTypeUnDefine];
 }
+
 + (instancetype)configInView:(UIView *)superView
-                superReceive:(BOOL)receive
-{
-    return [self configInView:superView
-                 superReceive:receive
-                     showType:EasyUndefine];
-}
-+ (instancetype)configInView:(UIView *)superView
-                superReceive:(EasyShowEvent)receive
                     showType:(LodingShowType)showType
 {
     return [self configInView:superView
-                 superReceive:receive
                      showType:showType
-                animationType:EasyUndefine];
+                animationType:LodingAnimationTypeUndefine];
 }
+
 + (instancetype)configInView:(UIView *)superView
-                superReceive:(EasyShowEvent)receive
                     showType:(LodingShowType)showType
                animationType:(LodingAnimationType)animationType
+{
+    return [self configInView:superView
+                     showType:showType
+                animationType:animationType
+                 superReceive:[EasyLodingGlobalConfig shared].superReceiveEvent];
+}
+
++ (instancetype)configInView:(UIView *)superView
+                    showType:(LodingShowType)showType
+               animationType:(LodingAnimationType)animationType
+                superReceive:(BOOL)receive
 {
     EasyLodingConfig *config = [[EasyLodingConfig alloc]init];
     config.superView = superView ;

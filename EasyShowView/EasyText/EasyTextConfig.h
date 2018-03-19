@@ -8,12 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "EasyTextTypes.h"
+#import "EasyShowUtils.h"
 
 @interface EasyTextConfig : NSObject
 
 @property (nonatomic,strong)UIView *superView ; // 显示吐丝所需要的父视图(为空将显示在window上)
 
-@property (nonatomic,assign)ShowTextEvent superReceiveEvent;   //显示期间，父视图是否接受事件
+@property (nonatomic,assign)BOOL superReceiveEvent ;   //显示期间，父视图是否接受事件
 
 @property (nonatomic,assign)TextAnimationType animationType ;   // 展示/隐藏 动画类型
 
@@ -38,7 +39,7 @@
 #pragma mark - 链式编程设置属性(和上面直接设置属性一样)
 
 - (EasyTextConfig *(^)(UIView *))setSuperView ;
-- (EasyTextConfig *(^)(ShowTextEvent))setSuperReceiveEvent ;
+- (EasyTextConfig *(^)(BOOL))setSuperReceiveEvent ;
 - (EasyTextConfig *(^)(TextAnimationType))setAnimationType ;
 - (EasyTextConfig *(^)(TextStatusType))setStatusType ;
 
@@ -58,18 +59,9 @@
 /**
  * superview 显示所需要的父视图
  * receive   在显示的期间，superview是否能接接收事件
- */
-+ (instancetype)configWithSuperView:(UIView *)superView
-                  superReceiveEvent:(ShowTextEvent)receive ;
-
-
-/**
- * superview 显示所需要的父视图
- * receive   在显示的期间，superview是否能接接收事件
  * animationType 文字展示的动画形式
  */
 + (instancetype)configWithSuperView:(UIView *)superView
-                  superReceiveEvent:(ShowTextEvent)receive
                       animationType:(TextAnimationType)animationType ;
 
 /**
@@ -79,8 +71,18 @@
  * statusType 文字显示所在的位置
  */
 + (instancetype)configWithSuperView:(UIView *)superView
-                  superReceiveEvent:(ShowTextEvent)receive
                       animationType:(TextAnimationType)animationType
-                     textStatusType:(TextStatusType)statusType ;
+                         statusType:(TextStatusType)statusType ;
+
+/**
+ * superview 显示所需要的父视图
+ * receive   在显示的期间，superview是否能接接收事件
+ * animationType 文字展示的动画形式
+ * statusType 文字显示所在的位置
+ */
++ (instancetype)configWithSuperView:(UIView *)superView
+                      animationType:(TextAnimationType)animationType
+                         statusType:(TextStatusType)statusType
+                  superReceiveEvent:(BOOL)receive ;
 
 @end

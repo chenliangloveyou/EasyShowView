@@ -55,7 +55,7 @@
     //展示视图的frame
     CGRect showFrame = [self showRectWithSpuerView:superView] ;
     
-    if (self.showTextConfig.superReceiveEvent == EasyShowEventYes) {//父视图能接受事件
+    if (self.showTextConfig.superReceiveEvent) {//父视图能接受事件
         //self的大小为显示区域的大小
         [self setFrame:CGRectMake((superView.width-showFrame.size.width)/2, showFrame.origin.y, showFrame.size.width, showFrame.size.height)];
         //显示视图的bgview的frame的位置为{0，0}
@@ -313,7 +313,7 @@
     //显示区域的frame
     CGRect showFrame = CGRectMake(0, showFrameY, backGroundW, backGroundH);
     
-    if (self.showTextConfig.superReceiveEvent != EasyShowEventYes) {
+    if (!self.showTextConfig.superReceiveEvent) {
         showFrame.origin = CGPointMake((superView.width-backGroundW)/2, showFrameY) ;
     }
     
@@ -378,9 +378,9 @@
         }
     }
     
-    if (tempConfig.superReceiveEvent == EasyUndefine) {
-        tempConfig.superReceiveEvent = globalConfig.superReceiveEvent ;
-    }
+//    if (tempConfig.superReceiveEvent == EasyUndefine) {
+//        tempConfig.superReceiveEvent = globalConfig.superReceiveEvent ;
+//    }
     if (tempConfig.animationType == TextAnimationTypeUndefine) {
         tempConfig.animationType = globalConfig.animationType ;
     }

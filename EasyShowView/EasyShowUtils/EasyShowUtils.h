@@ -93,15 +93,8 @@ static class *_showInstance; \
 } \
 
 
-UIKIT_EXTERN const NSInteger EasyUndefine  ;     //属性没有传值的定义
 UIKIT_EXTERN const CGFloat EasyShowAnimationTime ;//动画时间
 
-typedef NS_ENUM(NSInteger, EasyShowEvent) {
-    EasyShowEventUndefine = 0 ,
-    EasyShowEventYes = 1 ,
-    EasyShowEventNo = 2 ,
-
-};
 
 
 @interface EasyShowUtils : NSObject

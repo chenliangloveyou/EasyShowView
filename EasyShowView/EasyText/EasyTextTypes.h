@@ -10,12 +10,6 @@
 #import <UIKit/UIKit.h>
 
 
-typedef NS_ENUM(NSInteger, ShowTextEvent) {
-    ShowTextEventUndefine = 0 ,
-    ShowTextEventNo = 1,
-    ShowTextEventYes ,
-};
-
 typedef NS_ENUM(NSInteger, ShowTextStatus) {
     
     ShowTextStatusPureText ,/** 纯文字 */

@@ -7,7 +7,7 @@
 //
 
 #import "EasyAlertConfig.h"
-
+#import "EasyAlertGlobalConfig.h"
 @implementation EasyAlertConfig
 
 
@@ -18,11 +18,14 @@
 - (instancetype)init
 {
     if (self = [super init]) {
+        
         _alertViewMaxNum = 0 ;
-        _twoItemHorizontal  = EasyUndefine ;
-        _bgViewEvent = EasyUndefine ;
-        _animationType = EasyUndefine ;
-        _isSupportRotating = EasyUndefine ;
+        
+        EasyAlertGlobalConfig *globalC = [EasyAlertGlobalConfig shared];
+        _twoItemHorizontal  = globalC.twoItemHorizontal ;
+        _bgViewEvent = globalC.bgViewEvent ;
+        _animationType = globalC.animationType ;
+        _isSupportRotating = globalC.isSupportRotating ;
     }
     return self ;
 }

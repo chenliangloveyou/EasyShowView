@@ -8,7 +8,6 @@
 
 #import "EasyShowUtils.h"
 
-const NSInteger EasyUndefine = 0 ;     //属性没有传值的定义
 const CGFloat EasyShowAnimationTime = 0.3f ;    //动画时间
 
 @implementation EasyShowUtils

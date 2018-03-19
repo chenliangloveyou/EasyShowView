@@ -10,13 +10,60 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EasyShowViewDemo/ViewController.m"
-            timestampString = "542984511.136677"
+            timestampString = "543165226.104183"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "213"
-            endingLineNumber = "213"
-            landmarkName = "-showAlertWithRow:"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
+            landmarkName = "-showEmptyWithRow:"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__35-[ViewController showEmptyWithRow:]_block_invoke.187"
+                  moduleName = "EasyShowViewDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/chenliang/Documents/GitHub/EasyShowView/EasyShowViewDemo/ViewController.m"
+                  timestampString = "543165226.134957"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "216"
+                  endingLineNumber = "216"
+                  offsetFromSymbolStart = "85">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__copy_helper_block_.193"
+                  moduleName = "EasyShowViewDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/chenliang/Documents/GitHub/EasyShowView/EasyShowViewDemo/ViewController.m"
+                  timestampString = "543165226.141191"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "216"
+                  endingLineNumber = "216"
+                  offsetFromSymbolStart = "51">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.194"
+                  moduleName = "EasyShowViewDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/chenliang/Documents/GitHub/EasyShowView/EasyShowViewDemo/ViewController.m"
+                  timestampString = "543165226.144744"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "216"
+                  endingLineNumber = "216"
+                  offsetFromSymbolStart = "29">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

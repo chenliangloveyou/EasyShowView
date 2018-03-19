@@ -535,7 +535,7 @@
         _alertBgView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight ;
         _alertWindow.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
         _alertWindow.hidden = NO ;
-        if (self.config.bgViewEvent == EasyShowEventYes) {
+        if (self.config.bgViewEvent) {
             UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(alertWindowTap)];
             [_alertWindow addGestureRecognizer:tapGes];
         }
@@ -617,21 +617,21 @@
     if (!tempConfig.subtitleColor) {
         tempConfig.subtitleColor = globalConfig.subtitleColor ;
     }
-    if (tempConfig.twoItemHorizontal == EasyUndefine) {
-        tempConfig.twoItemHorizontal = globalConfig.twoItemHorizontal ;
-    }
-    if (tempConfig.animationType == EasyUndefine) {
-        tempConfig.animationType = globalConfig.animationType ;
-    }
-    if (tempConfig.bgViewEvent == EasyUndefine) {
-        tempConfig.bgViewEvent = globalConfig.bgViewEvent ;
-    }
+//    if (tempConfig.twoItemHorizontal == EasyUndefine) {
+//        tempConfig.twoItemHorizontal = globalConfig.twoItemHorizontal ;
+//    }
+//    if (tempConfig.animationType == EasyUndefine) {
+//        tempConfig.animationType = globalConfig.animationType ;
+//    }
+//    if (tempConfig.bgViewEvent == EasyUndefine) {
+//        tempConfig.bgViewEvent = globalConfig.bgViewEvent ;
+//    }
     if (tempConfig.alertViewMaxNum == 0) {
         tempConfig.alertViewMaxNum = globalConfig.alertViewMaxNum ;
     }
-    if (tempConfig.isSupportRotating == EasyUndefine) {
-        tempConfig.isSupportRotating = globalConfig.isSupportRotating ;
-    }
+//    if (tempConfig.isSupportRotating == EasyUndefine) {
+//        tempConfig.isSupportRotating = globalConfig.isSupportRotating ;
+//    }
     
     return tempConfig ;
 }

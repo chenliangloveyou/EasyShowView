@@ -25,12 +25,9 @@
 
 @property (nonatomic,strong)UIActivityIndicatorView *imageViewIndeicator ;
 
-
 @end
 
-
 @implementation EasyLodingView
-
 
 - (void)dealloc
 {
@@ -60,7 +57,6 @@
 - (void)bluidUI
 {
     //展示视图的frame
-    
     CGSize imageSize = CGSizeZero ;
     switch (self.showConfig.lodingType) {
         case LodingShowTypeTurnAround:
@@ -127,7 +123,7 @@
     }
     
     
-    if (self.showConfig.superReceiveEvent == EasyShowEventYes) {
+    if (self.showConfig.superReceiveEvent) {
         //父视图能够接受事件 。 显示区域的大小=self的大小=displayAreaSize
         
         [self setFrame:CGRectMake((self.showConfig.superView.width-displayAreaSize.width)/2, (self.showConfig.superView.height-displayAreaSize.height)/2, displayAreaSize.width, displayAreaSize.height)];
@@ -142,7 +138,7 @@
     }
     
     self.lodingBgView.frame = CGRectMake(0,0, displayAreaSize.width,displayAreaSize.height) ;
-    if (self.showConfig.superReceiveEvent != EasyShowEventYes ) {
+    if (!self.showConfig.superReceiveEvent ) {
         self.lodingBgView.center = self.center ;
     }
     
@@ -520,7 +516,7 @@
     
     EasyLodingConfig *tempConfig = [self changeConfigWithConfig:config] ;
     if (!tempConfig.superView) {
-        if (tempConfig.showOnWindow == EasyShowEventYes) {
+        if (tempConfig.showOnWindow) {
             tempConfig.superView = [UIApplication sharedApplication].keyWindow ;
         }else{
             tempConfig.superView = [EasyShowUtils easyShowViewTopViewController].view ;
@@ -592,18 +588,18 @@
     
     EasyLodingGlobalConfig *globalConfig = [EasyLodingGlobalConfig shared];
     
-    if (tempConfig.lodingType == EasyUndefine) {
-        tempConfig.lodingType =  globalConfig.lodingType  ;
-    }
-    if (tempConfig.animationType == EasyUndefine) {
-        tempConfig.animationType = globalConfig.animationType  ;
-    }
-    if (tempConfig.superReceiveEvent == EasyUndefine ) {
-        tempConfig.superReceiveEvent = globalConfig.superReceiveEvent ;
-    }
-    if (tempConfig.showOnWindow == EasyUndefine ) {
-        tempConfig.showOnWindow = globalConfig.showOnWindow ;
-    }
+//    if (tempConfig.lodingType == EasyUndefine) {
+//        tempConfig.lodingType =  globalConfig.lodingType  ;
+//    }
+//    if (tempConfig.animationType == EasyUndefine) {
+//        tempConfig.animationType = globalConfig.animationType  ;
+//    }
+//    if (tempConfig.superReceiveEvent == EasyUndefine ) {
+//        tempConfig.superReceiveEvent = globalConfig.superReceiveEvent ;
+//    }
+//    if (tempConfig.showOnWindow == EasyUndefine ) {
+//        tempConfig.showOnWindow = globalConfig.showOnWindow ;
+//    }
     if (!tempConfig.cycleCornerWidth) {
         tempConfig.cycleCornerWidth =globalConfig.cycleCornerWidth;
     }

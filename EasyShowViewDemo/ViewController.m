@@ -90,6 +90,7 @@
                 EasyTextConfig *config = [EasyTextConfig shared];
                 config.bgColor = [UIColor lightGrayColor] ;
                 config.shadowColor = [UIColor clearColor] ;
+                config.animationType = TextAnimationTypeFade;
                 config.statusType = TextStatusTypeBottom ;
                 return config ;
             }];
@@ -113,15 +114,15 @@
         case 3:
         {
             [EasyTextView showInfoText:@"请完成基本信息！" config:^EasyTextConfig *{
-                return [EasyTextConfig shared].setShadowColor([UIColor redColor]).setBgColor([UIColor blackColor]).setTitleColor([UIColor whiteColor]);
+                return [EasyTextConfig shared].setShadowColor([UIColor redColor]).setBgColor([UIColor blackColor]).setTitleColor([UIColor whiteColor]).setStatusType(TextStatusTypeStatusBar);
             }];
         }break ;
        
             
         case 4:
         {
-            [EasyTextView showImageText:@"自定义图片！" imageName:@"HUD_NF.png" config:^EasyTextConfig *{
-                return [EasyTextConfig shared].setAnimationType(TextAnimationTypeNone).setShadowColor([UIColor clearColor]).setBgColor([UIColor blackColor]).setTitleColor([UIColor whiteColor]);
+            [EasyTextView showImageText:@"显示期间不接受事件！" imageName:@"HUD_NF.png" config:^EasyTextConfig *{
+                return [EasyTextConfig shared].setAnimationType(TextAnimationTypeNone).setShadowColor([UIColor clearColor]).setBgColor([UIColor blackColor]).setTitleColor([UIColor whiteColor]).setSuperReceiveEvent(NO);
             }];
         }break ;
     }
@@ -143,9 +144,9 @@
             [EasyLodingView showLodingText:@"正在努力加载中..." config:^EasyLodingConfig *{
                 static int a = 0 ;
                 if (++a%2) {
-                    return [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeIndicatorLeft];
+                    return [EasyLodingConfig configInView:self.view showType:LodingShowTypeIndicatorLeft animationType:LodingAnimationTypeFade superReceive:YES];
                 }else{
-                    EasyLodingConfig *config = [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeIndicator];
+                    EasyLodingConfig *config = [EasyLodingConfig configInView:self.view showType:LodingShowTypeIndicator animationType:LodingAnimationTypeBounce];
                     config.setAnimationType(LodingAnimationTypeFade);
                     return config ;
                 }
@@ -156,7 +157,8 @@
         case 2:
         {
             [EasyLodingView showLodingText:@"加载中..." config:^EasyLodingConfig *{
-                return [EasyLodingConfig configInView:self.view superReceive:NO showType:LodingShowTypePlayImages];
+//                return [EasyLodingConfig configInView:self.view superReceive:NO showType:LodingShowTypePlayImages];
+                return nil ;
             }];
         }break ;
             
@@ -164,7 +166,8 @@
         case 3:
         {
             [EasyLodingView showLodingText:@"正在加载中.." imageName:@"HUD_NF.png" config:^EasyLodingConfig *{
-                return [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeImageUpturnLeft];
+                return nil ;
+//                return [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeImageUpturnLeft];
             }];
         }break ;
             
@@ -172,7 +175,7 @@
         case 4:
         {
             [EasyLodingView showLodingText:@"" imageName:@"HUD_NF.png" config:^EasyLodingConfig *{
-                return [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeImageAround];
+                return nil ;// [EasyLodingConfig configInView:self.view superReceive:YES showType:LodingShowTypeImageAround];
             }];
             
         }break;

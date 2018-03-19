@@ -8,6 +8,7 @@
 
 #import "EasyTextConfig.h"
 #import "EasyShowUtils.h"
+#import "EasyTextGlobalConfig.h"
 
 @implementation EasyTextConfig
 
@@ -18,9 +19,11 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        _superReceiveEvent = EasyUndefine ;
-        _animationType = EasyUndefine ;
-        _statusType = EasyUndefine ;
+        
+        EasyTextGlobalConfig *globalC = [EasyTextGlobalConfig shared];
+        _superReceiveEvent = globalC.superReceiveEvent ;
+        _animationType = globalC.animationType ;
+        _statusType = globalC.statusType ;
     }
     return self ;
 }
@@ -43,8 +46,8 @@
         return self ;
     };
 }
-- (EasyTextConfig *(^)(ShowTextEvent))setSuperReceiveEvent{
-    return ^EasyTextConfig *(ShowTextEvent receive){
+- (EasyTextConfig *(^)(BOOL))setSuperReceiveEvent{
+    return ^EasyTextConfig *(BOOL receive){
         self.superReceiveEvent = receive ;
         return self ;
     };
@@ -75,33 +78,35 @@
 }
 
 
-+ (instancetype)configWithSuperView:(UIView *)superView
-{
-    return [EasyTextConfig configWithSuperView:superView
-                                 superReceiveEvent:ShowTextEventUndefine
-                                     animationType:TextAnimationTypeUndefine ];
-}
-+ (instancetype)configWithSuperView:(UIView *)superView
-                  superReceiveEvent:(ShowTextEvent)receive
-{
-    return [EasyTextConfig configWithSuperView:superView
-                                 superReceiveEvent:receive
-                                     animationType:TextAnimationTypeUndefine ];
 
-}
 + (instancetype)configWithSuperView:(UIView *)superView
-                  superReceiveEvent:(ShowTextEvent)receive
+{
+    return [self configWithSuperView:superView
+                       animationType:TextAnimationTypeUndefine];
+}
+
++ (instancetype)configWithSuperView:(UIView *)superView
                       animationType:(TextAnimationType)animationType
 {
-    return [EasyTextConfig configWithSuperView:superView
-                                 superReceiveEvent:receive
-                                     animationType:TextAnimationTypeUndefine
-                                    textStatusType:TextStatusTypeUndefine];
+    return [self configWithSuperView:superView
+                       animationType:animationType
+                      textStatusType:TextStatusTypeUndefine];
 }
+
 + (instancetype)configWithSuperView:(UIView *)superView
-                  superReceiveEvent:(ShowTextEvent)receive
                       animationType:(TextAnimationType)animationType
                      textStatusType:(TextStatusType)statusType
+{
+    return [self configWithSuperView:superView
+                       animationType:animationType
+                          statusType:statusType
+                   superReceiveEvent:[EasyTextGlobalConfig shared].superReceiveEvent];
+}
+
++ (instancetype)configWithSuperView:(UIView *)superView
+                      animationType:(TextAnimationType)animationType
+                         statusType:(TextStatusType)statusType
+                  superReceiveEvent:(BOOL)receive
 {
     EasyTextConfig *config = [self shared];
     config.superView = superView ;
