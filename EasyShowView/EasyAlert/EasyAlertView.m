@@ -19,6 +19,7 @@
 
 @property (nonatomic,strong)EasyAlertConfig *config ;
 @property (nonatomic,strong)EasyAlertPart   *part ;
+@property (nonatomic,strong)AlertCallback   callback ;
 
 @property (nonatomic,strong)UILabel *titleLabel ;
 @property (nonatomic,strong)UILabel *subtitleLabel ;
@@ -45,7 +46,7 @@
                          buttonArray:(NSArray<NSString *> *(^)(void))buttonArray
                             callback:(AlertCallback)callback
 {
-    EasyAlertView *alertView = [self alertViewWithPart:part config:config ];
+    EasyAlertView *alertView = [self alertViewWithPart:part config:config callback:callback];
     NSArray *tempArr = buttonArray ? buttonArray() : @[] ;
     [alertView addAlertItemWithTitleArray:tempArr callback:callback];
     [alertView showAlertView];
@@ -62,17 +63,19 @@
     EasyAlertPart *(^tempPart)(void) = ^EasyAlertPart *{
         return [EasyAlertPart alertPartWithTitle:title subtitle:subtitle alertype:alertType] ;
     };
-    return [self alertViewWithPart:tempPart config:config] ;
+    return [self alertViewWithPart:tempPart config:config callback:nil] ;
     
 }
 
 + (instancetype)alertViewWithPart:(EasyAlertPart *(^)(void))part
                            config:(EasyAlertConfig *(^)(void))config
+                         callback:(AlertCallback)callback
 {
     EasyAlertPart *tempPart = [self changePartWithPart:part];
     EasyAlertConfig *tempConfig = [self changeConfigWithConfig:config] ;
     
     EasyAlertView *showView = [[EasyAlertView alloc]initWithPart:tempPart config:tempConfig];
+    showView.callback = callback ;
     showView.itemArray = [NSMutableArray arrayWithCapacity:3];
     return showView ;
 }
@@ -120,9 +123,15 @@
             UIAlertAction *action = [UIAlertAction actionWithTitle:obj.title
                                                              style:actionStyle
                                                            handler:^(UIAlertAction * _Nonnull action) {
-                                                               if (obj.callback) {
-                                                                   obj.callback(self,idx);
+                                                               typeof(self)weakself = self;
+                                                               if (self.callback) {
+                                                                   self.callback(weakself, idx);
+                                                               }else{
+                                                                   if (obj.callback) {
+                                                                       obj.callback(weakself,idx);
+                                                                   }
                                                                }
+                                                               
                                                            }];
             [alertC addAction:action];
         }];
@@ -273,10 +282,16 @@
 - (void)buttonClick:(UIButton *)button
 {
     EasyAlertItem *item = self.itemArray[button.tag];
-    if (item.callback) {
+    if (self.callback || item.callback) {
         typeof(self)weakself = self;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(EasyShowAnimationTime/2.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            item.callback(weakself,button.tag);
+        dispatch_queue_after_S(EasyShowAnimationTime/2.0f, ^{
+            if (self.callback) {
+                self.callback(weakself, button.tag);
+            }else{
+                if (item.callback) {
+                    item.callback(weakself,button.tag);
+                }
+            }
         });
     }
     [self alertWindowTap];

@@ -40,7 +40,8 @@
                             config:(EasyAlertConfig *(^)(void))config  ;
 
 + (instancetype)alertViewWithPart:(EasyAlertPart *(^)(void))part
-                           config:(EasyAlertConfig *(^)(void))config ;
+                           config:(EasyAlertConfig *(^)(void))config
+                         callback:(AlertCallback)callback ;
 
 /**
  * 第二步：往创建的alert上面添加事件

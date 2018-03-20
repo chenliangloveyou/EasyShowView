@@ -49,6 +49,10 @@ typedef NS_ENUM(NSInteger , AlertViewType) {
 
 
 @class EasyAlertView ;
+
+/**
+ * 点击item回调，注意：如果全局和item都有回调，会优先显示全局的回调
+ */
 typedef void (^AlertCallback)(EasyAlertView *showview , long index);
 
 

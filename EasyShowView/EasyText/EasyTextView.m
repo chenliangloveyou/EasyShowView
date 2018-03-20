@@ -81,7 +81,7 @@
         if (afterStart > 0.1) {
             afterStart -=0.1 ;
         }
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(afterStart * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_queue_after_S(afterStart, ^{
             [self showBackgrouldsubLayer];
         });
     }
@@ -173,8 +173,8 @@
     
     //移除阴影
     if (self.showTextConfig.shadowColor && self.showTextConfig.shadowColor!=[UIColor clearColor]) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-             [self hiddenBackgrouldsubLayer];
+        dispatch_queue_after_S(0.1, ^{
+            [self hiddenBackgrouldsubLayer];
         });
     }
     
@@ -205,7 +205,7 @@
             }
             else{
                 [self.showBgView showEndAnimationWithDuration:EasyShowAnimationTime];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(EasyShowAnimationTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                dispatch_queue_after_S(EasyShowAnimationTime, ^{
                     [self removeFromSuperview];
                 });
             }
