@@ -143,6 +143,8 @@
     }    
     
 //    self.oldKeyWindow = [UIApplication sharedApplication].keyWindow ;
+    
+    [self removeOtherAlertView];
     [self.alertWindow addSubview:self];
 //    [self.alertWindow makeKeyAndVisible];
     
@@ -522,6 +524,33 @@
     }
 }
 
+- (void)removeOtherAlertView
+{
+    NSMutableArray *tempAlertViewArray = [NSMutableArray arrayWithCapacity:2];
+    for (UIWindow *subWindow in [UIApplication sharedApplication].windows) {
+        for (UIView *subView in subWindow.subviews) {
+            if ([subView isKindOfClass:[self class]]) {
+                [tempAlertViewArray addObject:subView];
+            }
+        }
+    }
+    if (tempAlertViewArray.count > self.config.alertViewMaxNum-1) {
+        for (int i = 0 ; i < tempAlertViewArray.count-self.config.alertViewMaxNum+1; i++) {
+            UIView *tempView = tempAlertViewArray[i];
+            if ([tempView isKindOfClass:[self class]]) {
+                EasyAlertView *tempAlertView = (EasyAlertView *)tempView ;
+                [tempAlertView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+                [tempAlertView removeFromSuperview];
+                
+                [tempAlertView.alertWindow.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+                tempAlertView.alertWindow.hidden = YES ;
+                [tempAlertView.alertWindow removeFromSuperview];
+                tempAlertView.alertWindow = nil;
+            }
+        }
+    }
+}
+
 #pragma mark - getter
 - (UIView *)alertBgView
 {
@@ -580,7 +609,7 @@
 {
     if (nil == _subtitleLabel) {
         _subtitleLabel = [[EasyShowLabel alloc] initWithContentInset:UIEdgeInsetsMake(15, 30, 20, 30)];
-        _subtitleLabel.textAlignment = NSTextAlignmentCenter;
+        _subtitleLabel.textAlignment = self.config.subtitleTextAligment ;
         if (self.config.tintColor == [UIColor clearColor]) {
             _subtitleLabel.backgroundColor = [UIColor whiteColor];
         }

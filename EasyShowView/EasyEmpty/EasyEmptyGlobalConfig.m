@@ -25,7 +25,7 @@ easyShowView_singleton_implementation(EasyEmptyGlobalConfig)
         _buttonColor = [UIColor blueColor];
         _buttonBgColor = [UIColor whiteColor];
         _buttonEdgeInsets = UIEdgeInsetsMake(15, 20, 15, 20);
-        
+        _scrollVerticalEnable = YES ;
     }
     return self ;
 }

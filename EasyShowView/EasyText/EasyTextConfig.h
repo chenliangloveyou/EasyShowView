@@ -10,6 +10,8 @@
 #import "EasyTextTypes.h"
 #import "EasyShowUtils.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface EasyTextConfig : NSObject
 
 @property (nonatomic,strong)UIView *superView ; // 显示吐丝所需要的父视图(为空将显示在window上)
@@ -86,3 +88,6 @@
                   superReceiveEvent:(BOOL)receive ;
 
 @end
+
+NS_ASSUME_NONNULL_END
+

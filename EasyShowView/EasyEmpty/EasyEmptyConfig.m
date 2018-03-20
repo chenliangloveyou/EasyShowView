@@ -7,6 +7,7 @@
 //
 
 #import "EasyEmptyConfig.h"
+#import "EasyEmptyGlobalConfig.h"
 
 @implementation EasyEmptyConfig
 
@@ -16,7 +17,8 @@
 }
 - (instancetype)init{
     if ([super init]) {
-        _scrollVerticalEnable = YES ;
+        EasyEmptyGlobalConfig *globalC = [EasyEmptyGlobalConfig shared] ;
+        _scrollVerticalEnable = globalC.scrollVerticalEnable ;
         _easyViewEdgeInsets = UIEdgeInsetsZero ;
     }
     return self ;
@@ -104,7 +106,7 @@
 
 + (instancetype)configWithBgColor:(UIColor *)bgColor
 {
-    return [self configWithBgColor:bgColor titleFount:nil];
+    return [self configWithBgColor:bgColor titleFount:[EasyEmptyGlobalConfig shared].tittleFont];
 }
 + (instancetype)configWithBgColor:(UIColor *)bgColor titleFount:(UIFont *)titleFount
 {

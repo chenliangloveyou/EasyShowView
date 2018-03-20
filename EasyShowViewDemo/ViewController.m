@@ -257,15 +257,16 @@
             
             
             [EasyAlertView alertViewWithPart:^EasyAlertPart *{
-                return [EasyAlertPart shared].setTitle(@"这是个标题").setSubtitle(@"这是副标题").setAlertType(AlertViewTypeAlert) ;
+                return [EasyAlertPart shared].setTitle(@"请点击两下").setSubtitle(@"1，点击背景是否接受事件\n2，改变动画类型。\n3，只有两个按钮的时候，是横排还是竖排.\n4，改变背景颜色").setAlertType(AlertViewTypeAlert) ;
             } config:^EasyAlertConfig *{
-                return [EasyAlertConfig shared].settwoItemHorizontal(hovizonal).setAnimationType(aniType).setTintColor(tintC) ;
+                return [EasyAlertConfig shared].settwoItemHorizontal(hovizonal).setAnimationType(aniType).setTintColor(tintC).setBgViewEvent(NO).setSubtitleTextAligment(NSTextAlignmentLeft) ;
             } buttonArray:^NSArray<NSString *> *{
                 return @[@"确定",@"取消"] ;
             } callback:^(EasyAlertView *showview , long index) {
                 index ? [EasyTextView showSuccessText:@"点击了取消"] : [EasyTextView showText:@"点击了确定"];
             }];
         } break;
+            
             
         case 1:
         {
@@ -309,12 +310,14 @@
             [alertView showAlertView];
         }break ;
         case 3:{
-            
-            EasyAlertView *alertV = [EasyAlertView alertViewWithTitle:nil subtitle:@"subtitle" AlertViewType:AlertViewTypeSystemActionSheet config:nil];
-            [alertV addAlertItem:^EasyAlertItem *{
-                return [EasyAlertItem itemWithTitle:@"hao" type:AlertItemTypeSystemCancel callback:nil];
-            }];
-            [alertV addAlertItemWithTitle:@"dd" type:AlertItemTypeSystemDestructive callback:nil];
+            static int a = 0 ;
+            EasyAlertView *alertV = [EasyAlertView alertViewWithTitle:nil subtitle:@"只有添加Cancel按钮的时候，点击背景才会销毁alertview" AlertViewType:AlertViewTypeSystemActionSheet config:nil];
+            if (++a%2) {
+                [alertV addAlertItem:^EasyAlertItem *{
+                    return [EasyAlertItem itemWithTitle:@"取消按钮" type:AlertItemTypeSystemCancel callback:nil];
+                }];
+            }
+            [alertV addAlertItemWithTitle:@"红色按钮" type:AlertItemTypeSystemDestructive callback:nil];
             [alertV addAlertItemWithTitleArray:@[@"你好",@"谢谢"] callback:nil];
 
             [alertV showAlertView];
@@ -347,7 +350,7 @@
                        @[@"纯文字消息",@"成功消息",@"失败消息",@"提示消息",@"自定义图片"],
                        @[@"转圈加载框",@"菊花加载框",@"自定义图片加载框",@"图片翻转加载框",@"图片边框转圈",@"隐藏加载框"] ,
                        @[@"空页面(不可滚动)",@"空页面(所有子控件)",@"空页面(对superview外扩内收)"],
-                       @[@"一行代码显示alertView",@"ActionSheet",@"系统AlertView",@"系统ActionSheet(点2次)",@"ar"]
+                       @[@"一行代码显示自定义alertView",@"ActionSheet",@"系统AlertView",@"系统ActionSheet(点2次)"]
                        ];
     }
     return _dataArray ;

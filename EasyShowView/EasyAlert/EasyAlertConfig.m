@@ -26,6 +26,7 @@
         _bgViewEvent = globalC.bgViewEvent ;
         _animationType = globalC.animationType ;
         _isSupportRotating = globalC.isSupportRotating ;
+        _subtitleTextAligment = NSTextAlignmentCenter ;
     }
     return self ;
 }
@@ -48,6 +49,13 @@
 {
     return ^EasyAlertConfig *(UIColor *subtitleColor){
         self.subtitleColor = subtitleColor ;
+        return self;
+    };
+}
+- (EasyAlertConfig * _Nonnull (^)(NSTextAlignment))setSubtitleTextAligment
+{
+    return ^EasyAlertConfig *(NSTextAlignment alignment){
+        self.subtitleTextAligment = alignment ;
         return self;
     };
 }
