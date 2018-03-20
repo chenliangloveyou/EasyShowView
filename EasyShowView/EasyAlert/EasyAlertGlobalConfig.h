@@ -10,6 +10,8 @@
 #import "EasyShowUtils.h"
 #import "EasyAlertTypes.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface EasyAlertGlobalConfig : NSObject
 
 //alertview的背景颜色
@@ -39,3 +41,6 @@
 easyShowView_singleton_interface
 
 @end
+
+NS_ASSUME_NONNULL_END
+

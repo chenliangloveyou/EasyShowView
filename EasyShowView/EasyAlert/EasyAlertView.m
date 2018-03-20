@@ -27,7 +27,7 @@
 @property (nonatomic,strong)NSMutableArray<UIButton *> *buttonArray ;
 
 @property (nonatomic,strong)UIWindow *alertWindow ;
-@property (nonatomic,strong)UIWindow *oldKeyWindow ;
+//@property (nonatomic,strong)UIWindow *oldKeyWindow ;
 
 
 @end
@@ -133,9 +133,9 @@
         return ;
     }    
     
-    self.oldKeyWindow = [UIApplication sharedApplication].keyWindow ;
+//    self.oldKeyWindow = [UIApplication sharedApplication].keyWindow ;
     [self.alertWindow addSubview:self];
-    [self.alertWindow makeKeyAndVisible];
+//    [self.alertWindow makeKeyAndVisible];
     
     [self addSubview:self.alertBgView];
     
@@ -338,7 +338,7 @@
 {
     
     void (^completion)(void) = ^{
-        [self.oldKeyWindow makeKeyWindow];
+//        [self.oldKeyWindow makeKeyWindow];
         [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         [self removeFromSuperview];
         

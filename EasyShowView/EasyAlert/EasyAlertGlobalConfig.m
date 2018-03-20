@@ -16,9 +16,9 @@ easyShowView_singleton_implementation(EasyAlertGlobalConfig)
 {
     if (self = [super init]) {
         
-        _tintColor = [UIColor cyanColor];
+        _tintColor = [UIColor groupTableViewBackgroundColor];
         _titleColor = [UIColor darkTextColor];
-        _subtitleColor = [UIColor lightTextColor];
+        _subtitleColor = [UIColor lightGrayColor];
         _twoItemHorizontal = NO ;
         _animationType = AlertAnimationTypeBounce ;
         _bgViewEvent  = YES ;

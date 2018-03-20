@@ -29,14 +29,11 @@
     EasyTextGlobalConfig *config = [EasyTextGlobalConfig shared];
     config.bgColor = [UIColor whiteColor];
     config.titleColor = [UIColor blackColor];
-    config.shadowColor = [UIColor cyanColor];
     
     
    /**显示加载框**/
     EasyLodingGlobalConfig *lodingConfig = [EasyLodingGlobalConfig shared];
     lodingConfig.lodingType = LodingAnimationTypeFade ;
-//    lodingConfig.bgColor = [UIColor lightTextColor];
-//    lodingConfig.textFont = [UIFont systemFontOfSize:20];
     NSMutableArray *tempArr = [NSMutableArray arrayWithCapacity:8];
     for (int i = 0; i < 9; i++) {
         UIImage *img = [UIImage imageNamed:[NSString stringWithFormat:@"icon_hud_%d",i+1]];
@@ -45,14 +42,16 @@
     lodingConfig.playImagesArray = tempArr ;
     
     
-    
     /**显示空白页面**/
     EasyEmptyGlobalConfig  *emptyConfig = [EasyEmptyGlobalConfig shared];
     emptyConfig.bgColor = [UIColor groupTableViewBackgroundColor];
     
     
-    
     /**显示alert**/
+    EasyAlertGlobalConfig *alertConfig = [EasyAlertGlobalConfig shared];
+    alertConfig.titleColor = [UIColor blackColor];
+    
+    
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:[ViewController new]];
     self.window.rootViewController = nav ;
     

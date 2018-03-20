@@ -230,7 +230,7 @@
                 __block EasyEmptyView *emptyV = [EasyEmptyView showEmptyInView:blueView item:^EasyEmptyPart *{
                     return [EasyEmptyPart shared].setImageName(@"netError.png").setTitle(@"数据加载失败，点击重新加载！");
                 } config:^EasyEmptyConfig *{
-                    return [EasyEmptyConfig shared].setEasyViewEdgeInsets(UIEdgeInsetsMake(20, 30, 80, 10)) ;
+                    return [EasyEmptyConfig shared].setEasyViewEdgeInsets(UIEdgeInsetsMake(20, 30, 80, -30)) ;
                 } callback:^(EasyEmptyView *view, UIButton *button, callbackType callbackType) {
                     
                     [EasyEmptyView hiddenEmptyView:emptyV];
@@ -259,14 +259,25 @@
 {
     switch (row) {
         case 0:{
+            static int a = 0 ;
+            BOOL hovizonal = ++a%2 ;
+            AlertAnimationType animationType =hovizonal ? AlertAnimationTypeFade : AlertAnimationTypeBounce ;
+            UIColor *tintColor = hovizonal ? [UIColor groupTableViewBackgroundColor] : [UIColor cyanColor] ;
+         
+            
             [EasyAlertView alertViewWithPart:^EasyAlertPart *{
                 return [EasyAlertPart shared].setTitle(@"这是个标题").setSubtitle(@"这是副标题").setAlertType(AlertViewTypeAlert) ;
             } config:^EasyAlertConfig *{
-                return [EasyAlertConfig shared].setAlertViewMaxNum(2).setTitleColor([UIColor blueColor]) ;
+                return [EasyAlertConfig shared].settwoItemHorizontal(hovizonal).setAnimationType(animationType).setTintColor(tintColor) ;
             } buttonArray:^NSArray<NSString *> *{
                 return @[@"确定",@"取消"] ;
             } callback:^(EasyAlertView *showview , long index) {
-          
+                if (index == 0) {
+                    [EasyTextView showText:@"点击了确定"];
+                }
+                else{
+                    [EasyTextView showSuccessText:@"点击了取消"];
+                }
             }];
         } break;
             
@@ -274,7 +285,9 @@
         {
             EasyAlertView *alertV = [EasyAlertView alertViewWithPart:^EasyAlertPart *{
                 return [EasyAlertPart shared].setTitle(@"标题").setSubtitle(@"这是副标题").setAlertType(AlertViewTypeActionSheet) ;
-            } config:nil];
+            } config:^EasyAlertConfig *{
+                return [EasyAlertConfig shared].setTintColor([UIColor cyanColor]).setAlertViewMaxNum(2) ;
+            }];
             [alertV addAlertItemWithTitleArray:@[@"这是家的",@"zitfalsj",@"发开始放假"] callback:nil];
             [alertV addAlertItem:^EasyAlertItem *{
                 return [EasyAlertItem itemWithTitle:@"红色粗体" type:AlertItemTypeBlodRed callback:nil];
@@ -349,7 +362,7 @@
         _dataArray = @[
                        @[@"纯文字消息",@"成功消息",@"失败消息",@"提示消息",@"自定义图片"],
                        @[@"转圈加载框",@"菊花加载框",@"自定义图片加载框",@"图片翻转加载框",@"图片边框转圈",@"隐藏加载框"] ,
-                       @[@"空页面1",@"空页面2",@"空页面3"],
+                       @[@"空页面(不可滚动)",@"空页面(所有子控件)",@"空页面(对superview外扩内收)"],
                        @[@"一行代码显示alertView",@"ActionSheet",@"系统AlertView",@"系统ActionSheet(点2次)",@"ar"]
                        ];
     }
