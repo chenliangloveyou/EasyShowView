@@ -53,7 +53,7 @@
 #define kEasyShowSafeBottomMargin_S  (ISIPHONE_X_S ? 34.0f : 0.0f )
 
 /*随机颜色*/   //[UIColor clearColor];//
-#define kColorRandom_S  [UIColor clearColor];//kColor_N(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
+#define kColorRandom_S  [UIColor clearColor];//kColor_S(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
 #define kColor_S(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
 
 //状态栏高度
@@ -63,6 +63,10 @@
 
 #define kEasyShowKeyWindow ([UIApplication sharedApplication].keyWindow)
 
+//推迟执行
+CG_INLINE void dispatch_queue_after_S(CGFloat time ,dispatch_block_t block) {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(time * NSEC_PER_SEC)), dispatch_get_main_queue(), block);
+}
 
 // .h
 #define easyShowView_singleton_interface  + (instancetype)shared ;

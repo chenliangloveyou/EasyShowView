@@ -48,7 +48,7 @@
     
     /**显示空白页面**/
     EasyEmptyGlobalConfig  *emptyConfig = [EasyEmptyGlobalConfig shared];
-    emptyConfig.bgColor = [UIColor lightGrayColor];
+    emptyConfig.bgColor = [UIColor groupTableViewBackgroundColor];
     
     
     

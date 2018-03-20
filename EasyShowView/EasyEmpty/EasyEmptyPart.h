@@ -10,10 +10,10 @@
 
 @interface EasyEmptyPart : NSObject
 
-@property (nonatomic,strong)NSString *title ;
-@property (nonatomic,strong)NSString *subtitle ;
-@property (nonatomic,strong)NSString *imageName ;
-@property (nonatomic,strong)NSArray<NSString *> *buttonArray ;
+@property (nonatomic,strong)NSString *title ;                 //标题
+@property (nonatomic,strong)NSString *subtitle ;              //副标题
+@property (nonatomic,strong)NSString *imageName ;             //图片名称
+@property (nonatomic,strong)NSArray<NSString *> *buttonArray ;//下面需要的按钮
 
 + (instancetype)shared ;
 - (EasyEmptyPart *(^)(NSString *))setTitle ;

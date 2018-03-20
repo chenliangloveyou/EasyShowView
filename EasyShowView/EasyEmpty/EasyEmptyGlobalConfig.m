@@ -16,7 +16,7 @@ easyShowView_singleton_implementation(EasyEmptyGlobalConfig)
 {
     if (self = [super init]) {
         
-        _bgColor = [UIColor groupTableViewBackgroundColor];
+        _bgColor = [UIColor blackColor];
         _tittleFont = [UIFont systemFontOfSize:17];
         _titleColor = [UIColor blackColor];
         _subtitleFont = [UIFont systemFontOfSize:15];
@@ -24,7 +24,7 @@ easyShowView_singleton_implementation(EasyEmptyGlobalConfig)
         _buttonFont = [UIFont systemFontOfSize:13];
         _buttonColor = [UIColor blueColor];
         _buttonBgColor = [UIColor whiteColor];
-        _buttonEdgeInsets = UIEdgeInsetsMake(20, 20, 20, 20);
+        _buttonEdgeInsets = UIEdgeInsetsMake(15, 20, 15, 20);
         
     }
     return self ;

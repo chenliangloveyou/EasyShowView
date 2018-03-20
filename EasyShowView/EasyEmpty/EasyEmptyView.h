@@ -14,22 +14,21 @@
 
 @interface EasyEmptyView : UIScrollView
 
-+ (void)showEmptyInView:(UIView *)superview
++ (EasyEmptyView *)showEmptyInView:(UIView *)superview
                    item:(EasyEmptyPart *(^)(void))item ;
 
-+ (void)showEmptyInView:(UIView *)superview
++ (EasyEmptyView *)showEmptyInView:(UIView *)superview
                    item:(EasyEmptyPart *(^)(void))item
                  config:(EasyEmptyConfig *(^)(void))config ;
 
-+ (void)showEmptyInView:(UIView *)superview
++ (EasyEmptyView *)showEmptyInView:(UIView *)superview
                    item:(EasyEmptyPart *(^)(void))item
                  config:(EasyEmptyConfig *(^)(void))config
                callback:(emptyViewCallback)callback ;
 
 
-+ (void)hiddenEmptyView:(UIView *)superView ;
-
-#warning 添加视图出来，可用于直接隐藏
++ (void)hiddenEmptyInView:(UIView *)superView ;
++ (void)hiddenEmptyView:(EasyEmptyView *)emptyView ;
 
 
 @end

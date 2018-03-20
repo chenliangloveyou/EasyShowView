@@ -267,10 +267,10 @@
 			isa = PBXGroup;
 			children = (
 				68672FBA1FF3E6B700B7CA4E /* EasyShowView.h */,
-				6857F2AA205828C900AAEA33 /* EasyAlert */,
-				ADCD9DE22057CFCE00EDFC62 /* EasyEmpty */,
 				ADCD9DC22057A28F00EDFC62 /* EasyText */,
 				ADCD9DCF2057A59300EDFC62 /* EasyLoding */,
+				ADCD9DE22057CFCE00EDFC62 /* EasyEmpty */,
+				6857F2AA205828C900AAEA33 /* EasyAlert */,
 				6863D89C204ADE0B00964CB1 /* EasyShowUtils */,
 			);
 			path = EasyShowView;

@@ -14,13 +14,13 @@
 
 @property (nonatomic,strong)UIColor *bgColor ;   //背景颜色
 
-@property (nonatomic,strong)UIFont *tittleFont ; //标题字体大小
+@property (nonatomic,strong)UIFont  *tittleFont ; //标题字体大小
 @property (nonatomic,strong)UIColor *titleColor ;//标题字体颜色
 
-@property (nonatomic,strong)UIFont *subtitleFont ;  //副标题字体大小
+@property (nonatomic,strong)UIFont  *subtitleFont ;  //副标题字体大小
 @property (nonatomic,strong)UIColor *subTitleColor ;//副标题字体颜色
 
-@property (nonatomic,strong)UIFont *buttonFont ;    //按钮字体大小
+@property (nonatomic,strong)UIFont  *buttonFont ;    //按钮字体大小
 @property (nonatomic,strong)UIColor *buttonColor ;  //按钮字体亚瑟
 @property (nonatomic,strong)UIColor *buttonBgColor ;//按钮背景颜色
 

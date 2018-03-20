@@ -199,22 +199,22 @@
         {
             [EasyEmptyView showEmptyInView:self.view item:^EasyEmptyPart *{
                 return [EasyEmptyPart shared].setTitle(@"网络连接已断开").setImageName(@"netError.png") ;
-            }config:^EasyEmptyConfig *{
-                return [EasyEmptyConfig shared].setBgColor([UIColor colorWithWhite:0.5 alpha:0.5]);
+            } config:^EasyEmptyConfig *{
+                return [EasyEmptyConfig shared].setTitleColor([UIColor redColor]).setScrollVerticalEnable(NO);
             } callback:^(EasyEmptyView *view, UIButton *button, callbackType callbackType) {
-                [EasyEmptyView hiddenEmptyView:self.view];
+                [EasyEmptyView hiddenEmptyInView:self.view];
             }];
           
         }break;
         case 1:
         {
-            UIView *redView = [[UIView alloc]initWithFrame:CGRectMake(10, 50, 200, 300)];
+            UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(100, 100, 200, 300)];
             redView.backgroundColor = [UIColor redColor];
             [self.view addSubview:redView];
             
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_queue_after_S(1, ^{
                 [EasyEmptyView showEmptyInView:redView item:^EasyEmptyPart *{
-                    return [EasyEmptyPart shared].setTitle(@"你开心就好");
+                    return [EasyEmptyPart shared].setTitle(@"你开心就好").setImageName(@"netError.png").setSubtitle(@"数据加载失败，点击重新加载！").setButtonArray(@[@"取消",@"去首页"]);
                 } config:nil callback:nil];
             });
             
@@ -225,19 +225,27 @@
             blueView.backgroundColor = [UIColor cyanColor];
             [self.view addSubview:blueView];
             
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-              
-//                [EasyEmptyView showEmptyViewWithTitle:@"无数据" subTitle:@"" imageName:@"nodata_icon.png" buttonTitleArray:@[@"重新加载数据"] inview:blueView callback:^(EasyEmptyView *view, UIButton *button, callbackType callbackType) {
-//                    [EasyLodingView showLodingText:@"正在加载中..." config:^EasyLodingConfig *{
-//                        return [EasyLodingConfig shared].setSuperView(blueView);
-//                    }];
-//                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                        [EasyLodingView hidenLoingInView:blueView];
-//                        [blueView removeFromSuperview];
-//                    });
-//                }];
-               
+            dispatch_queue_after_S(1, ^{
+                
+                __block EasyEmptyView *emptyV = [EasyEmptyView showEmptyInView:blueView item:^EasyEmptyPart *{
+                    return [EasyEmptyPart shared].setImageName(@"netError.png").setTitle(@"数据加载失败，点击重新加载！");
+                } config:^EasyEmptyConfig *{
+                    return [EasyEmptyConfig shared].setEasyViewEdgeInsets(UIEdgeInsetsMake(20, 30, 80, 10)) ;
+                } callback:^(EasyEmptyView *view, UIButton *button, callbackType callbackType) {
+                    
+                    [EasyEmptyView hiddenEmptyView:emptyV];
+                    
+                    [EasyLodingView showLodingText:@"正在加载中..." config:^EasyLodingConfig *{
+                        return [EasyLodingConfig shared].setSuperView(blueView);
+                    }];
+                    
+                    dispatch_queue_after_S(3, ^{
+                        [EasyLodingView hidenLoingInView:blueView];
+                        [blueView removeFromSuperview];
+                    });
+                }];
             });
+           
         }break ;
         default:
             break;

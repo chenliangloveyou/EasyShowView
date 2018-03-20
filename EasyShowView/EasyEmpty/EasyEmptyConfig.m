@@ -14,6 +14,13 @@
 {
     return [[EasyEmptyConfig alloc]init];
 }
+- (instancetype)init{
+    if ([super init]) {
+        _scrollVerticalEnable = YES ;
+        _easyViewEdgeInsets = UIEdgeInsetsZero ;
+    }
+    return self ;
+}
 
 
 - (EasyEmptyConfig *(^)(UIColor *))setBgColor
@@ -72,6 +79,13 @@
         return self ;
     } ;
 }
+- (EasyEmptyConfig *(^)(UIEdgeInsets))setEasyViewEdgeInsets
+{
+    return ^EasyEmptyConfig *(UIEdgeInsets edge){
+        self.easyViewEdgeInsets = edge ;
+        return self ;
+    } ;
+}
 - (EasyEmptyConfig *(^)(UIEdgeInsets))setButtonEdgeInsets
 {
     return ^EasyEmptyConfig *(UIEdgeInsets edge){
@@ -80,6 +94,13 @@
     } ;
 }
 
+- (EasyEmptyConfig *(^)(BOOL))setScrollVerticalEnable
+{
+    return ^EasyEmptyConfig *(BOOL enabel){
+        self.scrollVerticalEnable = enabel ;
+        return self ;
+    } ;
+}
 
 + (instancetype)configWithBgColor:(UIColor *)bgColor
 {

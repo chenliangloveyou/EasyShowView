@@ -30,7 +30,7 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter]  removeObserver:self name:UIApplicationWillChangeStatusBarFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillChangeStatusBarFrameNotification object:nil];
 }
 - (instancetype)initWithConfig:(EasyEmptyConfig *)config
 {
@@ -40,7 +40,7 @@
 
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight ;
         self.backgroundColor = config.bgColor ;
-        self.alwaysBounceVertical = YES ;
+        self.alwaysBounceVertical = config.scrollVerticalEnable ;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarChangeNoti:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
     }
     return self ;
@@ -49,24 +49,9 @@
 {
     [self layoutemptyViewSubviews];
 }
-- (void)buttonClick:(UIButton *)button
-{
-    [EasyEmptyView hiddenEmptyView:self.superview];
-    
-    if (self.callback) {
-        if ([button isKindOfClass:[UIButton class]]) {
-            self.callback(self, button, button.tag) ;
-            return ;
-        }
-        self.callback(self, nil, callbackTypeBgView);
-    }
-}
-
 
 - (void)layoutemptyViewSubviews
 {
-    [self setFrame:CGRectMake(0, 0, self.superview.width, self.superview.height)] ;
-    
     CGFloat contentWidth = [self bgViewWidth];//bgcontentview的高度
     __block CGFloat contentHeight = 0 ;//计算bgcontentview的高度
     if (!ISEMPTY_S(self.emptyItem.imageName)) {
@@ -113,7 +98,7 @@
         }
     }] ;
     
-    self.bgContentView.frame = CGRectMake((self.superview.width-contentWidth)/2, (self.superview.height-contentHeight)/2, contentWidth, contentHeight) ;
+    self.bgContentView.frame = CGRectMake((self.width-contentWidth)/2, (self.height-contentHeight)/2, contentWidth, contentHeight) ;
     
 }
 - (void)showView
@@ -150,23 +135,16 @@
     
 }
 
-- (CGFloat)bgViewWidth
-{
-    CGFloat contentWidth = self.superview.width*0.7 ;//计算bgcontentview的宽度
-    if (contentWidth < 200) {    //如果superview的宽度小于200 就应该是全部宽度
-        contentWidth = self.superview.width ;
-    }
-    return contentWidth ;
-}
-
 - (UIButton *)defaultButtonWithIndex:(long)index contentWidth:(CGFloat)contentWidth
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     [button setTitleColor:self.emptyConfig.buttonColor forState:UIControlStateNormal];
     [button setTitleColor:[self.emptyConfig.buttonColor colorWithAlphaComponent:0.5f] forState:UIControlStateHighlighted];
-    [button setBackgroundImage:[EasyShowUtils imageWithColor:self.emptyConfig.bgColor] forState:UIControlStateNormal];
-    [button setBackgroundImage:[EasyShowUtils imageWithColor:[self.emptyConfig.bgColor colorWithAlphaComponent:0.5f]]  forState:UIControlStateHighlighted];
+    UIImage *bgNormalImg = [EasyShowUtils imageWithColor:self.emptyConfig.buttonBgColor] ;
+    [button setBackgroundImage:bgNormalImg forState:UIControlStateNormal];
+    UIImage *bgHightImg = [EasyShowUtils imageWithColor:[self.emptyConfig.buttonBgColor colorWithAlphaComponent:0.5f]] ;
+    [button setBackgroundImage:bgHightImg forState:UIControlStateHighlighted];
     button.titleLabel.numberOfLines = 0 ;
     [button setTitleEdgeInsets:self.emptyConfig.buttonEdgeInsets];
     button.titleLabel.font = self.emptyConfig.buttonFont ;
@@ -185,6 +163,32 @@
     
     return button ;
 }
+- (void)buttonClick:(UIButton *)button
+{
+    [EasyEmptyView hiddenEmptyView:self];
+    
+    if (self.callback) {
+        if ([button isKindOfClass:[UIButton class]]) {
+            self.callback(self, button, button.tag) ;
+            return ;
+        }
+        self.callback(self, nil, callbackTypeBgView);
+    }
+}
+
+
+#pragma mark - getter
+
+
+- (CGFloat)bgViewWidth
+{
+    CGFloat contentWidth = self.width*0.7 ;//计算bgcontentview的宽度
+    if (contentWidth < 200) {    //如果superview的宽度小于200 就应该是全部宽度
+        contentWidth = self.width ;
+    }
+    return contentWidth ;
+}
+
 - (UIView *)bgContentView
 {
     if (nil == _bgContentView) {
@@ -231,17 +235,19 @@
     return _defaultTitleLabel ;
 }
 
-+ (void)showEmptyInView:(UIView *)superview item:(EasyEmptyPart *(^)(void))item
+#pragma mark - 类方法
+
++ (EasyEmptyView *)showEmptyInView:(UIView *)superview item:(EasyEmptyPart *(^)(void))item
 {
-    [self showEmptyInView:superview item:item config:nil];
+    return [self showEmptyInView:superview item:item config:nil];
 }
 
-+ (void)showEmptyInView:(UIView *)superview item:(EasyEmptyPart *(^)(void))item config:(EasyEmptyConfig *(^)(void))config
++ (EasyEmptyView *)showEmptyInView:(UIView *)superview item:(EasyEmptyPart *(^)(void))item config:(EasyEmptyConfig *(^)(void))config
 {
-    [self showEmptyInView:superview item:item config:config callback:nil];
+    return [self showEmptyInView:superview item:item config:config callback:nil];
 }
 
-+ (void)showEmptyInView:(UIView *)superview
++ (EasyEmptyView *)showEmptyInView:(UIView *)superview
                    item:(EasyEmptyPart *(^)(void))item
                  config:(EasyEmptyConfig *(^)(void))config
                callback:(emptyViewCallback)callback
@@ -256,12 +262,28 @@
     emptyView.emptyItem =emptyItem ;
     emptyView.callback = callback ;
     
+    UIEdgeInsets edge = emptyConfig.easyViewEdgeInsets ;
+    CGFloat viewW = superview.width-edge.left-edge.right ;
+    CGFloat viewH = superview.height-edge.top-edge.bottom ;
+    [emptyView setFrame:CGRectMake(edge.left, edge.top, viewW,viewH )] ;
+    
     [superview addSubview:emptyView] ;
     
     [emptyView showView];
+    
+    return emptyView ;
 }
 
-+ (void)hiddenEmptyView:(UIView *)superView
+
++ (void)hiddenEmptyView:(EasyEmptyView *)emptyView
+{
+    [UIView animateWithDuration:.3 animations:^{
+        emptyView.alpha = 0.2 ;
+    } completion:^(BOOL finished) {
+        [emptyView removeFromSuperview];
+    }] ;
+}
++ (void)hiddenEmptyInView:(UIView *)superView
 {
     
     NSAssert([NSThread isMainThread], @"needs to be accessed on the main thread.");
@@ -273,13 +295,8 @@
     NSEnumerator *subviewsEnum = [superView.subviews reverseObjectEnumerator];
     for (UIView *subview in subviewsEnum) {
         if ([subview isKindOfClass:self]) {
-            //EasyemptyView *emptyView = (EasyemptyView *)subview ;
-           
-            [UIView animateWithDuration:.3 animations:^{
-                subview.alpha = 0.2 ;
-            } completion:^(BOOL finished) {
-                [subview removeFromSuperview];
-            }] ;
+            EasyEmptyView *emptyView = (EasyEmptyView *)subview ;
+            [self hiddenEmptyView:emptyView];
         }
     }
 }
@@ -294,7 +311,7 @@
     EasyEmptyGlobalConfig *globalConfig = [EasyEmptyGlobalConfig shared];
    
     if (!tempConfig.bgColor) {
-        tempConfig.bgColor =  globalConfig.bgColor  ;
+        tempConfig.bgColor = globalConfig.bgColor  ;
     }
     if (!tempConfig.tittleFont) {
         tempConfig.tittleFont =globalConfig.tittleFont;
@@ -314,8 +331,12 @@
     if (!tempConfig.buttonColor) {
         tempConfig.buttonColor = globalConfig.buttonColor;
     }
+    if (!tempConfig.buttonBgColor) {
+        tempConfig.buttonBgColor = globalConfig.buttonBgColor;
+    }
     
-    if (tempConfig.buttonEdgeInsets.top==0 && tempConfig.buttonEdgeInsets.left==0 && tempConfig.buttonEdgeInsets.bottom==0 && tempConfig.buttonEdgeInsets.right==0 ) {
+    if (tempConfig.buttonEdgeInsets.top==0 && tempConfig.buttonEdgeInsets.left==0
+    && tempConfig.buttonEdgeInsets.bottom==0 && tempConfig.buttonEdgeInsets.right==0 ) {
         tempConfig.buttonEdgeInsets = globalConfig.buttonEdgeInsets ;
     }
     return tempConfig ;
