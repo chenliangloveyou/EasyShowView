@@ -12,98 +12,98 @@
 
 @implementation UIView (EasyShowExt)
 
-- (CGFloat)x {
+- (CGFloat)easyS_x {
     return self.frame.origin.x;
 }
-- (void)setX:(CGFloat)x {
+- (void)setEasyS_x:(CGFloat)easyS_x {
     CGRect frame = self.frame;
-    frame.origin.x = x;
+    frame.origin.x = easyS_x;
     self.frame = frame;
 }
-- (CGFloat)y {
+- (CGFloat)easyS_y {
     return self.frame.origin.y;
 }
-- (void)setY:(CGFloat)y {
+- (void)setEasyS_y:(CGFloat)easyS_y {
     CGRect frame = self.frame;
-    frame.origin.y = y;
+    frame.origin.y = easyS_y;
     self.frame = frame;
 }
-- (CGFloat)width {
+- (CGFloat)easyS_width {
     return self.frame.size.width;
 }
 
-- (void)setWidth:(CGFloat)width {
+- (void)setEasyS_width:(CGFloat)easyS_width {
     CGRect frame = self.frame;
-    frame.size.width = width;
+    frame.size.width = easyS_width;
     self.frame = frame;
 }
 
-- (CGFloat)height {
+- (CGFloat)easyS_height {
     return self.frame.size.height;
 }
 
-- (void)setHeight:(CGFloat)height {
+- (void)setEasyS_height:(CGFloat)easyS_height {
     CGRect frame = self.frame;
-    frame.size.height = height;
+    frame.size.height = easyS_height;
     self.frame = frame;
 }
 
 
-- (CGFloat)centerX {
+- (CGFloat)easyS_centerX {
     return self.center.x;
 }
 
-- (void)setCenterX:(CGFloat)centerX {
-    self.center = CGPointMake(centerX, self.center.y);
+- (void)setEasyS_centerX:(CGFloat)easyS_centerX{
+    self.center = CGPointMake(easyS_centerX, self.center.y);
 }
 
-- (CGFloat)centerY {
+- (CGFloat)easyS_centerY {
     return self.center.y;
 }
 
-- (void)setCenterY:(CGFloat)centerY {
-    self.center = CGPointMake(self.center.x, centerY);
+- (void)setEasyS_centerY:(CGFloat)easyS_centerY {
+    self.center = CGPointMake(self.center.x, easyS_centerY);
 }
 
 
 
-- (CGFloat)left {
+- (CGFloat)easyS_left {
     return self.frame.origin.x;
 }
 
-- (void)setLeft:(CGFloat)x {
+- (void)setEasyS_left:(CGFloat)easyS_left {
     CGRect frame = self.frame;
-    frame.origin.x = x;
+    frame.origin.x = easyS_left;
     self.frame = frame;
 }
 
-- (CGFloat)top {
+- (CGFloat)easyS_top {
     return self.frame.origin.y;
 }
 
-- (void)setTop:(CGFloat)y {
+- (void)setEasyS_top:(CGFloat)easyS_top {
     CGRect frame = self.frame;
-    frame.origin.y = y;
+    frame.origin.y = easyS_top;
     self.frame = frame;
 }
 
-- (CGFloat)right {
+- (CGFloat)easyS_right {
     return self.frame.origin.x + self.frame.size.width;
 }
 
-- (void)setRight:(CGFloat)right {
+- (void)setEasyS_right:(CGFloat)easyS_right {
     CGRect frame = self.frame;
-    frame.origin.x = right - frame.size.width;
+    frame.origin.x = easyS_right - frame.size.width;
     self.frame = frame;
 }
 
-- (CGFloat)bottom {
+- (CGFloat)easyS_bottom {
     return self.frame.origin.y + self.frame.size.height;
 }
 
-- (void)setBottom:(CGFloat)bottom {
+- (void)setEasyS_bottom:(CGFloat)easyS_bottom {
     CGRect frame = self.frame;
-    frame.origin.y = bottom - frame.size.height;
+    frame.origin.y = easyS_bottom - frame.size.height;
     self.frame = frame;
 }
 

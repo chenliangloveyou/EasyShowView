@@ -130,12 +130,12 @@
     if (self.showConfig.superReceiveEvent) {
         //父视图能够接受事件 。 显示区域的大小=self的大小=displayAreaSize
         
-        [self setFrame:CGRectMake((self.showConfig.superView.width-displayAreaSize.width)/2, (self.showConfig.superView.height-displayAreaSize.height)/2, displayAreaSize.width, displayAreaSize.height)];
+        [self setFrame:CGRectMake((self.showConfig.superView.easyS_width-displayAreaSize.width)/2, (self.showConfig.superView.easyS_height-displayAreaSize.height)/2, displayAreaSize.width, displayAreaSize.height)];
     }
     else{
         //父视图不能接收-->self的大小应该为superview的大小。来遮盖
         
-        [self setFrame: CGRectMake(0, 0, self.showConfig.superView.width, self.showConfig.superView.height)] ;
+        [self setFrame: CGRectMake(0, 0, self.showConfig.superView.easyS_width, self.showConfig.superView.easyS_height)] ;
         
         self.lodingBgView.center = self.center ;
         
@@ -149,25 +149,25 @@
 
     self.imageView.frame = CGRectMake(EasyShowLodingImageEdge, EasyShowLodingImageEdge, imageSize.width, imageSize.height) ;
     if (self.showConfig.lodingType%2 != 0) {//上下形式
-        self.imageView.centerX = self.lodingBgView.width/2 ;
+        self.imageView.easyS_centerX = self.lodingBgView.easyS_width/2 ;
     }else{
-        self.imageView.centerY = self.lodingBgView.height/2;
+        self.imageView.easyS_centerY = self.lodingBgView.easyS_height/2;
     }
     
     CGFloat textLabelX = 0 ;
     CGFloat textLabelY = 0 ;
     if (self.showConfig.lodingType%2 == 0 ) {//左右形式
-        textLabelX = self.imageView.right  ;
-        textLabelY =  (self.lodingBgView.height-textSize.height)/2 ;
+        textLabelX = self.imageView.easyS_right  ;
+        textLabelY =  (self.lodingBgView.easyS_height-textSize.height)/2 ;
     }
     else{
         textLabelX = 0 ;
-        textLabelY = self.imageView.bottom + EasyShowLodingImageEdge ;
+        textLabelY = self.imageView.easyS_bottom + EasyShowLodingImageEdge ;
     }
     self.textLabel.frame = CGRectMake(textLabelX, textLabelY, textSize.width, textSize.height );
     
     if ((self.showConfig.lodingType%2 !=0) && !ISEMPTY_S(self.showText)) {
-        self.imageView.y += 8 ;
+        self.imageView.easyS_y += 8 ;
     }
     
 //    [superView addSubview:self];
@@ -277,7 +277,7 @@
     shapeLayer.lineCap = kCALineCapRound;
     shapeLayer.lineJoin = kCALineJoinRound;
     
-    CGFloat layerRadius = self.imageView.width/2*1.0f ;
+    CGFloat layerRadius = self.imageView.easyS_width/2*1.0f ;
     shapeLayer.frame = CGRectMake(.0f, .0f,  layerRadius*2.f+3,  layerRadius*2.f+3) ;
     
     CGFloat cp = layerRadius+3/2.f;
@@ -422,7 +422,7 @@
 //加载loding的动画
 - (void)drawAnimationImageViewLoding
 {
-    CGPoint centerPoint= CGPointMake(self.imageView.width/2.0f, self.imageView.height/2.0f) ;
+    CGPoint centerPoint= CGPointMake(self.imageView.easyS_width/2.0f, self.imageView.easyS_height/2.0f) ;
     UIBezierPath *beizPath=[UIBezierPath bezierPathWithArcCenter:centerPoint radius:centerPoint.x startAngle:-M_PI_2 endAngle:M_PI_2 clockwise:YES];
     CAShapeLayer *centerLayer=[CAShapeLayer layer];
     centerLayer.path=beizPath.CGPath;

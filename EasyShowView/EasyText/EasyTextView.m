@@ -57,13 +57,13 @@
     
     if (self.showTextConfig.superReceiveEvent) {//父视图能接受事件
         //self的大小为显示区域的大小
-        [self setFrame:CGRectMake((superView.width-showFrame.size.width)/2, showFrame.origin.y, showFrame.size.width, showFrame.size.height)];
+        [self setFrame:CGRectMake((superView.easyS_width-showFrame.size.width)/2, showFrame.origin.y, showFrame.size.width, showFrame.size.height)];
         //显示视图的bgview的frame的位置为{0，0}
         showFrame.origin.y = 0 ;
     }
     else{
         //父视图不能接收-->self的大小应该为superview的大小。来遮盖
-        [self setFrame: CGRectMake(0, 0, superView.width, superView.height)] ;
+        [self setFrame: CGRectMake(0, 0, superView.easyS_width, superView.easyS_height)] ;
     }
     
     
@@ -116,7 +116,7 @@
         case TextAnimationTypeNone:
         {
             if ( (self.isShowOnStatusBar || self.isShowOnNavigation)) {
-                self.y = 0 ;
+                self.easyS_y = 0 ;
                 [self.showBgView showWindowYToPoint:0];
 
                 [superView addSubview:self];
@@ -134,7 +134,7 @@
         case TextAnimationTypeFade:
         {
             if ( (self.isShowOnStatusBar || self.isShowOnNavigation)) {
-                self.y = 0 ;
+                self.easyS_y = 0 ;
                 [self.showBgView showWindowYToPoint:0];
 
                 [superView addSubview:self];
@@ -151,9 +151,9 @@
         case TextAnimationTypeBounce:
         {
             if ( (self.isShowOnStatusBar || self.isShowOnNavigation)) {
-                self.y = - self.height ;
+                self.easyS_y = - self.easyS_height ;
                 [UIView animateWithDuration:EasyShowAnimationTime animations:^{
-                    self.y = 0 ;
+                    self.easyS_y = 0 ;
                     [self.showBgView showWindowYToPoint:0];
                 }] ;
             }
@@ -197,8 +197,8 @@
             if ( (self.isShowOnStatusBar || self.isShowOnNavigation)) {
                 
                 [UIView animateWithDuration:EasyShowAnimationTime animations:^{
-                    self.y = -self.height ;
-                    [self.showBgView showWindowYToPoint:-self.height ];
+                    self.easyS_y = -self.easyS_height ;
+                    [self.showBgView showWindowYToPoint:-self.easyS_height ];
                 }completion:^(BOOL finished) {
                     [self removeFromSuperview];
                 }] ;
@@ -293,7 +293,7 @@
     }
     
     //显示区域的y值
-    CGFloat showFrameY = (superView.height-backGroundH)/2  ;//默认显示在中间
+    CGFloat showFrameY = (superView.easyS_height-backGroundH)/2  ;//默认显示在中间
     //    if (self.showTextStatus != ShowStatusLoding) {
     switch (self.showTextConfig.statusType ) {
         case TextStatusTypeNavigation:
@@ -314,7 +314,7 @@
     CGRect showFrame = CGRectMake(0, showFrameY, backGroundW, backGroundH);
     
     if (!self.showTextConfig.superReceiveEvent) {
-        showFrame.origin = CGPointMake((superView.width-backGroundW)/2, showFrameY) ;
+        showFrame.origin = CGPointMake((superView.easyS_width-backGroundW)/2, showFrameY) ;
     }
     
     return showFrame ;

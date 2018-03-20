@@ -46,18 +46,18 @@ AutoPoint_5(CGFloat x ,CGFloat y){
 
 @interface UIView (EasyShowExt)
 
-@property(nonatomic) CGFloat x;
-@property(nonatomic) CGFloat y;
-@property(nonatomic) CGFloat width;
-@property(nonatomic) CGFloat height;
+@property(nonatomic) CGFloat easyS_x;
+@property(nonatomic) CGFloat easyS_y;
+@property(nonatomic) CGFloat easyS_width;
+@property(nonatomic) CGFloat easyS_height;
 
-@property(nonatomic) CGFloat centerX;
-@property(nonatomic) CGFloat centerY;
+@property(nonatomic) CGFloat easyS_centerX;
+@property(nonatomic) CGFloat easyS_centerY;
 
-@property(nonatomic,assign) CGFloat left;
-@property(nonatomic) CGFloat top;
-@property(nonatomic) CGFloat right;
-@property(nonatomic) CGFloat bottom;
+@property(nonatomic) CGFloat easyS_left;
+@property(nonatomic) CGFloat easyS_top;
+@property(nonatomic) CGFloat easyS_right;
+@property(nonatomic) CGFloat easyS_bottom;
 
 
 - (void)setRoundedCorners:(CGFloat)corners ;

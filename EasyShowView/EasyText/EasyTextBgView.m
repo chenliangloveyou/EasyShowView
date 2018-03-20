@@ -35,7 +35,7 @@
 
 - (void)showWindowYToPoint:(CGFloat)toPoint
 {
-    self.showTextWindow.y = toPoint ;
+    self.showTextWindow.easyS_y = toPoint ;
 }
 - (instancetype)initWithFrame:(CGRect)frame status:(ShowTextStatus)status text:(NSString *)text imageName:(NSString *)imageName config:(EasyTextConfig *)config
 {
@@ -51,7 +51,7 @@
             [self setRoundedCorners:10];
             
             if (_showTextStatus != ShowTextStatusPureText && (!ISEMPTY_S(text))) {//只要不是纯文字，其他的都需要显示图片
-                self.imageView.top  = EasyDrawImageEdge ;
+                self.imageView.easyS_top  = EasyDrawImageEdge ;
             }
         }
         
@@ -80,13 +80,13 @@
                 
                 CGFloat addX = self.isShowedStatusBar ? 7 : 10 ;
                 CGFloat addH = self.isShowedStatusBar ?: 5;
-                self.textLabel.frame = CGRectMake(self.imageView.right + addX , self.imageView.top - addH, self.width - self.imageView.right - 5, self.imageView.height +addH*2 ) ;
+                self.textLabel.frame = CGRectMake(self.imageView.easyS_right + addX , self.imageView.easyS_top - addH, self.easyS_width - self.imageView.easyS_right - 5, self.imageView.easyS_height +addH*2 ) ;
                 //                self.textLabel.backgroundColor = [UIColor yellowColor];
                 self.textLabel.textAlignment = NSTextAlignmentLeft ;
             }
             else{
                 
-                self.textLabel.frame = CGRectMake(20,self.height-textSize.height-15 ,textSize.width, textSize.height) ;
+                self.textLabel.frame = CGRectMake(20,self.easyS_height-textSize.height-15 ,textSize.width, textSize.height) ;
                 self.textLabel.textAlignment = NSTextAlignmentCenter ;
             }
         }
@@ -116,7 +116,7 @@
 //加载loding的动画
 - (void)drawAnimationImageViewLoding
 {
-    CGPoint centerPoint= CGPointMake(self.imageView.width/2.0f, self.imageView.height/2.0f) ;
+    CGPoint centerPoint= CGPointMake(self.imageView.easyS_width/2.0f, self.imageView.easyS_height/2.0f) ;
     UIBezierPath *beizPath=[UIBezierPath bezierPathWithArcCenter:centerPoint radius:centerPoint.x startAngle:-M_PI_2 endAngle:M_PI_2 clockwise:YES];
     CAShapeLayer *centerLayer=[CAShapeLayer layer];
     centerLayer.path=beizPath.CGPath;
@@ -147,7 +147,7 @@
 
 - (void)drawAnimationImageView
 {
-    CGFloat imageWH = self.imageView.width ;
+    CGFloat imageWH = self.imageView.easyS_width ;
     
     UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, imageWH, imageWH)
                                                     cornerRadius:imageWH/2];
@@ -257,15 +257,15 @@
 {
     if (nil == _imageView) {
         CGFloat imageWH = EasyDrawImageWH ;
-        CGFloat imageX = (self.width-EasyDrawImageWH)/2 ;
+        CGFloat imageX = (self.easyS_width-EasyDrawImageWH)/2 ;
         CGFloat imageY = EasyDrawImageEdge/2 ;
         if (self.isShowedStatusBar) {
             imageWH = 15 ;
             imageX = 10 ;
-            imageY = self.height - imageWH - 2.5 ;
+            imageY = self.easyS_height - imageWH - 2.5 ;
         }else if ( self.isShowedNavigation){
             imageX = 10 ;
-            imageY = (self.height - imageWH)/2 + (ISIPHONE_X_S ? 20 : 3 );
+            imageY = (self.easyS_height - imageWH)/2 + (ISIPHONE_X_S ? 20 : 3 );
         }
         
         _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(imageX,imageY , imageWH, imageWH)];

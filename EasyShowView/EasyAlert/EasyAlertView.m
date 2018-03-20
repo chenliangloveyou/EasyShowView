@@ -204,9 +204,9 @@
     if (ISEMPTY_S(self.subtitleLabel.text)) {
         messageLabelSize.height = 10 ;
     }
-    self.subtitleLabel.frame = CGRectMake(0, self.titleLabel.bottom, bgViewMaxWidth, messageLabelSize.height) ;
+    self.subtitleLabel.frame = CGRectMake(0, self.titleLabel.easyS_bottom, bgViewMaxWidth, messageLabelSize.height) ;
     
-    CGFloat totalHeight = self.subtitleLabel.bottom + 0.5 ;
+    CGFloat totalHeight = self.subtitleLabel.easyS_bottom + 0.5 ;
     CGFloat btnCount = self.buttonArray.count ;
     
     if (self.part.alertType==AlertViewTypeAlert && btnCount==2 && self.config.twoItemHorizontal) {
@@ -215,9 +215,9 @@
             UIButton *tempButton = self.buttonArray[i];
             
             CGFloat tempButtonX = i ? (bgViewMaxWidth/2+0.5) : 0 ;
-            CGFloat tempButtonY = self.subtitleLabel.bottom +0.5  ;
+            CGFloat tempButtonY = self.subtitleLabel.easyS_bottom +0.5  ;
             [tempButton setFrame:CGRectMake(tempButtonX, tempButtonY, bgViewMaxWidth/2, buttonHeight)];
-            totalHeight = tempButton.bottom ;
+            totalHeight = tempButton.easyS_bottom ;
         }
     }
     else{
@@ -225,9 +225,9 @@
             UIButton *tempButton = self.buttonArray[i];
             
             CGFloat lineHeight = ((i==btnCount-1)&&self.part.alertType==AlertViewTypeActionSheet) ? 10 : 0.5 ;
-            CGFloat tempButtonY = self.subtitleLabel.bottom + lineHeight + i*(buttonHeight+ 0.5) ;
+            CGFloat tempButtonY = self.subtitleLabel.easyS_bottom + lineHeight + i*(buttonHeight+ 0.5) ;
             [tempButton setFrame:CGRectMake(0, tempButtonY, bgViewMaxWidth, buttonHeight)];
-            totalHeight = tempButton.bottom ;
+            totalHeight = tempButton.easyS_bottom ;
         }
     }
     
@@ -375,7 +375,7 @@
 {
     if (self.part.alertType == AlertViewTypeActionSheet) {
         [UIView animateWithDuration:EasyShowAnimationTime animations:^{
-            self.alertBgView.top = SCREEN_HEIGHT_S ;
+            self.alertBgView.easyS_top = SCREEN_HEIGHT_S ;
         } completion:^(BOOL finished) {
             if (completion) {
                 completion() ;
@@ -435,7 +435,7 @@
         case AlertAnimationTypePush:
         {
             [UIView animateWithDuration:EasyShowAnimationTime animations:^{
-                self.alertBgView.top = SCREEN_HEIGHT_S ;
+                self.alertBgView.easyS_top = SCREEN_HEIGHT_S ;
             } completion:^(BOOL finished) {
                 if (completion) {
                     completion() ;
@@ -462,12 +462,12 @@
 - (void)showStartAnimationWithType:(AlertAnimationType)type completion:(void(^)(void))completion
 {
     if (self.part.alertType == AlertViewTypeActionSheet) {
-        self.alertBgView.top = SCREEN_HEIGHT_S ;
+        self.alertBgView.easyS_top = SCREEN_HEIGHT_S ;
         [UIView animateWithDuration:EasyShowAnimationTime animations:^{
-            self.alertBgView.top = (SCREEN_HEIGHT_S-self.alertBgView.height)-5 ;
+            self.alertBgView.easyS_top = (SCREEN_HEIGHT_S-self.alertBgView.easyS_height)-5 ;
         } completion:^(BOOL finished) {
             [UIView animateWithDuration:0.05 animations:^{
-                self.alertBgView.top = (SCREEN_HEIGHT_S-self.alertBgView.height) ;
+                self.alertBgView.easyS_top = (SCREEN_HEIGHT_S-self.alertBgView.easyS_height) ;
             } completion:^(BOOL finished) {
             }];
         }];
@@ -509,12 +509,12 @@
         }break ;
         case AlertAnimationTypePush:
         {
-            self.alertBgView.top = SCREEN_HEIGHT_S ;
+            self.alertBgView.easyS_top = SCREEN_HEIGHT_S ;
             [UIView animateWithDuration:EasyShowAnimationTime animations:^{
-                self.alertBgView.top = (SCREEN_HEIGHT_S-self.alertBgView.height)/2-5 ;
+                self.alertBgView.easyS_top = (SCREEN_HEIGHT_S-self.alertBgView.easyS_height)/2-5 ;
             } completion:^(BOOL finished) {
                 [UIView animateWithDuration:0.05 animations:^{
-                    self.alertBgView.top = (SCREEN_HEIGHT_S-self.alertBgView.height)/2 ;
+                    self.alertBgView.easyS_top = (SCREEN_HEIGHT_S-self.alertBgView.easyS_height)/2 ;
                 } completion:^(BOOL finished) {
                 }];
             }];

@@ -69,14 +69,14 @@
         CGSize titleSize = [self.defaultTitleLabel sizeThatFits:CGSizeMake(contentWidth, MAXFLOAT)];
         self.defaultTitleLabel.frame = CGRectMake(0, contentHeight, contentWidth, titleSize.height);
         
-        contentHeight += self.defaultTitleLabel.height ;
+        contentHeight += self.defaultTitleLabel.easyS_height ;
     }
     
     if (!ISEMPTY_S(self.emptyItem.subtitle)) {
         CGSize titleSize = [self.defaultSubTitleLabel sizeThatFits:CGSizeMake(contentWidth, MAXFLOAT)];
         self.defaultSubTitleLabel.frame = CGRectMake(0, contentHeight, contentWidth, titleSize.height);
         
-        contentHeight += self.defaultSubTitleLabel.height ;
+        contentHeight += self.defaultSubTitleLabel.easyS_height ;
     }
     
     __weak typeof(NSArray *) weakButtonArray = self.emptyItem.buttonArray ;
@@ -85,9 +85,9 @@
             CGRect buttonFrame = obj.frame ;
             buttonFrame.origin.y = contentHeight+10 ;
             
-            CGFloat buttonX = (contentWidth-obj.width)/2;
+            CGFloat buttonX = (contentWidth-obj.easyS_width)/2;
             if (weakButtonArray.count == 2) {
-                buttonX = (contentWidth/2-obj.width)/2 + ((obj.tag==2)?(contentWidth/2):0)  ;
+                buttonX = (contentWidth/2-obj.easyS_width)/2 + ((obj.tag==2)?(contentWidth/2):0)  ;
             }
             buttonFrame.origin.x =buttonX ;
             [obj setFrame:buttonFrame];
@@ -98,7 +98,7 @@
         }
     }] ;
     
-    self.bgContentView.frame = CGRectMake((self.width-contentWidth)/2, (self.height-contentHeight)/2, contentWidth, contentHeight) ;
+    self.bgContentView.frame = CGRectMake((self.easyS_width-contentWidth)/2, (self.easyS_height-contentHeight)/2, contentWidth, contentHeight) ;
     
 }
 - (void)showView
@@ -182,9 +182,9 @@
 
 - (CGFloat)bgViewWidth
 {
-    CGFloat contentWidth = self.width*0.7 ;//计算bgcontentview的宽度
+    CGFloat contentWidth = self.easyS_width*0.7 ;//计算bgcontentview的宽度
     if (contentWidth < 200) {    //如果superview的宽度小于200 就应该是全部宽度
-        contentWidth = self.width ;
+        contentWidth = self.easyS_width ;
     }
     return contentWidth ;
 }
@@ -263,8 +263,8 @@
     emptyView.callback = callback ;
     
     UIEdgeInsets edge = emptyConfig.easyViewEdgeInsets ;
-    CGFloat viewW = superview.width-edge.left-edge.right ;
-    CGFloat viewH = superview.height-edge.top-edge.bottom ;
+    CGFloat viewW = superview.easyS_width-edge.left-edge.right ;
+    CGFloat viewH = superview.easyS_height-edge.top-edge.bottom ;
     [emptyView setFrame:CGRectMake(edge.left, edge.top, viewW,viewH )] ;
     
     [superview addSubview:emptyView] ;

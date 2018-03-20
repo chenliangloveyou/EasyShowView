@@ -57,7 +57,7 @@ const CGFloat EasyShowAnimationTime = 0.3f ;    //动画时间
 }
 //+ (UIImageView *)imageViewSetCorner:(UIImageView *)imgView radius:(CGFloat)radius sizetoFit:(CGSize)sizetoFit
 //{
-//    CGRect rect = CGRectMake(0, 0, sizetoFit.width, sizetoFit.height) ;
+//    CGRect rect = CGRectMake(0, 0, sizetoFit.easyS_width, sizetoFit.easyS_height) ;
 //    
 //    UIGraphicsBeginImageContextWithOptions(rect.size, false, [UIScreen mainScreen].scale) ;
 //    CGContextAddPath(UIGraphicsGetCurrentContext(),
