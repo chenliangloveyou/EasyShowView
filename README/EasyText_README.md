@@ -1,257 +1,91 @@
-# EasyShowView 
-  一款超级简单的展示工具，包括吐丝指示器，loding加载框，空白页提示，alertview，actionsheet的定制。可自定义动画，显示样式等各种操作，使各种展示更加easy。总有一个是你需要的，简单到爆。赶紧来试试吧~~~"
-- (支持cocoapods： pod 'EasyShowView','~>2.0')
+## EasyText使用方法
+
+#### 在AppDelegate中设置全局的配置信息 -- (可省略) 
  
-# PreView
+```
+#import "EasyTextGlobalConfig.h"
 
-![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_all.gif "github")
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{ 
+    /**显示文字**/
+    EasyTextGlobalConfig *config = [EasyTextGlobalConfig shared];
+    config.bgColor = [UIColor whiteColor];
+    config.titleColor = [UIColor blackColor];
+ }
+```
 
-
-# 使用方法
-
-## 一、提示框
-
-
-![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_text.gif "github")
-
-_显示一个纯文字消息_
+#### 调用显示方法 --（如果单独某个显示视图不想用全局的配置信息，可以在每个显示方法中的config配置）
 
  ```
+/**
+ * 显示一个纯文字消息 （config：显示属性设置）
+ */
 + (void)showText:(NSString *)text ;
-+ (void)showText:(NSString *)text inView:(UIView *)view ;//这个view为父视图如果不传将会加载window上。显示时间的长短根据text的长度计算的。
++ (void)showText:(NSString *)text config:(EasyTextConfig *(^)(void))config ;
 ```
-_显示一个成功消息_
+
+
 ```
+/**
+ * 显示一个成功消息（config：显示属性设置）
+ */
 + (void)showSuccessText:(NSString *)text ;
-+ (void)showSuccessText:(NSString *)text inView:(UIView *)view ;//view和上面介绍的一样
++ (void)showSuccessText:(NSString *)text config:(EasyTextConfig *(^)(void))config ;
+
 ```
-_显示一个错误消息_
+
 ```
+/**
+ * 显示一个错误消息（config：显示属性设置）
+ */
 + (void)showErrorText:(NSString *)text ;
-+ (void)showErrorText:(NSString *)text inView:(UIView *)superView ;
++ (void)showErrorText:(NSString *)text config:(EasyTextConfig *(^)(void))config ;
+
 ```
-_显示一个提示消息_
+
 ```
+/**
+ * 显示一个提示消息（config：显示属性设置）
+ */
 + (void)showInfoText:(NSString *)text ;
-+ (void)showInfoText:(NSString *)text inView:(UIView *)superView ;
++ (void)showInfoText:(NSString *)text config:(EasyTextConfig *(^)(void))config ;
+
 ```
-_显示一个自定义图片消息_
+
 ```
+/**
+ * 显示一个自定义图片消息（config：显示属性设置）
+ */
 + (void)showImageText:(NSString *)text imageName:(NSString *)imageName ;
-+ (void)showImageText:(NSString *)text imageName:(NSString *)imageName inView:(UIView *)superView ;
-```
-
-#### 自定义样式(可略)
-
-最好在APPdelegate里设置一次(整个APP应该统一风格)。
- ```
- - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-   EasyShowOptions *options = [EasyShowOptions sharedEasyShowOptions];
-    
-  //在展示消息的时候，界面上是否可以事件。默认为YES，如果你想在展示消息的时候不让用户有手势交互，可设为NO
-  options.textSuperViewReceiveEvent = NO ;
-
-  //显示/隐藏的动画形式。有无动画，渐变，抖动，三种样式。
-  options.textAnimationType = TextAnimationTypeFade ;
-
-  //提示框所在的位置。有上，中，下，状态栏上，导航条上，五种选择。
-  options.textStatusType = ShowTextStatusTypeMidden ；
-
-  //文字大小
-  options.textTitleFount = [UIFont systemFontOfSize:15] ;
-  //文字颜色
-  options.textTitleColor = [UIColor whiteColor] ;
-  //背景颜色
-  options.textBackGroundColor = [UIColor blackColor];
-  //阴影颜色。(为clearcolor的时候不显示阴影)
-  options.textShadowColor = [UIColor blueColor];
-
-  return YES ;
-}
-```
-
-
-
-----
-
-## 二、加载框
-
-![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_loding.gif "github")
-
-_显示加载框_
-```
-/**
- * 显示一个加载框
- * text:需要显示加载框的字体
- * imageName：需要显示加载框的图片名称
- * superview:加载框所需要的父视图（如果不传会放到window和topviewcontroller上面，在EasyShowOptions里指定）
- */
-+ (void)showLoding ;
-+ (void)showLodingText:(NSString *)text ;
-+ (void)showLodingText:(NSString *)text inView:(UIView *)superView ;
-+ (void)showLodingText:(NSString *)text imageName:(NSString *)imageName ;
-+ (void)showLodingText:(NSString *)text imageName:(NSString *)imageName inView:(UIView *)superView ;
-
-```
-_隐藏加载框_
-```
-/**
- * 移除一个加载框
- * uperview:加载框所在的父视图。show的时候没有指定父视图。那么隐藏的时候也不用
- */
-+ (void)hidenLoding ;
-+ (void)hidenLoingInView:(UIView *)superView ;
++ (void)showImageText:(NSString *)text imageName:(NSString *)imageName config:(EasyTextConfig *(^)(void))config ;
 
 ```
 
-#### 自定义样式(可略)
-最好在APPdelegate里设置一次。与上面的提示框一起设置
+#### 举例说明
 ```
-  //在展示消息的时候，界面上是否可以事件。默认为YES，如果你想在展示消息的时候不让用户有手势交互，可设为NO
-  options.lodingSuperViewReceiveEvent = NO ;
+//没有加配置信息，所以显示的样式都会使用appdelegate中EasyTextGlobalConfig设置的。
+[EasyTextView showSuccessText:@"显示成功消息!"];
 
-  //加载框的样式。在这个枚举中一共有10中样式。如果是显示图片加载，那么加载框的大小会根据图片的大小调整。__☺☺试试把图片传很小，不显示文字，背景为透明色是什么效果☺☺__
-  options.lodingShowType = LodingShowTypeTurnAround ;
-
-  //显示/隐藏的动画形式。有无动画，渐变，抖动，三种样式。
-  options.lodingAnimationType = LodingAnimationTypeFade ;
-
-  //文字大小
-  options.lodingTextFount = [UIFont systemFontOfSize:15];
-  //主体颜色(包括图片，文字颜色)
-  options.lodingTintColor = [UIColor blackColor];
-  //背景颜色，试试传透明色是什么效果
-  options.lodingBackgroundColor = [UIColor lightGrayColor];
-  //当不传superView的时候，父视图默认有window和最上面的控制器。这里设置是否显示在wind上
-  options.lodingShowOnWindow = NO ;
-  //圆角大小
-  options.lodingCycleCornerWidth = 5 ;
-  
-```
-
-----
-
-## 三、空白提示页面
-
-![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_empty.gif "github")
-
-#### 显示，隐藏空白框。
- 
- 下面的标题，副标题，图片，按钮，回调都可以自定义添加和删除。
-```
-/**
- * 标题 副标题 图片 按钮 回调
- */
-+ (void)showEmptyViewWithTitle:(NSString *)title
-                      subTitle:(NSString *)subTitle
-                     imageName:(NSString *)imageName
-              buttonTitleArray:(NSArray *)buttonTitleArray
-                        inview:(UIView *)superView
-                      callback:(emptyViewCallback)callback;
-  
-/**
- * 隐藏空页面展示视图
- */
-+ (void)hiddenEmptyView:(UIView *)superView ;
+//增加config配置信息。那么statusType属性会使用刚设置的。其他属性会继续使用EasyTextGlobalConfig设置的。
+[EasyTextView showErrorText:@"服务器错误！" config:^EasyTextConfig *{
+        return [EasyTextConfig shared].setStatusType(TextStatusTypeNavigation) ;
+}];
 
 ```
-#### 自定义形式（可省略）
-
-在appdelegate里面设置以下属性
+ #### EasyTextConfig说明：它是显示属性的配置信息。提供了三种方法。这三种方法都是一样的，根据使用习惯选择一种就行。
 ```
-//背景颜色
-@property (nonatomic,strong)UIColor *emptyViewBackgroundColor ;
-
-//标题的文字大小、颜色
-@property (nonatomic,strong)UIFont *emptyTitleFount ;
-@property (nonatomic,strong)UIColor *emptyTitleColor ;
-
-//副标题的文字大小 颜色
-@property (nonatomic,strong)UIFont *emptySubTitleFount ;
-@property (nonatomic,strong)UIColor *emptySubTitleColor ;
-
-//按钮的文字背景 颜色 大小
-@property (nonatomic,strong)UIFont *emptyButtonFount ;
-@property (nonatomic,strong)UIColor *emptyButtonColor ;
-@property (nonatomic,strong)UIColor *emptyButtonBackgroundColor ;
-//按钮往内缩的边距（按钮四边边缘距离文字的距离）
-@property (nonatomic,assign)UIEdgeInsets emptyButtonEdgeInsets ;
+  //方法一
+  return [EasyTextConfig configWithSuperView:self.view superReceiveEvent:ShowTextEventUndefine animationType:TextAnimationTypeNone textStatusType:TextStatusTypeBottom];
+  //方法二
+   return [EasyTextConfig shared].setBgColor([UIColor lightGrayColor]).setShadowColor([UIColor clearColor]).setStatusType(TextStatusTypeBottom);
+   //方法三
+  EasyTextConfig *config = [EasyTextConfig shared];
+  config.bgColor = [UIColor lightGrayColor] ;
+  config.shadowColor = [UIColor clearColor] ;
+  config.animationType = TextAnimationTypeFade;
+  config.statusType = TextStatusTypeBottom ;
+  return config ;
 ```
-
-----
-
-## 三、AlertView/ActionSheet弹出框
-
-![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/preview_alert.gif "github") 
-
-#### 一：自定义形式
-
-_第一步_
-创建一个弹出框
-```
-//创建AlertView
-+ (instancetype)showAlertWithTitle:(NSString *)title
-                           message:(NSString *)message ;
-//ActionSheet
-+ (instancetype)showActionSheetWithTitle:(NSString *)title
-                                 message:(NSString *)message ;
-```
-_第二步_ 往弹出框上添加事件
-```
-- (void)addItemWithTitle:(NSString *)title
-                itemType:(ShowAlertItemType)itemType
-                callback:(alertItemCallback)callback;
-```
-_第三步_ 展示弹出框(不可少)
-```
-- (void)show ;
-```
-#### 二：系统形式
-与自定义的形式。把show后面加一个system。可参考实例。
-
-#### 自定义样式(可略)
-最好在APPdelegate里设置一次。与上面的提示框一起设置
-```
-/**
- *alertview的背景颜色。
- * title/message的字体颜色
- */
-@property (nonatomic,strong)UIColor *alertTintColor ;
-@property (nonatomic,strong)UIColor *alertTitleColor ;
-@property (nonatomic,strong)UIColor *alertMessageColor ;
-
-/**
- * alertView:是两个按钮的时候 横着摆放
- */
-@property (nonatomic,assign)BOOL alertTowItemHorizontal ;
-
-/**
- * alertView:展示和消失的动画类型。
- * 当展示的是系统alertview和ActionSheet不起作用
- */
-@property (nonatomic,assign)alertAnimationType alertAnimationType ;
-
-/**
- * 点击alertview之外的空白区域，是否销毁alertview。默认为:NO
- *
- * 系统的alert        不可以点击销毁。
- * 系统的ActionSheet  添加UIAlertActionStyleCancel类型就会有点击销毁。没有就不会销毁。
- */
-@property (nonatomic,assign)BOOL alertBgViewTapRemove ;
-```
-
-
-# 联系作者
-- 若果在使用过程中发现问题，请提issue。我会及时解决。
-- 如果想和我交流开发经验，或者关于库的任何问题，可以联系我。邮箱：chenliangloveyou@163.com    qq:455158249
-- 喜欢欢迎start~~~~
-
-
-
-
-
-
 
 
 
