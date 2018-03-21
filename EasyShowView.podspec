@@ -11,8 +11,9 @@ Pod::Spec.new do |s|
   s.author       = { "chenliangloveyou" => "ios_elite@163.com" }
   s.source       = { :git => "https://github.com/chenliangloveyou/EasyShowView.git", :commit => "de7fc89d349960764c6a2b2dbd0752670fd39ac5" }
   s.source_files = "EasyShowView/*.{h,m}"
+  s.frameworks = "Foundation", "UIKit"
   # s.public_header_files = "Classes/**/*.h"
-  s.ios.deployment_target= '7.0'
+  s.ios.deployment_target= '8.0'
 
  
 end
