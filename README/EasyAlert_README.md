@@ -1,4 +1,4 @@
-## EasyText使用方法
+## EasyAlert使用方法
 
 #### 在AppDelegate中设置全局的配置信息 -- (可省略) 
  
@@ -7,84 +7,87 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 { 
-    /**显示文字**/
-    EasyTextGlobalConfig *config = [EasyTextGlobalConfig shared];
-    config.bgColor = [UIColor whiteColor];
-    config.titleColor = [UIColor blackColor];
+   /**显示alert**/
+    EasyAlertGlobalConfig *alertConfig = [EasyAlertGlobalConfig shared];
+    alertConfig.titleColor = [UIColor blackColor];
  }
 ```
 
 #### 调用显示方法 --（如果单独某个显示视图不想用全局的配置信息，可以在每个显示方法中的config配置）
 
  ```
+
 /**
- * 显示一个纯文字消息 （config：显示属性设置）
+ *  快速创建AlertView的方法 
+ *
+ * part        alertView的组成部分 标题，副标题，显示类型
+ * config      配置信息（如果为空，就是使用EasyAlertGlobalConfig中的属性值）
+ * buttonArray 所以需要显示的按钮
+ * callback    点击按钮回调
  */
-+ (void)showText:(NSString *)text ;
-+ (void)showText:(NSString *)text config:(EasyTextConfig *(^)(void))config ;
-```
-
-
-```
-/**
- * 显示一个成功消息（config：显示属性设置）
- */
-+ (void)showSuccessText:(NSString *)text ;
-+ (void)showSuccessText:(NSString *)text config:(EasyTextConfig *(^)(void))config ;
++ (EasyAlertView *)alertViewWithPart:(EasyAlertPart *(^)(void))part
+                              config:(EasyAlertConfig *(^)(void))config
+                         buttonArray:(NSArray<NSString *> *(^)(void))buttonArray
+                            callback:(AlertCallback)callback ;
 
 ```
 
-```
-/**
- * 显示一个错误消息（config：显示属性设置）
- */
-+ (void)showErrorText:(NSString *)text ;
-+ (void)showErrorText:(NSString *)text config:(EasyTextConfig *(^)(void))config ;
-
-```
 
 ```
 /**
- * 显示一个提示消息（config：显示属性设置）
+ * 第一步：创建一个自定义的Alert/ActionSheet
  */
-+ (void)showInfoText:(NSString *)text ;
-+ (void)showInfoText:(NSString *)text config:(EasyTextConfig *(^)(void))config ;
++ (instancetype)alertViewWithTitle:(NSString *)title
+                          subtitle:(NSString *)subtitle
+                     AlertViewType:(AlertViewType)alertType
+                            config:(EasyAlertConfig *(^)(void))config  ;
 
-```
++ (instancetype)alertViewWithPart:(EasyAlertPart *(^)(void))part
+                           config:(EasyAlertConfig *(^)(void))config
+                         callback:(AlertCallback)callback ;
 
-```
 /**
- * 显示一个自定义图片消息（config：显示属性设置）
+ * 第二步：往创建的alert上面添加事件
  */
-+ (void)showImageText:(NSString *)text imageName:(NSString *)imageName ;
-+ (void)showImageText:(NSString *)text imageName:(NSString *)imageName config:(EasyTextConfig *(^)(void))config ;
+- (void)addAlertItemWithTitle:(NSString *)title
+                         type:(AlertItemType)type
+                     callback:(AlertCallback)callback;
+- (void)addAlertItem:(EasyAlertItem *(^)(void))item ;
+- (void)addAlertItemWithTitleArray:(NSArray *)titleArray
+                          callback:(AlertCallback)callbck ;
+
+/**
+ * 第三步：展示alert
+ */
+- (void)showAlertView ;
+```
 
 ```
 
-#### 举例说明
-```
-//没有加配置信息，所以显示的样式都会使用appdelegate中EasyTextGlobalConfig设置的。
-[EasyTextView showSuccessText:@"显示成功消息!"];
-
-//增加config配置信息。那么statusType属性会使用刚设置的。其他属性会继续使用EasyTextGlobalConfig设置的。
-[EasyTextView showErrorText:@"服务器错误！" config:^EasyTextConfig *{
-        return [EasyTextConfig shared].setStatusType(TextStatusTypeNavigation) ;
-}];
+// 移除alertview
+- (void)removeAlertView ;
 
 ```
- #### EasyTextConfig说明：它是显示属性的配置信息。提供了三种方法。这三种方法都是一样的，根据使用习惯选择一种就行。
+
+#### 举例说明 -- 请参考demo
 ```
-  //方法一
-  return [EasyTextConfig configWithSuperView:self.view superReceiveEvent:ShowTextEventUndefine animationType:TextAnimationTypeNone textStatusType:TextStatusTypeBottom];
-  //方法二
-   return [EasyTextConfig shared].setBgColor([UIColor lightGrayColor]).setShadowColor([UIColor clearColor]).setStatusType(TextStatusTypeBottom);
-   //方法三
-  EasyTextConfig *config = [EasyTextConfig shared];
-  config.bgColor = [UIColor lightGrayColor] ;
-  config.shadowColor = [UIColor clearColor] ;
-  config.animationType = TextAnimationTypeFade;
-  config.statusType = TextStatusTypeBottom ;
-  return config ;
+ [EasyAlertView alertViewWithPart:^EasyAlertPart *{
+                return [EasyAlertPart shared].setTitle(@"请点击两下").setSubtitle(@"1，点击背景是否接受事件\n2，改变动画类型。\n3，只有两个按钮的时候，是横排还是竖排.\n4，改变背景颜色").setAlertType(AlertViewTypeAlert) ;
+            } config:^EasyAlertConfig *{
+                return [EasyAlertConfig shared].settwoItemHorizontal(hovizonal).setAnimationType(aniType).setTintColor(tintC).setBgViewEvent(NO).setSubtitleTextAligment(NSTextAlignmentLeft) ;
+            } buttonArray:^NSArray<NSString *> *{
+                return @[@"确定",@"取消"] ;
+            } callback:^(EasyAlertView *showview , long index) {
+                index ? [EasyTextView showSuccessText:@"点击了取消"] : [EasyTextView showText:@"点击了确定"];
+            }];
+
+```
+ #### EasyAlertPart：它是显示属性的配置信息。提供了三种方法。这三种方法都是一样的，根据使用习惯选择一种就行。
+```
+
+@property (nonatomic,strong)NSString *title ;         //标题
+@property (nonatomic,strong)NSString *subtitle ;      //副标题
+@property (nonatomic,assign)AlertViewType alertType ; //alert类型 分4种
 ```
 
 
