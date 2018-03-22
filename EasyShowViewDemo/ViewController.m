@@ -63,6 +63,9 @@
     }
 }
 
+//https://github.com/chenliangloveyou/EasyShowView
+#warning -- 欢迎到github上下载最新代码，喜欢的话，多多start~~~~
+
 
 #pragma mark - showText
 - (void)showTextWithRow:(long)row
