@@ -26,7 +26,8 @@
 
 # 联系作者
 - 若果在使用过程中发现问题，请[提issue](https://github.com/chenliangloveyou/EasyShowView/issues/new)。我会及时解决。
-- 如果想和我交流开发经验，或者关于库的任何问题，可以联系我。邮箱：chenliangloveyou@163.com    qq:455158249
+- 也可以通过邮箱：chenliangloveyou@163.com   
+  微信：![github](https://github.com/chenliangloveyou/EasyShowView/blob/master/show_preview/wechat_icon.png "github")联系我，给我提bug或建议。
 - 喜欢欢迎start~~~~
 
 
