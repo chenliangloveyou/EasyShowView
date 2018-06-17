@@ -556,12 +556,7 @@
 {
     if (nil == _alertBgView) {
         _alertBgView = [[UIView alloc]init];
-        if (self.config.tintColor == [UIColor clearColor]) {
-            _alertBgView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-        }
-        else{
-            _alertBgView.backgroundColor = self.config.tintColor;
-        }
+        _alertBgView.backgroundColor = self.config.tintColor==[UIColor clearColor] ?  [UIColor groupTableViewBackgroundColor] : self.config.tintColor ;
         _alertBgView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight ;
         UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(bgViewPan:)] ;
         [_alertBgView addGestureRecognizer:panGesture];
@@ -577,7 +572,18 @@
     if (nil == _alertWindow) {
         _alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         _alertBgView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight ;
-        _alertWindow.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
+        
+        if (self.config.effectType == AlertBgEffectTypeAlphaCover) {
+            _alertWindow.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
+        }
+        else{
+            UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
+            effectView.alpha = 0.8;
+            effectView.frame = _alertWindow.bounds ;
+            [_alertWindow addSubview:effectView];
+        }
+        
+        
         _alertWindow.hidden = NO ;
         if (self.config.bgViewEvent) {
             UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(alertWindowTap)];
@@ -593,12 +599,7 @@
     if (nil == _titleLabel) {
         _titleLabel = [[EasyShowLabel alloc] initWithContentInset:UIEdgeInsetsMake(35, 30, 15, 30)];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
-        if (self.config.tintColor == [UIColor clearColor]) {
-            _titleLabel.backgroundColor = [UIColor whiteColor];
-        }
-        else{
-            _titleLabel.backgroundColor = self.config.tintColor;
-        }
+        _titleLabel.backgroundColor = self.config.tintColor == [UIColor clearColor] ?  [UIColor whiteColor] : self.config.tintColor ;
         _titleLabel.font = [UIFont boldSystemFontOfSize:20];
         _titleLabel.textColor = self.config.titleColor ;
         _titleLabel.numberOfLines = 0;
@@ -610,12 +611,7 @@
     if (nil == _subtitleLabel) {
         _subtitleLabel = [[EasyShowLabel alloc] initWithContentInset:UIEdgeInsetsMake(15, 30, 20, 30)];
         _subtitleLabel.textAlignment = self.config.subtitleTextAligment ;
-        if (self.config.tintColor == [UIColor clearColor]) {
-            _subtitleLabel.backgroundColor = [UIColor whiteColor];
-        }
-        else{
-            _subtitleLabel.backgroundColor = self.config.tintColor;
-        }
+        _subtitleLabel.backgroundColor = self.config.tintColor==[UIColor clearColor] ? [UIColor whiteColor] : self.config.tintColor;
         _subtitleLabel.font = [UIFont systemFontOfSize:17];
         _subtitleLabel.textColor = self.config.subtitleColor ;
         _subtitleLabel.numberOfLines = 0;
@@ -667,8 +663,6 @@
     if (tempConfig.alertViewMaxNum <= 0) {
         tempConfig.alertViewMaxNum = globalConfig.alertViewMaxNum ;
     }
-
-    
     return tempConfig ;
 }
 

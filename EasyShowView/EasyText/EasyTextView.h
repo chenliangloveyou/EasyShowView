@@ -13,7 +13,7 @@
 @interface EasyTextView : UIView
 
 /**
- * 显示一个纯文字消息 （config：显示属性设置）
+ * 显示一个纯文字消息 （config：显示属性设置，可省略）
  */
 + (void)showText:(NSString *)text ;
 + (void)showText:(NSString *)text config:(EasyTextConfig *(^)(void))config ;

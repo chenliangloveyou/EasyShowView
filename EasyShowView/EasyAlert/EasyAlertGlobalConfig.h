@@ -29,6 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 //alertView:展示和消失的动画类型。(只对自定义的alertview起作用)
 @property (nonatomic,assign)AlertAnimationType animationType UI_APPEARANCE_SELECTOR;
 
+//背景的样式。(只对自定义的alertview起作用)
+@property (nonatomic,assign)AlertBgEffectType effectType UI_APPEARANCE_SELECTOR;
+
+
  //点击alertview之外的空白区域，是否销毁alertview。默认为:NO
 @property (nonatomic,assign)BOOL bgViewEvent UI_APPEARANCE_SELECTOR ;
 

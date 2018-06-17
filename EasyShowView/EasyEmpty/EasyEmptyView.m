@@ -237,24 +237,27 @@
 
 #pragma mark - 类方法
 
-+ (EasyEmptyView *)showEmptyInView:(UIView *)superview item:(EasyEmptyPart *(^)(void))item
++ (EasyEmptyView *)showEmptyInView:(UIView *)superview
+                              part:(EasyEmptyPart *(^)(void))part
 {
-    return [self showEmptyInView:superview item:item config:nil];
-}
-
-+ (EasyEmptyView *)showEmptyInView:(UIView *)superview item:(EasyEmptyPart *(^)(void))item config:(EasyEmptyConfig *(^)(void))config
-{
-    return [self showEmptyInView:superview item:item config:config callback:nil];
+    return [self showEmptyInView:superview part:part config:nil];
 }
 
 + (EasyEmptyView *)showEmptyInView:(UIView *)superview
-                   item:(EasyEmptyPart *(^)(void))item
+                              part:(EasyEmptyPart *(^)(void))part
+                            config:(EasyEmptyConfig *(^)(void))config
+{
+    return [self showEmptyInView:superview part:part config:config callback:nil];
+}
+
++ (EasyEmptyView *)showEmptyInView:(UIView *)superview
+                   part:(EasyEmptyPart *(^)(void))part
                  config:(EasyEmptyConfig *(^)(void))config
                callback:(emptyViewCallback)callback
 {
     
     EasyEmptyConfig *emptyConfig = [self changeConfigWithConfig:config] ;
-    EasyEmptyPart   *emptyItem = item() ;
+    EasyEmptyPart   *emptyItem = part() ;
     
     NSAssert(emptyItem.buttonArray.count<3, @"you can't set more than two button") ;
     
@@ -342,12 +345,12 @@
     return tempConfig ;
 }
 
-//+ (void)showEmptyViewLodingWithImageName:(NSString *)imageName
+//+ (void)showEmptyViewLoadingWithImageName:(NSString *)imageName
 //                                callback:(emptyViewCallback)callback
 //{
 //}
 //
-//+ (void)showEmptyViewLodingWithTitle:(NSString *)title
+//+ (void)showEmptyViewLoadingWithTitle:(NSString *)title
 //                            callback:(emptyViewCallback)callback
 //{
 //}

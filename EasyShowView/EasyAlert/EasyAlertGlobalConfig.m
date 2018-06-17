@@ -21,6 +21,7 @@ easyShowView_singleton_implementation(EasyAlertGlobalConfig)
         _subtitleColor = [UIColor lightGrayColor];
         _twoItemHorizontal = NO ;
         _animationType = AlertAnimationTypeBounce ;
+        _effectType = AlertBgEffectTypeWoolGlass ;
         _bgViewEvent  = YES ;
         _alertViewMaxNum = 2 ;
     }

@@ -10,7 +10,7 @@
 #define EasyShowView_h
 
 #import "EasyTextView.h"
-#import "EasyLodingView.h"
+#import "EasyLoadingView.h"
 #import "EasyAlertView.h"
 #import "EasyEmptyView.h"
 

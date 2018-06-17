@@ -17,14 +17,18 @@
 		6863D8B2204ADE0C00964CB1 /* EasyShowLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6863D89F204ADE0B00964CB1 /* EasyShowLabel.m */; };
 		6863D8B3204ADE0C00964CB1 /* UIView+EasyShowExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 6863D8A0204ADE0B00964CB1 /* UIView+EasyShowExt.m */; };
 		6886C7A31FEE16B6001124B7 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6886C7A21FEE16B6001124B7 /* SecondViewController.m */; };
+		68CD44DD20D69C5900690207 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68CD44DC20D69C5900690207 /* Bugly.framework */; };
+		68CD44E020D69EA500690207 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68CD44DF20D69EA500690207 /* SystemConfiguration.framework */; };
+		68CD44E220D69EAC00690207 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68CD44E120D69EAC00690207 /* Security.framework */; };
+		68CD44E420D69EC000690207 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 68CD44E320D69EC000690207 /* libz.tbd */; };
 		ADCD9DCB2057A28F00EDFC62 /* EasyTextConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCD9DC32057A28F00EDFC62 /* EasyTextConfig.m */; };
 		ADCD9DCC2057A28F00EDFC62 /* EasyTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCD9DC42057A28F00EDFC62 /* EasyTextView.m */; };
 		ADCD9DCD2057A28F00EDFC62 /* EasyTextBgView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCD9DC92057A28F00EDFC62 /* EasyTextBgView.m */; };
 		ADCD9DCE2057A28F00EDFC62 /* EasyTextGlobalConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCD9DCA2057A28F00EDFC62 /* EasyTextGlobalConfig.m */; };
-		ADCD9DD62057A59300EDFC62 /* EasyLodingGlobalConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCD9DD32057A59300EDFC62 /* EasyLodingGlobalConfig.m */; };
-		ADCD9DD72057A59300EDFC62 /* EasyLodingView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCD9DD42057A59300EDFC62 /* EasyLodingView.m */; };
-		ADCD9DD82057A59300EDFC62 /* EasyLodingConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCD9DD52057A59300EDFC62 /* EasyLodingConfig.m */; };
-		ADCD9DDB2057ACBF00EDFC62 /* EasyLodingTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCD9DDA2057ACBF00EDFC62 /* EasyLodingTypes.m */; };
+		ADCD9DD62057A59300EDFC62 /* EasyLoadingGlobalConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCD9DD32057A59300EDFC62 /* EasyLoadingGlobalConfig.m */; };
+		ADCD9DD72057A59300EDFC62 /* EasyLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCD9DD42057A59300EDFC62 /* EasyLoadingView.m */; };
+		ADCD9DD82057A59300EDFC62 /* EasyLoadingConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCD9DD52057A59300EDFC62 /* EasyLoadingConfig.m */; };
+		ADCD9DDB2057ACBF00EDFC62 /* EasyLoadingTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCD9DDA2057ACBF00EDFC62 /* EasyLoadingTypes.m */; };
 		ADCD9DDE2057ADD300EDFC62 /* EasyTextTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCD9DDD2057ADD300EDFC62 /* EasyTextTypes.m */; };
 		ADCD9DEE2057CFCE00EDFC62 /* EasyEmptyConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCD9DE42057CFCE00EDFC62 /* EasyEmptyConfig.m */; };
 		ADCD9DEF2057CFCE00EDFC62 /* EasyEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCD9DE52057CFCE00EDFC62 /* EasyEmptyView.m */; };
@@ -71,6 +75,10 @@
 		68672FBA1FF3E6B700B7CA4E /* EasyShowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyShowView.h; sourceTree = "<group>"; };
 		6886C7A11FEE16B6001124B7 /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
 		6886C7A21FEE16B6001124B7 /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		68CD44DC20D69C5900690207 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
+		68CD44DF20D69EA500690207 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		68CD44E120D69EAC00690207 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		68CD44E320D69EC000690207 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		ADCD9DC32057A28F00EDFC62 /* EasyTextConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyTextConfig.m; sourceTree = "<group>"; };
 		ADCD9DC42057A28F00EDFC62 /* EasyTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyTextView.m; sourceTree = "<group>"; };
 		ADCD9DC52057A28F00EDFC62 /* EasyTextBgView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyTextBgView.h; sourceTree = "<group>"; };
@@ -79,14 +87,14 @@
 		ADCD9DC82057A28F00EDFC62 /* EasyTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyTextView.h; sourceTree = "<group>"; };
 		ADCD9DC92057A28F00EDFC62 /* EasyTextBgView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyTextBgView.m; sourceTree = "<group>"; };
 		ADCD9DCA2057A28F00EDFC62 /* EasyTextGlobalConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyTextGlobalConfig.m; sourceTree = "<group>"; };
-		ADCD9DD02057A59300EDFC62 /* EasyLodingConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyLodingConfig.h; sourceTree = "<group>"; };
-		ADCD9DD12057A59300EDFC62 /* EasyLodingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyLodingView.h; sourceTree = "<group>"; };
-		ADCD9DD22057A59300EDFC62 /* EasyLodingGlobalConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyLodingGlobalConfig.h; sourceTree = "<group>"; };
-		ADCD9DD32057A59300EDFC62 /* EasyLodingGlobalConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyLodingGlobalConfig.m; sourceTree = "<group>"; };
-		ADCD9DD42057A59300EDFC62 /* EasyLodingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyLodingView.m; sourceTree = "<group>"; };
-		ADCD9DD52057A59300EDFC62 /* EasyLodingConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyLodingConfig.m; sourceTree = "<group>"; };
-		ADCD9DD92057ACBF00EDFC62 /* EasyLodingTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyLodingTypes.h; sourceTree = "<group>"; };
-		ADCD9DDA2057ACBF00EDFC62 /* EasyLodingTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyLodingTypes.m; sourceTree = "<group>"; };
+		ADCD9DD02057A59300EDFC62 /* EasyLoadingConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyLoadingConfig.h; sourceTree = "<group>"; };
+		ADCD9DD12057A59300EDFC62 /* EasyLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyLoadingView.h; sourceTree = "<group>"; };
+		ADCD9DD22057A59300EDFC62 /* EasyLoadingGlobalConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyLoadingGlobalConfig.h; sourceTree = "<group>"; };
+		ADCD9DD32057A59300EDFC62 /* EasyLoadingGlobalConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyLoadingGlobalConfig.m; sourceTree = "<group>"; };
+		ADCD9DD42057A59300EDFC62 /* EasyLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyLoadingView.m; sourceTree = "<group>"; };
+		ADCD9DD52057A59300EDFC62 /* EasyLoadingConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyLoadingConfig.m; sourceTree = "<group>"; };
+		ADCD9DD92057ACBF00EDFC62 /* EasyLoadingTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyLoadingTypes.h; sourceTree = "<group>"; };
+		ADCD9DDA2057ACBF00EDFC62 /* EasyLoadingTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyLoadingTypes.m; sourceTree = "<group>"; };
 		ADCD9DDC2057ADD300EDFC62 /* EasyTextTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyTextTypes.h; sourceTree = "<group>"; };
 		ADCD9DDD2057ADD300EDFC62 /* EasyTextTypes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EasyTextTypes.m; sourceTree = "<group>"; };
 		ADCD9DE42057CFCE00EDFC62 /* EasyEmptyConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasyEmptyConfig.m; sourceTree = "<group>"; };
@@ -122,6 +130,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68CD44E420D69EC000690207 /* libz.tbd in Frameworks */,
+				68CD44E220D69EAC00690207 /* Security.framework in Frameworks */,
+				68CD44E020D69EA500690207 /* SystemConfiguration.framework in Frameworks */,
+				68CD44DD20D69C5900690207 /* Bugly.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,6 +179,16 @@
 			path = EasyShowUtils;
 			sourceTree = "<group>";
 		};
+		68CD44DE20D69EA500690207 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				68CD44E320D69EC000690207 /* libz.tbd */,
+				68CD44E120D69EAC00690207 /* Security.framework */,
+				68CD44DF20D69EA500690207 /* SystemConfiguration.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		ADCD9DC22057A28F00EDFC62 /* EasyText */ = {
 			isa = PBXGroup;
 			children = (
@@ -184,19 +206,19 @@
 			path = EasyText;
 			sourceTree = "<group>";
 		};
-		ADCD9DCF2057A59300EDFC62 /* EasyLoding */ = {
+		ADCD9DCF2057A59300EDFC62 /* EasyLoading */ = {
 			isa = PBXGroup;
 			children = (
-				ADCD9DD12057A59300EDFC62 /* EasyLodingView.h */,
-				ADCD9DD42057A59300EDFC62 /* EasyLodingView.m */,
-				ADCD9DD02057A59300EDFC62 /* EasyLodingConfig.h */,
-				ADCD9DD52057A59300EDFC62 /* EasyLodingConfig.m */,
-				ADCD9DD22057A59300EDFC62 /* EasyLodingGlobalConfig.h */,
-				ADCD9DD32057A59300EDFC62 /* EasyLodingGlobalConfig.m */,
-				ADCD9DD92057ACBF00EDFC62 /* EasyLodingTypes.h */,
-				ADCD9DDA2057ACBF00EDFC62 /* EasyLodingTypes.m */,
+				ADCD9DD12057A59300EDFC62 /* EasyLoadingView.h */,
+				ADCD9DD42057A59300EDFC62 /* EasyLoadingView.m */,
+				ADCD9DD02057A59300EDFC62 /* EasyLoadingConfig.h */,
+				ADCD9DD52057A59300EDFC62 /* EasyLoadingConfig.m */,
+				ADCD9DD22057A59300EDFC62 /* EasyLoadingGlobalConfig.h */,
+				ADCD9DD32057A59300EDFC62 /* EasyLoadingGlobalConfig.m */,
+				ADCD9DD92057ACBF00EDFC62 /* EasyLoadingTypes.h */,
+				ADCD9DDA2057ACBF00EDFC62 /* EasyLoadingTypes.m */,
 			);
-			path = EasyLoding;
+			path = EasyLoading;
 			sourceTree = "<group>";
 		};
 		ADCD9DE22057CFCE00EDFC62 /* EasyEmpty */ = {
@@ -223,6 +245,7 @@
 				ADD80A191FC7AA28005908C4 /* EasyShowViewDemo */,
 				ADD80A321FC7AA28005908C4 /* EasyShowViewDemoUITests */,
 				ADD80A181FC7AA28005908C4 /* Products */,
+				68CD44DE20D69EA500690207 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -250,6 +273,7 @@
 				6810CFC81FE92520002253D9 /* Assets.xcassets */,
 				ADD80A281FC7AA28005908C4 /* Info.plist */,
 				ADD80A291FC7AA28005908C4 /* main.m */,
+				68CD44DC20D69C5900690207 /* Bugly.framework */,
 			);
 			path = EasyShowViewDemo;
 			sourceTree = "<group>";
@@ -268,7 +292,7 @@
 			children = (
 				68672FBA1FF3E6B700B7CA4E /* EasyShowView.h */,
 				ADCD9DC22057A28F00EDFC62 /* EasyText */,
-				ADCD9DCF2057A59300EDFC62 /* EasyLoding */,
+				ADCD9DCF2057A59300EDFC62 /* EasyLoading */,
 				ADCD9DE22057CFCE00EDFC62 /* EasyEmpty */,
 				6857F2AA205828C900AAEA33 /* EasyAlert */,
 				6863D89C204ADE0B00964CB1 /* EasyShowUtils */,
@@ -379,11 +403,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADCD9DDB2057ACBF00EDFC62 /* EasyLodingTypes.m in Sources */,
+				ADCD9DDB2057ACBF00EDFC62 /* EasyLoadingTypes.m in Sources */,
 				ADCD9DCC2057A28F00EDFC62 /* EasyTextView.m in Sources */,
 				6857F2B3205828C900AAEA33 /* EasyAlertView.m in Sources */,
-				ADCD9DD82057A59300EDFC62 /* EasyLodingConfig.m in Sources */,
-				ADCD9DD72057A59300EDFC62 /* EasyLodingView.m in Sources */,
+				ADCD9DD82057A59300EDFC62 /* EasyLoadingConfig.m in Sources */,
+				ADCD9DD72057A59300EDFC62 /* EasyLoadingView.m in Sources */,
 				ADCD9DCB2057A28F00EDFC62 /* EasyTextConfig.m in Sources */,
 				ADCD9DDE2057ADD300EDFC62 /* EasyTextTypes.m in Sources */,
 				ADCD9DCD2057A28F00EDFC62 /* EasyTextBgView.m in Sources */,
@@ -405,7 +429,7 @@
 				ADCD9DF02057CFCE00EDFC62 /* EasyEmptyGlobalConfig.m in Sources */,
 				ADCD9DFD2058D35A00EDFC62 /* EasyAlertPart.m in Sources */,
 				ADCD9DEF2057CFCE00EDFC62 /* EasyEmptyView.m in Sources */,
-				ADCD9DD62057A59300EDFC62 /* EasyLodingGlobalConfig.m in Sources */,
+				ADCD9DD62057A59300EDFC62 /* EasyLoadingGlobalConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,6 +581,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6E6MDA8TQW;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EasyShowViewDemo",
+				);
 				INFOPLIST_FILE = EasyShowViewDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -572,6 +600,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6E6MDA8TQW;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EasyShowViewDemo",
+				);
 				INFOPLIST_FILE = EasyShowViewDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

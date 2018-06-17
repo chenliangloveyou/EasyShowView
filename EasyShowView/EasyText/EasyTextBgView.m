@@ -113,8 +113,8 @@
 - (void)gestureTap
 {
 }
-//加载loding的动画
-- (void)drawAnimationImageViewLoding
+//加载Loading的动画
+- (void)drawAnimationImageViewLoading
 {
     CGPoint centerPoint= CGPointMake(self.imageView.easyS_width/2.0f, self.imageView.easyS_height/2.0f) ;
     UIBezierPath *beizPath=[UIBezierPath bezierPathWithArcCenter:centerPoint radius:centerPoint.x startAngle:-M_PI_2 endAngle:M_PI_2 clockwise:YES];

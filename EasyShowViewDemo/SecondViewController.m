@@ -8,7 +8,7 @@
 
 #import "SecondViewController.h"
 #import "EasyShowView.h"
-@interface SecondViewController ()
+@interface SecondViewController ()<UIWebViewDelegate>
 
 @end
 
@@ -20,60 +20,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    static int index = 0 ;
+    NSString *url = ++index%2 ? @"https://github.com/chenliangloveyou/EasyShowView" : @"https://github.com/chenliangloveyou/EasyNavigation" ;
     
+    UIWebView *webView = [[UIWebView alloc]initWithFrame:self.view.bounds];
+    webView.delegate = self ;
+    [webView loadRequest:[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]]];
+    [self.view addSubview:webView];
     
-    UIView *greenView = [[UIView alloc]initWithFrame:CGRectMake(20, 100, 300, 300)];
-    greenView.backgroundColor = [UIColor greenColor];
-    [self.view addSubview:greenView];
-    
-    [EasyLodingView showLodingText:@"加载中..." config:^EasyLodingConfig *{
-        return [EasyLodingConfig shared].setSuperView(greenView);
-    }];
-    __weak typeof(self) weakSelf = self ;
-    dispatch_queue_after_S(1, ^{
-        [EasyLodingView hidenLoingInView:greenView];
-        [EasyEmptyView showEmptyInView:greenView item:^EasyEmptyPart *{
-            return [EasyEmptyPart shared].setTitle(@"网络错误").setSubtitle(@"请检查网络是否正常，点击返回首页...");
-        } config:^EasyEmptyConfig *{
-            return nil ;
-        } callback:^(EasyEmptyView *view, UIButton *button, callbackType callbackType) {
-            switch (callbackType) {
-                case callbackTypeBgView:
-                    [weakSelf.navigationController popViewControllerAnimated:YES];
-                    break;
-                case callbackTypeButton_1:{
-                    [EasyTextView showSuccessText:@"加载成功" config:^EasyTextConfig *{
-                        return [EasyTextConfig shared].setSuperView(greenView);
-                    }];
-                }
-                    break ;
-                case callbackTypeButton_2:
-                {
-                    //                    EasyAlertView *showView = [EasyAlertView showActionSheetWithTitle:@"提示" message:@"确定删除发撒发逻辑是否快捷登录法拉第设计此数据吗？"];
-                    //                    [showView addItemWithTitle:@"确定" itemType:AlertItemTypeBlack callback:^(EasyAlertView *showview) {
-                    //                        NSLog(@"好的=%@",showview) ;
-                    //                    }];
-                    //                    [showView addItemWithTitle:@"取消" itemType:AlertItemTypeBlack callback:^(EasyAlertView *showview) {
-                    //                        NSLog(@"好的=%@",showview) ;
-                    //                    }];
-                    //                    [showView addItemWithTitle:@"确定删除吗" itemType:AlertItemTypeBlodBlue callback:^(EasyAlertView *showview) {
-                    //                        NSLog(@"好的=%@",showview) ;
-                    //                    }];
-                    //                    [showView addItemWithTitle:@"点击取消当前操作！" itemType:AlertItemTypeBlodRed callback:^(EasyAlertView *showview) {
-                    //                        NSLog(@"好的=%@",showview) ;
-                    //                    }];
-                    //
-                    //                    [showView show];
-                }break ;
-                default:
-                    break;
-            }
-        }];
-        
-    });
+    [EasyLoadingView showLoadingText:@"加载中..."];
+   
     
     // Do any additional setup after loading the view.
+}
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+//    dispatch_queue_after_S(2, ^{
+        [EasyLoadingView hidenLoading];
+//    });
 }
 
 - (void)didReceiveMemoryWarning {

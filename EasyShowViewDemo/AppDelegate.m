@@ -8,10 +8,11 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import <Bugly/Bugly.h>
 
 
 #import "EasyTextGlobalConfig.h"
-#import "EasyLodingGlobalConfig.h"
+#import "EasyLoadingGlobalConfig.h"
 #import "EasyEmptyGlobalConfig.h"
 #import "EasyAlertGlobalConfig.h"
 
@@ -32,14 +33,14 @@
     
     
    /**显示加载框**/
-    EasyLodingGlobalConfig *lodingConfig = [EasyLodingGlobalConfig shared];
-    lodingConfig.lodingType = LodingAnimationTypeFade ;
+    EasyLoadingGlobalConfig *LoadingConfig = [EasyLoadingGlobalConfig shared];
+    LoadingConfig.LoadingType = LoadingAnimationTypeFade ;
     NSMutableArray *tempArr = [NSMutableArray arrayWithCapacity:8];
     for (int i = 0; i < 9; i++) {
         UIImage *img = [UIImage imageNamed:[NSString stringWithFormat:@"icon_hud_%d",i+1]];
         [tempArr addObject:img] ;
     }
-    lodingConfig.playImagesArray = tempArr ;
+    LoadingConfig.playImagesArray = tempArr ;
     
     
     /**显示空白页面**/
@@ -56,9 +57,24 @@
     self.window.rootViewController = nav ;
     
     // Override point for customization after application launch.
+    [self setupBugly];
     return YES;
 }
 
+
+- (void)setupBugly {
+    BuglyConfig * config = [[BuglyConfig alloc] init];
+    config.debugMode = YES;
+    config.blockMonitorEnable = YES;
+    config.blockMonitorTimeout = 1.5;
+    config.viewControllerTrackingEnable = NO;
+    config.consolelogEnable = NO ;
+    [Bugly startWithAppId:@"f4f0a9a873"
+        developmentDevice:YES
+                   config:config];
+    
+    [Bugly setUserIdentifier:[NSString stringWithFormat:@"User: %@", [UIDevice currentDevice].identifierForVendor]];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

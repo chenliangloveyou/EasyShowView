@@ -12,7 +12,11 @@
 
 @interface EasyTextBgView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame status:(ShowTextStatus)status text:(NSString *)text imageName:(NSString *)imageName config:(EasyTextConfig *)config ;
+- (instancetype)initWithFrame:(CGRect)frame
+                       status:(ShowTextStatus)status
+                         text:(NSString *)text
+                    imageName:(NSString *)imageName
+                       config:(EasyTextConfig *)config ;
 
 - (void)showWindowYToPoint:(CGFloat)toPoint ;
 

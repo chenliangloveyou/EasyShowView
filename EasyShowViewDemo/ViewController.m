@@ -24,15 +24,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"EasyShowView示例";
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"展示" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarClick)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"展示1" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarClick)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"展示2" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarClick)];
     
     [self.view addSubview:self.tableView] ;
 }
 
 - (void)rightBarClick
 {
-    SecondViewController *sc = [[SecondViewController alloc]init];
-    [self.navigationController pushViewController:sc animated:YES];
+    [self.navigationController pushViewController:[SecondViewController new] animated:YES];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -56,7 +56,7 @@
     
     switch (indexPath.section) {
         case 0: [self showTextWithRow:indexPath.row] ;  break ;
-        case 1: [self showLodingWithRow:indexPath.row]; break ;
+        case 1: [self showLoadingWithRow:indexPath.row]; break ;
         case 2: [self showEmptyWithRow:indexPath.row];  break ;
         case 3: [self showAlertWithRow:indexPath.row];  break ;
         default: break;
@@ -123,37 +123,37 @@
     
 }
 
-#pragma mark - showLoding
-- (void)showLodingWithRow:(long)row
+#pragma mark - showLoading
+- (void)showLoadingWithRow:(long)row
 {
     switch (row) {
         case 0:
         {
             static int a = 0 ;
             NSString *s = ++a%2 ? @"" : @"加载中...";
-            [EasyLodingView showLodingText:s];
+            [EasyLoadingView showLoadingText:s];
         } break;
             
             
         case 1:
         {
-            [EasyLodingView showLodingText:@"正在努力加载中..." config:^EasyLodingConfig *{
+            [EasyLoadingView showLoadingText:@"正在努力加载中..." config:^EasyLoadingConfig *{
                 static int a = 0 ;
-                int type = ++a%2 ? LodingShowTypeIndicatorLeft : LodingShowTypeIndicator ;
-                return [EasyLodingConfig shared].setLodingType(type);
+                int type = ++a%2 ? LoadingShowTypeIndicatorLeft : LoadingShowTypeIndicator ;
+                return [EasyLoadingConfig shared].setLoadingType(type);
             }];
         }break ;
             
             
         case 2:
         {
-            EasyLodingView *lodingV = [EasyLodingView showLodingText:@"3秒后能交互..." config:^EasyLodingConfig *{
+            EasyLoadingView *LoadingV = [EasyLoadingView showLoadingText:@"3秒后能交互..." config:^EasyLoadingConfig *{
                 static int a = 0 ;
-                int type = ++a%2 ? LodingShowTypePlayImagesLeft : LodingShowTypePlayImages ;
-                return [EasyLodingConfig shared].setLodingType(type).setSuperReceiveEvent(NO);
+                int type = ++a%2 ? LoadingShowTypePlayImagesLeft : LoadingShowTypePlayImages ;
+                return [EasyLoadingConfig shared].setLoadingType(type).setSuperReceiveEvent(NO);
             }];
             dispatch_queue_after_S(3, ^{
-                [EasyLodingView hidenLoding:lodingV];
+                [EasyLoadingView hidenLoading:LoadingV];
             });
             
         }break ;
@@ -161,10 +161,10 @@
             
         case 3:
         {
-            [EasyLodingView showLodingText:@"正在加载中.." imageName:@"HUD_NF.png" config:^EasyLodingConfig *{
+            [EasyLoadingView showLoadingText:@"正在加载中.." imageName:@"HUD_NF.png" config:^EasyLoadingConfig *{
                 static int a = 0 ;
-                int type = ++a%2 ? LodingShowTypeImageUpturnLeft : LodingShowTypeImageUpturn ;
-                return [EasyLodingConfig shared].setLodingType(type).setBgColor([UIColor blackColor]).setTintColor([UIColor whiteColor]);
+                int type = ++a%2 ? LoadingShowTypeImageUpturnLeft : LoadingShowTypeImageUpturn ;
+                return [EasyLoadingConfig shared].setLoadingType(type).setBgColor([UIColor blackColor]).setTintColor([UIColor whiteColor]);
             }];
         }break ;
             
@@ -173,14 +173,14 @@
         {
             static int a = 0 ;
             NSString *s = ++a%2 ? @"大小根据图片尺寸变化" : @"" ;
-            [EasyLodingView showLodingText:s imageName:@"HUD_NF.png" config:^EasyLodingConfig *{
-                return [EasyLodingConfig shared].setLodingType(LodingShowTypeImageAround) ;
+            [EasyLoadingView showLoadingText:s imageName:@"HUD_NF.png" config:^EasyLoadingConfig *{
+                return [EasyLoadingConfig shared].setLoadingType(LoadingShowTypeImageAround) ;
             }];
         }break;
             
             
         default:
-            [EasyLodingView hidenLoding];
+            [EasyLoadingView hidenLoading];
             break;
     }
     
@@ -192,7 +192,7 @@
     switch (row) {
         case 0:
         {
-            [EasyEmptyView showEmptyInView:self.view item:^EasyEmptyPart *{
+            [EasyEmptyView showEmptyInView:self.view part:^EasyEmptyPart *{
                 return [EasyEmptyPart shared].setTitle(@"网络连接已断开").setImageName(@"netError.png") ;
             } config:^EasyEmptyConfig *{
                 return [EasyEmptyConfig shared].setTitleColor([UIColor redColor]).setScrollVerticalEnable(NO);
@@ -208,7 +208,7 @@
             [self.view addSubview:redView];
             
             dispatch_queue_after_S(1, ^{
-                [EasyEmptyView showEmptyInView:redView item:^EasyEmptyPart *{
+                [EasyEmptyView showEmptyInView:redView part:^EasyEmptyPart *{
                     return [EasyEmptyPart shared].setTitle(@"你开心就好").setImageName(@"netError.png").setSubtitle(@"数据加载失败，点击重新加载！").setButtonArray(@[@"取消",@"去首页"]);
                 } config:nil callback:nil];
             });
@@ -222,7 +222,7 @@
             
             dispatch_queue_after_S(1, ^{
                 
-                __block EasyEmptyView *emptyV = [EasyEmptyView showEmptyInView:blueView item:^EasyEmptyPart *{
+                __block EasyEmptyView *emptyV = [EasyEmptyView showEmptyInView:blueView part:^EasyEmptyPart *{
                     return [EasyEmptyPart shared].setImageName(@"netError.png").setTitle(@"数据加载失败，点击重新加载！");
                 } config:^EasyEmptyConfig *{
                     return [EasyEmptyConfig shared].setEasyViewEdgeInsets(UIEdgeInsetsMake(20, 30, 80, -30)) ;
@@ -230,12 +230,12 @@
                     
                     [EasyEmptyView hiddenEmptyView:emptyV];
                     
-                    [EasyLodingView showLodingText:@"正在加载中..." config:^EasyLodingConfig *{
-                        return [EasyLodingConfig shared].setSuperView(blueView);
+                    [EasyLoadingView showLoadingText:@"正在加载中..." config:^EasyLoadingConfig *{
+                        return [EasyLoadingConfig shared].setSuperView(blueView);
                     }];
                     
                     dispatch_queue_after_S(3, ^{
-                        [EasyLodingView hidenLoingInView:blueView];
+                        [EasyLoadingView hidenLoingInView:blueView];
                         [blueView removeFromSuperview];
                     });
                 }];
@@ -263,7 +263,7 @@
             [EasyAlertView alertViewWithPart:^EasyAlertPart *{
                 return [EasyAlertPart shared].setTitle(@"请点击两下").setSubtitle(@"1，点击背景是否接受事件\n2，改变动画类型。\n3，只有两个按钮的时候，是横排还是竖排.\n4，改变背景颜色").setAlertType(AlertViewTypeAlert) ;
             } config:^EasyAlertConfig *{
-                return [EasyAlertConfig shared].settwoItemHorizontal(hovizonal).setAnimationType(aniType).setTintColor(tintC).setBgViewEvent(NO).setSubtitleTextAligment(NSTextAlignmentLeft) ;
+                return [EasyAlertConfig shared].settwoItemHorizontal(hovizonal).setAnimationType(aniType).setTintColor(tintC).setBgViewEvent(NO).setSubtitleTextAligment(NSTextAlignmentLeft).setEffectType(AlertBgEffectTypeAlphaCover) ;
             } buttonArray:^NSArray<NSString *> *{
                 return @[@"确定",@"取消"] ;
             } callback:^(EasyAlertView *showview , long index) {
@@ -331,6 +331,10 @@
             break;
     }
 }
+
+
+
+
 
 
 #pragma mark - getter/setter

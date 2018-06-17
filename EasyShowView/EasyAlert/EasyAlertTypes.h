@@ -45,7 +45,11 @@ typedef NS_ENUM(NSInteger , AlertViewType) {
     AlertViewTypeSystemActionSheet ,
 };
 
-
+typedef NS_ENUM(NSInteger , AlertBgEffectType) {
+    AlertBgEffectTypeUndefine ,   //默认类型
+    AlertBgEffectTypeAlphaCover ,
+    AlertBgEffectTypeWoolGlass,
+};
 
 
 @class EasyAlertView ;

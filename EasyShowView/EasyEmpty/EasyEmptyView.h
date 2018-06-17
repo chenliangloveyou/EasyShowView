@@ -15,16 +15,16 @@
 @interface EasyEmptyView : UIScrollView
 
 + (EasyEmptyView *)showEmptyInView:(UIView *)superview
-                   item:(EasyEmptyPart *(^)(void))item ;
+                              part:(EasyEmptyPart *(^)(void))part ;
 
 + (EasyEmptyView *)showEmptyInView:(UIView *)superview
-                   item:(EasyEmptyPart *(^)(void))item
-                 config:(EasyEmptyConfig *(^)(void))config ;
+                              part:(EasyEmptyPart *(^)(void))part
+                            config:(EasyEmptyConfig *(^)(void))config ;
 
 + (EasyEmptyView *)showEmptyInView:(UIView *)superview
-                   item:(EasyEmptyPart *(^)(void))item
-                 config:(EasyEmptyConfig *(^)(void))config
-               callback:(emptyViewCallback)callback ;
+                              part:(EasyEmptyPart *(^)(void))part
+                            config:(EasyEmptyConfig *(^)(void))config
+                          callback:(emptyViewCallback)callback ;
 
 
 + (void)hiddenEmptyInView:(UIView *)superView ;

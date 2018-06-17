@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger , callbackType) {
 };
 
 //typedef NS_ENUM(NSUInteger , emptyViewType) {
-//    emptyViewTypeLoding ,
+//    emptyViewTypeLoading ,
 //    emptyViewTypeNoData ,
 //    emptyViewTypeNetError ,
 ////    emptyViewTypeCustom ,

@@ -294,7 +294,7 @@
     
     //显示区域的y值
     CGFloat showFrameY = (superView.easyS_height-backGroundH)/2  ;//默认显示在中间
-    //    if (self.showTextStatus != ShowStatusLoding) {
+    //    if (self.showTextStatus != ShowStatusLoading) {
     switch (self.showTextConfig.statusType ) {
         case TextStatusTypeNavigation:
         case TextStatusTypeStatusBar:
