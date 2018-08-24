@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
 
 
   s.name         = "EasyShowView"
-  s.version      = "2.1.3"
+  s.version      = "2.1.4"
   s.summary      = "一款超级简单的展示工具，包括吐丝，loding加载，空白页提示，alertview，actionsheet的定制。可自定义动画，显示样式等各种操作。简单到爆。赶紧来试试吧~~~"
   s.homepage     = "https://github.com/chenliangloveyou/EasyShowView"
   s.license      = "MIT"
