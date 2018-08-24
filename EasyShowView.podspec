@@ -13,24 +13,35 @@ Pod::Spec.new do |s|
   # s.public_header_files = "Classes/**/*.h"
   s.ios.deployment_target= '8.0'
   s.source_files = 'EasyShowView/EasyShowView.h'
+ # s.public_header_files = 'EasyShowView/EasyShowView.h'
 
   s.subspec 'EasyText' do |ss|
-  	ss.source_files = 'EasyShowView/EasyText/EasyText{View,BgView,Config,GlobalConfig,Types}.{h,m}'
+  ss.dependency 'EasyShowView/EasyShowUtils'
+  ss.source_files = 'EasyShowView/EasyText{View,BgView,Config,GlobalConfig,Types}.{h,m}'
+ # ss.public_header_files = 'EasyShowView/EasyText{View,BgView,Config,GlobalConfig,Types}.h'
   end
  
   s.subspec 'EasyLoading' do |ss|
-  	ss.source_files = 'EasyShowView/EasyLoading/EasyLoading{View,Config,GlobalConfig,Types}.{h,m}'
+  ss.dependency 'EasyShowView/EasyShowUtils'
+  ss.source_files = 'EasyShowView/EasyLoading{View,Config,GlobalConfig,Types}.{h,m}'
+ # ss.public_header_files = 'EasyShowView/EasyLoading{View,Config,GlobalConfig,Types}.h'
   end
 
   s.subspec 'EasyEmpty' do |ss|
-  	ss.source_files = 'EasyShowView/EasyEmpty/EasyEmpty{View,Part,Config,GlobalConfig,Types}.{h,m}'
+  ss.dependency 'EasyShowView/EasyShowUtils'
+  ss.source_files = 'EasyShowView/EasyEmpty{View,Part,Config,GlobalConfig,Types}.{h,m}'
+ #   ss.public_header_files = 'EasyShowView/EasyEmpty{View,Part,Config,GlobalConfig,Types}.h'
   end
 
   s.subspec 'EasyAlert' do |ss|
-  	ss.source_files = 'EasyShowView/EasyAlert/EasyAlert{View,Part,Item,Config,GlobalConfig,Types}.{h,m}'
+  ss.dependency 'EasyShowView/EasyShowUtils'
+  ss.source_files = 'EasyShowView/EasyAlert{View,Part,Item,Config,GlobalConfig,Types}.{h,m}'
+ #     ss.public_header_files = 'EasyShowView/EasyAlert{View,Part,Item,Config,GlobalConfig,Types}.h'
   end
 
   s.subspec 'EasyShowUtils' do |ss|
-  	ss.source_files = 'EasyShowView/EasyShowUtils/EasyShow{Utils,Label}.{h,m}', 'EasyShowView/EasyShowUtils/UIView+EasyShowExt.{h,m}'
+  ss.source_files = 'EasyShowView/EasyShow{Utils,Label}.{h,m}', 'EasyShowView/UIView+EasyShowExt.{h,m}'
+#ss.public_header_files = 'EasyShowView/EasyShow{Utils,Label}.h', 'EasyShowView/UIView+EasyShowExt.h'
+
   end
 end
